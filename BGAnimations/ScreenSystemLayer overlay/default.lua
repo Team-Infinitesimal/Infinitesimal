@@ -38,7 +38,7 @@ local t = Def.ActorFrame {
 				PlayerJoinedMessageCommand = cmd(playcommand,'Refresh');
 		};
 
-		LoadFont("Montserrat normal 20px")..{
+		LoadFont("Montserrat semibold 20px")..{
 				InitCommand=function(self)
 						self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-21)
 						:queuecommand('Refresh')
@@ -55,7 +55,7 @@ local t = Def.ActorFrame {
 								elseif gMode == 'CoinMode_Pay' then
 										self:visible(true);
 										local Coins = GAMESTATE:GetCoins();
-										self:settext("CREDITS: "..Coins);
+										self:settext("CREDIT(S): "..Coins);
 								end;
 						end;
 						if screen then
