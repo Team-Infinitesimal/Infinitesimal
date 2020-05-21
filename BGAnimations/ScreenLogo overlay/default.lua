@@ -8,7 +8,7 @@ local t = Def.ActorFrame {
             end;
     };
 
-    LoadActor(THEME:GetPathG("","logoBlur"))..{
+    LoadActor(THEME:GetPathG("","blurLogo"))..{
         InitCommand=function(self)
             self:Center()
             :zoom(0.49,0.49)
