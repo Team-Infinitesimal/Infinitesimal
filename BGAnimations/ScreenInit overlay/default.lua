@@ -33,6 +33,14 @@ return Def.ActorFrame {
 				end;
 		};
 
+		Def.Sound {
+				File="LogoSound",
+				OnCommand=function(self)
+						self:sleep(2.5):queuecommand("Play")
+						end;
+				PlayCommand=function(self) self:play() end
+		};
+
 		Def.Quad {
 			InitCommand=function(self)
 					self:diffuse(0,0,0,0):sleep(9.2):queuecommand("Transfer")
