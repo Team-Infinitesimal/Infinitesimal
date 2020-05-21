@@ -7,6 +7,24 @@ local t = Def.ActorFrame{
             end;
     };
 
+    LoadActor(THEME:GetPathG("","logo_blur"))..{
+        InitCommand=function(self)
+            self:Center()
+            :zoom(0.49,0.49)
+            :diffusealpha(0)
+            :queuecommand("Flash")
+            end;
+        FlashCommand=function(self)
+            self:sleep(3)
+            :decelerate(1)
+            :diffusealpha(0.75)
+            :sleep(0.75)
+            :accelerate(1)
+            :diffusealpha(0)
+            :queuecommand("Flash")
+            end;
+    };
+
     LoadActor(THEME:GetPathG("","PressCenterStep"))..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X-320,300)

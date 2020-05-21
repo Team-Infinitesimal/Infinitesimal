@@ -4,6 +4,25 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:Center()
             :zoom(0.5,0.5)
+            :diffusealpha(1)
+            end;
+    };
+
+    LoadActor(THEME:GetPathG("","logo_blur"))..{
+        InitCommand=function(self)
+            self:Center()
+            :zoom(0.49,0.49)
+            :diffusealpha(0)
+            :queuecommand("Flash")
+            end;
+        FlashCommand=function(self)
+            self:sleep(3)
+            :decelerate(1)
+            :diffusealpha(0.75)
+            :sleep(0.75)
+            :accelerate(1)
+            :diffusealpha(0)
+            :queuecommand("Flash")
             end;
     };
 
