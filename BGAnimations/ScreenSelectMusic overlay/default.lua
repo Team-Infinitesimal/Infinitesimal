@@ -161,4 +161,40 @@ local t = Def.ActorFrame {
 	};
 };
 
+for pn in ivalues(PlayerNumber) do
+
+	if (GAMESTATE:IsSideJoined(pn)) then
+	
+		t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+		
+			InitCommand=function(self)
+				self:y(SCREEN_BOTTOM+100)
+				:zoom(0.4,0.4)
+				:diffuse(color("0,0,0,1"))
+				
+				local profilename = PROFILEMAN:GetPlayerName(pn)
+				if (profilename == "") then
+					self:settext("No Name")
+				else
+					self:settext(profilename)
+				end;
+				
+				if (pn == PLAYER_1) then
+					self:horizalign(left)
+					self:x(SCREEN_CENTER_X-190)
+				else
+					self:horizalign(right)
+					self:x(SCREEN_CENTER_X+190)
+				end;
+				
+				self:diffusealpha(0)
+				self:decelerate(1)
+				self:diffusealpha(1)
+				self:y(SCREEN_CENTER_Y+220)
+				
+			end;
+		};
+	end;
+end;
+
 return t;
