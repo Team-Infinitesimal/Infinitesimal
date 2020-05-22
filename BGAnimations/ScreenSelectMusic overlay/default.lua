@@ -1,5 +1,31 @@
 local t = Def.ActorFrame {
 
+    LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
+        InitCommand=function(self)
+            self:diffusealpha(0)
+            :vertalign(top)
+            :xy(SCREEN_CENTER_X,SCREEN_TOP-100)
+            :diffusealpha(1)
+            :zoom(0.2135,0.2135)
+            :sleep(0.25)
+            :decelerate(0.75)
+            :y(SCREEN_TOP)
+        end;
+    };
+
+    LoadActor(THEME:GetPathG("","ScreenHudBottom"))..{
+        InitCommand=function(self)
+            self:diffusealpha(0)
+            :vertalign(bottom)
+            :xy(SCREEN_CENTER_X,SCREEN_BOTTOM+100)
+            :diffusealpha(1)
+            :zoom(0.2135,0.2135)
+            :sleep(0.25)
+            :decelerate(0.75)
+            :y(SCREEN_BOTTOM)
+        end;
+    };
+
     LoadActor("songPreview");
 
     LoadFont("montserrat semibold/_montserrat semibold 40px")..{
@@ -26,9 +52,9 @@ local t = Def.ActorFrame {
                         speedvalue = lobpm.." - "..hibpm
                     end;
                 end;
-            self:settext("BPM: "..speedvalue);
-            self:decelerate(0.2)
-            self:diffusealpha(1)
+                self:settext("BPM: "..speedvalue);
+                self:decelerate(0.2)
+                self:diffusealpha(1)
             else
                 self:stoptweening():linear(0.25):diffusealpha(0);
             end;
@@ -41,14 +67,19 @@ local t = Def.ActorFrame {
             :diffuse(0,0,0,0.6)
         end;
         CurrentSongChangedMessageCommand=function(self)
-            self:stoptweening():diffusealpha(0);
-            self:zoomx(0);
-            self:decelerate(0.2);
-            self:diffusealpha(0.75);
-            self:sleep(0.2);
-            self:zoomy(20);
-            self:decelerate(0.35);
-            self:zoomx(350);
+            local song = GAMESTATE:GetCurrentSong();
+            if song then
+                self:stoptweening():diffusealpha(0);
+                self:zoomx(0);
+                self:decelerate(0.2);
+                self:diffusealpha(0.75);
+                self:sleep(0.2);
+                self:zoomy(20);
+                self:decelerate(0.35);
+                self:zoomx(350);
+            else
+                self:stoptweening():diffusealpha(0);
+            end;
         end;
     };
 
@@ -66,9 +97,11 @@ local t = Def.ActorFrame {
             local song = GAMESTATE:GetCurrentSong();
             if song then
                 self:settext(song:GetDisplayMainTitle());
+                self:decelerate(0.2);
+                self:diffusealpha(1);
+            else
+                self:stoptweening():linear(0.25):diffusealpha(0);
             end;
-            self:decelerate(0.2)
-            self:diffusealpha(1)
         end;
     };
 };

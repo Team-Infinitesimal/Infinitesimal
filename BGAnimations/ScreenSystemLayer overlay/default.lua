@@ -12,8 +12,8 @@ local t = Def.ActorFrame {
 		LoadActor(THEME:GetPathG("","coinmode"))..{
 				InitCommand=function(self)
 						self:x(SCREEN_CENTER_X)
-						:y(SCREEN_BOTTOM-15)
-						:zoom(0.18)
+						:y(SCREEN_BOTTOM-14.5)
+						:zoom(0.16)
 						:animate(false)
 						:queuecommand('Refresh')
 						end;
@@ -40,7 +40,7 @@ local t = Def.ActorFrame {
 
 		LoadFont("Montserrat semibold 20px")..{
 				InitCommand=function(self)
-						self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-21)
+						self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-19.5)
 						:queuecommand('Refresh')
 						:zoom(0.75)
 						end;
