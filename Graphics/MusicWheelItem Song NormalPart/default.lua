@@ -39,7 +39,7 @@ return Def.ActorFrame {
 				end;
 
 			end;
-			if not path then path = THEME:GetPathG("Common","fallback banner") end
+			if not path then path = THEME:GetPathG("Common","fallback songbanner") end
 			self:Load(path);
 			self:scaletoclipped(288,162);
 			--self:scaletoclipped(300,300);
