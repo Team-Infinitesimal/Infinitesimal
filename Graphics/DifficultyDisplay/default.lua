@@ -25,6 +25,14 @@ function GetCurrentStepsIndex(pn)
 	return -1;
 end;
 
+function SetCurrentStepsIndex(pn, index)
+	for i=1,#stepsArray do
+		if index == stepsArray[i] then
+			GAMESTATE:SetCurrentSteps(pn, stepsArray[i]);
+		end;
+	end;
+end;
+
 local t = Def.ActorFrame {
 	CurrentSongChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 	RefreshCommand=function(self)
@@ -73,9 +81,12 @@ for i=1,12 do
 				
 				if stepsArray then
 					local j;
-					--TODO: Fix it so it can account for over 24 charts.
 					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
-						j = i+12;
+						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+						else
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+						end;
 					else
 						j = i;
 					end;
@@ -125,9 +136,12 @@ for i=1,12 do
 
 				if stepsArray then
 					local j;
-					--TODO: Fix it so it can account for over 24 charts.
 					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
-						j = i+12;
+						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+						else
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+						end;
 					else
 						j = i;
 					end;
@@ -187,13 +201,29 @@ for pn in ivalues(PlayerNumber) do
 			self:visible(false);
 		end;
 
-		--I know this looks moronic, but I don't think there's any other way to do it...
+		--This looks WAY more moronic than before, possibly redo this soon?
 		SetCommand=function(self)
+		
 			if stepsArray then
+			
 				local index = GetCurrentStepsIndex(pn);
+				
 				if index > 12 then
-					index = index%12;
+					index = 12;
+				elseif GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) and 
+					GetCurrentStepsIndex(PLAYER_1) > 12 and 
+					pn == PLAYER_2 then
+					
+					SetCurrentStepsIndex(pn, index + (GetCurrentStepsIndex(PLAYER_1) - 12));
+					
+				elseif GetCurrentStepsIndex(PLAYER_2) > GetCurrentStepsIndex(PLAYER_1) and 
+					GetCurrentStepsIndex(PLAYER_2) > 12 and 
+					pn == PLAYER_1 then
+					
+					SetCurrentStepsIndex(pn, index + (GetCurrentStepsIndex(PLAYER_2) - 12));
+					
 				end;
+				
 				self:x(baseX+spacing*(index-1));
 			end;
 		end;
