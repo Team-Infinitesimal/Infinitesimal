@@ -106,10 +106,10 @@ for i=1,12 do
 			end
 		};
 
-		LoadFont("venacti/_venacti_outline 26px bold diffuse")..{
+		LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 			InitCommand=function(self)
-				self:zoomx(baseZoom+0.1)
-				:zoomy(baseZoom+0.075)
+				self:zoomx(baseZoom)
+				:zoomy(baseZoom)
 				:shadowlength(0.8)
 				:shadowcolor(color("0,0,0,1"))
 				:x(baseX-0.33+spacing*(i-1))
