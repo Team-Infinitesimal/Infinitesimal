@@ -1,6 +1,6 @@
 local t = Def.ActorFrame {
 		SystemMessageMessageCommand = function(self, params)
-				self:GetChild("Text"):settext( params.Message );
+				self:GetChild("Text"):settext(params.Message);
 				self:playcommand( "On" );
 				if params.NoAnimate then
 						self:finishtweening();
