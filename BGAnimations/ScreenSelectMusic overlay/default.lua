@@ -26,6 +26,8 @@ local t = Def.ActorFrame {
         end;
     };
 
+    LoadActor("CornerArrows");
+
     LoadActor("songPreview");
 
     LoadFont("montserrat semibold/_montserrat semibold 40px")..{
