@@ -170,12 +170,12 @@ for pn in ivalues(PlayerNumber) do
 			:diffuse(color("0,0,0,1"))
 			:visible(GAMESTATE:IsHumanPlayer(pn))
 			
-			--Bug: Profile name only load properly if both players have joined
-			local profilename = PROFILEMAN:GetPlayerName(pn)
-			if (profilename == "") then
+			local profile = PROFILEMAN:GetProfile(pn);
+			local name = profile:GetDisplayName();
+			if (name == "") then
 				self:settext("No Name")
 			else
-				self:settext(profilename)
+				self:settext(name)
 			end;
 			
 			if (pn == PLAYER_1) then
@@ -193,8 +193,17 @@ for pn in ivalues(PlayerNumber) do
 			
 		end;
 		
+		-- Update when a player joins
 		PlayerJoinedMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(pn))
+			
+			local profile = PROFILEMAN:GetProfile(pn);
+			local name = profile:GetDisplayName();
+			if (name == "") then
+				self:settext("No Name")
+			else
+				self:settext(name)
+			end;
 		end;
 	};
 end;

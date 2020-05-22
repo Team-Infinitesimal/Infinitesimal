@@ -1,0 +1,14 @@
+Lifebar assets renamed:
+
+bar dangerD					|	Bar danger double
+bar dangleS					|	Bar danger single
+bar hot s (stretch)			|	Bar hot (stretch)
+BLUEPLS						|	DELETED (unused)
+LifeMeterBar backgroundD	|	Life bar bg double
+LifeMeterBar backgroundS	|	Life bar bg single
+PLS2						|	Blue gradient 1
+XDD2						|	Blue gradient 2
+pulse single				|	Pulse
+Sombra usb 2				|	USB bg
+SOLIDO DOUBLE				|	Blue solid double
+SOLIDO SINGLE				|	Blue solid single
