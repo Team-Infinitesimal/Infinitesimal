@@ -57,6 +57,7 @@ local t = Def.ActorFrame {
                 self:settext("BPM: "..speedvalue);
                 self:decelerate(0.2)
                 self:diffusealpha(1)
+                self:skewx(-0.2)
             else
                 self:stoptweening():linear(0.25):diffusealpha(0);
             end;
@@ -99,6 +100,29 @@ local t = Def.ActorFrame {
             local song = GAMESTATE:GetCurrentSong();
             if song then
                 self:settext(song:GetDisplayMainTitle());
+                self:decelerate(0.2);
+                self:diffusealpha(1);
+            else
+                self:stoptweening():linear(0.25):diffusealpha(0);
+            end;
+        end;
+    };
+
+    LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+        InitCommand=function(self)
+            self:horizalign(left)
+            :x(SCREEN_CENTER_X-95)
+            :y(SCREEN_CENTER_Y+54)
+            :zoom(0.4,0.4)
+            :skewx(-0.2)
+            :maxwidth(800)
+        end;
+        CurrentSongChangedMessageCommand=function(self)
+            self:stoptweening():diffusealpha(0);
+            local song = GAMESTATE:GetCurrentSong();
+            if song then
+                self:maxwidth(480);
+                self:settext("ARTIST: "..song:GetDisplayArtist());
                 self:decelerate(0.2);
                 self:diffusealpha(1);
             else
