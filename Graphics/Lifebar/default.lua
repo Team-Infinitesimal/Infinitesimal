@@ -20,17 +20,17 @@ local t = Def.ActorFrame {
 		SetCommand=function(self)
 			local profile = PROFILEMAN:GetProfile(PLAYER_1);
 			local name = profile:GetDisplayName();
-			
+
 			if GAMESTATE:IsHumanPlayer(PLAYER_1) == true then
 				if name=="" then
 					self:settext("No Name");
 				else
 					self:settext(name);
 				end
-			end	
+			end
 		end;
 	};
-	
+
 	LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
 		InitCommand=function(self)
 			self:maxwidth(320)
@@ -49,7 +49,7 @@ local t = Def.ActorFrame {
 		SetCommand=function(self)
 			local profile = PROFILEMAN:GetProfile(PLAYER_2);
 			local name = profile:GetDisplayName();
-			
+
 			if GAMESTATE:IsHumanPlayer(PLAYER_2) == true then
 				if name=="" then
 					self:settext("No Name");
@@ -68,17 +68,17 @@ end;
 local function LifeMeterSingle(pn)
 
 	local t = Def.ActorFrame {
-	
+
 		LoadActor("Mask") .. {
 			BeginCommand=function(self)self:x(-270-38):MaskSource()end;
 		};
-		
+
 		LoadActor("Life bar bg single") .. {
 			BeginCommand=function(self)self:diffusealpha(0.75):zoomx(1.01)end;
 			--OnCommand=cmd(diffusealpha,0.75);
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local dgthreshold = 0.2
-				
+
 				if params.Life > dgthreshold then
 					self:visible(true);
 				else
@@ -86,7 +86,7 @@ local function LifeMeterSingle(pn)
 				end
 			end;
 		};
-		
+
 		LoadActor("Bar danger single") .. {
 			OnCommand=function(self)
 				self:diffuseshift()
@@ -98,7 +98,7 @@ local function LifeMeterSingle(pn)
 			end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local dgthreshold = 0.2
-				
+
 				if params.Life < dgthreshold then
 					self:visible(true);
 				else
@@ -106,7 +106,7 @@ local function LifeMeterSingle(pn)
 				end
 			end;
 		};
-		
+
 		LoadActor("Pulse") .. {
 			BeginCommand=function(self)
 				self:zoomto(40,40)
@@ -120,13 +120,13 @@ local function LifeMeterSingle(pn)
 			end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local xpos = params.Life*500;
-				
+
 				if xpos <= 4 then
 					xpos = 4
 				elseif xpos >= 498 then
-					xpos = 498 
+					xpos = 498
 				end
-				
+
 				self:x(xpos-250-20);
 			end;
 		};
@@ -137,13 +137,13 @@ local function LifeMeterSingle(pn)
 			OnCommand=function(self)self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local xpos = params.Life*500;
-				
+
 				if xpos <= 4 then
 					xpos = 4
 				elseif xpos >= 498 then
 					xpos = 498
 				end
-				
+
 				self:x(xpos-250-20);
 			end;
 		};
@@ -155,7 +155,7 @@ local function LifeMeterSingle(pn)
 				self:cropright(1.07-params.Life);--1
 			end;
 		};
-		
+
 		LoadActor("Bar hot") .. {
 			BeginCommand=function(self)self:draworder(5):x(0):visible(false):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
@@ -169,7 +169,7 @@ local function LifeMeterSingle(pn)
 					self:effectcolor2(1,1,1,.8);
 				else
 					self:stopeffect();
-					self:visible(false);	
+					self:visible(false);
 				end;
 			end;
 		};
@@ -181,23 +181,23 @@ local function LifeMeterSingle(pn)
 			BeginCommand=function(self)self:player(pn):draworder(5)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local dgthreshold = THEME:GetMetric("LifeMeterBar", "DangerThreshold");
-				
+
 				if params.Life <= dgthreshold then
 					self:visible(false);
 				else
 					self:visible(true);
 				end
-				
+
 				local xpos = params.Life*500;
-				
+
 				if xpos <= 4 then
 					xpos = 4
 				elseif xpos >= 498 then
-					xpos = 498 
+					xpos = 498
 				end
-				
+
 				self:x(xpos-250);
-				
+
 				--self:glow(1,1,1,1);
 				--[[
 				self:glow(0,0,0,1);
@@ -208,27 +208,27 @@ local function LifeMeterSingle(pn)
 				]]
 			end;
 		};
-		
+
 		LoadActor("Tip danger") .. {
 			BeginCommand=function(self)self:player(pn):draworder(5):visible(false)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local dgthreshold = THEME:GetMetric("LifeMeterBar", "DangerThreshold");
 				self:glow(0,0,0,1);
-				
+
 				if params.Life <= dgthreshold then
 					self:visible(true);
 				else
 					self:visible(false);
 				end
-				
+
 				local xpos = params.Life*500;
-				
+
 				if xpos <= 4 then
 					xpos = 4
 				elseif xpos >= 498 then
 					xpos = 498
 				end
-				
+
 				self:x(xpos-250);
 				self:glowshift();
 				self:effectperiod(0.1);
@@ -246,18 +246,18 @@ end;
 local function LifeMeterDouble(pn)
 
 	local t = Def.ActorFrame {
-	
+
 		LoadActor("Mask") .. {
 			BeginCommand=function(self)self:x(-519-42):zoomx(1.2):MaskSource()end;
-		};	
-		
+		};
+
 		LoadActor("Life bar bg double") .. {
 			BeginCommand=function(self)self:diffusealpha(0.75):player(pn)end;
 			--OnCommand=cmd(diffusealpha,0.75;);
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local life = params.Life
 				local dgthreshold = 0.2
-				
+
 				if life > dgthreshold then
 					self:visible(true);
 				else
@@ -265,7 +265,7 @@ local function LifeMeterDouble(pn)
 				end
 			end;
 		};
-		
+
 		LoadActor("Bar danger double") .. {
 			OnCommand=function(self)
 				self:diffuseshift()
@@ -278,7 +278,7 @@ local function LifeMeterDouble(pn)
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local life = params.Life
 				local dgthreshold = 0.2
-				
+
 				if life <= dgthreshold then
 					self:visible(true);
 				else
@@ -286,7 +286,7 @@ local function LifeMeterDouble(pn)
 				end;
 			end;
 		};
-		
+
 		LoadActor("Pulse") .. {
 			BeginCommand=function(self)
 				self:zoomto(40,40)
@@ -300,17 +300,17 @@ local function LifeMeterDouble(pn)
 			end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local xpos = params.Life*1000;
-				
+
 				if xpos <= 4 then
 					xpos = 4
 				elseif xpos >= 998 then
-					xpos = 998 
+					xpos = 998
 				end
-				
+
 				self:x(xpos-500-20);
 			end;
 		};
-		
+
 		LoadActor("Blue gradient 2") .. {
 			BeginCommand=function(self)self:zoomto(80,40):MaskDest():playcommand("Change")end;
 			InitCommand=function(self)self:glowshift():effectperiod(0.6):effectcolor1(1,1,1,0.3):effectcolor2(1,1,1,0.9)end;
@@ -318,13 +318,13 @@ local function LifeMeterDouble(pn)
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local life = params.Life;
 				local xpos = life*1000;
-				
+
 				if xpos <= 4 then
 					xpos = 4
 				elseif xpos >= 998 then
 					xpos = 998
 				end
-				
+
 				self:x(xpos-500-40);
 			end;
 		};
@@ -337,7 +337,7 @@ local function LifeMeterDouble(pn)
 				self:cropright(1.04-lfzoom);--1
 			end;
 		};
-		
+
 		LoadActor("Bar hot") .. {
 			--customtexturerect( float fLeft, float fTop, float fRight, float fBottom )
 			BeginCommand=function(self)self:draworder(5):x(0):visible(false):customtexturerect(0,0,.5,1):zoomx(2):texcoordvelocity(0.7,0)end;
@@ -352,11 +352,11 @@ local function LifeMeterDouble(pn)
 					self:effectcolor2(1,1,1,.8);
 				else
 					self:stopeffect();
-					self:visible(false);	
+					self:visible(false);
 				end;
 			end;
 		};
-		
+
 		LoadActor("Life bar double");
 
 		LoadActor("Tip hot") .. {
@@ -365,21 +365,21 @@ local function LifeMeterDouble(pn)
 				local life = params.Life;
 				local dgthreshold = THEME:GetMetric("LifeMeterBar", "DangerThreshold");
 				self:glow(0,0,0,1);
-				
+
 				if life <= dgthreshold then
 					self:visible(false);
 				else
 					self:visible(true);
 				end;
-				
+
 				local xpos = life*1000;
-				
+
 				if xpos <= 4 then
 					xpos = 4
 				elseif xpos >= 994 then
-					xpos = 994 
+					xpos = 994
 				end;
-				
+
 				self:x(xpos-500);
 				self:glowshift();
 				self:effectperiod(0.2);
@@ -387,28 +387,28 @@ local function LifeMeterDouble(pn)
 				self:effectcolor2(1,1,1,1);
 			end;
 		};
-		
+
 		LoadActor("Tip danger") .. {
 			BeginCommand=function(self)self:player(pn):draworder(5):visible(false)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local life = params.Life
 				local dgthreshold = THEME:GetMetric("LifeMeterBar", "DangerThreshold");
 				self:glow(0,0,0,1);
-				
+
 				if life <= dgthreshold then
 					self:visible(true);
 				else
 					self:visible(false);
 				end
-				
+
 				local xpos = life*1000;
-				
+
 				if xpos <= 4 then
 					xpos = 4
 				elseif xpos >= 994 then
-					xpos = 994 
+					xpos = 994
 				end
-				
+
 				self:x(xpos-500);
 				self:glowshift();
 				self:effectperiod(0.1);
@@ -417,7 +417,7 @@ local function LifeMeterDouble(pn)
 			end;
 		};
 	};
-	
+
 return t
 end;
 
@@ -480,27 +480,27 @@ local t = Def.ActorFrame {
 			:visible(GAMESTATE:IsHumanPlayer(PLAYER_1))
 			:playcommand("Set")
 		end;
-		
+
 		ComboChangedMessageCommand=function(self)
 			local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_1);
 			self:settext(scorecap(PSS:GetScore()));
 		end;
-		
+
 		SetCommand=function(self)
 			local style = GAMESTATE:GetCurrentStyle();
-			
-			if GetUserPref("UserPrefScorePosition") == "On" then 
+
+			if GetUserPref("UserPrefScorePosition") == "On" then
 				if style:GetStyleType() == "StyleType_OnePlayerTwoSides" then
 					self:x(SCREEN_RIGHT-83);
 				else
 					self:x(THEME:GetMetric("ScreenGameplay","PlayerP1OnePlayerOneSideX")+119);
 				end
 			end
-			
-			if GetUserPref("UserPrefScorePosition") == "Off" then 
+
+			if GetUserPref("UserPrefScorePosition") == "Off" then
 				self:y(SCREEN_BOTTOM+9999);
 			end
-			
+
 			if style:GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				if GetUserPref("UserPrefScorePosition") == "On" then
 					self:x(SCREEN_CENTER_X-25);
@@ -514,7 +514,7 @@ local t = Def.ActorFrame {
 			end
 		end
 	};
-		
+
 	-----------------------------------P2 SCORE perro
 	LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
 
@@ -527,31 +527,31 @@ local t = Def.ActorFrame {
 			:visible(GAMESTATE:IsHumanPlayer(PLAYER_2))
 			:playcommand("Set")
 		end;
-		
+
 		ComboChangedMessageCommand=function(self)
-			
+
 			local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_2);
 			self:settext(scorecap(PSS:GetScore()));
 		end;
-		
+
 		SetCommand=function(self)
 			local style = GAMESTATE:GetCurrentStyle();
-			
-			
-			if GetUserPref("UserPrefScorePosition") == "On" then 
+
+
+			if GetUserPref("UserPrefScorePosition") == "On" then
 					if style:GetStyleType() == "StyleType_OnePlayerTwoSides" then
 						self:x(SCREEN_LEFT+83);
 					else
 						self:x(THEME:GetMetric("ScreenGameplay","PlayerP2OnePlayerOneSideX")-119);
 					end
 			end
-			
-			
-			if GetUserPref("UserPrefScorePosition") == "Off" then 
+
+
+			if GetUserPref("UserPrefScorePosition") == "Off" then
 					self:y(SCREEN_BOTTOM+9999);
 			end
-			
-			
+
+
 			if style:GetStyleType() == "StyleType_TwoPlayersSharedSides" then
 				if GetUserPref("UserPrefScorePosition") == "On" then
 					self:x(SCREEN_CENTER_X-25);
@@ -595,7 +595,7 @@ local t = Def.ActorFrame {
 			end
 		end;
 	};
-	
+
 	PlayerInfo(PLAYER_2)..{
 		InitCommand=cmd(y,SCREEN_TOP+495;zoomy,0.8;draworder,9999;zoomx,0.95;playcommand,"On";);
 		OnCommand=function(self)
