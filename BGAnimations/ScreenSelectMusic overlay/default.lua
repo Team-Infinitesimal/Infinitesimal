@@ -152,6 +152,13 @@ local t = Def.ActorFrame {
             end;
         end;
     };
+	
+	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
+		InitCommand=function(self)
+			self:x(SCREEN_CENTER_X)
+			:y(111);
+		end;
+	};
 };
 
 return t;
