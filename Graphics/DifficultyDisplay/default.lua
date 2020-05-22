@@ -1,3 +1,10 @@
+--[[
+	This code has been borrowed from the PIU Delta theme,
+	credits goes to Luizsan, Rhythm Lunatic and everyone
+	else who has contributed to that theme. This code has
+	replaced all the cmd calls and removed basic mode.
+]]
+
 local baseZoom = 0.3
 local spacing = 29;
 local delay = 2
