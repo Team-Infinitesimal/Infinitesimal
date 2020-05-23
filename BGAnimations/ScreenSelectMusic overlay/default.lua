@@ -127,6 +127,7 @@ local t = Def.ActorFrame {
             :x(SCREEN_CENTER_X+172)
             :y(SCREEN_CENTER_Y+14)
             :zoom(0.4,0.4)
+			:maxwidth(590)
         end;
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0)
