@@ -1,6 +1,6 @@
 local t = Def.ActorFrame {};
 
-for player in ivalues(GAMESTATE:GetEnabledPlayers()) do
+for player in ivalues(PlayerNumber) do
     t[#t+1] = LoadActor("ChartInfo"..pname(player))..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-75)
@@ -8,6 +8,7 @@ for player in ivalues(GAMESTATE:GetEnabledPlayers()) do
         end;
         SongChosenMessageCommand=function(self)
             self:stoptweening();
+            self:visible(GAMESTATE:IsHumanPlayer(player));
             if player == PLAYER_1 then
                 self:decelerate(0.25);
                 self:x(SCREEN_CENTER_X-255);
