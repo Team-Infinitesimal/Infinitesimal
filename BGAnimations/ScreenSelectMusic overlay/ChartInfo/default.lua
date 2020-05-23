@@ -20,7 +20,7 @@ for player in ivalues(PlayerNumber) do
         SongUnchosenMessageCommand=function(self)
             self:stoptweening();
             if player == PLAYER_1 then
-                self:accelerate(0.25);
+                self:decelerate(0.25);
                 self:x(SCREEN_CENTER_X);
             elseif player == PLAYER_2 then
                 self:decelerate(0.25);
