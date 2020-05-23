@@ -26,10 +26,12 @@ local t = Def.ActorFrame {
         end;
     };
 
-    LoadActor("CornerArrows");
+    LoadActor("ChartInfo");
 
     LoadActor("songPreview");
-	
+
+    LoadActor("CornerArrows");
+
 	Def.Quad {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-174)
@@ -118,7 +120,7 @@ local t = Def.ActorFrame {
             end;
         end;
     };
-	
+
 	LoadFont("montserrat semibold/_montserrat semibold 40px")..{
         InitCommand=function(self)
             self:horizalign(right)
@@ -152,7 +154,7 @@ local t = Def.ActorFrame {
             end;
         end;
     };
-	
+
 	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -163,13 +165,13 @@ local t = Def.ActorFrame {
 
 for pn in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
-	
+
 		InitCommand=function(self)
 			self:y(SCREEN_BOTTOM+100)
 			:zoom(0.4,0.4)
 			:diffuse(color("0,0,0,1"))
 			:visible(GAMESTATE:IsHumanPlayer(pn))
-			
+
 			local profile = PROFILEMAN:GetProfile(pn);
 			local name = profile:GetDisplayName();
 			if (name == "") then
@@ -177,7 +179,7 @@ for pn in ivalues(PlayerNumber) do
 			else
 				self:settext(name)
 			end;
-			
+
 			if (pn == PLAYER_1) then
 				self:horizalign(left)
 				self:x(SCREEN_CENTER_X-190)
@@ -185,18 +187,18 @@ for pn in ivalues(PlayerNumber) do
 				self:horizalign(right)
 				self:x(SCREEN_CENTER_X+190)
 			end;
-			
+
 			self:diffusealpha(0)
 			self:decelerate(1)
 			self:diffusealpha(1)
 			self:y(SCREEN_BOTTOM-21)
-			
+
 		end;
-		
+
 		-- Update when a player joins
 		PlayerJoinedMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(pn))
-			
+
 			local profile = PROFILEMAN:GetProfile(pn);
 			local name = profile:GetDisplayName();
 			if (name == "") then
