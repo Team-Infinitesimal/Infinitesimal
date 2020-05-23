@@ -63,6 +63,7 @@ for i=1,12 do
 				:y(baseY)
 				:animate(false)
 			end;
+			
 			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 			CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 			CurrentSongChangedMessageCommand=function(self)self:playcommand("Refresh")end;
@@ -111,8 +112,12 @@ for i=1,12 do
 							self:setstate(3);
 						end;
 					else
-						self:diffusealpha(0);
+						self:setstate(7);
+						self:diffusealpha(0.3);
 					end;
+				else
+					self:setstate(7);
+					self:diffusealpha(0.3);
 				end
 			end
 		};
@@ -157,18 +162,19 @@ for i=1,12 do
 						self:diffusealpha(0.3);
 						self:settext("--");
 					end
+				else
+					self:diffusealpha(0.3);
+					self:settext("--");
 				end
 			end
-
-
 		};
 	};
-
 
 end
 
 --Needs to have both in case of late join
 for pn in ivalues(PlayerNumber) do
+
 	t[#t+1] = LoadActor("UnifiedCursor", pn)..{
 		InitCommand=function(self)
 			self:zoom(baseZoom-0.05)
@@ -178,6 +184,7 @@ for pn in ivalues(PlayerNumber) do
 			:spin()
 			:playcommand("Set")
 		end;
+		
 		PlayerJoinedMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(pn))
 		end;
