@@ -18,6 +18,8 @@ local t = Def.ActorFrame {
             if GAMESTATE:GetCurrentSong() then
       					 if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil then
       						    self:sleep(.4):queuecommand("Load2");
+                 else
+                      self:sleep(.4):queuecommand("LoadAnimated")
       			  	 end;
       			end;
         end;
@@ -25,6 +27,15 @@ local t = Def.ActorFrame {
             local bg = GetSongBackground(true)
             if bg then
                 self:Load(bg):zoomto(360,220);
+            else
+                self:Load(THEME:GetPathG("","Common fallback background"));
+            end;
+            self:zoomto(360,220):linear(.2):diffusealpha(1);
+        end;
+        LoadAnimatedCommand=function(self)
+            local path = GAMESTATE:GetCurrentSong():GetPreviewVidPath()
+            if path then
+                self:Load(path):zoomto(360,220);
             else
                 self:Load(THEME:GetPathG("","Common fallback background"));
             end;
