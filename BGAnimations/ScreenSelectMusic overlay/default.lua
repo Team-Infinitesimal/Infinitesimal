@@ -28,7 +28,7 @@ local t = Def.ActorFrame {
 
     LoadActor("ChartInfo");
 
-    LoadActor("songPreview");
+    LoadActor("SongPreview");
 
     LoadActor("CornerArrows");
 

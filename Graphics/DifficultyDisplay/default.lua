@@ -186,9 +186,8 @@ for pn in ivalues(PlayerNumber) do
 		NextSongMessageCommand=function(self)self:playcommand("Set")end;
 		PreviousSongMessageCommand=function(self)self:playcommand("Set")end;
 		
-		--TODO: Hide cursors until they're selecting a song when the a screen is made for difficulty selection
 		OnCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(pn))
+			self:visible(false)
 		end;
 		
 		SongChosenMessageCommand=function(self)

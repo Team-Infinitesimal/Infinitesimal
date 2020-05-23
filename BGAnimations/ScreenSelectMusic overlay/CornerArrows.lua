@@ -3,36 +3,18 @@ local t = Def.ActorFrame {
     LoadActor(THEME:GetPathG("","ShiftUL"))..{
         InitCommand=function(self)
             self:zoom(0.10)
-            :diffusealpha(0)
             :xy(SCREEN_LEFT+200,SCREEN_TOP+200)
             :decelerate(0.75)
             :xy(SCREEN_LEFT+60,SCREEN_TOP+60)
-        end;
-        SongChosenMessageCommand=function(self)
-            self:decelerate(0.2)
-            :diffusealpha(1)
-        end;
-        SongUnchosenMessageCommand=function(self)
-            self:decelerate(0.2)
-            :diffusealpha(0)
         end;
     };
 
     LoadActor(THEME:GetPathG("","ShiftUR"))..{
         InitCommand=function(self)
             self:zoom(0.10)
-            :diffusealpha(0)
             :xy(SCREEN_RIGHT-200,SCREEN_TOP+200)
             :decelerate(0.75)
             :xy(SCREEN_RIGHT-60,SCREEN_TOP+60)
-        end;
-        SongChosenMessageCommand=function(self)
-            self:decelerate(0.2)
-            :diffusealpha(1)
-        end;
-        SongUnchosenMessageCommand=function(self)
-            self:decelerate(0.2)
-            :diffusealpha(0)
         end;
     };
 
