@@ -8,6 +8,14 @@ local t = Def.ActorFrame {
             end;
     };
 
+    LoadActor(THEME:GetPathG("","static"))..{
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-80)
+            :diffusealpha(1)
+            :zoomto(360,220)
+            end;
+    };
+
     Def.Sprite {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-80)
