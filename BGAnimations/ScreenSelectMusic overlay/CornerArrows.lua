@@ -45,11 +45,11 @@ local t = Def.ActorFrame {
             :xy(SCREEN_LEFT+60,SCREEN_BOTTOM-60)
         end;
         PreviousSongMessageCommand=function(self)
-        self:stoptweening()
-            :accelerate(0.2)
+            self:stoptweening()
+            :zoom(0.10)
             :diffusealpha(0.6)
-            :zoom(0.11)
-            :decelerate(0.2)
+            :decelerate(0.4)
+            :zoom(0.12)
             :diffusealpha(0)
         end;
     };
@@ -62,10 +62,10 @@ local t = Def.ActorFrame {
         end;
         NextSongMessageCommand=function(self)
             self:stoptweening()
-            :accelerate(0.2)
-            :diffusealpha(0.6)
-            :zoom(0.11)
-            :decelerate(0.2)
+            :zoom(0.10)
+            :diffusealpha(0.75)
+            :decelerate(0.4)
+            :zoom(0.12)
             :diffusealpha(0)
         end;
     };

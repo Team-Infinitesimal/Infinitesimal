@@ -50,6 +50,22 @@ local t = Def.ActorFrame {
             self:zoomto(360,220):linear(.2):diffusealpha(1);
         end;
     };
+
+    Def.Sprite {
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X+130,SCREEN_CENTER_Y-150)
+            :diffusealpha(0)
+            end;
+        CurrentSongChangedMessageCommand=function(self)
+            self:stoptweening():diffusealpha(0);
+            if GAMESTATE:GetCurrentSong() then
+      					 if GAMESTATE:GetCurrentSong():GetCDTitlePath() then
+      						    self:Load(GAMESTATE:GetCurrentSong():GetCDTitlePath());
+                      self:diffusealpha(1);
+      			  	 end;
+      			end;
+        end;
+    };
 };
 
 return t;
