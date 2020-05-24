@@ -11,28 +11,28 @@ function scorecap(n) -- credit http://richard.warburton.it
 end;
 
 function GetChartType(player)
-	if (GAMESTATE:GetCurrentSteps(player)) then
-		local stepType = GAMESTATE:GetCurrentSteps(player):GetStepsType()
-		local stepDescription = GAMESTATE:GetCurrentSteps(player):GetDescription()
-		
+	if GAMESTATE:GetCurrentSteps(player) then
+		local stepType = GAMESTATE:GetCurrentSteps(player):GetStepsType();
+		local stepDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
+
 		if stepType ~= nil then
 			--TODO? Redo this mess lol
 			if stepType == "StepsType_Pump_Single" then
-				return "Single"
+				return "Single";
 			elseif stepType == "StepsType_Pump_Halfdouble" then
-				return "Half-Double"
+				return "Half-Double";
 			elseif stepType == "StepsType_Pump_Double" then
 					--Check for StepF2 Double Performance tag
 					if string.find(stepDescription, "DP") then
-						return "Performance"
+						return "Performance";
 					else
-						return "Double"
+						return "Double";
 					end;
 			elseif stepType == "StepsType_Pump_Couple" then
 				--I don't believe anyone uses couple for co-op but it's here
-				return "Co-op"
+				return "Co-op";
 			elseif stepType == "StepsType_Pump_Routine" then
-				return "Freestyle"
+				return "Freestyle";
 			end;
 		end;
 	end;

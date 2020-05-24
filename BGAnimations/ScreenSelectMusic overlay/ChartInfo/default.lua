@@ -3,12 +3,12 @@ local t = Def.ActorFrame {};
 for player in ivalues(PlayerNumber) do
 
     t[#t+1] = LoadActor("ChartInfo"..pname(player))..{
-	
+
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-75)
             :zoom(0.10)
         end;
-		
+
         SongChosenMessageCommand=function(self)
             self:stoptweening();
             self:visible(GAMESTATE:IsHumanPlayer(player));
@@ -20,7 +20,7 @@ for player in ivalues(PlayerNumber) do
                 self:x(SCREEN_CENTER_X+255);
             end;
         end;
-		
+
         SongUnchosenMessageCommand=function(self)
             self:stoptweening();
             if player == PLAYER_1 then
@@ -32,11 +32,11 @@ for player in ivalues(PlayerNumber) do
             end;
         end;
     };
-	
+
 	--=============================================================================
 	--		Steps
 	--=============================================================================
-	
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -45,7 +45,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -57,19 +57,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_TapsAndHolds'));
 			end;
 		end;
-		
+
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -77,11 +77,11 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end;
 	};
-	
+
 	--=============================================================================
 	--		Jumps
 	--=============================================================================
-	
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -90,7 +90,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -102,19 +102,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Jumps'));
 			end;
 		end;
-		
+
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -122,11 +122,11 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end;
 	};
-	
+
 	--=============================================================================
 	--		Holds
 	--=============================================================================
-	
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -135,7 +135,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -147,19 +147,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Holds'));
 			end;
 		end;
-		
+
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -167,11 +167,11 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end;
 	};
-	
+
 	--=============================================================================
 	--		Triple+
 	--=============================================================================
-	
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -180,7 +180,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -192,19 +192,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Hands'));
 			end;
 		end;
-		
+
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -212,11 +212,11 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end;
 	};
-	
+
 	--=============================================================================
 	--		Mines
 	--=============================================================================
-	
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -225,7 +225,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -237,19 +237,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Mines'));
 			end;
 		end;
-		
+
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -257,11 +257,11 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end;
 	};
-	
+
 	--=============================================================================
 	--		Rolls
 	--=============================================================================
-	
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -270,7 +270,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -282,19 +282,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Rolls'));
 			end;
 		end;
-		
+
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -302,11 +302,11 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end;
 	};
-	
+
 	--=============================================================================
 	--		Step Artist
 	--=============================================================================
-	
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -315,7 +315,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(260)
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -327,12 +327,12 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local artist = GAMESTATE:GetCurrentSteps(player):GetAuthorCredit();
@@ -343,7 +343,7 @@ for player in ivalues(PlayerNumber) do
 				end;
 			end;
 		end;
-		
+
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local artist = GAMESTATE:GetCurrentSteps(player):GetAuthorCredit();
@@ -355,11 +355,11 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end;
 	};
-	
+
 	--=============================================================================
 	--		Chart Type
 	--=============================================================================
-	
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
@@ -369,7 +369,7 @@ for player in ivalues(PlayerNumber) do
 			:maxwidth(260)
 			:diffusecolor(0,0,0,1)
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -381,24 +381,24 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			local chartType = GetChartType(player);
-			if (chartType ~= nil) then
+			if chartType ~= nil then
 				self:settext(chartType);
 			else
 				self:settext("Unknown");
 			end;
 		end;
-		
+
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			local chartType = GetChartType(player);
-			if (chartType ~= nil) then
+			if chartType ~= nil then
 				self:settext(chartType);
 			else
 				self:settext("Unknown");
