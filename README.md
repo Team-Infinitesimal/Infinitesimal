@@ -1,3 +1,5 @@
+## COMMERCIAL USE OF THIS THEME IS NOT ALLOWED.
+
 # What is this?
 A theme I'm working on with SheepyChris
 
