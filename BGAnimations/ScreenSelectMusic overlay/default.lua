@@ -178,12 +178,15 @@ local t = Def.ActorFrame {
         end;
     };
 
-	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
-		InitCommand=function(self)
-			self:x(SCREEN_CENTER_X)
-			:y(111);
-		end;
-	};
+  	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
+    		InitCommand=function(self)
+      			self:x(SCREEN_CENTER_X)
+      			:y(111);
+    		end;
+  	};
+
+    --LoadActor(THEME:GetPathG("","Readies"));
+
 };
 
 for pn in ivalues(PlayerNumber) do
