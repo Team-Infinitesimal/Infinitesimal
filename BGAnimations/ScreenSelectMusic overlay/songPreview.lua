@@ -51,21 +51,25 @@ local t = Def.ActorFrame {
         end;
     };
 
-    Def.Sprite {
+    Def.ActorFrame {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X+135,SCREEN_CENTER_Y-140)
-            :diffusealpha(0)
-            :zoom(0.75)
-            end;
-        CurrentSongChangedMessageCommand=function(self)
-            self:stoptweening():diffusealpha(0);
-            if GAMESTATE:GetCurrentSong() then
-      					 if GAMESTATE:GetCurrentSong():GetCDTitlePath() then
-      						    self:Load(GAMESTATE:GetCurrentSong():GetCDTitlePath());
-                      self:diffusealpha(1);
-      			  	 end;
-      			end;
+            self:xy(SCREEN_CENTER_X+125,SCREEN_CENTER_Y-140)
+            :zoomto(1,1)
         end;
+        Def.Sprite {
+            InitCommand=function(self)
+                self:diffusealpha(0)
+                end;
+            CurrentSongChangedMessageCommand=function(self)
+                self:stoptweening():diffusealpha(0);
+                if GAMESTATE:GetCurrentSong() then
+          					 if GAMESTATE:GetCurrentSong():GetCDTitlePath() then
+          						    self:Load(GAMESTATE:GetCurrentSong():GetCDTitlePath());
+                          self:diffusealpha(1);
+          			  	 end;
+          			end;
+            end;
+        };
     };
 };
 
