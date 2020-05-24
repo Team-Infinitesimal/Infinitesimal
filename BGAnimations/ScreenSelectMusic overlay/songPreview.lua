@@ -51,10 +51,10 @@ local t = Def.ActorFrame {
         end;
     };
 
-    Def.ActorFrame {
-        InitCommand=function(self)
+    --[[ Def.ActorFrame {
+        OnCommand=function(self)
             self:xy(SCREEN_CENTER_X+125,SCREEN_CENTER_Y-140)
-            :zoomto(1,1)
+            :zoomto(0.1,0.1)
         end;
         Def.Sprite {
             InitCommand=function(self)
@@ -70,7 +70,7 @@ local t = Def.ActorFrame {
           			end;
             end;
         };
-    };
+    }; --]]
 };
 
 return t;
