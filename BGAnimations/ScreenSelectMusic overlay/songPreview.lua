@@ -53,8 +53,9 @@ local t = Def.ActorFrame {
 
     Def.Sprite {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X+130,SCREEN_CENTER_Y-150)
+            self:xy(SCREEN_CENTER_X+135,SCREEN_CENTER_Y-140)
             :diffusealpha(0)
+            :zoom(0.75)
             end;
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0);

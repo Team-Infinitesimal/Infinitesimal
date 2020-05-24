@@ -131,7 +131,12 @@ local t = Def.ActorFrame {
         end;
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0)
+            self:queuecommand("SetBPM");
+            self:maxwidth(800)
+        end;
+        SetBPMCommand=function(self)
             local song = GAMESTATE:GetCurrentSong();
+            self:diffusealpha(0);
             if song then
                 local speedvalue;
                 if song:IsDisplayBpmRandom() then
@@ -153,6 +158,23 @@ local t = Def.ActorFrame {
             else
                 self:stoptweening():linear(0.25):diffusealpha(0);
             end;
+            self:sleep(5):decelerate(0.2):diffusealpha(0);
+            self:queuecommand("SetLength");
+        end;
+        SetLengthCommand=function(self)
+            local song = GAMESTATE:GetCurrentSong();
+            self:diffusealpha(0);
+            if song then
+                local lengthseconds = SecondsToMMSS(GAMESTATE:GetCurrentSong():MusicLengthSeconds());
+                self:settext("Length: "..lengthseconds);
+                self:decelerate(0.2)
+                self:diffusealpha(1)
+                self:skewx(-0.2)
+            else
+                self:stoptweening():linear(0.25):diffusealpha(0);
+            end;
+            self:sleep(5):decelerate(0.2):diffusealpha(0);
+            self:queuecommand("SetBPM");
         end;
     };
 
