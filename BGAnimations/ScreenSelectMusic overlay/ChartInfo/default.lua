@@ -45,6 +45,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
+		
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -56,16 +57,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
+		
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_TapsAndHolds'));
 			end;
 		end;
+		
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -86,6 +90,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
+		
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -97,16 +102,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
+		
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Jumps'));
 			end;
 		end;
+		
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -127,6 +135,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
+		
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -138,16 +147,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
+		
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Holds'));
 			end;
 		end;
+		
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -168,6 +180,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
+		
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -179,16 +192,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
+		
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Hands'));
 			end;
 		end;
+		
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -209,6 +225,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
+		
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -220,16 +237,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
+		
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Mines'));
 			end;
 		end;
+		
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -250,6 +270,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(100)
 		end;
+		
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -261,16 +282,19 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
+		
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
 				self:settext(radar:GetValue('RadarCategory_Rolls'));
 			end;
 		end;
+		
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local radar = GAMESTATE:GetCurrentSteps(player):GetRadarValues(player);
@@ -291,6 +315,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.3,0.3)
 			:maxwidth(260)
 		end;
+		
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -302,10 +327,12 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
+		
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local artist = GAMESTATE:GetCurrentSteps(player):GetAuthorCredit();
@@ -316,6 +343,7 @@ for player in ivalues(PlayerNumber) do
 				end;
 			end;
 		end;
+		
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local artist = GAMESTATE:GetCurrentSteps(player):GetAuthorCredit();
@@ -341,6 +369,7 @@ for player in ivalues(PlayerNumber) do
 			:maxwidth(260)
 			:diffusecolor(0,0,0,1)
 		end;
+		
 		SongChosenMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(player));
 			self:stoptweening():diffusealpha(0);
@@ -352,56 +381,30 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
 		end;
+		
 		CurrentStepsP1ChangedMessageCommand=function(self)
-			if (GAMESTATE:GetCurrentSteps(player)) then
-				local stepType = GAMESTATE:GetCurrentSteps(player):GetStepsType()
-				if stepType ~= nil then
-					--TODO? Redo this mess lol
-					if stepType == "StepsType_Pump_Single" then
-						stepType = "Single"
-					elseif stepType == "StepsType_Pump_Halfdouble" then
-						stepType = "Half-Double"
-					elseif stepType == "StepsType_Pump_Double" then
-						stepType = "Double"
-					elseif stepType == "StepsType_Pump_Couple" then
-						stepType = "Co-op"
-					elseif stepType == "StepsType_Pump_Routine" then
-						stepType = "Freestyle"
-					end;
-					self:settext(stepType);
-				else
-					self:settext("Unknown");
-				end;
+			local chartType = GetChartType(player);
+			if (chartType ~= nil) then
+				self:settext(chartType);
+			else
+				self:settext("Unknown");
 			end;
 		end;
+		
 		CurrentStepsP2ChangedMessageCommand=function(self)
-			if (GAMESTATE:GetCurrentSteps(player)) then
-				local stepType = GAMESTATE:GetCurrentSteps(player):GetStepsType()
-				if stepType ~= nil then
-					--TODO? Redo this mess lol
-					if stepType == "StepsType_Pump_Single" then
-						stepType = "Single"
-					elseif stepType == "StepsType_Pump_Halfdouble" then
-						stepType = "Half-Double"
-					elseif stepType == "StepsType_Pump_Double" then
-						stepType = "Double"
-					elseif stepType == "StepsType_Pump_Couple" then
-						stepType = "Co-op"
-					elseif stepType == "StepsType_Pump_Routine" then
-						stepType = "Freestyle"
-					end;
-					self:settext(stepType);
-				else
-					self:settext("Unknown");
-				end;
+			local chartType = GetChartType(player);
+			if (chartType ~= nil) then
+				self:settext(chartType);
+			else
+				self:settext("Unknown");
 			end;
 		end;
 	};
-	
 end;
 
 return t;

@@ -112,11 +112,11 @@ for i=1,12 do
 							self:setstate(3);
 						end;
 					else
-						self:setstate(7);
+						self:setstate(3);
 						self:diffusealpha(0.3);
 					end;
 				else
-					self:setstate(7);
+					self:setstate(3);
 					self:diffusealpha(0.3);
 				end
 			end
