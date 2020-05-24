@@ -1,6 +1,7 @@
 function wheelTransformNyoom(self,offsetFromCenter,itemIndex,numItems)
-    self:x(offsetFromCenter*385);
+    self:zoom(0.85)
+    self:x(offsetFromCenter*270);
     local rot = -20;
-    self:rotationy(offsetFromCenter*5);
+    self:rotationy(offsetFromCenter*15);
     self:z(math.abs(offsetFromCenter*5)*-10);
 end;
