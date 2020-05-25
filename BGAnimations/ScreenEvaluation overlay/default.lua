@@ -97,4 +97,17 @@ local t = Def.ActorFrame {
     };
 };
 
+--- ------------------------------------------------
+--- Judgement counts, etc
+--- ------------------------------------------------
+
+for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
+    t[#t+1] = LoadActor("PlayerNumbers", pn)..{
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X,136)
+            end;
+    };
+
+end;
+
 return t;

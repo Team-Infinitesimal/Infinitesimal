@@ -3,7 +3,9 @@ local alignment = 0;
 if player == "PlayerNumber_P2" then alignment = 1 end;
 local offsetfromcenterx = -300;
 if player == "PlayerNumber_P2" then offsetfromcenterx = 300 end;
-local spacing = 29.15;
+local lgoffset = -190;
+if player == "PlayerNumber_P2" then lgoffset = 190 end;
+local spacing = 29.18;
 local showdelay = 0.08;
 
 perfects = STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_W2") +
@@ -174,6 +176,16 @@ local t = Def.ActorFrame {
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(score)
+        end;
+    };
+
+    --- ------------------------------------------------
+    --- Letter Grade
+    --- ------------------------------------------------
+
+    LoadActor(THEME:GetPathG("","LetterGrades"), {lgoffset,perfects,greats,goods,bads,misses,accuracy})..{
+        InitCommand=function(self)
+            self:addy(spacing*3)
         end;
     };
 };
