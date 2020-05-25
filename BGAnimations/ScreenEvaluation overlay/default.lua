@@ -63,6 +63,8 @@ local t = Def.ActorFrame {
     LoadFont("montserrat semibold/_montserrat semibold 40px")..{
         InitCommand=function(self)
             local song = GAMESTATE:GetCurrentSong();
+            self:diffusealpha(0)
+            self:sleep(1.75)
             self:horizalign(center);
             self:diffuse(0,0,0,1);
             self:settext(song:GetDisplayMainTitle());
@@ -72,12 +74,15 @@ local t = Def.ActorFrame {
             else
                 self:xy(SCREEN_CENTER_X,75):zoom(0.35);
             end;
+            self:decelerate(0.25):diffusealpha(1);
         end;
     };
 
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             local song = GAMESTATE:GetCurrentSong();
+            self:diffusealpha(0)
+            self:sleep(1.75)
             self:horizalign(center);
             self:diffuse(0,0,0,1);
             self:maxwidth(700);
@@ -87,6 +92,7 @@ local t = Def.ActorFrame {
             else
                 self:settext("");
             end;
+            self:decelerate(0.25):diffusealpha(1);
         end;
     };
 };

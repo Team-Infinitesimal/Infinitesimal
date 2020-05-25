@@ -4,6 +4,7 @@ if player == "PlayerNumber_P2" then alignment = 1 end;
 local offsetfromcenterx = -300;
 if player == "PlayerNumber_P2" then offsetfromcenterx = 300 end;
 local spacing = 29.15;
+local showdelay = 0.08;
 
 perfects = STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_W2") +
            STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_CheckpointHit");
@@ -29,9 +30,9 @@ local t = Def.ActorFrame {
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             self:halign(alignment)
+            :diffusealpha(0)
             :skewx(-0.1)
             :x(offsetfromcenterx)
-            :diffusealpha(1)
             :maxwidth(1000)
             :zoom(0.5);
         end;
@@ -47,15 +48,15 @@ local t = Def.ActorFrame {
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             self:halign(alignment)
+            :diffusealpha(0)
             :skewx(-0.1)
             :x(offsetfromcenterx)
             :addy(spacing)
-            :diffusealpha(1)
             :maxwidth(1000)
             :zoom(0.5);
         end;
         OnCommand=function(self)
-            self:sleep(1.75)
+            self:sleep(1.75+showdelay)
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(greats)
@@ -66,15 +67,15 @@ local t = Def.ActorFrame {
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             self:halign(alignment)
+            :diffusealpha(0)
             :skewx(-0.1)
             :x(offsetfromcenterx)
             :addy(spacing*2)
-            :diffusealpha(1)
             :maxwidth(1000)
             :zoom(0.5);
         end;
         OnCommand=function(self)
-            self:sleep(1.75)
+            self:sleep(1.75+showdelay*2)
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(goods)
@@ -85,15 +86,15 @@ local t = Def.ActorFrame {
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             self:halign(alignment)
+            :diffusealpha(0)
             :skewx(-0.1)
             :x(offsetfromcenterx)
             :addy(spacing*3)
-            :diffusealpha(1)
             :maxwidth(1000)
             :zoom(0.5);
         end;
         OnCommand=function(self)
-            self:sleep(1.75)
+            self:sleep(1.75+showdelay*3)
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(bads)
@@ -104,15 +105,15 @@ local t = Def.ActorFrame {
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             self:halign(alignment)
+            :diffusealpha(0)
             :skewx(-0.1)
             :x(offsetfromcenterx)
             :addy(spacing*4)
-            :diffusealpha(1)
             :maxwidth(1000)
             :zoom(0.5);
         end;
         OnCommand=function(self)
-            self:sleep(1.75)
+            self:sleep(1.75+showdelay*4)
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(misses)
@@ -123,15 +124,15 @@ local t = Def.ActorFrame {
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             self:halign(alignment)
+            :diffusealpha(0)
             :skewx(-0.1)
             :x(offsetfromcenterx)
             :addy(spacing*5)
-            :diffusealpha(1)
             :maxwidth(1000)
             :zoom(0.5);
         end;
         OnCommand=function(self)
-            self:sleep(1.75)
+            self:sleep(1.75+showdelay*5)
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(combo)
@@ -142,15 +143,15 @@ local t = Def.ActorFrame {
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             self:halign(alignment)
+            :diffusealpha(0)
             :skewx(-0.1)
             :x(offsetfromcenterx)
             :addy(spacing*6)
-            :diffusealpha(1)
             :maxwidth(1000)
             :zoom(0.5);
         end;
         OnCommand=function(self)
-            self:sleep(1.75)
+            self:sleep(1.75+showdelay*6)
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(accuracy)
@@ -161,15 +162,15 @@ local t = Def.ActorFrame {
     LoadFont("montserrat/_montserrat 40px")..{
         InitCommand=function(self)
             self:halign(alignment)
+            :diffusealpha(0)
             :skewx(-0.1)
             :x(offsetfromcenterx)
             :addy(spacing*7)
-            :diffusealpha(1)
             :maxwidth(1000)
             :zoom(0.5);
         end;
         OnCommand=function(self)
-            self:sleep(1.75)
+            self:sleep(1.75+showdelay*7)
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(score)
