@@ -55,6 +55,40 @@ local t = Def.ActorFrame {
             :y(SCREEN_BOTTOM)
         end;
     };
+
+    --- ------------------------------------------------
+    --- Text/Song Info
+    --- ------------------------------------------------
+
+    LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+        InitCommand=function(self)
+            local song = GAMESTATE:GetCurrentSong();
+            self:horizalign(center);
+            self:diffuse(0,0,0,1);
+            self:settext(song:GetDisplayMainTitle());
+            self:maxwidth(700);
+            if song:GetDisplaySubTitle() ~= "" then
+                self:xy(SCREEN_CENTER_X,68):zoom(0.35);
+            else
+                self:xy(SCREEN_CENTER_X,75):zoom(0.35);
+            end;
+        end;
+    };
+
+    LoadFont("montserrat/_montserrat 40px")..{
+        InitCommand=function(self)
+            local song = GAMESTATE:GetCurrentSong();
+            self:horizalign(center);
+            self:diffuse(0,0,0,1);
+            self:maxwidth(700);
+            self:xy(SCREEN_CENTER_X,84):zoom(0.35);
+            if song:GetDisplaySubTitle() then
+                self:settext(song:GetDisplaySubTitle());
+            else
+                self:settext("");
+            end;
+        end;
+    };
 };
 
 return t;
