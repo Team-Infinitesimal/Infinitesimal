@@ -13,6 +13,7 @@ local bads = 	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNote
 local misses = 	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_Miss") +
 		            STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_CheckpointMiss");
 
+local accuracy = 	round(STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetPercentDancePoints()*100, 2);
 local combo = 	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):MaxCombo();
 local score = 	scorecap(STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetScore());
 
@@ -134,6 +135,25 @@ local t = Def.ActorFrame {
             :decelerate(0.3)
             :diffusealpha(1)
             :settext(combo)
+        end;
+    };
+
+    -- Accuracy
+    LoadFont("montserrat/_montserrat 40px")..{
+        InitCommand=function(self)
+            self:halign(alignment)
+            :skewx(-0.1)
+            :x(offsetfromcenterx)
+            :addy(spacing*6)
+            :diffusealpha(1)
+            :maxwidth(1000)
+            :zoom(0.5);
+        end;
+        OnCommand=function(self)
+            self:sleep(1.75)
+            :decelerate(0.3)
+            :diffusealpha(1)
+            :settext(accuracy)
         end;
     };
 
