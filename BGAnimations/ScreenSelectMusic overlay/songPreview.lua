@@ -1,6 +1,6 @@
 local t = Def.ActorFrame {
 
-    LoadActor("PreviewFrame")..{
+    LoadActor(THEME:GetPathG("","PreviewFrame"))..{
         InitCommand=function(self)
             self:horizalign(center)
             :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-53)

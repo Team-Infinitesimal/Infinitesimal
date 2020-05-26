@@ -5,6 +5,8 @@ local offsetfromcenterx = -300;
 if player == "PlayerNumber_P2" then offsetfromcenterx = 300 end;
 local lgoffset = -190;
 if player == "PlayerNumber_P2" then lgoffset = 190 end;
+local dboffset = -95;
+if player == "PlayerNumber_P2" then dboffset = 95 end;
 local spacing = 29.18;
 local showdelay = 0.08;
 
@@ -366,12 +368,42 @@ else
 end;
 
 --- ------------------------------------------------
+--- Difficulty display
+--- ------------------------------------------------
+
+t[#t+1] = LoadActor(THEME:GetPathG("","EvalDiff"))..{
+    InitCommand=function(self)
+        self:diffusealpha(0);
+        self:sleep(2);
+        self:x(dboffset);
+        self:addy(spacing*3);
+        self:zoom(0.08);
+        self:accelerate(0.2);
+        self:diffusealpha(1);
+    end;
+};
+
+t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+    InitCommand=function(self)
+        steps = GAMESTATE:GetCurrentSteps(player);
+        self:diffusealpha(0);
+        self:sleep(2);
+        self:x(dboffset);
+        self:addy(spacing*3);
+        self:zoom(0.5);
+        self:accelerate(0.2);
+        self:diffusealpha(1);
+        self:settext(steps:GetMeter());
+    end;
+};
+
+--- ------------------------------------------------
 --- Letter Grade
 --- ------------------------------------------------
 
-t[#t+1] = LoadActor(THEME:GetPathG("","LetterGrades"), {lgoffset,superbs,perfects,greats,goods,bads,misses,accuracy})..{
+t[#t+1] = LoadActor(THEME:GetPathG("","LetterGrades"), {lgoffset,superbs,perfects,greats,goods,bads,misses,accuracy,player})..{
     InitCommand=function(self)
-        self:addy(spacing*3)
+        self:addy(spacing*3);
     end;
 };
 

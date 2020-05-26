@@ -8,10 +8,9 @@ local goods = vars[5];
 local bads = vars[6];
 local misses = vars[7];
 local accuracy = vars[8];
+local player = vars[9];
 
-local dP1 = (math.floor((STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_1):GetPercentDancePoints())*1000000))/10000
-local dP2 = (math.floor((STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_2):GetPercentDancePoints())*1000000))/10000
-local dancepoints = math.max(dP1,dP2)
+local dancepoints = (math.floor((STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetPercentDancePoints())*1000000))/10000
 
 local t = Def.ActorFrame {}
 
