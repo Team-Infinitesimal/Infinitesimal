@@ -1,7 +1,7 @@
 function SetPlayMode()
     GAMESTATE:SetCurrentPlayMode("PlayMode_Regular");
     GAMESTATE:SetCurrentStyle("Single");
-    return "ScreenSelectMusic"
+    return "ScreenSelectPlayMode"
 end;
 
 --Adds commas to your score, apparently
