@@ -366,7 +366,7 @@ for player in ivalues(PlayerNumber) do
 			:y(SCREEN_CENTER_Y-123)
 			:horizalign(center)
 			:zoom(0.25,0.25)
-			:maxwidth(260)
+			:maxwidth(350)
 			:diffusecolor(0,0,0,1)
 		end;
 
@@ -375,9 +375,9 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening():diffusealpha(0);
 			self:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-242)
+				self:x(SCREEN_CENTER_X-241)
 			else
-				self:x(SCREEN_CENTER_X+242)
+				self:x(SCREEN_CENTER_X+241)
 			end;
 			self:diffusealpha(1);
 		end;

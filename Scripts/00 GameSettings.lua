@@ -14,17 +14,26 @@ function GetChartType(player)
 	if GAMESTATE:GetCurrentSteps(player) then
 		local stepType = GAMESTATE:GetCurrentSteps(player):GetStepsType();
 		local stepDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
+		local stepLevel = GAMESTATE:GetCurrentSteps(player):GetMeter();
 
 		if stepType ~= nil then
 			--TODO? Redo this mess lol
 			if stepType == "StepsType_Pump_Single" then
-				return "Single";
+				if string.find(stepDescription, "SP") then
+					return "Single Performance";
+				else
+					return "Single";
+				end;
 			elseif stepType == "StepsType_Pump_Halfdouble" then
 				return "Half-Double";
 			elseif stepType == "StepsType_Pump_Double" then
 					--Check for StepF2 Double Performance tag
 					if string.find(stepDescription, "DP") then
-						return "Performance";
+						if stepLevel == 99 then
+							return "Co-op";
+						else
+							return "Double Performance";
+						end;
 					else
 						return "Double";
 					end;

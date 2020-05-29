@@ -101,17 +101,18 @@ t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
         self:diffuse(0,0,0,1);
         self:settext(song:GetDisplayMainTitle());
         self:maxwidth(700);
+		self:x(SCREEN_CENTER_X):zoom(0.35);
         if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
             if song:GetDisplaySubTitle() ~= "" then
-                self:xy(SCREEN_CENTER_X,68):zoom(0.35);
+                self:y(67);
             else
-                self:xy(SCREEN_CENTER_X,75):zoom(0.35);
+                self:y(70);
             end;
         else
             if song:GetDisplaySubTitle() ~= "" then
-                self:xy(SCREEN_CENTER_X,65):zoom(0.35);
+                self:y(65);
             else
-                self:xy(SCREEN_CENTER_X,72):zoom(0.35);
+                self:y(68);
             end;
         end;
         self:decelerate(0.25):diffusealpha(1);
@@ -126,16 +127,43 @@ t[#t+1] = LoadFont("montserrat/_montserrat 40px")..{
         self:horizalign(center);
         self:diffuse(0,0,0,1);
         self:maxwidth(700);
-        self:x(SCREEN_CENTER_X):zoom(0.35);
+        self:x(SCREEN_CENTER_X):zoom(0.2);
         if song:GetDisplaySubTitle() then
             self:settext(song:GetDisplaySubTitle());
             if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
-                self:y(84);
+                self:y(77);
             else
-                self:y(81);
+                self:y(74);
             end;
         else
             self:settext("");
+        end;
+        self:decelerate(0.25):diffusealpha(1);
+    end;
+};
+
+t[#t+1] = LoadFont("montserrat/_montserrat 40px")..{
+    InitCommand=function(self)
+        local song = GAMESTATE:GetCurrentSong();
+        self:diffusealpha(0)
+        self:sleep(1.75)
+        self:horizalign(center);
+        self:diffuse(0,0,0,1);
+		self:settext(song:GetDisplayArtist());
+        self:maxwidth(700);
+        self:x(SCREEN_CENTER_X):zoom(0.3);
+		if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
+            if song:GetDisplaySubTitle() ~= "" then
+                self:y(86);
+            else
+                self:y(84);
+            end;
+        else
+            if song:GetDisplaySubTitle() ~= "" then
+                self:y(83);
+            else
+                self:y(81);
+            end;
         end;
         self:decelerate(0.25):diffusealpha(1);
     end;

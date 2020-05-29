@@ -1,27 +1,33 @@
 local player = ...
+
 local alignment = 0;
 if player == "PlayerNumber_P2" then alignment = 1 end;
+
 local offsetfromcenterx = -300;
 if player == "PlayerNumber_P2" then offsetfromcenterx = 300 end;
+
 local lgoffset = -190;
 if player == "PlayerNumber_P2" then lgoffset = 190 end;
+
 local dboffset = -95;
 if player == "PlayerNumber_P2" then dboffset = 95 end;
+
 local spacing = 29.18;
 local showdelay = 0.08;
+local playerstats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player);
 
-local superbs =	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_W1");
-local perfects = STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_W2") +
-           STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_CheckpointHit");
-local greats = 	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_W3");
-local goods = 	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_W4");
-local bads = 	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_W5");
-local misses = 	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_Miss") +
-		            STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetTapNoteScores("TapNoteScore_CheckpointMiss");
+local superbs 	=	playerstats:GetTapNoteScores("TapNoteScore_W1");
+local perfects 	= 	playerstats:GetTapNoteScores("TapNoteScore_W2") +
+					playerstats:GetTapNoteScores("TapNoteScore_CheckpointHit");
+local greats 	= 	playerstats:GetTapNoteScores("TapNoteScore_W3");
+local goods 	= 	playerstats:GetTapNoteScores("TapNoteScore_W4");
+local bads 		= 	playerstats:GetTapNoteScores("TapNoteScore_W5");
+local misses 	= 	playerstats:GetTapNoteScores("TapNoteScore_Miss") +
+		            playerstats:GetTapNoteScores("TapNoteScore_CheckpointMiss");
 
-local accuracy = 	round(STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetPercentDancePoints()*100, 2);
-local combo = 	STATSMAN:GetCurStageStats():GetPlayerStageStats(player):MaxCombo();
-local score = 	scorecap(STATSMAN:GetCurStageStats():GetPlayerStageStats(player):GetScore());
+local accuracy 	=	round(playerstats:GetPercentDancePoints()*100, 2);
+local combo 	= 	playerstats:MaxCombo();
+local score 	= 	scorecap(playerstats:GetScore());
 
 local t = Def.ActorFrame {};
 
@@ -371,15 +377,42 @@ end;
 --- Difficulty display
 --- ------------------------------------------------
 
-t[#t+1] = LoadActor(THEME:GetPathG("","EvalDiff"))..{
+t[#t+1] = LoadActor(THEME:GetPathG("","DifficultyDisplay/_icon"))..{
     InitCommand=function(self)
         self:diffusealpha(0);
         self:sleep(2);
         self:x(dboffset);
         self:addy(spacing*3);
-        self:zoom(0.08);
+        self:zoom(0.4);
+		self:animate(false);
         self:accelerate(0.2);
         self:diffusealpha(1);
+		
+		local steps = GAMESTATE:GetCurrentSteps(player);
+		if steps:GetStepsType() == "StepsType_Pump_Single" then
+			if (string.find(steps:GetDescription(), "SP")) then
+				self:setstate(5);
+			else
+				self:setstate(2);
+			end;
+		elseif steps:GetStepsType() == "StepsType_Pump_Double" then
+			--Check for StepF2 Double Performance tag
+			if string.find(steps:GetDescription(), "DP") then
+				if string.find(steps:GetMeter(), "99") then
+					self:setstate(1);
+				else
+					self:setstate(0);
+				end;
+			else
+				self:setstate(6);
+			end;
+		elseif steps:GetStepsType() == "StepsType_Pump_Halfdouble" then
+			self:setstate(5);
+		elseif steps:GetStepsType() == "StepsType_Pump_Routine" then
+			self:setstate(4);
+		else
+			self:setstate(3);
+		end;
     end;
 };
 

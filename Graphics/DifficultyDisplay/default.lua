@@ -44,10 +44,6 @@ local t = Def.ActorFrame {
 				stepsArray = nil;
 			end;
 	end;
-	
-	--[[LoadActor("bg diff_12")..{
-		InitCommand=cmd(addy,baseY-35;zoomy,0.71;zoomx,0.665;);
-	};]]
 }
 
 
@@ -69,17 +65,8 @@ for i=1,12 do
 			CurrentSongChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 			NextSongMessageCommand=function(self)self:playcommand("Refresh")end;
 			PreviousSongMessageCommand=function(self)self:playcommand("Refresh")end;
+			
 			RefreshCommand=function(self)
-				--[[
-				The PIU default colors are
-				Single = Orange
-				Double = Green
-				Single Performance = Purple
-				Double Performance = Blue
-				Co-Op / Routine = Yellow
-				Halfdouble = Cyan (It's green in PIU, but it doesn't tell you if it's halfdouble)
-				]]
-				
 				if stepsArray then
 					local j;
 					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
@@ -96,18 +83,26 @@ for i=1,12 do
 						local steps = stepsArray[j];
 						self:diffusealpha(1);
 						if steps:GetStepsType() == "StepsType_Pump_Single" then
-							self:setstate(2);
+							if (string.find(steps:GetDescription(), "SP")) then
+								self:setstate(5);
+							else
+								self:setstate(2);
+							end;
 						elseif steps:GetStepsType() == "StepsType_Pump_Double" then
 							--Check for StepF2 Double Performance tag
 							if string.find(steps:GetDescription(), "DP") then
-								self:setstate(0);
+								if steps:GetMeter() == 99 then
+									self:setstate(1);
+								else
+									self:setstate(0);
+								end;
 							else
 								self:setstate(6);
 							end;
 						elseif steps:GetStepsType() == "StepsType_Pump_Halfdouble" then
-							self:setstate(4);
+							self:setstate(5);
 						elseif steps:GetStepsType() == "StepsType_Pump_Routine" then
-							self:setstate(1);
+							self:setstate(4);
 						else
 							self:setstate(3);
 						end;
