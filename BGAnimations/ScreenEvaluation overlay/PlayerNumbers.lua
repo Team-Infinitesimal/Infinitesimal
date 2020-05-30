@@ -17,8 +17,14 @@ local showdelay = 0.08;
 local playerstats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player);
 
 local superbs 	=	playerstats:GetTapNoteScores("TapNoteScore_W1");
-local perfects 	= 	playerstats:GetTapNoteScores("TapNoteScore_W2") +
-					playerstats:GetTapNoteScores("TapNoteScore_CheckpointHit");
+local perfects 	= 	playerstats:GetTapNoteScores("TapNoteScore_W2");
+
+if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
+	perfects 	= perfects + playerstats:GetTapNoteScores("TapNoteScore_CheckpointHit");
+else
+	superbs 	= superbs + playerstats:GetTapNoteScores("TapNoteScore_CheckpointHit");
+end;
+
 local greats 	= 	playerstats:GetTapNoteScores("TapNoteScore_W3");
 local goods 	= 	playerstats:GetTapNoteScores("TapNoteScore_W4");
 local bads 		= 	playerstats:GetTapNoteScores("TapNoteScore_W5");
@@ -168,7 +174,7 @@ if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
                 self:sleep(1.75+showdelay*6)
                 :decelerate(0.3)
                 :diffusealpha(1)
-                :settext(accuracy)
+                :settext(accuracy.."%")
             end;
         };
 
@@ -348,7 +354,7 @@ else
                 self:sleep(1.75+showdelay*6)
                 :decelerate(0.3)
                 :diffusealpha(1)
-                :settext(accuracy)
+                :settext(accuracy.."%");
             end;
         };
 

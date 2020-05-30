@@ -38,8 +38,7 @@ function GetChartType(player)
 						return "Double";
 					end;
 			elseif stepType == "StepsType_Pump_Couple" then
-				--I don't believe anyone uses couple for co-op but it's here
-				return "Co-op";
+				return "Couple";
 			elseif stepType == "StepsType_Pump_Routine" then
 				return "Freestyle";
 			end;

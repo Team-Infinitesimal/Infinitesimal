@@ -46,8 +46,6 @@ local t = Def.ActorFrame {
 	end;
 }
 
-
-
 for i=1,12 do
 
 	--The original code was an absolute fucking nightmare
@@ -78,8 +76,8 @@ for i=1,12 do
 					else
 						j = i;
 					end;
+					
 					if stepsArray[j] then
-
 						local steps = stepsArray[j];
 						self:diffusealpha(1);
 						if steps:GetStepsType() == "StepsType_Pump_Single" then
@@ -126,11 +124,13 @@ for i=1,12 do
 				:x(baseX-0.33+spacing*(i-1))
 				:y(baseY-0.33)
 			end;
+			
 			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 			CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 			CurrentSongChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 			NextSongMessageCommand=function(self)self:playcommand("Refresh")end;
 			PreviousSongMessageCommand=function(self)self:playcommand("Refresh")end;
+			
 			RefreshCommand=function(self)
 				self:stoptweening();
 
@@ -183,7 +183,9 @@ for pn in ivalues(PlayerNumber) do
 		PlayerJoinedMessageCommand=function(self)
 			self:visible(GAMESTATE:IsHumanPlayer(pn))
 		end;
-		['CurrentSteps'..ToEnumShortString(pn)..'ChangedMessageCommand']=function(self)self:playcommand("Set")end;
+		
+		CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Set")end;
+		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Set")end;
 		CurrentSongChangedMessageCommand=function(self)self:playcommand("Set")end;
 		NextSongMessageCommand=function(self)self:playcommand("Set")end;
 		PreviousSongMessageCommand=function(self)self:playcommand("Set")end;
@@ -204,7 +206,6 @@ for pn in ivalues(PlayerNumber) do
 
 		--This looks WAY more moronic than before, possibly redo this soon?
 		SetCommand=function(self)
-		
 			if stepsArray then
 			
 				local index = GetCurrentStepsIndex(pn);
@@ -214,19 +215,19 @@ for pn in ivalues(PlayerNumber) do
 				elseif GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) and 
 					GetCurrentStepsIndex(PLAYER_1) > 12 and 
 					pn == PLAYER_2 then
-					
-					SetCurrentStepsIndex(pn, index + (GetCurrentStepsIndex(PLAYER_1) - 12));
-					
+						SetCurrentStepsIndex(pn, index + GetCurrentStepsIndex(PLAYER_1));
 				elseif GetCurrentStepsIndex(PLAYER_2) > GetCurrentStepsIndex(PLAYER_1) and 
 					GetCurrentStepsIndex(PLAYER_2) > 12 and 
 					pn == PLAYER_1 then
-					
-					SetCurrentStepsIndex(pn, index + (GetCurrentStepsIndex(PLAYER_2) - 12));
-					
-				end;
+						SetCurrentStepsIndex(pn, index + GetCurrentStepsIndex(PLAYER_2));
+				end;	
 				
 				self:x(baseX+spacing*(index-1));
 			end;
+		end;
+		
+		PlayerJoinedMessageCommand=function(self)
+			index = 1;
 		end;
 	}
 end;
