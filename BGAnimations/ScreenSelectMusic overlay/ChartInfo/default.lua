@@ -32,6 +32,109 @@ for player in ivalues(PlayerNumber) do
             end;
         end;
     };
+	
+	--=============================================================================
+	--		Chart Type
+	--=============================================================================
+
+	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+		InitCommand=function(self)
+			self:x(SCREEN_CENTER_X)
+			:y(SCREEN_CENTER_Y-133)
+			:horizalign(center)
+			:zoom(0.25,0.25)
+			:maxwidth(350)
+			:diffusecolor(0,0,0,1)
+		end;
+
+		SongChosenMessageCommand=function(self)
+			self:visible(GAMESTATE:IsHumanPlayer(player));
+			self:stoptweening():diffusealpha(0);
+			self:decelerate(0.25);
+			if player == PLAYER_1 then
+				self:x(SCREEN_CENTER_X-241)
+			else
+				self:x(SCREEN_CENTER_X+242) --P2 isn't exactly mirrored from P1
+			end;
+			self:diffusealpha(1);
+		end;
+
+		SongUnchosenMessageCommand=function(self)
+			self:decelerate(0.25);
+			self:x(SCREEN_CENTER_X);
+		end;
+
+		CurrentStepsP1ChangedMessageCommand=function(self)
+			local chartType = GetChartType(player);
+			if chartType ~= nil then
+				self:settext(chartType);
+			else
+				self:settext("Unknown");
+			end;
+		end;
+
+		CurrentStepsP2ChangedMessageCommand=function(self)
+			local chartType = GetChartType(player);
+			if chartType ~= nil then
+				self:settext(chartType);
+			else
+				self:settext("Unknown");
+			end;
+		end;
+	};
+	
+	--=============================================================================
+	--		Chart Description
+	--=============================================================================
+
+	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+		InitCommand=function(self)
+			self:x(SCREEN_CENTER_X)
+			:y(SCREEN_CENTER_Y-114)
+			:horizalign(center)
+			:zoom(0.25,0.25)
+			:maxwidth(350)
+		end;
+
+		SongChosenMessageCommand=function(self)
+			self:visible(GAMESTATE:IsHumanPlayer(player));
+			self:stoptweening():diffusealpha(0);
+			self:decelerate(0.25);
+			if player == PLAYER_1 then
+				self:x(SCREEN_CENTER_X-241)
+			else
+				self:x(SCREEN_CENTER_X+241)
+			end;
+			self:diffusealpha(1);
+		end;
+
+		SongUnchosenMessageCommand=function(self)
+			self:decelerate(0.25);
+			self:x(SCREEN_CENTER_X);
+		end;
+
+		CurrentStepsP1ChangedMessageCommand=function(self)
+			if (GAMESTATE:GetCurrentSteps(player)) then
+				local chartDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
+				if chartDescription ~= nil then
+					self:settext(string.upper(chartDescription)); --Because the last thing Pump stepcharts have is consistency
+				else
+					self:settext("");
+				end;
+			end;
+		end;
+
+		CurrentStepsP2ChangedMessageCommand=function(self)
+			if (GAMESTATE:GetCurrentSteps(player)) then
+				local chartDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
+				if chartDescription ~= nil then
+					self:settext(string.upper(chartDescription)); --Because the last thing Pump stepcharts have is consistency
+				else
+					self:settext("");
+				end;
+			end;
+		end;
+	};
 
 	--=============================================================================
 	--		Steps
@@ -40,7 +143,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-95)
+			:y(SCREEN_CENTER_Y-85)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -85,7 +188,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-95)
+			:y(SCREEN_CENTER_Y-85)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -130,7 +233,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-70)
+			:y(SCREEN_CENTER_Y-60)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -175,7 +278,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-70)
+			:y(SCREEN_CENTER_Y-60)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -220,7 +323,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-44)
+			:y(SCREEN_CENTER_Y-35)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -265,7 +368,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-44)
+			:y(SCREEN_CENTER_Y-35)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -310,7 +413,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-16)
+			:y(SCREEN_CENTER_Y-6)
 			:horizalign(center)
 			:zoom(0.3,0.3)
 			:maxwidth(260)
@@ -352,56 +455,6 @@ for player in ivalues(PlayerNumber) do
 				else
 					self:settext(artist);
 				end;
-			end;
-		end;
-	};
-
-	--=============================================================================
-	--		Chart Type
-	--=============================================================================
-
-	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
-		InitCommand=function(self)
-			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-123)
-			:horizalign(center)
-			:zoom(0.25,0.25)
-			:maxwidth(350)
-			:diffusecolor(0,0,0,1)
-		end;
-
-		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
-			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-241)
-			else
-				self:x(SCREEN_CENTER_X+241)
-			end;
-			self:diffusealpha(1);
-		end;
-
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-		end;
-
-		CurrentStepsP1ChangedMessageCommand=function(self)
-			local chartType = GetChartType(player);
-			if chartType ~= nil then
-				self:settext(chartType);
-			else
-				self:settext("Unknown");
-			end;
-		end;
-
-		CurrentStepsP2ChangedMessageCommand=function(self)
-			local chartType = GetChartType(player);
-			if chartType ~= nil then
-				self:settext(chartType);
-			else
-				self:settext("Unknown");
 			end;
 		end;
 	};
