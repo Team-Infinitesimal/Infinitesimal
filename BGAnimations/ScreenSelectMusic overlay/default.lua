@@ -284,8 +284,8 @@ for pn in ivalues(PlayerNumber) do
 						:y(SCREEN_CENTER_Y);
 				end;
 
-				OptionsListOpenedMessageCommand=function(self)
-						if pn then
+				OptionsListOpenedMessageCommand=function(self,params)
+						if params.Player == pn then
 								if pn == PLAYER_1 then
 										self:x(SCREEN_LEFT-100);
 								elseif pn == PLAYER_2 then
@@ -295,8 +295,8 @@ for pn in ivalues(PlayerNumber) do
 						end;
 				end;
 
-				OptionsListClosedMessageCommand=function(self)
-						if pn then
+				OptionsListClosedMessageCommand=function(self,params)
+						if params.Player == pn then
 								self:playcommand("slideOff");
 						end;
 				end;
