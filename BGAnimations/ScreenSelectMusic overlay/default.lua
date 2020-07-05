@@ -266,6 +266,46 @@ for pn in ivalues(PlayerNumber) do
 	};
 end;
 
--- t[#t+1] = LoadActor("ScreenSelectGroup overlay");
+t[#t+1] = LoadActor(THEME:GetPathS("","Common value"))..{
+		CodeMessageCommand=function(self, params)
+				if params.Name == "OpenOpList" then
+						opListPn = params.PlayerNumber;
+						SCREENMAN:GetTopScreen():OpenOptionsList(opListPn);
+				end;
+		end;
+};
+
+for pn in ivalues(PlayerNumber) do
+		t[#t+1] = LoadActor(THEME:GetPathG("","opList")) ..{
+				InitCommand=function(self)
+						self:draworder(100)
+						:diffusealpha(0)
+						:zoom(0.15)
+						:y(SCREEN_CENTER_Y);
+				end;
+
+				OptionsListOpenedMessageCommand=function(self)
+						if pn then
+								if pn == PLAYER_1 then
+										self:x(SCREEN_LEFT-100);
+								elseif pn == PLAYER_2 then
+										self:x(SCREEN_RIGHT+100);
+								end;
+								self:playcommand("slideOn");
+						end;
+				end;
+
+				slideOnCommand=function(self)
+						self:diffusealpha(1):decelerate(0.25);
+						if pn then
+								if pn == PLAYER_1 then
+										self:x(SCREEN_LEFT+100);
+								elseif pn == PLAYER_2 then
+										self:x(SCREEN_RIGHT-100);
+								end;
+						end;
+				end;
+		}
+end;
 
 return t;
