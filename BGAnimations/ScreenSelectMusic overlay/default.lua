@@ -295,6 +295,12 @@ for pn in ivalues(PlayerNumber) do
 						end;
 				end;
 
+				OptionsListClosedMessageCommand=function(self)
+						if pn then
+								self:playcommand("slideOff");
+						end;
+				end;
+
 				slideOnCommand=function(self)
 						self:diffusealpha(1):decelerate(0.25);
 						if pn then
@@ -302,6 +308,17 @@ for pn in ivalues(PlayerNumber) do
 										self:x(SCREEN_LEFT+100);
 								elseif pn == PLAYER_2 then
 										self:x(SCREEN_RIGHT-100);
+								end;
+						end;
+				end;
+
+				slideOffCommand=function(self)
+						self:diffusealpha(1):decelerate(0.25);
+						if pn then
+								if pn == PLAYER_1 then
+										self:x(SCREEN_LEFT-100);
+								elseif pn == PLAYER_2 then
+										self:x(SCREEN_RIGHT+100);
 								end;
 						end;
 				end;
