@@ -1,28 +1,30 @@
-local function inputs(event)
-	local pn= event.PlayerNumber
-	local button = event.button
-	-- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
-	-- Also we only want it to activate when they're NOT selecting the difficulty.
-	if not pn or isSelectingDifficulty then return end
+--[[
+	local function inputs(event)
+		local pn= event.PlayerNumber
+		local button = event.button
+		-- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
+		-- Also we only want it to activate when they're NOT selecting the difficulty.
+		if not pn or isSelectingDifficulty then return end
 
-	-- If it's a release, ignore it.
-	if event.type == "InputEventType_Release" then return end
+		-- If it's a release, ignore it.
+		if event.type == "InputEventType_Release" then return end
 
-	--Check if they're in ScreenSelectMusic. If they're in ScreenSelectMusicBasic or any other screen, then don't allow them to close the folder.
-	if button == "UpRight" or button == "UpLeft" then
-		if ScreenSelectMusic:CanOpenOptionsList(pn) then --If options list isn't currently open
-			if isSelectingDifficulty then return end; --Don't want to open the group select if they're picking the difficulty.
-			--Set a global variable so ScreenSelectGroup will jump to the group that was selected before.
-			initialGroup = ScreenSelectMusic:GetChild('MusicWheel'):GetSelectedSection()
-			MESSAGEMAN:Broadcast("StartSelectingGroup");
-			--SCREENMAN:SystemMessage("Group select opened.");
-			--No need to check if both players are present... Probably.
-			SCREENMAN:set_input_redirected(PLAYER_1, true);
-			SCREENMAN:set_input_redirected(PLAYER_2, true);
-			musicwheel:Move(0); --Work around a StepMania bug
-		end
-	end;	
+		--Check if they're in ScreenSelectMusic. If they're in ScreenSelectMusicBasic or any other screen, then don't allow them to close the folder.
+		if button == "UpRight" or button == "UpLeft" then
+				if ScreenSelectMusic:CanOpenOptionsList(pn) then --If options list isn't currently open
+						if isSelectingDifficulty then return end; --Don't want to open the group select if they're picking the difficulty.
+						--Set a global variable so ScreenSelectGroup will jump to the group that was selected before.
+						initialGroup = ScreenSelectMusic:GetChild('MusicWheel'):GetSelectedSection()
+						MESSAGEMAN:Broadcast("StartSelectingGroup");
+						--SCREENMAN:SystemMessage("Group select opened.");
+						--No need to check if both players are present... Probably.
+						SCREENMAN:set_input_redirected(PLAYER_1, true);
+						SCREENMAN:set_input_redirected(PLAYER_2, true);
+						musicwheel:Move(0); --Work around a StepMania bug
+				end
+		end;
 end;
+--]]
 
 local t = Def.ActorFrame {
 
@@ -155,13 +157,13 @@ local t = Def.ActorFrame {
             :zoom(0.4,0.4)
 			:maxwidth(590)
         end;
-		
+
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0)
             self:queuecommand("SetBPM");
             self:maxwidth(800)
         end;
-		
+
         SetBPMCommand=function(self)
             local song = GAMESTATE:GetCurrentSong();
             self:diffusealpha(0);
@@ -189,7 +191,7 @@ local t = Def.ActorFrame {
             self:sleep(5):decelerate(0.2):diffusealpha(0);
             self:queuecommand("SetLength");
         end;
-		
+
         SetLengthCommand=function(self)
             local song = GAMESTATE:GetCurrentSong();
             self:diffusealpha(0);
@@ -263,5 +265,7 @@ for pn in ivalues(PlayerNumber) do
 		end;
 	};
 end;
+
+-- t[#t+1] = LoadActor("ScreenSelectGroup overlay");
 
 return t;
