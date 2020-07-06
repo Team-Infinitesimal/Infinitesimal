@@ -4,7 +4,7 @@ t[#t+1] = Def.Quad{
   	InitCommand=function(self)
         self:diffuseshift()
         :effectcolor2(color("#000000"))
-        :effectcolor1(color("0.1,0.5,0.7,0.6"))
+        :effectcolor1(color("#9334BD"))
   	    :effectperiod(0.75)
         :effectoffset(0.325)
         :zoomto(130,16)
@@ -16,7 +16,7 @@ t[#t+1] = Def.Quad{
 }
 
 t[#t+1] = LoadActor("Selector")..{
-	 InitCommand=cmd(zoom,0.65;pulse;effectmagnitude,0.95,1,1;effectperiod,0.75;y,1);
+	 InitCommand=cmd(zoom,0.15;pulse;effectmagnitude,0.95,1,1;effectperiod,0.75;y,1);
 }
 
 return t

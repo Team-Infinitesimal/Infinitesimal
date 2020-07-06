@@ -264,12 +264,19 @@ for pn in ivalues(PlayerNumber) do
 	};
 end;
 
-t[#t+1] = LoadActor(THEME:GetPathS("","Common value"))..{
+t[#t+1] = LoadActor(THEME:GetPathS("","OpenCommandWindow"))..{
 		CodeMessageCommand=function(self, params)
 				if params.Name == "OpenOpList" then
 						opListPn = params.PlayerNumber;
 						SCREENMAN:GetTopScreen():OpenOptionsList(opListPn);
+						self:play();
 				end;
+		end;
+};
+
+t[#t+1] = LoadActor(THEME:GetPathS("","CloseCommandWindow"))..{
+		OptionsListClosedMessageCommand=function(self)
+				self:play();
 		end;
 };
 
