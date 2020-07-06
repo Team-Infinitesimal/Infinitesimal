@@ -1,5 +1,4 @@
---[[
-	local function inputs(event)
+local function inputs(event)
 		local pn= event.PlayerNumber
 		local button = event.button
 		-- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
@@ -24,7 +23,6 @@
 				end
 		end;
 end;
---]]
 
 local t = Def.ActorFrame {
 
