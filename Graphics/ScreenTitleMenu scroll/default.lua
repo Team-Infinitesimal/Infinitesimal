@@ -2,19 +2,22 @@ local gc = Var("GameCommand");
 
 local t = Def.ActorFrame{
 
-    LoadFont("Montserrat normal 20px")..{
+    LoadFont("Montserrat semibold 20px")..{
         Text=gc:GetText();
         InitCommand=function(self)
-            self:y(150)
-            end;
+            self:skewx(-0.1)
+            :y(150)
+            :zoom(0.75)
+            :shadowlength(0.75)
+            :diffusebottomedge(color("0.95,0.95,0.95,1"))
+            :shadowcolor(color("0,0,0,1"))
+        end;
         GainFocusCommand=function(self)
-            self:linear(0.25)
-            :diffuse(Color("Red"))
+            self:diffuse(color("#25BCDC"))
             end;
         LoseFocusCommand=function(self)
-            self:linear(0.25)
-            :diffuse(Color("White"))
-            end;
+            self:diffuse(Color("White"))
+          end;
     };
 };
 
