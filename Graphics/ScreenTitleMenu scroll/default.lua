@@ -14,9 +14,11 @@ local t = Def.ActorFrame{
         end;
         GainFocusCommand=function(self)
             self:diffuse(color("#25BCDC"))
+            :zoom(0.85)
             end;
         LoseFocusCommand=function(self)
             self:diffuse(Color("White"))
+            :zoom(0.75)
           end;
     };
 };

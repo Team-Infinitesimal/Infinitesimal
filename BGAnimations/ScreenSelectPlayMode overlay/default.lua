@@ -6,6 +6,14 @@ local t = Def.ActorFrame {
         else
             PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
         end;
+        PREFSMAN:SetPreference("TimingWindowSecondsHold",0.083333);
+        PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
+        PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
+        PREFSMAN:SetPreference("TimingWindowSecondsW1",0.03000);
+        PREFSMAN:SetPreference("TimingWindowSecondsW2",0.041666);
+        PREFSMAN:SetPreference("TimingWindowSecondsW3",0.083333);
+        PREFSMAN:SetPreference("TimingWindowSecondsW4",0.125000);
+        PREFSMAN:SetPreference("TimingWindowSecondsW5",0.166666);
     end;
 
     LoadActor(THEME:GetPathG("","ScreenHudTop"))..{

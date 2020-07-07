@@ -12,7 +12,7 @@ function table.shallowcopy(orig)
     return copy
 end
 
---This defines the custom player options. PlayerDefaults is initialized from resetGame() in utils
+--This defines the custom player options.
 PlayerDefaults = {
   	DetailedPrecision = false,
   	JudgmentType = "Normal",
@@ -37,6 +37,57 @@ ActiveModifiers = {
 	MACHINE = setmetatable({}, PlayerDefaults)
 }
 ]]
+
+function OptionRowJudgement()
+    local t = {
+        Name = "JudgementCustom";
+        LayoutType = "ShowAllInRow";
+        SelectType = "SelectOne";
+        OneChoiceForAllPlayers = true;
+        ExportOnChange = true;
+        Choices = {"NJ", "HJ", "VJ"};
+        LoadSelections = function(self, list, pn)
+            local window = PREFSMAN:GetPreference("TimingWindowSecondsW2")
+            if window == 0.041666 then --NJ
+                list[1] = true;
+            elseif window == 0.025000 then
+                list[2] = true;
+            elseif window == 0.008333 then
+                list[3] = true;
+            else
+                list[1] = true;
+            end;
+        end;
+        SaveSelections = function(self, list, pn)
+            PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
+            PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
+            if list[1] == true then
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.083333);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.03000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.041666);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.083333);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.125000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.166666);
+            elseif list[2] == true then
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.025000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.02000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.025000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.066666);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.108333);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.150000);
+            elseif list[3] == true then
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.008333);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.00300);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.008333);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.050000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.083333);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.116666)
+            end;
+        end;
+    };
+    setmetatable(t, t)
+	  return t
+end;
 
 --Requires string:split from Utils
 function OptionRowAvailableNoteskins()
@@ -154,9 +205,9 @@ function AutoVelocity()
     				elseif choice == 3 then
     				    speed = adjustPlayerAMod(pn, -10);
     				elseif choice == 4 then
-    					   speed = adjustPlayerAMod(pn, 10);
+    					  speed = adjustPlayerAMod(pn, 10);
     				elseif choice == 5 then
-    					   speed = adjustPlayerAMod(pn, 100);
+    					   peed = adjustPlayerAMod(pn, 100);
     				end;
       			end;
       			--MESSAGEMAN:Broadcast("AModChanged", {Player=pn,Speed=speed});
@@ -170,19 +221,3 @@ function AutoVelocity()
   	setmetatable( t, t );
   	return t;
 end
-
- --[[ function OptionRowBackgroundDim()
-    local t = {
-        Name="UserPrefBackgroundDim"
-        LayoutType="ShowAllInRow"
-        SelectType="SelectOne"
-        OneChoiceForAllPlayers=false
-        ExportOnChange=true
-        Choices = {"OFF", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "ON"}
-        LoadSelections=function(self, list, pn)
-            if choice ==
-        end;
-    }
-    setmetatable( t, t );
-	  return t;
-end; --]]
