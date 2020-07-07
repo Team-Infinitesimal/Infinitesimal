@@ -98,6 +98,34 @@ function OptionRowJudgement()
 	  return t
 end;
 
+function OptionRowModeSelect()
+    local t = {
+        Name = "ModeSelCustom";
+        LayoutType = "ShowAllInRow";
+        SelectType = "SelectOne";
+        OneChoiceForAllPlayers = true;
+        ExportOnChange = true;
+        Choices = {"PRO", "ARCADE"};
+        LoadSelections = function(self, list, pn)
+            local mode = PREFSMAN:GetPreference("AllowW1")
+            if mode == "AllowW1_Everywhere" then -- Pro Mode
+                list[1] = true;
+            elseif mode == "AllowW1_Never" then -- Arcade Mode
+                list[2] = true;
+            end;
+        end;
+        SaveSelections = function(self, list, pn)
+            if list[1] == true then
+                PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
+            elseif list[2] == true then
+                PREFSMAN:SetPreference("AllowW1",'AllowW1_Never');
+            end;
+        end;
+    };
+    setmetatable(t, t)
+	  return t
+end;
+
 --Requires string:split from Utils
 function OptionRowAvailableNoteskins()
   	local ns = NOTESKIN:GetNoteSkinNames();
