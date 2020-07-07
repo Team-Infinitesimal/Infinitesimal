@@ -81,7 +81,7 @@ function OptionRowJudgement()
                 PREFSMAN:SetPreference("TimingWindowSecondsW2",0.008333);
                 PREFSMAN:SetPreference("TimingWindowSecondsW3",0.050000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW4",0.083333);
-                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.116666)
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.116666);
             end;
         end;
     };
