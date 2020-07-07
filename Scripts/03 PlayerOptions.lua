@@ -48,11 +48,11 @@ function OptionRowJudgement()
         Choices = {"NJ", "HJ", "VJ"};
         LoadSelections = function(self, list, pn)
             local window = PREFSMAN:GetPreference("TimingWindowSecondsW2")
-            if window == 0.041666 then --NJ
+            if window == 0.062500 then -- NJ
                 list[1] = true;
-            elseif window == 0.025000 then
+            elseif window == 0.045833 then -- HJ
                 list[2] = true;
-            elseif window == 0.008333 then
+            elseif window == 0.029166 then -- VJ
                 list[3] = true;
             else
                 list[1] = true;
@@ -62,26 +62,26 @@ function OptionRowJudgement()
             PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
             PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
             if list[1] == true then
-                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.083333);
-                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.03000);
-                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.041666);
-                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.083333);
-                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.125000);
-                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.166666);
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.104166);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.031250);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.104166);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.145833);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.187500);
             elseif list[2] == true then
-                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.025000);
-                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.02000);
-                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.025000);
-                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.066666);
-                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.108333);
-                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.150000);
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.104166); -- HJ still has the same hold tolerance as NJ
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.022916);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.045833);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.087500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.129166);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.170833);
             elseif list[3] == true then
-                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.008333);
-                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.00300);
-                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.008333);
-                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.050000);
-                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.083333);
-                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.116666);
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.014583);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.029166);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.095833);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.129166);
             end;
         end;
     };

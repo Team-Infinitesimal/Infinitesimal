@@ -66,7 +66,7 @@ for i=1,12 do
 			
 			RefreshCommand=function(self)
 				if stepsArray then
-					local j;
+					local j = i;
 					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
 							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
