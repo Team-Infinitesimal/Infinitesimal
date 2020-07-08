@@ -45,7 +45,7 @@ function OptionRowJudgement()
         SelectType = "SelectOne";
         OneChoiceForAllPlayers = true;
         ExportOnChange = true;
-        Choices = {"NJ", "HJ", "VJ", "ITG", "GH"};
+        Choices = {"NJ", "HJ", "VJ", "GROOVE", "HERO"};
         LoadSelections = function(self, list, pn)
             local window = PREFSMAN:GetPreference("TimingWindowSecondsW2")
             if window == 0.062500 then -- NJ
