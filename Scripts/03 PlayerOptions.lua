@@ -45,7 +45,7 @@ function OptionRowJudgement()
         SelectType = "SelectOne";
         OneChoiceForAllPlayers = true;
         ExportOnChange = true;
-        Choices = {"NJ", "HJ", "VJ", "ITG"};
+        Choices = {"NJ", "HJ", "VJ", "ITG", "GH"};
         LoadSelections = function(self, list, pn)
             local window = PREFSMAN:GetPreference("TimingWindowSecondsW2")
             if window == 0.062500 then -- NJ
@@ -56,6 +56,8 @@ function OptionRowJudgement()
                 list[3] = true;
             elseif window == 0.043000 then -- ITG
                 list[4] = true;
+            elseif window == 0.062501 then -- GH
+                list[5] = true;
             else
                 list[1] = true;
             end;
@@ -91,6 +93,13 @@ function OptionRowJudgement()
                 PREFSMAN:SetPreference("TimingWindowSecondsW3",0.102000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW4",0.135000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW5",0.180000);
+            elseif list[5] == true then
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.062501);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062501);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.062500);
             end;
         end;
     };
