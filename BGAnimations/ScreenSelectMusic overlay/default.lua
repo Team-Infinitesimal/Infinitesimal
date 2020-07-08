@@ -1,27 +1,27 @@
 local function inputs(event)
-		local pn= event.PlayerNumber
-		local button = event.button
-		-- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
-		-- Also we only want it to activate when they're NOT selecting the difficulty.
-		if not pn or isSelectingDifficulty then return end
+	local pn= event.PlayerNumber
+	local button = event.button
+	-- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
+	-- Also we only want it to activate when they're NOT selecting the difficulty.
+	if not pn or isSelectingDifficulty then return end
 
-		-- If it's a release, ignore it.
-		if event.type == "InputEventType_Release" then return end
+	-- If it's a release, ignore it.
+	if event.type == "InputEventType_Release" then return end
 
-		--Check if they're in ScreenSelectMusic. If they're in ScreenSelectMusicBasic or any other screen, then don't allow them to close the folder.
-		if button == "UpRight" or button == "UpLeft" then
-				if ScreenSelectMusic:CanOpenOptionsList(pn) then --If options list isn't currently open
-						if isSelectingDifficulty then return end; --Don't want to open the group select if they're picking the difficulty.
-						--Set a global variable so ScreenSelectGroup will jump to the group that was selected before.
-						initialGroup = ScreenSelectMusic:GetChild('MusicWheel'):GetSelectedSection()
-						MESSAGEMAN:Broadcast("StartSelectingGroup");
-						--SCREENMAN:SystemMessage("Group select opened.");
-						--No need to check if both players are present... Probably.
-						SCREENMAN:set_input_redirected(PLAYER_1, true);
-						SCREENMAN:set_input_redirected(PLAYER_2, true);
-						musicwheel:Move(0); --Work around a StepMania bug
-				end
-		end;
+	--Check if they're in ScreenSelectMusic. If they're in ScreenSelectMusicBasic or any other screen, then don't allow them to close the folder.
+	if button == "UpRight" or button == "UpLeft" then
+		if ScreenSelectMusic:CanOpenOptionsList(pn) then --If options list isn't currently open
+			if isSelectingDifficulty then return end; --Don't want to open the group select if they're picking the difficulty.
+			--Set a global variable so ScreenSelectGroup will jump to the group that was selected before.
+			initialGroup = ScreenSelectMusic:GetChild('MusicWheel'):GetSelectedSection()
+			MESSAGEMAN:Broadcast("StartSelectingGroup");
+			--SCREENMAN:SystemMessage("Group select opened.");
+			--No need to check if both players are present... Probably.
+			SCREENMAN:set_input_redirected(PLAYER_1, true);
+			SCREENMAN:set_input_redirected(PLAYER_2, true);
+			musicwheel:Move(0); --Work around a StepMania bug
+		end
+	end;
 end;
 
 local t = Def.ActorFrame {
@@ -256,7 +256,7 @@ for pn in ivalues(PlayerNumber) do
 			local profile = PROFILEMAN:GetProfile(pn);
 			local name = profile:GetDisplayName();
 			if (name == "") then
-				self:settext("No Name")
+				self:settext("")
 			else
 				self:settext(name)
 			end;
@@ -265,69 +265,72 @@ for pn in ivalues(PlayerNumber) do
 end;
 
 t[#t+1] = LoadActor(THEME:GetPathS("","OpenCommandWindow"))..{
-		CodeMessageCommand=function(self, params)
-				if params.Name == "OpenOpList" then
-						opListPn = params.PlayerNumber;
-						SCREENMAN:GetTopScreen():OpenOptionsList(opListPn);
-						self:play();
-				end;
+	CodeMessageCommand=function(self, params)
+		if params.Name == "OpenOpList" then
+			opListPn = params.PlayerNumber;
+			SCREENMAN:GetTopScreen():OpenOptionsList(opListPn);
+			self:play();
 		end;
+	end;
 };
 
 t[#t+1] = LoadActor(THEME:GetPathS("","CloseCommandWindow"))..{
-		OptionsListClosedMessageCommand=function(self)
-				self:play();
-		end;
+	OptionsListClosedMessageCommand=function(self)
+		self:play();
+	end;
 };
 
 for pn in ivalues(PlayerNumber) do
-		t[#t+1] = LoadActor(THEME:GetPathG("","opList")) ..{
-				InitCommand=function(self)
-						self:draworder(100)
-						:diffusealpha(0)
-						:zoom(0.15)
-						:y(SCREEN_CENTER_Y);
+	t[#t+1] = LoadActor(THEME:GetPathG("","opList")) ..{
+		InitCommand=function(self,params)
+			self:draworder(100)
+			:diffusealpha(0)
+			:zoom(0.15)
+			:y(SCREEN_CENTER_Y);
+			
+			if params.Player == pn then
+				if pn == PLAYER_1 then
+					self:x(SCREEN_LEFT-100);
+				elseif pn == PLAYER_2 then
+					self:x(SCREEN_RIGHT+100);
 				end;
+			end;
+		end;
 
-				OptionsListOpenedMessageCommand=function(self,params)
-						if params.Player == pn then
-								if pn == PLAYER_1 then
-										self:x(SCREEN_LEFT-100);
-								elseif pn == PLAYER_2 then
-										self:x(SCREEN_RIGHT+100);
-								end;
-								self:playcommand("slideOn");
-						end;
-				end;
+		OptionsListOpenedMessageCommand=function(self,params)
+			if params.Player == pn then
+				self:playcommand("slideOn");
+			end;
+		end;
 
-				OptionsListClosedMessageCommand=function(self,params)
-						if params.Player == pn then
-								self:playcommand("slideOff");
-						end;
-				end;
+		OptionsListClosedMessageCommand=function(self,params)
+			if params.Player == pn then
+				self:playcommand("slideOff");
+			end;
+		end;
 
-				slideOnCommand=function(self)
-						self:diffusealpha(1):decelerate(0.25);
-						if pn then
-								if pn == PLAYER_1 then
-										self:x(SCREEN_LEFT+100);
-								elseif pn == PLAYER_2 then
-										self:x(SCREEN_RIGHT-100);
-								end;
-						end;
+		slideOnCommand=function(self)
+			self:diffusealpha(1):decelerate(0.25);
+			if pn then
+				if pn == PLAYER_1 then
+					self:x(SCREEN_LEFT+100);
+				elseif pn == PLAYER_2 then
+					self:x(SCREEN_RIGHT-100);
 				end;
+			end;
+		end;
 
-				slideOffCommand=function(self)
-						self:diffusealpha(1):decelerate(0.25);
-						if pn then
-								if pn == PLAYER_1 then
-										self:x(SCREEN_LEFT-100);
-								elseif pn == PLAYER_2 then
-										self:x(SCREEN_RIGHT+100);
-								end;
-						end;
+		slideOffCommand=function(self)
+			self:diffusealpha(1):decelerate(0.25);
+			if pn then
+				if pn == PLAYER_1 then
+					self:x(SCREEN_LEFT-100);
+				elseif pn == PLAYER_2 then
+					self:x(SCREEN_RIGHT+100);
 				end;
-		}
+			end;
+		end;
+	};
 end;
 
 return t;

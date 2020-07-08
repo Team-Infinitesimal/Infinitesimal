@@ -18,7 +18,7 @@ local t = Def.ActorFrame{
             self:stoptweening()
             :zoom(0.08,0.08)
             :diffusealpha(0.75)
-            :decelerate(0.3947)
+            :decelerate(0.5)
             :zoom(0.1,0.1)
             :diffusealpha(0)
             :queuecommand("FadeEffect")
@@ -33,7 +33,7 @@ local t = Def.ActorFrame{
             self:bounce()
             :sleep(1.1)
             :effectmagnitude(0,-18,0)
-            :effectperiod(0.3947)
+            :effectperiod(0.5)
             end;
     };
 };
