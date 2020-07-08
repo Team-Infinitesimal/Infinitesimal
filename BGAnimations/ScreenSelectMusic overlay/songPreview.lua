@@ -10,15 +10,15 @@ local t = Def.ActorFrame {
 
     LoadActor(THEME:GetPathG("","static"))..{
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-80)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-89)
             :diffusealpha(1)
-            :zoomto(360,220)
+            :zoomto(360,202)
             end;
     };
 
     Def.Sprite {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-80)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-89)
             :diffusealpha(0)
             end;
         CurrentSongChangedMessageCommand=function(self)
@@ -34,20 +34,20 @@ local t = Def.ActorFrame {
         Load2Command=function(self)
             local bg = GetSongBackground(true)
             if bg then
-                self:Load(bg):zoomto(360,220);
+                self:Load(bg):zoomto(360,202);
             else
                 self:Load(THEME:GetPathG("","Common fallback background"));
             end;
-            self:zoomto(360,220):linear(.2):diffusealpha(1);
+            self:zoomto(360,202):linear(.2):diffusealpha(1);
         end;
         LoadAnimatedCommand=function(self)
             local path = GAMESTATE:GetCurrentSong():GetPreviewVidPath()
             if path then
-                self:Load(path):zoomto(360,220);
+                self:Load(path):zoomto(360,202);
             else
                 self:Load(THEME:GetPathG("","Common fallback background"));
             end;
-            self:zoomto(360,220):linear(.2):diffusealpha(1);
+            self:zoomto(360,202):linear(.2):diffusealpha(1);
         end;
     };
 

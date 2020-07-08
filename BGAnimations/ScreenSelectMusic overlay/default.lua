@@ -60,7 +60,7 @@ local t = Def.ActorFrame {
 
 	Def.Quad {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-174)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-175)
             :diffuse(0,0,0,0.6)
         end;
         CurrentSongChangedMessageCommand=function(self)
@@ -82,7 +82,7 @@ local t = Def.ActorFrame {
 
     Def.Quad {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y+14)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-2)
             :diffuse(0,0,0,0.6)
         end;
         CurrentSongChangedMessageCommand=function(self)
@@ -128,7 +128,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:horizalign(left)
             :x(SCREEN_CENTER_X-170)
-            :y(SCREEN_CENTER_Y+14)
+            :y(SCREEN_CENTER_Y-2)
             :zoom(0.4,0.4)
             :skewx(-0.2)
             :maxwidth(800)
@@ -151,7 +151,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:horizalign(right)
             :x(SCREEN_CENTER_X+172)
-            :y(SCREEN_CENTER_Y+14)
+            :y(SCREEN_CENTER_Y-2)
             :zoom(0.4,0.4)
 			:maxwidth(590)
         end;
@@ -210,7 +210,7 @@ local t = Def.ActorFrame {
   	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
     		InitCommand=function(self)
       			self:x(SCREEN_CENTER_X)
-      			:y(111);
+      			:y(93);
     		end;
   	};
 

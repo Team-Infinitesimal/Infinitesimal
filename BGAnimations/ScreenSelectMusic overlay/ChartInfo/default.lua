@@ -5,7 +5,7 @@ for player in ivalues(PlayerNumber) do
     t[#t+1] = LoadActor("ChartInfo"..pname(player))..{
 
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-75)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-85)
             :zoom(0.10)
         end;
 
@@ -40,7 +40,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-133)
+			:y(SCREEN_CENTER_Y-143)
 			:horizalign(center)
 			:zoom(0.25,0.25)
 			:maxwidth(350)
@@ -90,7 +90,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-114)
+			:y(SCREEN_CENTER_Y-124)
 			:horizalign(center)
 			:zoom(0.25,0.25)
 			:maxwidth(350)
@@ -143,7 +143,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-85)
+			:y(SCREEN_CENTER_Y-95)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -188,7 +188,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-85)
+			:y(SCREEN_CENTER_Y-95)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -233,7 +233,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-60)
+			:y(SCREEN_CENTER_Y-70)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -278,7 +278,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-60)
+			:y(SCREEN_CENTER_Y-70)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -323,7 +323,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-35)
+			:y(SCREEN_CENTER_Y-45)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -368,7 +368,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-35)
+			:y(SCREEN_CENTER_Y-45)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -413,7 +413,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-6)
+			:y(SCREEN_CENTER_Y-16)
 			:horizalign(center)
 			:zoom(0.3,0.3)
 			:maxwidth(260)
