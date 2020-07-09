@@ -280,6 +280,33 @@ t[#t+1] = LoadActor(THEME:GetPathS("","CloseCommandWindow"))..{
 	end;
 };
 
+t[#t+1] = LoadActor(THEME:GetPathS("","OpListScroll"))..{
+	OptionsListRightMessageCommand=function(self)
+		self:play();
+	end;
+	OptionsListLeftMessageCommand=function(self)
+		self:play();
+	end;
+	OptionsListQuickChangeMessageCommand=function(self)
+		self:play();
+	end;
+};
+
+t[#t+1] = LoadActor(THEME:GetPathS("","OpListChoose"))..{
+	OptionsListStartMessageCommand=function(self)
+		self:play();
+	end;
+	OptionsListResetMessageCommand=function(self)
+		self:play();
+	end;
+	OptionsListPopMessageCommand=function(self)
+		self:play();
+	end;
+	OptionsListPushMessageCommand=function(self)
+		self:play();
+	end;
+};
+
 for pn in ivalues(PlayerNumber) do
 	t[#t+1] = LoadActor(THEME:GetPathG("","opList")) ..{
 		InitCommand=function(self,params)
@@ -287,7 +314,7 @@ for pn in ivalues(PlayerNumber) do
 			:diffusealpha(0)
 			:zoom(0.15)
 			:y(SCREEN_CENTER_Y);
-			
+
 			if params.Player == pn then
 				if pn == PLAYER_1 then
 					self:x(SCREEN_LEFT-100);
