@@ -627,6 +627,7 @@ local t = Def.ActorFrame {
 		end;
 	};
 
+
 	--LoadActor("song meter");
 
 };

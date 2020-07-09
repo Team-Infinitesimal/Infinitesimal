@@ -14,9 +14,7 @@ local dancepoints = (math.floor((STATSMAN:GetCurStageStats():GetPlayerStageStats
 
 local t = Def.ActorFrame {}
 
---[[
-
-if getenv(pname(player).."Failed") then
+if getenv(pname(player).."Failed") == true then
     lifeState = "Fail"
 else
     lifeState = "Pass"
@@ -31,16 +29,14 @@ local letC = "LetterGrades/"..lifeState.."C"
 local letD = "LetterGrades/"..lifeState.."D"
 local letF = "LetterGrades/"..lifeState.."F"
 
-]]
-
-local tripleS = "LetterGrades/Pass3S"
+--[[ local tripleS = "LetterGrades/Pass3S"
 local doubleS = "LetterGrades/Pass2S"
 local singleS = "LetterGrades/Pass1S"
 local letA = "LetterGrades/PassA"
 local letB = "LetterGrades/PassB"
 local letC = "LetterGrades/PassC"
 local letD = "LetterGrades/PassD"
-local letF = "LetterGrades/PassF"
+local letF = "LetterGrades/PassF" ]]
 
 if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
 

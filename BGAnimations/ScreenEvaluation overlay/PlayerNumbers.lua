@@ -393,7 +393,7 @@ t[#t+1] = LoadActor(THEME:GetPathG("","DifficultyDisplay/_icon"))..{
 		self:animate(false);
         self:accelerate(0.2);
         self:diffusealpha(1);
-		
+
 		local steps = GAMESTATE:GetCurrentSteps(player);
 		if steps:GetStepsType() == "StepsType_Pump_Single" then
 			if (string.find(steps:GetDescription(), "SP")) then
@@ -444,6 +444,22 @@ t[#t+1] = LoadActor(THEME:GetPathG("","LetterGrades"), {lgoffset,superbs,perfect
     InitCommand=function(self)
         self:addy(spacing*3);
     end;
+};
+
+t[#t+1] = LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+				self:diffuse(Color("Red"))
+				:xy(100,200)
+				if getenv(pname(player).."Failed") then
+						self.settext("Failed")
+				elseif getenv(pname(player).."Failed") == false then
+						self:settext("Passed")
+				elseif getenv(pname(player).."Failed") == nil then
+						self:settext("nil")
+				else
+						self:settext("Unknown")
+				end;
+		end;
 };
 
 return t;
