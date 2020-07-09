@@ -14,6 +14,15 @@ local dancepoints = (math.floor((STATSMAN:GetCurStageStats():GetPlayerStageStats
 
 local t = Def.ActorFrame {}
 
+local tripleS = "LetterGrades/Pass3S"
+local doubleS = "LetterGrades/Pass2S"
+local singleS = "LetterGrades/Pass1S"
+local letA = "LetterGrades/PassA"
+local letB = "LetterGrades/PassB"
+local letC = "LetterGrades/PassC"
+local letD = "LetterGrades/PassD"
+local letF = "LetterGrades/PassF"
+
 if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
 
     t[#t+1] = Def.Sprite {
@@ -24,30 +33,30 @@ if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
                 if bads <= 0 then
                     if goods <= 0 then
                         if greats <= 0 then
-                            self:Load(THEME:GetPathG("","LetterGrades/Pass3S"));
+                            self:Load(THEME:GetPathG("", ""..tripleS));
                         else
-                            self:Load(THEME:GetPathG("","LetterGrades/Pass2S"));
+                            self:Load(THEME:GetPathG("", ""..doubleS));
                         end;
                     else
-                        self:Load(THEME:GetPathG("","LetterGrades/Pass1S"));
+                        self:Load(THEME:GetPathG("", ""..singleS));
                     end;
                 else
-                    self:Load(THEME:GetPathG("","LetterGrades/Pass1S"));
+                    self:Load(THEME:GetPathG("", ""..singleS));
                 end;
             else
                 if dancepoints >= 50 then
-                    self:Load(THEME:GetPathG("","LetterGrades/PassD"));;
+                    self:Load(THEME:GetPathG("", ""..letD));;
                     if dancepoints >= 60 then
-                        self:Load(THEME:GetPathG("","LetterGrades/PassC"));
+                        self:Load(THEME:GetPathG("", ""..letC));
                         if dancepoints >= 70 then
-                            self:Load(THEME:GetPathG("","LetterGrades/PassB"));
+                            self:Load(THEME:GetPathG("", ""..letB));
                             if dancepoints >= 80 then
-                                self:Load(THEME:GetPathG("","LetterGrades/PassA"));
+                                self:Load(THEME:GetPathG("", ""..letA));
                             end
                         end
                     end
                 else
-                    self:Load(THEME:GetPathG("","LetterGrades/PassF"));
+                    self:Load(THEME:GetPathG("", ""..letF));
                 end
             end;
             self:accelerate(0.3):diffusealpha(1);
@@ -65,33 +74,33 @@ else
                     if goods <= 0 then
                         if greats <= 0 then
                             if perfects <= 0 then
-                                self:Load(THEME:GetPathG("","LetterGrades/Pass3S"));
+                                self:Load(THEME:GetPathG("", ""..tripleS));
                             else
-                                self:Load(THEME:GetPathG("","LetterGrades/Pass2S"));
+                                self:Load(THEME:GetPathG("", ""..doubleS));
                             end;
                         else
-                            self:Load(THEME:GetPathG("","LetterGrades/Pass2S"));
+                            self:Load(THEME:GetPathG("", ""..doubleS));
                         end;
                     else
-                        self:Load(THEME:GetPathG("","LetterGrades/Pass1S"));
+                        self:Load(THEME:GetPathG("", ""..singleS));
                     end;
                 else
-                    self:Load(THEME:GetPathG("","LetterGrades/Pass1S"));
+                    self:Load(THEME:GetPathG("", ""..singleS));
                 end;
             else
                 if dancepoints >= 50 then
-                    self:Load(THEME:GetPathG("","LetterGrades/PassD"));;
+                    self:Load(THEME:GetPathG("", ""..letD));
                     if dancepoints >= 60 then
-                        self:Load(THEME:GetPathG("","LetterGrades/PassC"));
+                        self:Load(THEME:GetPathG("", ""..letC));
                         if dancepoints >= 70 then
-                            self:Load(THEME:GetPathG("","LetterGrades/PassB"));
+                            self:Load(THEME:GetPathG("", ""..letB));
                             if dancepoints >= 80 then
-                                self:Load(THEME:GetPathG("","LetterGrades/PassA"));
+                                self:Load(THEME:GetPathG("", ""..letA));
                             end
                         end
                     end
                 else
-                    self:Load(THEME:GetPathG("","LetterGrades/PassF"));
+                    self:Load(THEME:GetPathG("", ""..letF));
                 end
             end;
             self:accelerate(0.3):diffusealpha(1);

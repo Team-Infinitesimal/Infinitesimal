@@ -149,7 +149,7 @@ t[#t+1] = LoadFont("montserrat/_montserrat 40px")..{
         self:sleep(1.75)
         self:horizalign(center);
         self:diffuse(0,0,0,1);
-		self:settext(song:GetDisplayArtist());
+		    self:settext(song:GetDisplayArtist());
         self:maxwidth(700);
         self:x(SCREEN_CENTER_X):zoom(0.3);
 		if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
@@ -177,7 +177,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = LoadActor("PlayerNumbers", pn)..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,136)
-            end;
+        end;
     };
 
 end;

@@ -1,68 +1,68 @@
 local function PlayerInfo(pn)
 
-local t = Def.ActorFrame {
+	local t = Def.ActorFrame {
 
-	LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
-		BeginCommand=function(self)
-			self:maxwidth(320)
-			:draworder(110)
-			:horizalign(right)
-			:x(SCREEN_CENTER_X-130)
-			:y(SCREEN_BOTTOM-10)
-			:zoom(0.4)
-			:shadowlength(1)
-			:uppercase(true)
-			:queuecommand("Set")
-		end;
-		OnCommand=function(self)self:queuecommand("Set")end;
-		PlayerJoinedMessageCommand=function(self)self:queuecommand("Set")end;
-		PlayerUnjoinedMessageCommand=function(self)self:queuecommand("Set")end;
-		SetCommand=function(self)
-			local profile = PROFILEMAN:GetProfile(PLAYER_1);
-			local name = profile:GetDisplayName();
+		LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
+			BeginCommand=function(self)
+				self:maxwidth(320)
+				:draworder(110)
+				:horizalign(right)
+				:x(SCREEN_CENTER_X-130)
+				:y(SCREEN_BOTTOM-10)
+				:zoom(0.4)
+				:shadowlength(1)
+				:uppercase(true)
+				:queuecommand("Set")
+			end;
+			OnCommand=function(self)self:queuecommand("Set")end;
+			PlayerJoinedMessageCommand=function(self)self:queuecommand("Set")end;
+			PlayerUnjoinedMessageCommand=function(self)self:queuecommand("Set")end;
+			SetCommand=function(self)
+				local profile = PROFILEMAN:GetProfile(PLAYER_1);
+				local name = profile:GetDisplayName();
 
-			if GAMESTATE:IsHumanPlayer(PLAYER_1) == true then
-				if name=="" then
-					self:settext("No Name");
-				else
-					self:settext(name);
+				if GAMESTATE:IsHumanPlayer(PLAYER_1) == true then
+					if name=="" then
+						self:settext("No Name");
+					else
+						self:settext(name);
+					end
 				end
-			end
-		end;
+			end;
+		};
+
+		LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
+			InitCommand=function(self)
+				self:maxwidth(320)
+				:draworder(110)
+				:horizalign(left)
+				:x(SCREEN_CENTER_X+130)
+				:y(SCREEN_BOTTOM-10)
+				:zoom(0.4)
+				:shadowlength(1)
+				:uppercase(true)
+				:queuecommand("Set")
+			end;
+			OnCommand=function(self)self:queuecommand("Set")end;
+			PlayerJoinedMessageCommand=function(self)self:queuecommand("Set")end;
+			PlayerUnjoinedMessageCommand=function(self)self:queuecommand("Set")end;
+			SetCommand=function(self)
+				local profile = PROFILEMAN:GetProfile(PLAYER_2);
+				local name = profile:GetDisplayName();
+
+				if GAMESTATE:IsHumanPlayer(PLAYER_2) == true then
+					if name=="" then
+						self:settext("No Name");
+					else
+						self:settext(name);
+					end
+				end
+			end;
+		};
+
 	};
 
-	LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
-		InitCommand=function(self)
-			self:maxwidth(320)
-			:draworder(110)
-			:horizalign(left)
-			:x(SCREEN_CENTER_X+130)
-			:y(SCREEN_BOTTOM-10)
-			:zoom(0.4)
-			:shadowlength(1)
-			:uppercase(true)
-			:queuecommand("Set")
-		end;
-		OnCommand=function(self)self:queuecommand("Set")end;
-		PlayerJoinedMessageCommand=function(self)self:queuecommand("Set")end;
-		PlayerUnjoinedMessageCommand=function(self)self:queuecommand("Set")end;
-		SetCommand=function(self)
-			local profile = PROFILEMAN:GetProfile(PLAYER_2);
-			local name = profile:GetDisplayName();
-
-			if GAMESTATE:IsHumanPlayer(PLAYER_2) == true then
-				if name=="" then
-					self:settext("No Name");
-				else
-					self:settext(name);
-				end
-			end
-		end;
-	};
-
-};
-
-return t;
+	return t;
 end;
 
 local function LifeMeterSingle(pn)
