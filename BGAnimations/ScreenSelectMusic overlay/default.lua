@@ -52,11 +52,11 @@ local t = Def.ActorFrame {
         end;
     };
 
-    LoadActor("ChartInfo");
-
-    LoadActor("SongPreview");
-
     LoadActor("CornerArrows");
+	
+	LoadActor("ChartInfo");
+	
+	LoadActor("SongPreview");
 
 	Def.Quad {
         InitCommand=function(self)
@@ -109,7 +109,7 @@ local t = Def.ActorFrame {
             :y(SCREEN_CENTER_Y-175)
             :zoom(0.4,0.4)
             :skewx(-0.2)
-            :maxwidth(800)
+            :maxwidth(850)
         end;
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0);

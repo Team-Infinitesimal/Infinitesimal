@@ -7,6 +7,7 @@ for player in ivalues(PlayerNumber) do
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-85)
             :zoom(0.10)
+			:visible(false)
         end;
 
         SongChosenMessageCommand=function(self)
@@ -23,6 +24,7 @@ for player in ivalues(PlayerNumber) do
 
         SongUnchosenMessageCommand=function(self)
             self:stoptweening();
+			self:visible(false);
             if player == PLAYER_1 then
                 self:decelerate(0.25);
                 self:x(SCREEN_CENTER_X);
@@ -45,6 +47,7 @@ for player in ivalues(PlayerNumber) do
 			:zoom(0.25,0.25)
 			:maxwidth(350)
 			:diffusecolor(0,0,0,1)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -62,6 +65,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -94,6 +98,7 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(center)
 			:zoom(0.25,0.25)
 			:maxwidth(350)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -111,6 +116,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -147,6 +153,7 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -164,6 +171,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -192,6 +200,7 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -209,6 +218,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -237,6 +247,7 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -254,6 +265,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -282,6 +294,7 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -299,6 +312,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -327,6 +341,7 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -344,6 +359,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -372,6 +388,7 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -389,6 +406,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -417,6 +435,7 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(center)
 			:zoom(0.3,0.3)
 			:maxwidth(260)
+			:visible(false)
 		end;
 
 		SongChosenMessageCommand=function(self)
@@ -434,6 +453,7 @@ for player in ivalues(PlayerNumber) do
 		SongUnchosenMessageCommand=function(self)
 			self:decelerate(0.25);
 			self:x(SCREEN_CENTER_X);
+			self:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)

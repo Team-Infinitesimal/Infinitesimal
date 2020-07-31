@@ -46,7 +46,7 @@ local t = Def.ActorFrame {
 
     LoadActor(THEME:GetPathG("","ModeSelect/ArcadeMode"))..{
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X-180,SCREEN_CENTER_Y)
+            self:xy(SCREEN_CENTER_X-160,SCREEN_CENTER_Y)
             :zoom(0.25)
             :diffusealpha(0.6)
         end;
@@ -78,7 +78,7 @@ local t = Def.ActorFrame {
 
     LoadActor(THEME:GetPathG("","ModeSelect/ProMode"))..{
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X+180,SCREEN_CENTER_Y)
+            self:xy(SCREEN_CENTER_X+160,SCREEN_CENTER_Y)
             :zoom(0.25)
             :diffusealpha(0.6)
         end;
