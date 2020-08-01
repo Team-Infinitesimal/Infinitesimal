@@ -4,7 +4,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:Center()
             :diffusealpha(0.25)
-            :zoomto(SCREEN_WIDTH,SCREEN_HEIGHT)
+            :scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
             end;
     };
 };

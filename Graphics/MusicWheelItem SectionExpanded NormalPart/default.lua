@@ -1,7 +1,7 @@
 local t = Def.ActorFrame{
 	Def.Banner{
     InitCommand=function(self)
-      self:scaletoclipped(288,162)
+      self:scaletoclipped(300,168)
 			self:rotationx(-50);
     end;
 		SetMessageCommand=function(self,params)

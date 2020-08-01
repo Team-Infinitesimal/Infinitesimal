@@ -10,7 +10,7 @@ local t = Def.ActorFrame {
 
     LoadActor(THEME:GetPathG("","static"))..{
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-89)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-88.5)
             :diffusealpha(1)
             :zoomto(360,202)
             end;
@@ -18,7 +18,7 @@ local t = Def.ActorFrame {
 
     Def.Sprite {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-89)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-88.5)
             :diffusealpha(0)
             end;
         CurrentSongChangedMessageCommand=function(self)

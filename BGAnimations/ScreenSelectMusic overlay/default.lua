@@ -131,14 +131,13 @@ local t = Def.ActorFrame {
             :y(SCREEN_CENTER_Y-2)
             :zoom(0.4,0.4)
             :skewx(-0.2)
-            :maxwidth(800)
+            :maxwidth(550)
         end;
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0);
             local song = GAMESTATE:GetCurrentSong();
             if song then
-                self:maxwidth(480);
-                self:settext("ARTIST: "..song:GetDisplayArtist());
+                self:settext(song:GetDisplayArtist());
                 self:decelerate(0.2);
                 self:diffusealpha(1);
             else
@@ -153,13 +152,12 @@ local t = Def.ActorFrame {
             :x(SCREEN_CENTER_X+172)
             :y(SCREEN_CENTER_Y-2)
             :zoom(0.4,0.4)
-			:maxwidth(590)
+			:maxwidth(300)
         end;
 
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0)
             self:queuecommand("SetBPM");
-            self:maxwidth(800)
         end;
 
         SetBPMCommand=function(self)
@@ -176,10 +174,10 @@ local t = Def.ActorFrame {
                     if lobpm == hibpm then
                         speedvalue = hibpm
                     else
-                        speedvalue = lobpm.." - "..hibpm
+                        speedvalue = lobpm.."-"..hibpm
                     end;
                 end;
-                self:settext("BPM: "..speedvalue);
+                self:settext("BPM "..speedvalue);
                 self:decelerate(0.2)
                 self:diffusealpha(1)
                 self:skewx(-0.2)
@@ -195,7 +193,7 @@ local t = Def.ActorFrame {
             self:diffusealpha(0);
             if song then
                 local lengthseconds = SecondsToMMSS(GAMESTATE:GetCurrentSong():MusicLengthSeconds());
-                self:settext("Length: "..lengthseconds);
+                self:settext(lengthseconds);
                 self:decelerate(0.2)
                 self:diffusealpha(1)
                 self:skewx(-0.2)
@@ -208,14 +206,22 @@ local t = Def.ActorFrame {
     };
 
   	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
-    		InitCommand=function(self)
-      			self:x(SCREEN_CENTER_X)
-      			:y(93);
-    		end;
+		InitCommand=function(self)
+			self:x(SCREEN_CENTER_X)
+			:y(93);
+		end;
   	};
+	--[[
+	LoadActor(THEME:GetPathG("","SongFrame"))..{
+		InitCommand=function(self)
+			self:diffusealpha(1)
+			:zoom(0.0925,0.0925)
+			:x(SCREEN_CENTER_X)
+			:y(SCREEN_CENTER_Y+135)
+		end;
+	};]]
 
     --LoadActor(THEME:GetPathG("","Readies"));
-
 };
 
 for pn in ivalues(PlayerNumber) do
