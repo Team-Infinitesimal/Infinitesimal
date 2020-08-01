@@ -1,6 +1,7 @@
 function wheelTransformNyoom(self,offsetFromCenter,itemIndex,numItems)
-    self:x(offsetFromCenter*320);
-    local rot = -10;
-    self:rotationy(offsetFromCenter*-8);
-    self:z(math.abs(offsetFromCenter)*-100);
+	local offsetAbs = math.abs(offsetFromCenter);
+
+	self:x(offsetFromCenter * 300)
+	:z(offsetAbs * -(100 * offsetAbs))
+	:rotationy(offsetFromCenter * -5)
 end;

@@ -26,6 +26,49 @@ end;
 
 local t = Def.ActorFrame {
 
+	LoadActor(THEME:GetPathG("","SongFrame"))..{
+		InitCommand=function(self)
+			self:diffusealpha(1)
+			:zoom(0.0925,0.0925)
+			:x(SCREEN_CENTER_X)
+			:y(SCREEN_CENTER_Y+135)
+		end;
+		
+		PlayerJoinedMessageCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.3)
+			:y(SCREEN_BOTTOM+50);
+		end;
+		
+		CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		CurrentSongChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		NextSongMessageCommand=function(self)self:playcommand("Refresh")end;
+		PreviousSongMessageCommand=function(self)self:playcommand("Refresh")end;
+		
+		OnCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.3)
+			:y(SCREEN_CENTER_Y+135);
+		end;
+		
+		SongChosenMessageCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.3)
+			:y(SCREEN_BOTTOM+50);
+		end;
+		SongUnchosenMessageCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.3)
+			:y(SCREEN_CENTER_Y+135);
+		end;
+		TwoPartConfirmCanceledMessageCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.3)
+			:y(SCREEN_CENTER_Y+135);
+		end;
+	};
+
     LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
         InitCommand=function(self)
             self:diffusealpha(0)
@@ -211,15 +254,6 @@ local t = Def.ActorFrame {
 			:y(93);
 		end;
   	};
-	--[[
-	LoadActor(THEME:GetPathG("","SongFrame"))..{
-		InitCommand=function(self)
-			self:diffusealpha(1)
-			:zoom(0.0925,0.0925)
-			:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y+135)
-		end;
-	};]]
 
     --LoadActor(THEME:GetPathG("","Readies"));
 };
