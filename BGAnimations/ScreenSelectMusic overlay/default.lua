@@ -31,27 +31,34 @@ local t = Def.ActorFrame {
 			self:diffusealpha(1)
 			:zoom(0.0925,0.0925)
 			:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y+135)
+			:y(SCREEN_CENTER_Y+135);
 		end;
-		
+
 		PlayerJoinedMessageCommand=function(self)
 			self:stoptweening()
 			:decelerate(0.3)
 			:y(SCREEN_BOTTOM+50);
 		end;
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
-		CurrentSongChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 		NextSongMessageCommand=function(self)self:playcommand("Refresh")end;
 		PreviousSongMessageCommand=function(self)self:playcommand("Refresh")end;
-		
+
+		CurrentSongChangedMessageCommand=function(self)
+			self:stoptweening()
+			:zoom(0.1,0.1)
+			:decelerate(0.4)
+			:zoom(0.0925,0.0925);
+		end;
+
 		OnCommand=function(self)
 			self:stoptweening()
+			:zoom(0.0925,0.0925)
 			:decelerate(0.3)
 			:y(SCREEN_CENTER_Y+135);
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:stoptweening()
 			:decelerate(0.3)
@@ -96,9 +103,9 @@ local t = Def.ActorFrame {
     };
 
     LoadActor("CornerArrows");
-	
+
 	LoadActor("ChartInfo");
-	
+
 	LoadActor("SongPreview");
 
 	Def.Quad {
