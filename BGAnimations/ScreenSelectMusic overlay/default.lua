@@ -29,7 +29,7 @@ local t = Def.ActorFrame {
 	LoadActor(THEME:GetPathG("","SongFrame"))..{
 		InitCommand=function(self)
 			self:diffusealpha(1)
-			:zoom(0.0925,0.0925)
+			:zoom(0.69,0.69) -- nice
 			:x(SCREEN_CENTER_X)
 			:y(SCREEN_CENTER_Y+135);
 		end;
@@ -47,64 +47,34 @@ local t = Def.ActorFrame {
 
 		CurrentSongChangedMessageCommand=function(self)
 			self:stoptweening()
-			:zoom(0.1,0.1)
+			:zoom(0.74,0.74)
 			:decelerate(0.4)
-			:zoom(0.0925,0.0925);
+			:zoom(0.69,0.69);
 		end;
 
 		OnCommand=function(self)
 			self:stoptweening()
-			:zoom(0.0925,0.0925)
-			:decelerate(0.3)
+			:zoom(0.69,0.69)
+			:decelerate(0.2)
 			:y(SCREEN_CENTER_Y+135);
 		end;
 
 		SongChosenMessageCommand=function(self)
 			self:stoptweening()
-			:decelerate(0.3)
-			:y(SCREEN_BOTTOM+50);
+			:decelerate(0.2)
+			:diffusealpha(0);
 		end;
 		SongUnchosenMessageCommand=function(self)
 			self:stoptweening()
-			:decelerate(0.3)
-			:y(SCREEN_CENTER_Y+135);
+			:decelerate(0.2)
+			:diffusealpha(1);
 		end;
 		TwoPartConfirmCanceledMessageCommand=function(self)
 			self:stoptweening()
-			:decelerate(0.3)
-			:y(SCREEN_CENTER_Y+135);
+			:decelerate(0.2)
+			:diffusealpha(1);
 		end;
 	};
-
-    LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
-        InitCommand=function(self)
-            self:diffusealpha(0)
-            :vertalign(top)
-            :xy(SCREEN_CENTER_X,SCREEN_TOP-100)
-            :diffusealpha(1)
-            :zoom(0.2135,0.2135)
-            :sleep(0.25)
-            :decelerate(0.75)
-            :y(SCREEN_TOP)
-        end;
-    };
-
-    LoadActor(THEME:GetPathG("","ScreenHudBottom"))..{
-        InitCommand=function(self)
-            self:diffusealpha(0)
-            :vertalign(bottom)
-            :xy(SCREEN_CENTER_X,SCREEN_BOTTOM+100)
-            :diffusealpha(1)
-            :zoom(0.2135,0.2135)
-            :sleep(0.25)
-            :decelerate(0.75)
-            :y(SCREEN_BOTTOM)
-        end;
-    };
-
-    LoadActor("CornerArrows");
-
-	LoadActor("ChartInfo");
 
 	LoadActor("SongPreview");
 
@@ -234,7 +204,7 @@ local t = Def.ActorFrame {
             else
                 self:stoptweening():linear(0.25):diffusealpha(0);
             end;
-            self:sleep(5):decelerate(0.2):diffusealpha(0);
+            self:sleep(2):decelerate(0.2):diffusealpha(0);
             self:queuecommand("SetLength");
         end;
 
@@ -250,7 +220,7 @@ local t = Def.ActorFrame {
             else
                 self:stoptweening():linear(0.25):diffusealpha(0);
             end;
-            self:sleep(5):decelerate(0.2):diffusealpha(0);
+            self:sleep(2):decelerate(0.2):diffusealpha(0);
             self:queuecommand("SetBPM");
         end;
     };
@@ -355,11 +325,11 @@ t[#t+1] = LoadActor(THEME:GetPathS("","OpListChoose"))..{
 };
 
 for pn in ivalues(PlayerNumber) do
-	t[#t+1] = LoadActor(THEME:GetPathG("","opList")) ..{
+	t[#t+1] = LoadActor(THEME:GetPathG("","OpList")) ..{
 		InitCommand=function(self,params)
 			self:draworder(100)
 			:diffusealpha(0)
-			:zoom(0.15)
+			:zoom(0.5)
 			:y(SCREEN_CENTER_Y);
 
 			if params.Player == pn then

@@ -4,33 +4,27 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:horizalign(center)
             :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-53)
-            :zoom(0.2405,0.2405)
-            end;
-    };
-
-    LoadActor(THEME:GetPathG("","static"))..{
-        InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-88.5)
-            :diffusealpha(1)
-            :zoomto(360,202)
-            end;
+            :zoom(0.8,0.8)
+        end;
     };
 
     Def.Sprite {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-88.5)
-            :diffusealpha(0)
-            end;
-        CurrentSongChangedMessageCommand=function(self)
-            self:stoptweening():diffusealpha(0);
-            if GAMESTATE:GetCurrentSong() then
-      					 if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil then
-      						    self:sleep(.4):queuecommand("Load2");
-                 else
-                      self:sleep(.4):queuecommand("LoadAnimated")
-      			  	 end;
-      			end;
+            :Load(THEME:GetPathG("","static"));
         end;
+		
+        CurrentSongChangedMessageCommand=function(self)
+            self:stoptweening():diffusealpha(1):Load(THEME:GetPathG("","static")):zoomto(360,202):decelerate(0.4);
+            if GAMESTATE:GetCurrentSong() then
+				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil then
+      				self:queuecommand("Load2");
+                else
+                    self:queuecommand("LoadAnimated")
+      			end;
+			end;
+        end;
+		
         Load2Command=function(self)
             local bg = GetSongBackground(true)
             if bg then
@@ -38,8 +32,9 @@ local t = Def.ActorFrame {
             else
                 self:Load(THEME:GetPathG("","Common fallback background"));
             end;
-            self:zoomto(360,202):linear(.2):diffusealpha(1);
+            self:zoomto(360,202);
         end;
+		
         LoadAnimatedCommand=function(self)
             local path = GAMESTATE:GetCurrentSong():GetPreviewVidPath()
             if path then
@@ -47,7 +42,7 @@ local t = Def.ActorFrame {
             else
                 self:Load(THEME:GetPathG("","Common fallback background"));
             end;
-            self:zoomto(360,202):linear(.2):diffusealpha(1);
+            self:zoomto(360,202);
         end;
     };
 

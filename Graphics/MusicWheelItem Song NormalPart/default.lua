@@ -40,7 +40,7 @@ return Def.ActorFrame {
 
 			end;
 			if not path then path = THEME:GetPathG("Common","fallback songbanner") end
-			self:Load(path);
+			self:LoadFromCachedBanner(path);
 			self:scaletoclipped(300,168);
 		end;
 	};

@@ -3,23 +3,23 @@ local t = Def.ActorFrame{
     LoadActor("centerstep")..{
         InitCommand=function(self)
             self:y(55)
-            :zoom(0.2,0.2)
+            :zoom(0.5,0.5)
             end;
     };
 
     LoadActor("centerstep")..{
         InitCommand=function(self)
             self:y(55)
-            :zoom(0.2,0.2)
+            :zoom(0.5,0.5)
             :diffusealpha(0)
             :queuecommand("FadeEffect")
             end;
         FadeEffectCommand=function(self)
             self:stoptweening()
-            :zoom(0.2,0.2)
+            :zoom(0.5,0.5)
             :diffusealpha(0.75)
             :decelerate(0.3947)
-            :zoom(0.25,0.25)
+            :zoom(0.56,0.56)
             :diffusealpha(0)
             :queuecommand("FadeEffect")
             end;

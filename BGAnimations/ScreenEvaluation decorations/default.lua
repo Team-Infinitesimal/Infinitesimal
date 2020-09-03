@@ -5,14 +5,14 @@ if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomx(0)
-            :zoomy(0.1)
+            :zoomy(0.39)
             :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
             end;
         OnCommand=function(self)
             self:sleep(1.25)
             :diffusealpha(0.25)
             :decelerate(0.5)
-            :zoomx(0.15)
+            :zoomx(0.44)
             end;
     };
 
@@ -20,14 +20,14 @@ if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomy(0)
-            :zoomx(0.1)
+            :zoomx(0.4925)
             :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
             end;
         OnCommand=function(self)
             self:sleep(1)
             :diffusealpha(1)
             :decelerate(0.3)
-            :zoomy(0.1)
+            :zoomy(0.4925)
             end;
     };
 else
@@ -35,14 +35,14 @@ else
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomx(0)
-            :zoomy(0.1)
+            :zoomy(0.39)
             :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
             end;
         OnCommand=function(self)
             self:sleep(1.25)
             :diffusealpha(0.25)
             :decelerate(0.5)
-            :zoomx(0.15)
+            :zoomx(0.44)
             end;
     };
 
@@ -50,42 +50,42 @@ else
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomy(0)
-            :zoomx(0.1)
+            :zoomx(0.4925)
             :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
             end;
         OnCommand=function(self)
             self:sleep(1)
             :diffusealpha(1)
             :decelerate(0.3)
-            :zoomy(0.1)
+            :zoomy(0.4925)
             end;
     };
 end;
 
 t[#t+1] = LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
-    InitCommand=function(self)
-        self:diffusealpha(0)
-        :vertalign(top)
-        :xy(SCREEN_CENTER_X,SCREEN_TOP-100)
-        :diffusealpha(1)
-        :zoom(0.2135,0.2135)
-        :sleep(0.25)
-        :decelerate(0.75)
-        :y(SCREEN_TOP)
-    end;
+	InitCommand=function(self)
+		self:diffusealpha(0)
+		:vertalign(top)
+		:scaletocover(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/8)
+		:xy(SCREEN_CENTER_X,SCREEN_TOP-100)
+		:diffusealpha(1)
+		:sleep(0.25)
+		:decelerate(0.75)
+		:y(SCREEN_TOP)
+	end;
 };
 
 t[#t+1] = LoadActor(THEME:GetPathG("","ScreenHudBottom"))..{
-    InitCommand=function(self)
-        self:diffusealpha(0)
-        :vertalign(bottom)
-        :xy(SCREEN_CENTER_X,SCREEN_BOTTOM+100)
-        :diffusealpha(1)
-        :zoom(0.2135,0.2135)
-        :sleep(0.25)
-        :decelerate(0.75)
-        :y(SCREEN_BOTTOM)
-    end;
+	InitCommand=function(self)
+		self:diffusealpha(0)
+		:vertalign(bottom)
+		:scaletocover(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT/8)
+		:xy(SCREEN_CENTER_X,SCREEN_BOTTOM+100)
+		:diffusealpha(1)
+		:sleep(0.25)
+		:decelerate(0.75)
+		:y(SCREEN_BOTTOM)
+	end;
 };
 
 --- ------------------------------------------------

@@ -42,7 +42,7 @@ if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
 
     t[#t+1] = Def.Sprite {
         InitCommand=function(self)
-            self:zoom(0.125):diffusealpha(0):addx(lgoffset);
+            self:zoom(0.4):diffusealpha(0):addx(lgoffset);
             self:sleep(2.5);
             if misses == 0 then
                 if bads <= 0 then
@@ -82,7 +82,7 @@ else
 
     t[#t+1] = Def.Sprite {
         InitCommand=function(self)
-            self:zoom(0.125):diffusealpha(0):addx(lgoffset);
+            self:zoom(0.4):diffusealpha(0):addx(lgoffset);
             self:sleep(2.5);
             if misses == 0 then
                 if bads <= 0 then
