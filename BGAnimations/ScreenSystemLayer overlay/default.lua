@@ -9,7 +9,7 @@ local t = Def.ActorFrame {
 	end;
 	HideSystemMessageMessageCommand = cmd(finishtweening);
 
-	LoadActor(THEME:GetPathG("","coinmode"))..{
+	--[[LoadActor(THEME:GetPathG("","coinmode"))..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
 			:y(SCREEN_BOTTOM-14.5)
@@ -42,13 +42,13 @@ local t = Def.ActorFrame {
 		CoinInsertedMessageCommand = cmd(playcommand,'Refresh');
 		CoinModeChangedMessageCommand = cmd(playcommand,'Refresh');
 		PlayerJoinedMessageCommand = cmd(playcommand,'Refresh');
-	};
+	};]]
 
 	LoadFont("Montserrat semibold 20px")..{
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-19.5)
 			:queuecommand('Refresh')
-			:zoom(0.75)
+			:zoom(1)
 		end;
 		
 		RefreshCommand=function(self)
@@ -56,15 +56,14 @@ local t = Def.ActorFrame {
 			local eMode = GAMESTATE:IsEventMode();
 			
 			if eMode then
-				self:visible(false);
+				self:settext("EVENT MODE");
 			elseif gMode == 'CoinMode_Free' then
-				self:visible(false);
+				self:settext("FREE PLAY");
 			elseif gMode == 'CoinMode_Pay' then
-				self:visible(true);
 				local Coins = GAMESTATE:GetCoins();
 				self:settext("CREDIT(S): "..Coins);
 			else
-				self:visible(false);
+				self:settext("HOME");
 			end;
 			
 			if screen then

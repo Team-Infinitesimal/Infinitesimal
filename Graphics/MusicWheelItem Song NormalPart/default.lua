@@ -40,16 +40,8 @@ return Def.ActorFrame {
 
 			end;
 			if not path then path = THEME:GetPathG("Common","fallback songbanner") end
-			self:Load(path);
-			self:scaletoclipped(288,162);
-			--self:scaletoclipped(300,300);
+			self:LoadFromCachedBanner(path);
+			self:scaletoclipped(300,168);
 		end;
-	};
-
-	LoadActor(THEME:GetPathG("","SongFrame"))..{
-			InitCommand=function(self)
-					self:diffusealpha(1)
-					:zoom(0.178,0.178)
-					end;
 	};
 };

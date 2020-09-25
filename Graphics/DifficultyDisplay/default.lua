@@ -5,7 +5,7 @@
 	replaced all the cmd calls and removed basic mode.
 ]]
 
-local baseZoom = 0.3
+local baseZoom = 0.25
 local spacing = 29;
 local delay = 2
 
@@ -52,7 +52,7 @@ for i=1,12 do
 	t[#t+1] = Def.ActorFrame{
 		LoadActor("_icon")..{
 			InitCommand=function(self)
-				self:zoom(baseZoom-0.05)
+				self:zoom(baseZoom)
 				:x(baseX+spacing*(i-1))
 				:y(baseY)
 				:animate(false)
@@ -117,12 +117,11 @@ for i=1,12 do
 
 		LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 			InitCommand=function(self)
-				self:zoomx(baseZoom)
-				:zoomy(baseZoom)
+				self:zoom(baseZoom)
 				:shadowlength(0.8)
 				:shadowcolor(color("0,0,0,1"))
-				:x(baseX-0.33+spacing*(i-1))
-				:y(baseY-0.33)
+				:x(baseX+spacing*(i-1))
+				:y(baseY)
 			end;
 			
 			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
@@ -164,7 +163,6 @@ for i=1,12 do
 			end
 		};
 	};
-
 end
 
 --Needs to have both in case of late join
@@ -172,7 +170,7 @@ for pn in ivalues(PlayerNumber) do
 
 	t[#t+1] = LoadActor("UnifiedCursor", pn)..{
 		InitCommand=function(self)
-			self:zoom(baseZoom-0.05)
+			self:zoom(baseZoom)
 			:x(baseX)
 			:y(baseY)
 			:rotationx(180)
@@ -207,7 +205,6 @@ for pn in ivalues(PlayerNumber) do
 		--This looks WAY more moronic than before, possibly redo this soon?
 		SetCommand=function(self)
 			if stepsArray then
-			
 				local index = GetCurrentStepsIndex(pn);
 				
 				if index > 12 then
@@ -230,6 +227,7 @@ for pn in ivalues(PlayerNumber) do
 			index = 1;
 		end;
 	}
+
 end;
 
 return t;

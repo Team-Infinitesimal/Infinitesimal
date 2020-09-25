@@ -6,48 +6,23 @@ local t = Def.ActorFrame {
         else
             PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
         end;
-        PREFSMAN:SetPreference("TimingWindowSecondsHold",0.083333);
+		
+        PREFSMAN:SetPreference("TimingWindowSecondsHold",0.104166);
         PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
         PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
-        PREFSMAN:SetPreference("TimingWindowSecondsW1",0.03000);
-        PREFSMAN:SetPreference("TimingWindowSecondsW2",0.041666);
-        PREFSMAN:SetPreference("TimingWindowSecondsW3",0.083333);
-        PREFSMAN:SetPreference("TimingWindowSecondsW4",0.125000);
-        PREFSMAN:SetPreference("TimingWindowSecondsW5",0.166666);
+		PREFSMAN:SetPreference("TimingWindowSecondsW1",0.031250);
+		PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062500);
+		PREFSMAN:SetPreference("TimingWindowSecondsW3",0.104166);
+		PREFSMAN:SetPreference("TimingWindowSecondsW4",0.145833);
+		PREFSMAN:SetPreference("TimingWindowSecondsW5",0.187500);
     end;
-
-    LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
-        InitCommand=function(self)
-            self:diffusealpha(0)
-            :vertalign(top)
-            :xy(SCREEN_CENTER_X,SCREEN_TOP-100)
-            :diffusealpha(1)
-            :zoom(0.2135,0.2135)
-            :sleep(0.25)
-            :decelerate(0.75)
-            :y(SCREEN_TOP)
-        end;
-    };
-
-    LoadActor(THEME:GetPathG("","ScreenHudBottom"))..{
-        InitCommand=function(self)
-            self:diffusealpha(0)
-            :vertalign(bottom)
-            :xy(SCREEN_CENTER_X,SCREEN_BOTTOM+100)
-            :diffusealpha(1)
-            :zoom(0.2135,0.2135)
-            :sleep(0.25)
-            :decelerate(0.75)
-            :y(SCREEN_BOTTOM)
-        end;
-    };
 
     LoadActor("CornerArrows");
 
     LoadActor(THEME:GetPathG("","ModeSelect/ArcadeMode"))..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X-160,SCREEN_CENTER_Y)
-            :zoom(0.25)
+            :zoom(0.5)
             :diffusealpha(0.6)
         end;
         OnCommand=function(self)
@@ -63,15 +38,15 @@ local t = Def.ActorFrame {
                 :queuecommand("Zoom")
             else
                 self:decelerate(0.2)
-                :zoom(0.25)
+                :zoom(0.5)
                 :diffusealpha(0.6)
             end;
         end;
         ZoomCommand=function(self)
             self:decelerate(0.3947)
-            :zoom(0.28)
+            :zoom(0.55)
             :accelerate(0.3947)
-            :zoom(0.26)
+            :zoom(0.5)
             :queuecommand("Zoom")
         end;
     };
@@ -79,7 +54,7 @@ local t = Def.ActorFrame {
     LoadActor(THEME:GetPathG("","ModeSelect/ProMode"))..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X+160,SCREEN_CENTER_Y)
-            :zoom(0.25)
+            :zoom(0.5)
             :diffusealpha(0.6)
         end;
         OnCommand=function(self)
@@ -95,15 +70,15 @@ local t = Def.ActorFrame {
                 :queuecommand("Zoom")
             else
                 self:decelerate(0.2)
-                :zoom(0.25)
+                :zoom(0.5)
                 :diffusealpha(0.6)
             end;
         end;
         ZoomCommand=function(self)
             self:decelerate(0.3947)
-            :zoom(0.3)
+            :zoom(0.55)
             :accelerate(0.3947)
-            :zoom(0.28)
+            :zoom(0.5)
             :queuecommand("Zoom")
         end;
     };

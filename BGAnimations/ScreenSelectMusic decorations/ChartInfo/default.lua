@@ -6,7 +6,7 @@ for player in ivalues(PlayerNumber) do
 
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-85)
-            :zoom(0.10)
+            :zoom(0.33)
 			:visible(false)
         end;
 

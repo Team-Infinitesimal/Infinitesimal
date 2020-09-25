@@ -26,36 +26,56 @@ end;
 
 local t = Def.ActorFrame {
 
-    LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
-        InitCommand=function(self)
-            self:diffusealpha(0)
-            :vertalign(top)
-            :xy(SCREEN_CENTER_X,SCREEN_TOP-100)
-            :diffusealpha(1)
-            :zoom(0.2135,0.2135)
-            :sleep(0.25)
-            :decelerate(0.75)
-            :y(SCREEN_TOP)
-        end;
-    };
+	LoadActor(THEME:GetPathG("","SongFrame"))..{
+		InitCommand=function(self)
+			self:diffusealpha(1)
+			:zoom(0.69,0.69) -- nice
+			:x(SCREEN_CENTER_X)
+			:y(SCREEN_CENTER_Y+135);
+		end;
 
-    LoadActor(THEME:GetPathG("","ScreenHudBottom"))..{
-        InitCommand=function(self)
-            self:diffusealpha(0)
-            :vertalign(bottom)
-            :xy(SCREEN_CENTER_X,SCREEN_BOTTOM+100)
-            :diffusealpha(1)
-            :zoom(0.2135,0.2135)
-            :sleep(0.25)
-            :decelerate(0.75)
-            :y(SCREEN_BOTTOM)
-        end;
-    };
+		PlayerJoinedMessageCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.3)
+			:y(SCREEN_BOTTOM+50);
+		end;
 
-    LoadActor("CornerArrows");
-	
-	LoadActor("ChartInfo");
-	
+		CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		NextSongMessageCommand=function(self)self:playcommand("Refresh")end;
+		PreviousSongMessageCommand=function(self)self:playcommand("Refresh")end;
+
+		CurrentSongChangedMessageCommand=function(self)
+			self:stoptweening()
+			:zoom(0.74,0.74)
+			:decelerate(0.4)
+			:zoom(0.69,0.69);
+		end;
+
+		OnCommand=function(self)
+			self:stoptweening()
+			:zoom(0.69,0.69)
+			:decelerate(0.2)
+			:y(SCREEN_CENTER_Y+135);
+		end;
+
+		SongChosenMessageCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.2)
+			:diffusealpha(0);
+		end;
+		SongUnchosenMessageCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.2)
+			:diffusealpha(1);
+		end;
+		TwoPartConfirmCanceledMessageCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.2)
+			:diffusealpha(1);
+		end;
+	};
+
 	LoadActor("SongPreview");
 
 	Def.Quad {
@@ -131,14 +151,13 @@ local t = Def.ActorFrame {
             :y(SCREEN_CENTER_Y-2)
             :zoom(0.4,0.4)
             :skewx(-0.2)
-            :maxwidth(800)
+            :maxwidth(550)
         end;
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0);
             local song = GAMESTATE:GetCurrentSong();
             if song then
-                self:maxwidth(480);
-                self:settext("ARTIST: "..song:GetDisplayArtist());
+                self:settext(song:GetDisplayArtist());
                 self:decelerate(0.2);
                 self:diffusealpha(1);
             else
@@ -153,13 +172,12 @@ local t = Def.ActorFrame {
             :x(SCREEN_CENTER_X+172)
             :y(SCREEN_CENTER_Y-2)
             :zoom(0.4,0.4)
-			:maxwidth(590)
+			:maxwidth(300)
         end;
 
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0)
             self:queuecommand("SetBPM");
-            self:maxwidth(800)
         end;
 
         SetBPMCommand=function(self)
@@ -176,17 +194,17 @@ local t = Def.ActorFrame {
                     if lobpm == hibpm then
                         speedvalue = hibpm
                     else
-                        speedvalue = lobpm.." - "..hibpm
+                        speedvalue = lobpm.."-"..hibpm
                     end;
                 end;
-                self:settext("BPM: "..speedvalue);
+                self:settext("BPM "..speedvalue);
                 self:decelerate(0.2)
                 self:diffusealpha(1)
                 self:skewx(-0.2)
             else
                 self:stoptweening():linear(0.25):diffusealpha(0);
             end;
-            self:sleep(5):decelerate(0.2):diffusealpha(0);
+            self:sleep(2):decelerate(0.2):diffusealpha(0);
             self:queuecommand("SetLength");
         end;
 
@@ -195,27 +213,26 @@ local t = Def.ActorFrame {
             self:diffusealpha(0);
             if song then
                 local lengthseconds = SecondsToMMSS(GAMESTATE:GetCurrentSong():MusicLengthSeconds());
-                self:settext("Length: "..lengthseconds);
+                self:settext(lengthseconds);
                 self:decelerate(0.2)
                 self:diffusealpha(1)
                 self:skewx(-0.2)
             else
                 self:stoptweening():linear(0.25):diffusealpha(0);
             end;
-            self:sleep(5):decelerate(0.2):diffusealpha(0);
+            self:sleep(2):decelerate(0.2):diffusealpha(0);
             self:queuecommand("SetBPM");
         end;
     };
 
   	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
-    		InitCommand=function(self)
-      			self:x(SCREEN_CENTER_X)
-      			:y(93);
-    		end;
+		InitCommand=function(self)
+			self:x(SCREEN_CENTER_X)
+			:y(93);
+		end;
   	};
 
     --LoadActor(THEME:GetPathG("","Readies"));
-
 };
 
 for pn in ivalues(PlayerNumber) do
@@ -308,11 +325,11 @@ t[#t+1] = LoadActor(THEME:GetPathS("","OpListChoose"))..{
 };
 
 for pn in ivalues(PlayerNumber) do
-	t[#t+1] = LoadActor(THEME:GetPathG("","opList")) ..{
+	t[#t+1] = LoadActor(THEME:GetPathG("","OpList")) ..{
 		InitCommand=function(self,params)
 			self:draworder(100)
 			:diffusealpha(0)
-			:zoom(0.15)
+			:zoom(0.5)
 			:y(SCREEN_CENTER_Y);
 
 			if params.Player == pn then

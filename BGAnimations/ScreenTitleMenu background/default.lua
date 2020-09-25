@@ -3,7 +3,7 @@ local t = Def.ActorFrame {
     LoadActor(THEME:GetPathG("","bg"))..{
         InitCommand=function(self)
             self:Center()
-            :zoomto(SCREEN_WIDTH,SCREEN_HEIGHT)
+            :scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
             end;
     };
 };

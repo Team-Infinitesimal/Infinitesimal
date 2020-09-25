@@ -16,7 +16,7 @@ t[#t+1] = Def.Quad{
 }
 
 t[#t+1] = LoadActor("Selector")..{
-	 InitCommand=cmd(zoom,0.15;pulse;effectmagnitude,0.95,1,1;effectperiod,0.75;y,1);
+	 InitCommand=cmd(zoom,0.5;pulse;effectmagnitude,0.95,1,1;effectperiod,0.75;y,1);
 }
 
 return t
