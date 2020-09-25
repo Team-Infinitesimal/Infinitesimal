@@ -12,7 +12,7 @@ local delay = 2
 local baseX = basicMode and -spacing*1.5 or -(spacing*5.5)
 local baseY = 190;
 
-local stepsArray;
+local stepsArray, stepsSelected;
 
 function GetCurrentStepsIndex(pn)
 	local playerSteps = GAMESTATE:GetCurrentSteps(pn);
@@ -21,7 +21,7 @@ function GetCurrentStepsIndex(pn)
 			return i;
 		end;
 	end;
-	--If it reaches this point, the selected steps doesn't equal anything.
+	-- If it reaches this point, the selected steps doesn't equal anything.
 	return -1;
 end;
 
@@ -48,8 +48,10 @@ local t = Def.ActorFrame {
 
 for i=1,12 do
 
-	--The original code was an absolute fucking nightmare
-	t[#t+1] = Def.ActorFrame{
+	local j;
+	
+	-- The original code was an absolute fucking nightmare
+	t[#t+1] = Def.ActorFrame {
 		LoadActor("_icon")..{
 			InitCommand=function(self)
 				self:zoom(baseZoom)
@@ -66,7 +68,6 @@ for i=1,12 do
 			
 			RefreshCommand=function(self)
 				if stepsArray then
-					local j = i;
 					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
 							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
@@ -82,12 +83,11 @@ for i=1,12 do
 						self:diffusealpha(1);
 						if steps:GetStepsType() == "StepsType_Pump_Single" then
 							if (string.find(steps:GetDescription(), "SP")) then
-								self:setstate(5);
+								self:setstate(3);
 							else
 								self:setstate(2);
 							end;
 						elseif steps:GetStepsType() == "StepsType_Pump_Double" then
-							--Check for StepF2 Double Performance tag
 							if string.find(steps:GetDescription(), "DP") then
 								if steps:GetMeter() == 99 then
 									self:setstate(1);
@@ -102,14 +102,14 @@ for i=1,12 do
 						elseif steps:GetStepsType() == "StepsType_Pump_Routine" then
 							self:setstate(4);
 						else
-							self:setstate(3);
+							self:setstate(7);
 						end;
 					else
-						self:setstate(3);
+						self:setstate(7);
 						self:diffusealpha(0.3);
 					end;
 				else
-					self:setstate(3);
+					self:setstate(7);
 					self:diffusealpha(0.3);
 				end
 			end
@@ -134,7 +134,6 @@ for i=1,12 do
 				self:stoptweening();
 
 				if stepsArray then
-					local j;
 					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
 							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
@@ -163,71 +162,57 @@ for i=1,12 do
 			end
 		};
 	};
-end
-
---Needs to have both in case of late join
-for pn in ivalues(PlayerNumber) do
-
-	t[#t+1] = LoadActor("UnifiedCursor", pn)..{
-		InitCommand=function(self)
-			self:zoom(baseZoom)
-			:x(baseX)
-			:y(baseY)
-			:rotationx(180)
-			:spin()
-			:playcommand("Set")
-		end;
-		
-		PlayerJoinedMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(pn))
-		end;
-		
-		CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Set")end;
-		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Set")end;
-		CurrentSongChangedMessageCommand=function(self)self:playcommand("Set")end;
-		NextSongMessageCommand=function(self)self:playcommand("Set")end;
-		PreviousSongMessageCommand=function(self)self:playcommand("Set")end;
-		
-		OnCommand=function(self)
-			self:visible(false)
-		end;
-		
-		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsSideJoined(pn));
-		end;
-		SongUnchosenMessageCommand=function(self)
-			self:visible(false);
-		end;
-		TwoPartConfirmCanceledMessageCommand=function(self)
-			self:visible(false);
-		end;
-
-		--This looks WAY more moronic than before, possibly redo this soon?
-		SetCommand=function(self)
-			if stepsArray then
-				local index = GetCurrentStepsIndex(pn);
-				
-				if index > 12 then
-					index = 12;
-				elseif GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) and 
-					GetCurrentStepsIndex(PLAYER_1) > 12 and 
-					pn == PLAYER_2 then
-						SetCurrentStepsIndex(pn, index + GetCurrentStepsIndex(PLAYER_1));
-				elseif GetCurrentStepsIndex(PLAYER_2) > GetCurrentStepsIndex(PLAYER_1) and 
-					GetCurrentStepsIndex(PLAYER_2) > 12 and 
-					pn == PLAYER_1 then
-						SetCurrentStepsIndex(pn, index + GetCurrentStepsIndex(PLAYER_2));
-				end;	
-				
-				self:x(baseX+spacing*(index-1));
+	
+	-- This is genuinely bad and I'm sorry
+	for pn in ivalues(PlayerNumber) do
+	
+		t[#t+1] = LoadActor("UnifiedCursor", pn)..{
+			InitCommand=function(self)
+				self:zoom(baseZoom)
+				:x(baseX+spacing*(i-1))
+				:y(baseY)
+				:rotationx(180)
+				:spin()
+				:visible(false);
 			end;
-		end;
+			
+			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Set")end;
+			CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Set")end;
+			PlayerJoinedMessageCommand=function(self)self:playcommand("HideCursor")end;
+			SongUnchosenMessageCommand=function(self)self:playcommand("HideCursor")end;
+			
+			SongChosenMessageCommand=function(self)
+				stepsSelected = true;
+				self:playcommand("Set");
+			end;
+			
+			HideCursorCommand=function(self)
+				stepsSelected = false;
+				self:visible(false);
+			end;
+	
+			SetCommand=function(self)
+				if stepsArray and stepsSelected and GAMESTATE:IsHumanPlayer(pn) then
+					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+						else
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+						end;
+					else
+						j = i;
+					end;
+					
+					if GAMESTATE:GetCurrentSteps(pn) == stepsArray[j] then
+						self:visible(true);
+					else
+						self:visible(false);
+					end;
+				end;
+			end;
+		}
 		
-		PlayerJoinedMessageCommand=function(self)
-			index = 1;
-		end;
-	}
-
-end;
+	end;
+end
 
 return t;

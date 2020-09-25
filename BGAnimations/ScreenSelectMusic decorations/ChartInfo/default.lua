@@ -1,4 +1,36 @@
+local baseZoom = 0.25
+local spacing = 29;
+local delay = 2
+
+local baseX = SCREEN_CENTER_X - (spacing*5.5)
+local baseY = SCREEN_CENTER_Y + 40;
+
+
 local t = Def.ActorFrame {};
+
+
+t[#t+1] = LoadActor(THEME:GetPathG("","GradientUI"))..{
+	InitCommand=function(self)
+		self:zoomx(baseZoom+0.5075)
+		:zoomy(baseZoom)
+		:x(baseX+spacing*5.5)
+		:y(baseY-60)
+		:visible(false);
+	end;
+	
+	SongChosenMessageCommand=function(self)
+		self:visible(true)
+		:decelerate(0.3)
+		:y(baseY+80);
+	end;
+	
+	SongUnchosenMessageCommand=function(self)
+		self:decelerate(0.3)
+		:y(baseY-60)
+		:visible(false);
+	end;
+};
+
 
 for player in ivalues(PlayerNumber) do
 
@@ -478,6 +510,128 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end;
 	};
+	
+	--=============================================================================
+	--		Large difficulty ball and text
+	--=============================================================================
+	
+	t[#t+1] = LoadActor(THEME:GetPathG("","DifficultyDisplay/_icon"))..{
+		InitCommand=function(self)
+			self:zoom(baseZoom+0.25)
+			:x(baseX+spacing*5.5)
+			:y(baseY-60)
+			:animate(false)
+			
+			if player == PLAYER_1 then
+				self:addx(spacing*-5.5);
+			else
+				self:addx(spacing*5.5);
+			end;
+		end;
+		
+		PlayerJoinedMessageCommand=function(self)
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+		end;
+		
+		CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		
+		SongChosenMessageCommand=function(self)
+			self:visible(GAMESTATE:IsSideJoined(player))
+			:decelerate(0.3)
+			:y(baseY+80)
+			:playcommand("Refresh");
+		end;
+		
+		SongUnchosenMessageCommand=function(self)
+			self:decelerate(0.3)
+			:y(baseY-60)
+			:visible(false);
+		end;
+		
+		RefreshCommand=function(self)
+			if GAMESTATE:IsHumanPlayer(player) then 
+				self:diffusealpha(1);
+				local steps = GAMESTATE:GetCurrentSteps(player);
+				if steps then
+					if steps:GetStepsType() == "StepsType_Pump_Single" then
+						if (string.find(steps:GetDescription(), "SP")) then
+							self:setstate(3);
+						else
+							self:setstate(2);
+						end;
+					elseif steps:GetStepsType() == "StepsType_Pump_Double" then
+						if string.find(steps:GetDescription(), "DP") then
+							if steps:GetMeter() == 99 then
+								self:setstate(1);
+							else
+								self:setstate(0);
+							end;
+						else
+							self:setstate(6);
+						end;
+					elseif steps:GetStepsType() == "StepsType_Pump_Halfdouble" then
+						self:setstate(5);
+					elseif steps:GetStepsType() == "StepsType_Pump_Routine" then
+						self:setstate(4);
+					else
+						self:setstate(7);
+					end;
+				end;
+			end;
+		end
+	};
+
+	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+		InitCommand=function(self)
+			self:zoom(baseZoom+0.25)
+			:shadowlength(0.8)
+			:shadowcolor(color("0,0,0,1"))
+			:x(baseX+spacing*5.5)
+			:y(baseY-60)
+			
+			if player == PLAYER_1 then
+				self:addx(-spacing*5.5);
+			else
+				self:addx(spacing*5.5);
+			end;
+		end;
+		
+		PlayerJoinedMessageCommand=function(self)
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+		end;
+		
+		CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
+		
+		SongChosenMessageCommand=function(self)
+			self:visible(GAMESTATE:IsSideJoined(player))
+			:decelerate(0.3)
+			:y(baseY+80)
+			:playcommand("Refresh");
+		end;
+		
+		SongUnchosenMessageCommand=function(self)
+			self:decelerate(0.3)
+			:y(baseY-60)
+			:visible(false);
+		end;
+			
+		RefreshCommand=function(self)
+			if GAMESTATE:IsHumanPlayer(player) then 
+				self:diffusealpha(1);
+				local steps = GAMESTATE:GetCurrentSteps(player);
+				if steps then
+					if steps:GetMeter() >= 99 then
+						self:settext("??");
+					else
+						self:settext(steps:GetMeter());
+					end;
+				end;
+			end;
+		end
+	};
+	
 end;
 
 return t;

@@ -236,47 +236,49 @@ local t = Def.ActorFrame {
 };
 
 for pn in ivalues(PlayerNumber) do
+
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 
 		InitCommand=function(self)
-			self:y(SCREEN_BOTTOM+100)
-			:zoom(0.4,0.4)
-			:diffuse(color("0,0,0,1"))
-			:visible(GAMESTATE:IsHumanPlayer(pn))
-
-			local profile = PROFILEMAN:GetProfile(pn);
-			local name = profile:GetDisplayName();
-			if (name == "") then
-				self:settext("No Name")
-			else
-				self:settext(name)
-			end;
-
+			self:y(SCREEN_BOTTOM+79)
+			:zoom(0.4)
+			:diffuse(color("0,0,0,0"))
+			
 			if (pn == PLAYER_1) then
-				self:horizalign(left)
-				self:x(SCREEN_CENTER_X-190)
-			else
 				self:horizalign(right)
-				self:x(SCREEN_CENTER_X+190)
+				self:x(SCREEN_CENTER_X-110)
+			else
+				self:horizalign(left)
+				self:x(SCREEN_CENTER_X+110)
 			end;
-
-			self:diffusealpha(0)
-			self:decelerate(1)
-			self:diffusealpha(1)
-			self:y(SCREEN_BOTTOM-21)
-
+			
+			self:queuecommand("Set");
 		end;
+		
+		OnCommand=cmd(queuecommand,"Set");
+		PlayerJoinedMessageCommand=cmd(queuecommand,"Set");
+		PlayerUnjoinedMessageCommand=cmd(queuecommand,"Set");
 
 		-- Update when a player joins
-		PlayerJoinedMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(pn))
-			local profile = PROFILEMAN:GetProfile(pn);
-			local name = profile:GetDisplayName();
-			if (name == "") then
-				self:settext("")
-			else
-				self:settext(name)
+		SetCommand=function(self)
+			if GAMESTATE:IsHumanPlayer(pn) then
+				self:visible(true);
+				local profile = PROFILEMAN:GetProfile(pn):GetDisplayName();
+				if profile == "" then
+					if (pn == PLAYER_1) then
+						self:settext("Player 1");
+					else
+						self:settext("Player 2");
+					end;
+				else
+					self:settext(profile)
+				end;
 			end;
+			
+			self:sleep(0.25)
+			self:decelerate(0.75)
+			self:diffusealpha(1)
+			self:y(SCREEN_BOTTOM-21)
 		end;
 	};
 end;
