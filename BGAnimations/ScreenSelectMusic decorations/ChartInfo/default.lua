@@ -591,8 +591,7 @@ for player in ivalues(PlayerNumber) do
 		
 		RefreshCommand=function(self)
 			if GAMESTATE:IsHumanPlayer(player) then 
-				self:stoptweening()
-				:diffusealpha(1);
+				self:diffusealpha(1);
 				local steps = GAMESTATE:GetCurrentSteps(player);
 				if steps then
 					if steps:GetStepsType() == "StepsType_Pump_Single" then
@@ -665,8 +664,7 @@ for player in ivalues(PlayerNumber) do
 			
 		RefreshCommand=function(self)
 			if GAMESTATE:IsHumanPlayer(player) then 
-				self:stoptweening()
-				:diffusealpha(1);
+				self:diffusealpha(1);
 				local steps = GAMESTATE:GetCurrentSteps(player);
 				if steps then
 					if steps:GetMeter() >= 99 then
