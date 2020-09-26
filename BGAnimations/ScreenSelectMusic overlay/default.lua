@@ -28,51 +28,34 @@ local t = Def.ActorFrame {
 
 	LoadActor(THEME:GetPathG("","SongFrame"))..{
 		InitCommand=function(self)
-			self:diffusealpha(1)
-			:zoom(0.69,0.69) -- nice
+			self:zoom(0.69,0.69) -- nice
 			:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y+135);
+			:y(SCREEN_CENTER_Y+135)
+			:decelerate(0.2)
+			:diffusealpha(1);
 		end;
-
-		PlayerJoinedMessageCommand=function(self)
-			self:stoptweening()
-			:decelerate(0.3)
-			:y(SCREEN_BOTTOM+50);
-		end;
-
-		CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
-		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
-		NextSongMessageCommand=function(self)self:playcommand("Refresh")end;
-		PreviousSongMessageCommand=function(self)self:playcommand("Refresh")end;
-
+		
 		CurrentSongChangedMessageCommand=function(self)
 			self:stoptweening()
 			:zoom(0.74,0.74)
 			:decelerate(0.4)
 			:zoom(0.69,0.69);
 		end;
-
+		
+		SongUnchosenMessageCommand=function(self)self:playcommand("On");end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("On");end;
+		
 		OnCommand=function(self)
 			self:stoptweening()
 			:zoom(0.69,0.69)
 			:decelerate(0.2)
-			:y(SCREEN_CENTER_Y+135);
+			:diffusealpha(1);
 		end;
-
+		
 		SongChosenMessageCommand=function(self)
 			self:stoptweening()
 			:decelerate(0.2)
 			:diffusealpha(0);
-		end;
-		SongUnchosenMessageCommand=function(self)
-			self:stoptweening()
-			:decelerate(0.2)
-			:diffusealpha(1);
-		end;
-		TwoPartConfirmCanceledMessageCommand=function(self)
-			self:stoptweening()
-			:decelerate(0.2)
-			:diffusealpha(1);
 		end;
 	};
 

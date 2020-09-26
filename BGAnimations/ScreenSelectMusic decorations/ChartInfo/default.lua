@@ -19,13 +19,18 @@ t[#t+1] = LoadActor(THEME:GetPathG("","GradientUI"))..{
 	end;
 	
 	SongChosenMessageCommand=function(self)
-		self:visible(true)
+		self:stoptweening()
+		:visible(true)
 		:decelerate(0.3)
 		:y(baseY+80);
 	end;
 	
-	SongUnchosenMessageCommand=function(self)
-		self:decelerate(0.3)
+	SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+	PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+	
+	CloseCommand=function(self)
+		self:stoptweening()
+		:decelerate(0.3)
 		:y(baseY-60)
 		:visible(false);
 	end;
@@ -43,8 +48,8 @@ for player in ivalues(PlayerNumber) do
         end;
 
         SongChosenMessageCommand=function(self)
-            self:stoptweening();
-            self:visible(GAMESTATE:IsHumanPlayer(player));
+            self:stoptweening()
+            :visible(GAMESTATE:IsHumanPlayer(player));
             if player == PLAYER_1 then
                 self:decelerate(0.25);
                 self:x(SCREEN_CENTER_X-255);
@@ -53,10 +58,13 @@ for player in ivalues(PlayerNumber) do
                 self:x(SCREEN_CENTER_X+255);
             end;
         end;
+        
+        SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
-        SongUnchosenMessageCommand=function(self)
-            self:stoptweening();
-			self:visible(false);
+        CloseCommand=function(self)
+            self:stoptweening()
+			:visible(false);
             if player == PLAYER_1 then
                 self:decelerate(0.25);
                 self:x(SCREEN_CENTER_X);
@@ -83,9 +91,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-241)
 			else
@@ -93,11 +101,14 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
-
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -134,9 +145,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-241)
 			else
@@ -144,11 +155,14 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -166,7 +180,7 @@ for player in ivalues(PlayerNumber) do
 			if (GAMESTATE:GetCurrentSteps(player)) then
 				local chartDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
 				if chartDescription ~= nil then
-					self:settext(string.upper(chartDescription)); --Because the last thing Pump stepcharts have is consistency
+					self:settext(string.upper(chartDescription));
 				else
 					self:settext("");
 				end;
@@ -189,9 +203,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-246)
 			else
@@ -199,11 +213,14 @@ for player in ivalues(PlayerNumber) do
 			end;
 			self:diffusealpha(1);
 		end;
+		
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -236,9 +253,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-198)
 			else
@@ -247,10 +264,13 @@ for player in ivalues(PlayerNumber) do
 			self:diffusealpha(1);
 		end;
 
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -283,9 +303,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-246)
 			else
@@ -294,10 +314,13 @@ for player in ivalues(PlayerNumber) do
 			self:diffusealpha(1);
 		end;
 
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -330,9 +353,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-198)
 			else
@@ -341,10 +364,13 @@ for player in ivalues(PlayerNumber) do
 			self:diffusealpha(1);
 		end;
 
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -377,9 +403,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-246)
 			else
@@ -388,10 +414,13 @@ for player in ivalues(PlayerNumber) do
 			self:diffusealpha(1);
 		end;
 
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -424,9 +453,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-198)
 			else
@@ -435,10 +464,13 @@ for player in ivalues(PlayerNumber) do
 			self:diffusealpha(1);
 		end;
 
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -471,9 +503,9 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsHumanPlayer(player));
-			self:stoptweening():diffusealpha(0);
-			self:decelerate(0.25);
+			self:visible(GAMESTATE:IsHumanPlayer(player))
+			:stoptweening():diffusealpha(0)
+			:decelerate(0.25);
 			if player == PLAYER_1 then
 				self:x(SCREEN_CENTER_X-240)
 			else
@@ -482,10 +514,13 @@ for player in ivalues(PlayerNumber) do
 			self:diffusealpha(1);
 		end;
 
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.25);
-			self:x(SCREEN_CENTER_X);
-			self:visible(false);
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+
+		CloseCommand=function(self)
+			self:decelerate(0.25)
+			:x(SCREEN_CENTER_X)
+			:visible(false);
 		end;
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
@@ -537,21 +572,27 @@ for player in ivalues(PlayerNumber) do
 		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 		
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsSideJoined(player))
+			self:stoptweening()
+			:visible(GAMESTATE:IsSideJoined(player))
 			:decelerate(0.3)
 			:y(baseY+80)
 			:playcommand("Refresh");
 		end;
 		
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.3)
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+
+		CloseCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.3)
 			:y(baseY-60)
 			:visible(false);
 		end;
 		
 		RefreshCommand=function(self)
 			if GAMESTATE:IsHumanPlayer(player) then 
-				self:diffusealpha(1);
+				self:stoptweening()
+				:diffusealpha(1);
 				local steps = GAMESTATE:GetCurrentSteps(player);
 				if steps then
 					if steps:GetStepsType() == "StepsType_Pump_Single" then
@@ -605,21 +646,27 @@ for player in ivalues(PlayerNumber) do
 		CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Refresh")end;
 		
 		SongChosenMessageCommand=function(self)
-			self:visible(GAMESTATE:IsSideJoined(player))
+			self:stoptweening()
+			:visible(GAMESTATE:IsSideJoined(player))
 			:decelerate(0.3)
 			:y(baseY+80)
 			:playcommand("Refresh");
 		end;
 		
-		SongUnchosenMessageCommand=function(self)
-			self:decelerate(0.3)
+		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+
+		CloseCommand=function(self)
+			self:stoptweening()
+			:decelerate(0.3)
 			:y(baseY-60)
 			:visible(false);
 		end;
 			
 		RefreshCommand=function(self)
 			if GAMESTATE:IsHumanPlayer(player) then 
-				self:diffusealpha(1);
+				self:stoptweening()
+				:diffusealpha(1);
 				local steps = GAMESTATE:GetCurrentSteps(player);
 				if steps then
 					if steps:GetMeter() >= 99 then
