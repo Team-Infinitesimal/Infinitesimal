@@ -53,7 +53,8 @@ local t = Def.ActorFrame {
             :queuecommand("Refresh")
         end;
         RefreshCommand=function(self)
-            self:zoom(0.2)
+            self:stoptweening()
+            :zoom(0.2)
             :diffusealpha(0.6)
             :decelerate(0.4)
             :zoom(0.25)
@@ -76,7 +77,8 @@ local t = Def.ActorFrame {
             :queuecommand("Refresh")
         end;
         RefreshCommand=function(self)
-            self:zoom(0.2)
+            self:stoptweening()
+            :zoom(0.2)
             :diffusealpha(0.75)
             :decelerate(0.4)
             :zoom(0.25)
