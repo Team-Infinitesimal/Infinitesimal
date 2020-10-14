@@ -1,4 +1,3 @@
-
 local t = Def.ActorFrame {
 
 	LoadActor(THEME:GetPathG("","SongFrame"))..{
@@ -215,9 +214,9 @@ for pn in ivalues(PlayerNumber) do
 			self:queuecommand("Set");
 		end;
 		
-		OnCommand=cmd(queuecommand,"Set");
-		PlayerJoinedMessageCommand=cmd(queuecommand,"Set");
-		PlayerUnjoinedMessageCommand=cmd(queuecommand,"Set");
+		OnCommand=function(self)self:queuecommand("Set")end;
+		PlayerJoinedMessageCommand=function(self)self:queuecommand("Set")end;
+		PlayerUnjoinedMessageCommand=function(self)self:queuecommand("Set")end;
 
 		-- Update when a player joins
 		SetCommand=function(self)
@@ -294,7 +293,7 @@ for pn in ivalues(PlayerNumber) do
 			:zoom(0.5)
 			:y(SCREEN_CENTER_Y);
 
-			if params.Player == pn then
+			if pn then
 				if pn == PLAYER_1 then
 					self:x(SCREEN_LEFT-100);
 				elseif pn == PLAYER_2 then

@@ -7,7 +7,7 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:Center()
             local song = GAMESTATE:GetCurrentSong()
-            local bg = song:GetBannerPath()
+            local bg = song:GetBackgroundPath()
         end;
     };
 
@@ -15,8 +15,8 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:Center()
             local song = GAMESTATE:GetCurrentSong()
-            local bg = song:GetBannerPath()
-            self:Load(bg):zoomto(SCREEN_WIDTH,SCREEN_HEIGHT);
+            local bg = song:GetBackgroundPath()
+            self:Load(bg):scaletocover(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
             self:diffusealpha(0.25);
         end
     };
