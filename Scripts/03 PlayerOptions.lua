@@ -227,7 +227,7 @@ function AutoVelocity()
     		GoToFirstOnStart= false;
     		OneChoiceForAllPlayers = false;
     		ExportOnChange = false;
-    		Choices = { "ON", "AV -100", "AV -10","AV +10", "AV +100"};
+    		Choices = { "ENABLE", "AV -100", "AV -10","AV +10", "AV +100"};
     		LoadSelections = function(self, list, pn)
       			if GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):AMod() then
         				list[1] = true
@@ -241,30 +241,32 @@ function AutoVelocity()
     		--Abuse the heck out of this one since we're checking what button they pressed and not what's selected or deselected
     		NotifyOfSelection = function(self,pn,choice)
       			--SCREENMAN:SystemMessage("choice "..choice)
-  			local speed;
-  			if choice == 1 then
+  				local speed;
+  				if choice == 1 then
     				--If AMod isn't on, turn it on
     				if not GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):AMod() then
       					local playerState = GAMESTATE:GetPlayerState(pn);
       					--This returns an instance of playerOptions, you need to set it back to the original
       					local playerOptions = playerState:GetPlayerOptions("ModsLevel_Preferred")
-      					playerOptions:AMod(200)
+      					playerOptions:AMod(300)
       					GAMESTATE:GetPlayerState(pn):SetPlayerOptions('ModsLevel_Preferred', playerState:GetPlayerOptionsString("ModsLevel_Preferred"));
       					--SCREENMAN:SystemMessage("New AMod: "..GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():AMod())
     				else --If AMod is on, turn it off.
-    					   GAMESTATE:ApplyGameCommand("mod,2x",pn);
+    					GAMESTATE:ApplyGameCommand("mod,2x",pn);
     				end;
-  			elseif GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):AMod() then
+    				
+  				elseif GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):AMod() then
     				if choice == 2 then
-    				    speed = adjustPlayerAMod(pn, -100);
+    					speed = adjustPlayerAMod(pn, -100);
     				elseif choice == 3 then
-    				    speed = adjustPlayerAMod(pn, -10);
+    					speed = adjustPlayerAMod(pn, -10);
     				elseif choice == 4 then
-    					  speed = adjustPlayerAMod(pn, 10);
+    					speed = adjustPlayerAMod(pn, 10);
     				elseif choice == 5 then
-    					   peed = adjustPlayerAMod(pn, 100);
+    					speed = adjustPlayerAMod(pn, 100);
     				end;
       			end;
+      			
       			--MESSAGEMAN:Broadcast("AModChanged", {Player=pn,Speed=speed});
       			MESSAGEMAN:Broadcast("SpeedModChanged",{Player=pn});
       			--Always return true because we don't want anything to get highlighted.

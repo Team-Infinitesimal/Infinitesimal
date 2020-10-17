@@ -1,5 +1,9 @@
 local t = Def.ActorFrame {
 
+	LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+		Name="Text";
+	};
+	
 	SystemMessageMessageCommand = function(self, params)
 		self:GetChild("Text"):settext(params.Message);
 		self:playcommand( "On" );
