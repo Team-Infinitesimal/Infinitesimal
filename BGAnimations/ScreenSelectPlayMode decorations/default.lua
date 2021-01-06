@@ -6,7 +6,7 @@ local t = Def.ActorFrame {
         else
             PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
         end;
-		
+
         PREFSMAN:SetPreference("TimingWindowSecondsHold",0.104166);
         PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
         PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
@@ -43,7 +43,7 @@ local t = Def.ActorFrame {
             end;
         end;
         ZoomCommand=function(self)
-            self:decelerate(0.3947)
+            self:decelerate(0.4286)
             :zoom(0.55)
             :accelerate(0.3947)
             :zoom(0.5)
@@ -75,7 +75,7 @@ local t = Def.ActorFrame {
             end;
         end;
         ZoomCommand=function(self)
-            self:decelerate(0.3947)
+            self:decelerate(0.4286)
             :zoom(0.55)
             :accelerate(0.3947)
             :zoom(0.5)

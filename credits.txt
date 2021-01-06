@@ -17,5 +17,6 @@ Special thanks to Rhythm Lunatic, Tertu, Gio, and others for advice and help wit
 ~= Graphics / Artwork =~
 - dj505
 
-~= Sounds =~
+~= Audio =~
 - dj505
+- Bedrock
