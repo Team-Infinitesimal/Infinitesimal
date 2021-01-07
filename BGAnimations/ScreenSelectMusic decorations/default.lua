@@ -2,13 +2,13 @@ local t = Def.ActorFrame {
 
 	Def.Quad {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y+160)
-			:zoomx(260)
-			:zoomy(200)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
+						:zoomx(255)
+						:zoomy(500)
             :diffuse(0,0,0,0.75)
         end;
     };
-    
+
     LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
         InitCommand=function(self)
             self:diffusealpha(0)
