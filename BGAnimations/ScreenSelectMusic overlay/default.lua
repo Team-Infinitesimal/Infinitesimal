@@ -8,24 +8,24 @@ local t = Def.ActorFrame {
 			:decelerate(0.2)
 			:diffusealpha(1);
 		end;
-		
+
 		CurrentSongChangedMessageCommand=function(self)
 			self:stoptweening()
 			:zoom(0.74)
 			:decelerate(0.4)
 			:zoom(0.69);
 		end;
-		
+
 		SongUnchosenMessageCommand=function(self)self:playcommand("On");end;
 		PlayerJoinedMessageCommand=function(self)self:playcommand("On");end;
-		
+
 		OnCommand=function(self)
 			self:stoptweening()
 			:zoom(0.69)
 			:decelerate(0.2)
 			:diffusealpha(1);
 		end;
-		
+
 		SongChosenMessageCommand=function(self)
 			self:stoptweening()
 			:decelerate(0.2)
@@ -37,7 +37,7 @@ local t = Def.ActorFrame {
 
 	Def.Quad {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-175)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-142)
             :diffuse(0,0,0,0.6)
         end;
         CurrentSongChangedMessageCommand=function(self)
@@ -59,7 +59,7 @@ local t = Def.ActorFrame {
 
     Def.Quad {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-2)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y+31)
             :diffuse(0,0,0,0.6)
         end;
         CurrentSongChangedMessageCommand=function(self)
@@ -83,7 +83,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:horizalign(center)
             :x(SCREEN_CENTER_X)
-            :y(SCREEN_CENTER_Y-175)
+            :y(SCREEN_CENTER_Y-142)
             :zoom(0.4,0.4)
             :skewx(-0.2)
             :maxwidth(850)
@@ -105,7 +105,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:horizalign(left)
             :x(SCREEN_CENTER_X-170)
-            :y(SCREEN_CENTER_Y-2)
+            :y(SCREEN_CENTER_Y+31)
             :zoom(0.4,0.4)
             :skewx(-0.2)
             :maxwidth(550)
@@ -127,7 +127,7 @@ local t = Def.ActorFrame {
         InitCommand=function(self)
             self:horizalign(right)
             :x(SCREEN_CENTER_X+172)
-            :y(SCREEN_CENTER_Y-2)
+            :y(SCREEN_CENTER_Y+31)
             :zoom(0.4,0.4)
 			:maxwidth(300)
         end;
@@ -182,12 +182,11 @@ local t = Def.ActorFrame {
         end;
     };
 
-  	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
-		InitCommand=function(self)
-			self:x(SCREEN_CENTER_X)
-			:y(93);
-		end;
-  	};
+		LoadActor("DifficultyBar")..{
+				InitCommand=function(self)
+						self:y(20)
+				end;
+		};
 
     --LoadActor(THEME:GetPathG("","Readies"));
 };
@@ -202,7 +201,7 @@ for pn in ivalues(PlayerNumber) do
 			self:y(SCREEN_BOTTOM+79)
 			:zoom(0.4)
 			:diffuse(color("0,0,0,0"))
-			
+
 			if (pn == PLAYER_1) then
 				self:horizalign(right)
 				self:x(SCREEN_CENTER_X-110)
@@ -210,10 +209,10 @@ for pn in ivalues(PlayerNumber) do
 				self:horizalign(left)
 				self:x(SCREEN_CENTER_X+110)
 			end;
-			
+
 			self:queuecommand("Set");
 		end;
-		
+
 		OnCommand=function(self)self:queuecommand("Set")end;
 		PlayerJoinedMessageCommand=function(self)self:queuecommand("Set")end;
 		PlayerUnjoinedMessageCommand=function(self)self:queuecommand("Set")end;
@@ -233,7 +232,7 @@ for pn in ivalues(PlayerNumber) do
 					self:settext(profile)
 				end;
 			end;
-			
+
 			self:sleep(0.25)
 			self:decelerate(0.75)
 			self:diffusealpha(1)

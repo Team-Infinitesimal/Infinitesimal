@@ -3,17 +3,17 @@ local t = Def.ActorFrame {
     LoadActor(THEME:GetPathG("","PreviewFrame"))..{
         InitCommand=function(self)
             self:horizalign(center)
-            :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-53)
-            :zoom(0.8,0.8)
+            :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-55)
+            :zoom(0.79,0.79)
         end;
     };
 
     Def.Sprite {
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-88.5)
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-55)
             :Load(THEME:GetPathG("","static"));
         end;
-		
+
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(1):Load(THEME:GetPathG("","static")):zoomto(360,202.5):decelerate(0.4);
             if GAMESTATE:GetCurrentSong() then
@@ -24,7 +24,7 @@ local t = Def.ActorFrame {
       			end;
 			end;
         end;
-		
+
         Load2Command=function(self)
             local bg = GetSongBackground(true)
             if bg then
@@ -34,7 +34,7 @@ local t = Def.ActorFrame {
             end;
             self:zoomto(360,202.5);
         end;
-		
+
         LoadAnimatedCommand=function(self)
         	self:Load(nil); -- an attempt to clear out previous preview to conserve on memory usage
             local path = GAMESTATE:GetCurrentSong():GetPreviewVidPath()
