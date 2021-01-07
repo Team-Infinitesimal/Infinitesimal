@@ -6,10 +6,10 @@ Special thanks to Rhythm Lunatic, Tertu, Gio, and others for advice and help wit
 
 ~= Main Programming =~
 - dj505
-- SheepyChris/Chris573
+- SheepyChris
 
 ~= Testing / Feedback =~
-- SheepyChris/Chris573
+- SheepyChris
 - 4199
 - SHRMP0
 - Sushi

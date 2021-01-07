@@ -1,14 +1,6 @@
-local baseZoom = 0.25
-local spacing = 29;
-local delay = 2
-
-local baseX = SCREEN_CENTER_X - (spacing*5.5)
-local baseY = SCREEN_CENTER_Y + 40;
-
-
 local t = Def.ActorFrame {};
 
-
+--[[ work on this later
 t[#t+1] = LoadActor(THEME:GetPathG("","GradientUI"))..{
 	InitCommand=function(self)
 		self:zoomx(baseZoom+0.5075)
@@ -35,14 +27,18 @@ t[#t+1] = LoadActor(THEME:GetPathG("","GradientUI"))..{
 		:visible(false);
 	end;
 };
+]]--
 
+local InfoXP1 = SCREEN_CENTER_X-235
+local InfoXP2 = SCREEN_CENTER_X+235
+local InfoY = SCREEN_CENTER_Y-70
 
 for player in ivalues(PlayerNumber) do
 
     t[#t+1] = LoadActor("ChartInfo"..pname(player))..{
 
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y-85)
+            self:xy(SCREEN_CENTER_X,InfoY)
             :zoom(0.33)
 			:visible(false)
         end;
@@ -52,10 +48,10 @@ for player in ivalues(PlayerNumber) do
             :visible(GAMESTATE:IsHumanPlayer(player));
             if player == PLAYER_1 then
                 self:decelerate(0.25);
-                self:x(SCREEN_CENTER_X-255);
+                self:x(InfoXP1);
             elseif player == PLAYER_2 then
                 self:decelerate(0.25);
-                self:x(SCREEN_CENTER_X+255);
+                self:x(InfoXP2);
             end;
         end;
         
@@ -64,14 +60,9 @@ for player in ivalues(PlayerNumber) do
 
         CloseCommand=function(self)
             self:stoptweening()
-			:visible(false);
-            if player == PLAYER_1 then
-                self:decelerate(0.25);
-                self:x(SCREEN_CENTER_X);
-            elseif player == PLAYER_2 then
-                self:decelerate(0.25);
-                self:x(SCREEN_CENTER_X);
-            end;
+			:visible(false)
+			:decelerate(0.25)
+            :x(SCREEN_CENTER_X);
         end;
     };
 	
@@ -82,7 +73,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-143)
+			:y(InfoY-57.5)
 			:horizalign(center)
 			:zoom(0.25,0.25)
 			:maxwidth(350)
@@ -95,9 +86,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-241)
+				self:x(InfoXP1+13)
 			else
-				self:x(SCREEN_CENTER_X+242) --P2 isn't exactly mirrored from P1
+				self:x(InfoXP2-14)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -137,7 +128,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-124)
+			:y(InfoY-38.5)
 			:horizalign(center)
 			:zoom(0.25,0.25)
 			:maxwidth(350)
@@ -149,9 +140,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-241)
+				self:x(InfoXP1+13)
 			else
-				self:x(SCREEN_CENTER_X+241)
+				self:x(InfoXP2-14)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -195,7 +186,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-95)
+			:y(InfoY-10)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -207,9 +198,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-246)
+				self:x(InfoXP1+10)
 			else
-				self:x(SCREEN_CENTER_X+237)
+				self:x(InfoXP2-17.5)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -245,7 +236,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-95)
+			:y(InfoY-10)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -257,9 +248,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-198)
+				self:x(InfoXP1+57.5)
 			else
-				self:x(SCREEN_CENTER_X+285)
+				self:x(InfoXP2+30)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -295,7 +286,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-70)
+			:y(InfoY+15)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -307,9 +298,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-246)
+				self:x(InfoXP1+10)
 			else
-				self:x(SCREEN_CENTER_X+237)
+				self:x(InfoXP2-17.5)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -345,7 +336,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-70)
+			:y(InfoY+15)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -357,9 +348,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-198)
+				self:x(InfoXP1+57.5)
 			else
-				self:x(SCREEN_CENTER_X+285)
+				self:x(InfoXP2+30)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -395,7 +386,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-45)
+			:y(InfoY+40)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -407,9 +398,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-246)
+				self:x(InfoXP1+10)
 			else
-				self:x(SCREEN_CENTER_X+237)
+				self:x(InfoXP2-17.5)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -445,7 +436,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-45)
+			:y(InfoY+40)
 			:horizalign(right)
 			:zoom(0.3,0.3)
 			:maxwidth(100)
@@ -457,9 +448,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-198)
+				self:x(InfoXP1+57.5)
 			else
-				self:x(SCREEN_CENTER_X+285)
+				self:x(InfoXP2+30)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -495,7 +486,7 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(SCREEN_CENTER_Y-16)
+			:y(InfoY+70)
 			:horizalign(center)
 			:zoom(0.3,0.3)
 			:maxwidth(260)
@@ -507,9 +498,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(SCREEN_CENTER_X-240)
+				self:x(InfoXP1+13)
 			else
-				self:x(SCREEN_CENTER_X+240)
+				self:x(InfoXP2-14)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -550,12 +541,14 @@ for player in ivalues(PlayerNumber) do
 	--		Large difficulty ball and text
 	--=============================================================================
 	
+	--[[ work on this later too
 	t[#t+1] = LoadActor(THEME:GetPathG("","DifficultyDisplay/_icon"))..{
 		InitCommand=function(self)
 			self:zoom(baseZoom+0.25)
 			:x(baseX+spacing*5.5)
 			:y(baseY-60)
 			:animate(false)
+			:visible(false)
 			
 			if player == PLAYER_1 then
 				self:addx(spacing*-5.5);
@@ -629,6 +622,7 @@ for player in ivalues(PlayerNumber) do
 			:shadowcolor(color("0,0,0,1"))
 			:x(baseX+spacing*5.5)
 			:y(baseY-60)
+			:visible(false)
 			
 			if player == PLAYER_1 then
 				self:addx(-spacing*5.5);
@@ -676,6 +670,7 @@ for player in ivalues(PlayerNumber) do
 			end;
 		end
 	};
+	]]--
 	
 end;
 

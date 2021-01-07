@@ -9,7 +9,7 @@ local baseZoom = 0.25
 local spacing = 29;
 local delay = 2
 
-local baseX = basicMode and -spacing*1.5 or -(spacing*5.5)
+local baseX = -(spacing*6.5)
 local baseY = 190;
 
 local stepsArray, stepsSelected;
@@ -46,7 +46,7 @@ local t = Def.ActorFrame {
 	end;
 }
 
-for i=1,12 do
+for i=1,14 do
 
 	local j;
 	
