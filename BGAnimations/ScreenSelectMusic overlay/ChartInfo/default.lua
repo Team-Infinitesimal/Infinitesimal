@@ -86,9 +86,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(InfoXP1+13)
+				self:x(InfoXP1+14)
 			else
-				self:x(InfoXP2-14)
+				self:x(InfoXP2-13)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -140,9 +140,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(InfoXP1+13)
+				self:x(InfoXP1+14)
 			else
-				self:x(InfoXP2-14)
+				self:x(InfoXP2-13)
 			end;
 			self:diffusealpha(1);
 		end;
@@ -498,9 +498,9 @@ for player in ivalues(PlayerNumber) do
 			:stoptweening():diffusealpha(0)
 			:decelerate(0.25);
 			if player == PLAYER_1 then
-				self:x(InfoXP1+13)
+				self:x(InfoXP1+14)
 			else
-				self:x(InfoXP2-14)
+				self:x(InfoXP2-13)
 			end;
 			self:diffusealpha(1);
 		end;

@@ -10,7 +10,7 @@ local spacing = 29;
 local delay = 2
 
 local baseX = -(spacing*6.5)
-local baseY = 190;
+local baseY = 0;
 
 local stepsArray, stepsSelected;
 
@@ -171,9 +171,8 @@ for i=1,14 do
 				self:zoom(baseZoom)
 				:x(baseX+spacing*(i-1))
 				:y(baseY)
-				:rotationx(180)
-				:spin()
-				:visible(false);
+				:rotationz(45)
+				:diffusealpha(0);
 			end;
 			
 			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Set")end;
@@ -188,7 +187,8 @@ for i=1,14 do
 			
 			HideCursorCommand=function(self)
 				stepsSelected = false;
-				self:visible(false);
+				self:decelerate(0.1)
+				:diffusealpha(0);
 			end;
 	
 			SetCommand=function(self)
@@ -203,10 +203,11 @@ for i=1,14 do
 						j = i;
 					end;
 					
+					self:decelerate(0.1);
 					if GAMESTATE:GetCurrentSteps(pn) == stepsArray[j] then
-						self:visible(true);
+						self:diffusealpha(1);
 					else
-						self:visible(false);
+						self:diffusealpha(0);
 					end;
 				end;
 			end;

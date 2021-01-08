@@ -1,5 +1,7 @@
 local player = ...
 
+local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and true or false;
+
 local alignment = 0;
 if player == "PlayerNumber_P2" then alignment = 1 end;
 
@@ -12,7 +14,7 @@ if player == "PlayerNumber_P2" then lgoffset = 190 end;
 local dboffset = -95;
 if player == "PlayerNumber_P2" then dboffset = 95 end;
 
-local spacing = 29.18;
+local spacing = 29;
 local showdelay = 0.08;
 local playerstats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player);
 
@@ -37,347 +39,195 @@ local score 	= 	scorecap(playerstats:GetScore());
 
 local t = Def.ActorFrame {};
 
-if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
+t[#t+1] = Def.ActorFrame {
+
+	InitCommand=function(self)
+		self:shadowlengthx(1)
+		:shadowlengthy(1)
+		:shadowcolor(0,0,0,1)
+		if promode then
+			self:addy(spacing/2+2);
+		else
+			self:addy(2);
+		end;
+	end;
+	
+	--Superbs
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(-spacing)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75)
+			:decelerate(0.3)
+			if promode then
+				self:diffusealpha(1)
+				:settext(superbs);
+			end;
+		end;
+	};
+
+	-- Perfects
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext(perfects);
+		end;
+	};
+
+	-- Greats
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(spacing)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext(greats);
+		end;
+	};
+
+	-- Goods
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(spacing*2)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay*2)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext(goods);
+		end;
+	};
+
+	-- Bads
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(spacing*3)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay*3)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext(bads);
+		end;
+	};
+
+	-- Misses
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(spacing*4)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay*4)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext(misses);
+		end;
+	};
+
+	-- Max Combo
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(spacing*5)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay*5)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext(combo);
+		end;
+	};
+
+	-- Accuracy
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(spacing*6)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay*6)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext(accuracy.."%");
+		end;
+	};
+
+	-- Score
+	LoadFont("montserrat/_montserrat 40px")..{
+		InitCommand=function(self)
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(spacing*7)
+			:maxwidth(1000)
+			:zoom(0.5);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay*7)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext(score);
+		end;
+	};
+};
+--[[
     t[#t+1] = Def.ActorFrame {
 
         InitCommand=function(self)
             self:shadowlengthx(1)
             :shadowlengthy(1)
             :shadowcolor(0,0,0,1)
+            
         end;
 
-        -- Perfects
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(perfects);
-            end;
-        };
-
-        -- Greats
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(greats);
-            end;
-        };
-
-        -- Goods
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*2)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*2)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(goods);
-            end;
-        };
-
-        -- Bads
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*3)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*3)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(bads);
-            end;
-        };
-
-        -- Misses
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*4)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*4)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(misses);
-            end;
-        };
-
-        -- Max Combo
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*5)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*5)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(combo);
-            end;
-        };
-
-        -- Accuracy
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*6)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*6)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(accuracy.."%");
-            end;
-        };
-
-        -- Score
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*7)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*7)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(score);
-            end;
-        };
+        
     };
-else
-    t[#t+1] = Def.ActorFrame {
-
-        InitCommand=function(self)
-            self:shadowlengthx(1)
-            :shadowlengthy(1)
-            :shadowcolor(0,0,0,1)
-            :addy(spacing/2);
-        end;
-
-        --Superbs
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(-spacing)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(superbs);
-            end;
-        };
-
-        -- Perfects
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(perfects);
-            end;
-        };
-
-        -- Greats
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(greats);
-            end;
-        };
-
-        -- Goods
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*2)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*2)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(goods);
-            end;
-        };
-
-        -- Bads
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*3)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*3)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(bads);
-            end;
-        };
-
-        -- Misses
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*4)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*4)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(misses);
-            end;
-        };
-
-        -- Max Combo
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*5)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*5)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(combo);
-            end;
-        };
-
-        -- Accuracy
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*6)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*6)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(accuracy.."%");
-            end;
-        };
-
-        -- Score
-        LoadFont("montserrat/_montserrat 40px")..{
-            InitCommand=function(self)
-                self:halign(alignment)
-                :diffusealpha(0)
-                :skewx(-0.1)
-                :x(offsetfromcenterx)
-                :addy(spacing*7)
-                :maxwidth(1000)
-                :zoom(0.5);
-            end;
-            OnCommand=function(self)
-                self:sleep(1.75+showdelay*7)
-                :decelerate(0.3)
-                :diffusealpha(1)
-                :settext(score);
-            end;
-        };
-    };
-end;
+]]--
 
 --- ------------------------------------------------
 --- Difficulty display

@@ -13,16 +13,30 @@ local t = Def.ActorFrame {
             :zoom(0.75,0.75)
         end;
     };
+    
+    LoadActor(THEME:GetPathG("","noise"))..{
+		InitCommand=function(self)
+            self:xy(PreviewX,PreviewY)
+            :zoomto(PreviewWidth,PreviewHeight)
+            :texcoordvelocity(24,16);
+        end;
+	};
+	
+	LoadActor(THEME:GetPathG("","pixelLogo"))..{
+		InitCommand=function(self)
+            self:xy(PreviewX,PreviewY)
+            :zoomto(PreviewWidth*0.8,PreviewHeight*0.8);
+        end;
+	};
 	
 	-- Video display
     Def.Sprite {
         InitCommand=function(self)
             self:xy(PreviewX,PreviewY)
-            :Load(THEME:GetPathG("","static"));
         end;
 
         CurrentSongChangedMessageCommand=function(self)
-            self:stoptweening():diffusealpha(1):Load(THEME:GetPathG("","static")):zoomto(PreviewWidth,PreviewHeight):sleep(0.4);
+            self:stoptweening():diffusealpha(0):sleep(0.4);
             if GAMESTATE:GetCurrentSong() then
 				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil then
       				self:queuecommand("Load2");
@@ -50,14 +64,14 @@ local t = Def.ActorFrame {
             else
                 self:Load(THEME:GetPathG("","static"));
             end;
-            self:zoomto(PreviewWidth,PreviewHeight);
+            self:zoomto(PreviewWidth,PreviewHeight):decelerate(0.2):diffusealpha(1);
         end;
     };
     
     -- Top info panel
     Def.Quad {
         InitCommand=function(self)
-            self:xy(PreviewX,PreviewY-85)
+            self:xy(PreviewX,PreviewY-86)
 			:zoomx(PreviewWidth)
 			:zoomy(20)
             :diffuse(0,0,0,0.75)
@@ -65,11 +79,11 @@ local t = Def.ActorFrame {
     };
     
     -- Title
-    LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+    LoadFont("Montserrat semibold 40px")..{
         InitCommand=function(self)
             self:horizalign(left)
             :x(PreviewX-(PreviewWidth/2)+4)
-            :y(PreviewY-85)
+            :y(PreviewY-86)
             :zoom(0.35)
             :maxwidth(800)
         end;
@@ -83,11 +97,11 @@ local t = Def.ActorFrame {
     };
     
     -- Length
-    LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+    LoadFont("Montserrat semibold 40px")..{
         InitCommand=function(self)
             self:horizalign(right)
             :x(PreviewX+(PreviewWidth/2)-4)
-            :y(PreviewY-85)
+            :y(PreviewY-86)
             :zoom(0.35)
             :maxwidth(550)
         end;
@@ -113,7 +127,7 @@ local t = Def.ActorFrame {
     };
 	
 	-- Artist
-    LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+    LoadFont("Montserrat semibold 40px")..{
         InitCommand=function(self)
             self:horizalign(left)
             :x(PreviewX-(PreviewWidth/2)+4)
@@ -131,7 +145,7 @@ local t = Def.ActorFrame {
     };
 	
 	-- BPM
-	LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
         InitCommand=function(self)
             self:horizalign(right)
             :x(PreviewX+(PreviewWidth/2)-4)

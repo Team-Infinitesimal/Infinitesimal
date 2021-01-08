@@ -1,36 +1,8 @@
+local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and true or false;
+
 local t = Def.ActorFrame {};
 
-if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
-    t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/GridLines"))..{
-        InitCommand=function(self)
-            self:diffusealpha(0)
-            :zoomx(0)
-            :zoomy(0.39)
-            :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
-            end;
-        OnCommand=function(self)
-            self:sleep(1.25)
-            :diffusealpha(0.25)
-            :decelerate(0.5)
-            :zoomx(0.44)
-            end;
-    };
-
-    t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/CenterColumn"))..{
-        InitCommand=function(self)
-            self:diffusealpha(0)
-            :zoomy(0)
-            :zoomx(0.4925)
-            :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
-            end;
-        OnCommand=function(self)
-            self:sleep(1)
-            :diffusealpha(1)
-            :decelerate(0.3)
-            :zoomy(0.4925)
-            end;
-    };
-else
+if promode then
     t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/ProGridLines"))..{
         InitCommand=function(self)
             self:diffusealpha(0)
@@ -47,6 +19,36 @@ else
     };
 
     t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/ProCenterColumn"))..{
+        InitCommand=function(self)
+            self:diffusealpha(0)
+            :zoomy(0)
+            :zoomx(0.4925)
+            :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
+            end;
+        OnCommand=function(self)
+            self:sleep(1)
+            :diffusealpha(1)
+            :decelerate(0.3)
+            :zoomy(0.4925)
+            end;
+    };
+else 
+    t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/GridLines"))..{
+        InitCommand=function(self)
+            self:diffusealpha(0)
+            :zoomx(0)
+            :zoomy(0.39)
+            :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
+            end;
+        OnCommand=function(self)
+            self:sleep(1.25)
+            :diffusealpha(0.25)
+            :decelerate(0.5)
+            :zoomx(0.44)
+            end;
+    };
+
+    t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/CenterColumn"))..{
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomy(0)
