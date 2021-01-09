@@ -42,7 +42,7 @@ if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
 
     t[#t+1] = Def.Sprite {
         InitCommand=function(self)
-            self:zoom(0.4):diffusealpha(0):addx(lgoffset);
+            self:zoom(0.8):diffusealpha(0):addx(lgoffset);
             self:sleep(2.5);
             if misses == 0 then
                 if bads <= 0 then
@@ -74,7 +74,7 @@ if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
                     self:Load(THEME:GetPathG("", ""..letF));
                 end
             end;
-            self:accelerate(0.3):diffusealpha(1);
+            self:accelerate(0.3):diffusealpha(1):zoom(0.4);
         end;
     };
 
@@ -82,7 +82,7 @@ else
 
     t[#t+1] = Def.Sprite {
         InitCommand=function(self)
-            self:zoom(0.4):diffusealpha(0):addx(lgoffset);
+            self:zoom(0.8):diffusealpha(0):addx(lgoffset);
             self:sleep(2.5);
             if misses == 0 then
                 if bads <= 0 then
@@ -118,7 +118,7 @@ else
                     self:Load(THEME:GetPathG("", ""..letF));
                 end
             end;
-            self:accelerate(0.3):diffusealpha(1);
+            self:accelerate(0.3):diffusealpha(1):zoom(0.4);
         end;
       };
 end;
