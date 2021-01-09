@@ -1,22 +1,5 @@
 local t = Def.ActorFrame {
 
-    OffCommand=function(self)
-        if SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber()) == 0 then
-            PREFSMAN:SetPreference("AllowW1",'AllowW1_Never');
-        else
-            PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
-        end;
-
-        PREFSMAN:SetPreference("TimingWindowSecondsHold",0.104166);
-        PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
-        PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
-		PREFSMAN:SetPreference("TimingWindowSecondsW1",0.031250);
-		PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062500);
-		PREFSMAN:SetPreference("TimingWindowSecondsW3",0.104166);
-		PREFSMAN:SetPreference("TimingWindowSecondsW4",0.145833);
-		PREFSMAN:SetPreference("TimingWindowSecondsW5",0.187500);
-    end;
-
     LoadActor("CornerArrows");
 
     LoadActor(THEME:GetPathG("","ModeSelect/ArcadeMode"))..{
@@ -34,6 +17,7 @@ local t = Def.ActorFrame {
         end;
         RefreshCommand=function(self)
             if SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber()) == 0 then
+				PREFSMAN:SetPreference("AllowW1",'AllowW1_Never');
                 self:diffusealpha(1)
                 :queuecommand("Zoom")
             else
@@ -66,6 +50,7 @@ local t = Def.ActorFrame {
         end;
         RefreshCommand=function(self)
             if SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber()) == 1 then
+				PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
                 self:diffusealpha(1)
                 :queuecommand("Zoom")
             else

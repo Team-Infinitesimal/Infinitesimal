@@ -47,56 +47,66 @@ function OptionRowJudgement()
         ExportOnChange = true;
         Choices = {"NORMAL", "HARD", "VERY HARD", "INFINITY", "GROOVE", "HERO"};
         LoadSelections = function(self, list, pn)
-            local window = PREFSMAN:GetPreference("TimingWindowSecondsW2")
-            if window == 0.062500 then -- NJ
+			-- Thank you StepMania for not cutting off your extra decimals
+            local window = tonumber(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW5")));
+            --SCREENMAN:SystemMessage(window);
+            if window == 0.187500 then -- NJ
                 list[1] = true;
-            elseif window == 0.045833 then -- HJ
+            elseif window == 0.170833 then -- HJ
                 list[2] = true;
-            elseif window == 0.029166 then -- VJ
+            elseif window == 0.129166 then -- VJ
                 list[3] = true;
-            elseif window == 0.058000 then -- INFINITY
+            elseif window == 0.200000 then -- INFINITY
                 list[4] = true;
-            elseif window == 0.043000 then -- ITG
+            elseif window == 0.180000 then -- ITG
                 list[5] = true;
-            elseif window == 0.062501 then -- GH
+            elseif window == 0.062500 then -- GH
                 list[6] = true;
             else
-                list[1] = true;
+				list[1] = true; -- Fallback to NJ and set it
+				PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
+				PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
+				PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500);
+				PREFSMAN:SetPreference("TimingWindowSecondsW1",0.031250);
+				PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062500);
+				PREFSMAN:SetPreference("TimingWindowSecondsW3",0.104166);
+				PREFSMAN:SetPreference("TimingWindowSecondsW4",0.145833);
+				PREFSMAN:SetPreference("TimingWindowSecondsW5",0.187500);
             end;
         end;
         SaveSelections = function(self, list, pn)
             PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
             PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
             if list[1] == true then                                         -- NJ
-                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.104166);
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500);
                 PREFSMAN:SetPreference("TimingWindowSecondsW1",0.031250);
                 PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062500);
                 PREFSMAN:SetPreference("TimingWindowSecondsW3",0.104166);
                 PREFSMAN:SetPreference("TimingWindowSecondsW4",0.145833);
                 PREFSMAN:SetPreference("TimingWindowSecondsW5",0.187500);
             elseif list[2] == true then                                     -- HJ
-                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.104166); -- HJ still has the same hold tolerance as NJ
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500); -- HJ still has the same hold tolerance as NJ
                 PREFSMAN:SetPreference("TimingWindowSecondsW1",0.022916);
                 PREFSMAN:SetPreference("TimingWindowSecondsW2",0.045833);
                 PREFSMAN:SetPreference("TimingWindowSecondsW3",0.087500);
                 PREFSMAN:SetPreference("TimingWindowSecondsW4",0.129166);
                 PREFSMAN:SetPreference("TimingWindowSecondsW5",0.170833);
             elseif list[3] == true then                                     -- VJ
-                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.029166);
                 PREFSMAN:SetPreference("TimingWindowSecondsW1",0.014583);
                 PREFSMAN:SetPreference("TimingWindowSecondsW2",0.029166);
                 PREFSMAN:SetPreference("TimingWindowSecondsW3",0.062500);
                 PREFSMAN:SetPreference("TimingWindowSecondsW4",0.095833);
                 PREFSMAN:SetPreference("TimingWindowSecondsW5",0.129166);
             elseif list[4] == true then                                     -- INFINITY
-                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.32000);  -- lol
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.05800);  -- Original was unmodified from ITG, their StepMania build probably handled it differently
                 PREFSMAN:SetPreference("TimingWindowSecondsW1",0.028000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW2",0.058000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW3",0.115000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW4",0.160000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW5",0.200000);
             elseif list[5] == true then                                     -- GROOVE
-                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500); -- Not sure what the hold tolerance is for ITG
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.32000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW1",0.021500);
                 PREFSMAN:SetPreference("TimingWindowSecondsW2",0.043000);
                 PREFSMAN:SetPreference("TimingWindowSecondsW3",0.102000);
@@ -128,7 +138,7 @@ function OptionRowModeSelect()
             local mode = PREFSMAN:GetPreference("AllowW1")
             if mode == "AllowW1_Everywhere" then -- Pro Mode
                 list[1] = true;
-            elseif mode == "AllowW1_Never" then -- Arcade Mode
+            else -- Arcade Mode
                 list[2] = true;
             end;
         end;
@@ -197,84 +207,4 @@ function OptionRowAvailableNoteskins()
   	};
   	setmetatable(t, t)
   	return t
-end
-
-function adjustPlayerAMod(pn, amount)
-	--SCREENMAN:SystemMessage(playerState);
-  	local playerState = GAMESTATE:GetPlayerState(pn);
-  	--This returns an instance of playerOptions, you need to set it back to the original
-  	local playerOptions = playerState:GetPlayerOptions("ModsLevel_Preferred")
-  	--SCREENMAN:SystemMessage(PlayerState:GetPlayerOptionsString("ModsLevel_Current"));
-  	assert(playerOptions:AMod(),"NO AMod SET!!!!")
-  	if amount+playerOptions:AMod() < 100 then
-  		  playerOptions:AMod(800);
-  	elseif amount+playerOptions:AMod() > 1000 then
-  		  playerOptions:AMod(100);
-  	else
-  		  playerOptions:AMod(playerOptions:AMod()+amount);
-  	end;
-  	GAMESTATE:GetPlayerState(pn):SetPlayerOptions('ModsLevel_Preferred', playerState:GetPlayerOptionsString("ModsLevel_Preferred"));
-  	--SCREENMAN:SystemMessage(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred"));
-  	return playerOptions:AMod();
-end
-
---AMod only
-function AutoVelocity()
-  	local t = {
-    		Name = "UserPrefSpeedMods";
-    		LayoutType = "ShowAllInRow";
-    		SelectType = "SelectMultiple";
-    		GoToFirstOnStart= false;
-    		OneChoiceForAllPlayers = false;
-    		ExportOnChange = false;
-    		Choices = { "ENABLE", "AV -100", "AV -10","AV +10", "AV +100"};
-    		LoadSelections = function(self, list, pn)
-      			if GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):AMod() then
-        				list[1] = true
-        				--SCREENMAN:SystemMessage("AMod!")
-      			end;
-    		end;
-    		--We're not saving anything!
-    		SaveSelections = function(self, list, pn)
-
-    		end;
-    		--Abuse the heck out of this one since we're checking what button they pressed and not what's selected or deselected
-    		NotifyOfSelection = function(self,pn,choice)
-      			--SCREENMAN:SystemMessage("choice "..choice)
-  				local speed;
-  				if choice == 1 then
-    				--If AMod isn't on, turn it on
-    				if not GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):AMod() then
-      					local playerState = GAMESTATE:GetPlayerState(pn);
-      					--This returns an instance of playerOptions, you need to set it back to the original
-      					local playerOptions = playerState:GetPlayerOptions("ModsLevel_Preferred")
-      					playerOptions:AMod(300)
-      					GAMESTATE:GetPlayerState(pn):SetPlayerOptions('ModsLevel_Preferred', playerState:GetPlayerOptionsString("ModsLevel_Preferred"));
-      					--SCREENMAN:SystemMessage("New AMod: "..GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():AMod())
-    				else --If AMod is on, turn it off.
-    					GAMESTATE:ApplyGameCommand("mod,2x",pn);
-    				end;
-    				
-  				elseif GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):AMod() then
-    				if choice == 2 then
-    					speed = adjustPlayerAMod(pn, -100);
-    				elseif choice == 3 then
-    					speed = adjustPlayerAMod(pn, -10);
-    				elseif choice == 4 then
-    					speed = adjustPlayerAMod(pn, 10);
-    				elseif choice == 5 then
-    					speed = adjustPlayerAMod(pn, 100);
-    				end;
-      			end;
-      			
-      			--MESSAGEMAN:Broadcast("AModChanged", {Player=pn,Speed=speed});
-      			MESSAGEMAN:Broadcast("SpeedModChanged",{Player=pn});
-      			--Always return true because we don't want anything to get highlighted.
-      			return true;
-
-      			--self.Choices = {"asdON", "AasdadV -100", "AV222 -10","A21313V +10", "AV +1asdad00"};
-    		end;
-  	};
-  	setmetatable( t, t );
-  	return t;
 end
