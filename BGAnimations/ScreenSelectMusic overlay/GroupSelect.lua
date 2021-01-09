@@ -169,6 +169,7 @@ local t = Def.ActorFrame{
 		--I got sick of input locking when I reloaded the screen, since the wheel isn't open when you reload the screen.
 		SCREENMAN:set_input_redirected(PLAYER_1, false);
 		SCREENMAN:set_input_redirected(PLAYER_2, false);
+		isPickingDifficulty = false;
 	end;
 
 	--TwoPartSelect handlers.
