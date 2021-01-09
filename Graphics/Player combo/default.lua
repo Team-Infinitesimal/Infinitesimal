@@ -20,7 +20,7 @@ local t = Def.ActorFrame {
 	},
 	LoadActor("ComboLabel")..{
 		Name="ComboLabel";
-		OnCommand = function(self)self:vertalign(top):y(-47)end;
+		OnCommand = function(self)self:vertalign(top):y(-45)end;
 	};
 
 	InitCommand = function(self)
