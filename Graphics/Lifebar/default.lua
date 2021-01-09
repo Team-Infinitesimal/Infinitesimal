@@ -467,7 +467,8 @@ local t = Def.ActorFrame {
 		Condition=(GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides");
 		InitCommand=function(self)self:y(SCREEN_TOP+18):x(SCREEN_CENTER_X):zoomy(0.8*0.66):zoomx((320/384)*0.85*0.71)end; --playcommand,"On";
 	};
-
+	
+	--[[ TO BE WORKED ON
 	-------------------------------------P1 SCORE gato
 	LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
 
@@ -626,6 +627,7 @@ local t = Def.ActorFrame {
 			end
 		end;
 	};
+	]]--
 
 
 	--LoadActor("song meter");
