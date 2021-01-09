@@ -38,6 +38,8 @@ local letC = "LetterGrades/PassC"
 local letD = "LetterGrades/PassD"
 local letF = "LetterGrades/PassF" ]]
 
+-- I'm so sorry you have to see this
+
 if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
 
     t[#t+1] = Def.Sprite {
