@@ -401,7 +401,7 @@ function ArbitrarySpeedMods()
 					val.speed= math.round(new_val)
 				end
 			elseif real_choice >= 5 then
-				val.mode= ({"x", "C", "M", "AV "})[real_choice - 4]
+				val.mode= ({"x", "C", "m", "a"})[real_choice - 4]
 			end
 			self:GenChoices()
 			MESSAGEMAN:Broadcast("SpeedChoiceChanged", {pn= pn, mode= val.mode, speed= val.speed})
