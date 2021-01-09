@@ -14,7 +14,7 @@ local LabelMaxZoom = THEME:GetMetric("Combo", "LabelMaxZoom")
 local t = Def.ActorFrame {
 
 	Def.BitmapText {
-		Font="Montserrat semibold 40px",
+		Font="Combo numbers",
 		Name="Number",
 		OnCommand = THEME:GetMetric("Combo", "NumberOnCommand"),
 	},
