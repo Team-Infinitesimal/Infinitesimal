@@ -20,7 +20,7 @@ local t = Def.ActorFrame {
 	},
 	LoadActor("ComboLabel")..{
 		Name="ComboLabel";
-		OnCommand = function(self)self:vertalign(top):y(4)end;
+		OnCommand = function(self)self:vertalign(top):y(-47)end;
 	};
 
 	InitCommand = function(self)
@@ -41,7 +41,7 @@ local t = Def.ActorFrame {
 
 		param.Zoom = scale( iCombo, 0, NumberMaxZoomAt, NumberMinZoom, NumberMaxZoom )
 		param.Zoom = clamp( param.Zoom, NumberMinZoom, NumberMaxZoom )
-		
+
 		c.ComboLabel:visible(true)
 		c.Number:visible(true)
 		c.Number:settext( string.format("%i", iCombo) )
