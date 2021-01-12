@@ -1,5 +1,4 @@
 local c
-local player = Var "Player"
 local ShowComboAt = THEME:GetMetric("Combo", "ShowComboAt")
 local Pulse = THEME:GetMetric("Combo", "PulseCommand")
 local PulseLabel = THEME:GetMetric("Combo", "PulseLabelCommand")

@@ -68,11 +68,11 @@ for i=1,14 do
 			
 			RefreshCommand=function(self)
 				if stepsArray then
-					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+					if GetCurrentStepsIndex(PLAYER_1) > 14 or GetCurrentStepsIndex(PLAYER_2) > 14 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
-							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-14);
 						else
-							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-14);
 						end;
 					else
 						j = i;
@@ -134,11 +134,11 @@ for i=1,14 do
 				self:stoptweening();
 
 				if stepsArray then
-					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+					if GetCurrentStepsIndex(PLAYER_1) > 14 or GetCurrentStepsIndex(PLAYER_2) > 14 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
-							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-14);
 						else
-							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-14);
 						end;
 					else
 						j = i;
@@ -193,11 +193,11 @@ for i=1,14 do
 	
 			SetCommand=function(self)
 				if stepsArray and stepsSelected and GAMESTATE:IsHumanPlayer(pn) then
-					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+					if GetCurrentStepsIndex(PLAYER_1) > 14 or GetCurrentStepsIndex(PLAYER_2) > 14 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
-							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-14);
 						else
-							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-14);
 						end;
 					else
 						j = i;
