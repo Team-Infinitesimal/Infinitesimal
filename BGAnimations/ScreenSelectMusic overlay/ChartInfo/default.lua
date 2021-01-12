@@ -56,7 +56,7 @@ for player in ivalues(PlayerNumber) do
         end;
         
         SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
         CloseCommand=function(self)
             self:stoptweening()
@@ -94,7 +94,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 		
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 		
 		CloseCommand=function(self)
 			self:decelerate(0.25)
@@ -148,7 +148,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 		
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
 		CloseCommand=function(self)
 			self:decelerate(0.25)
@@ -206,7 +206,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 		
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
 		CloseCommand=function(self)
 			self:decelerate(0.25)
@@ -256,7 +256,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
 		CloseCommand=function(self)
 			self:decelerate(0.25)
@@ -306,7 +306,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
 		CloseCommand=function(self)
 			self:decelerate(0.25)
@@ -356,7 +356,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
 		CloseCommand=function(self)
 			self:decelerate(0.25)
@@ -406,7 +406,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
 		CloseCommand=function(self)
 			self:decelerate(0.25)
@@ -456,7 +456,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
 		CloseCommand=function(self)
 			self:decelerate(0.25)
@@ -506,7 +506,7 @@ for player in ivalues(PlayerNumber) do
 		end;
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
+		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end;
 
 		CloseCommand=function(self)
 			self:decelerate(0.25)

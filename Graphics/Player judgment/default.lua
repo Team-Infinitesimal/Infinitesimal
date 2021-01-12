@@ -1,23 +1,33 @@
 local c;
 local player = Var "Player";
+local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and true or false;
 
 local JudgeCmds = {
+	TapNoteScore_CheckpointHit = THEME:GetMetric( "Judgment", "JudgmentW1Command" );
 	TapNoteScore_W1 = THEME:GetMetric( "Judgment", "JudgmentW1Command" );
 	TapNoteScore_W2 = THEME:GetMetric( "Judgment", "JudgmentW2Command" );
 	TapNoteScore_W3 = THEME:GetMetric( "Judgment", "JudgmentW3Command" );
 	TapNoteScore_W4 = THEME:GetMetric( "Judgment", "JudgmentW4Command" );
 	TapNoteScore_W5 = THEME:GetMetric( "Judgment", "JudgmentW5Command" );
 	TapNoteScore_Miss = THEME:GetMetric( "Judgment", "JudgmentMissCommand" );
+	TapNoteScore_CheckpointMiss = THEME:GetMetric( "Judgment", "JudgmentMissCommand" );
 };
 
 local TNSFrames = {
+	TapNoteScore_CheckpointHit = 0;
 	TapNoteScore_W1 = 0;
 	TapNoteScore_W2 = 1;
 	TapNoteScore_W3 = 2;
 	TapNoteScore_W4 = 3;
 	TapNoteScore_W5 = 4;
 	TapNoteScore_Miss = 5;
+	TapNoteScore_CheckpointMiss = 5;
 };
+
+if not promode then
+	TNSFrames[TapNoteScore_CheckpointHit] = 1;
+	JudgeCmds[TapNoteScore_CheckpointHit] = THEME:GetMetric( "Judgment", "JudgmentW2Command" );
+end;
 
 local t = Def.ActorFrame {
 
@@ -36,7 +46,6 @@ local t = Def.ActorFrame {
 
 	JudgmentMessageCommand=function(self, param)
 		if param.Player ~= player then return end;
-		if param.HoldNoteScore then return end;
 
 		local iNumStates = c.Judgment:GetNumStates();
 		local iFrame = TNSFrames[param.TapNoteScore];

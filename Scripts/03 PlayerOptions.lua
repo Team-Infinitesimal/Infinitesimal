@@ -44,7 +44,6 @@ function OptionRowJudgement()
         LayoutType = "ShowAllInRow";
         SelectType = "SelectOne";
         OneChoiceForAllPlayers = true;
-        ExportOnChange = true;
         Choices = {"NORMAL", "HARD", "VERY HARD", "INFINITY", "GROOVE", "HERO"};
         LoadSelections = function(self, list, pn)
 			-- Thank you StepMania for not cutting off your extra decimals
@@ -132,20 +131,19 @@ function OptionRowModeSelect()
         LayoutType = "ShowAllInRow";
         SelectType = "SelectOne";
         OneChoiceForAllPlayers = true;
-        ExportOnChange = true;
-        Choices = {"PRO", "ARCADE"};
+        Choices = {"ARCADE", "PRO"};
         LoadSelections = function(self, list, pn)
             local mode = PREFSMAN:GetPreference("AllowW1")
             if mode == "AllowW1_Everywhere" then -- Pro Mode
-                list[1] = true;
-            else -- Arcade Mode
                 list[2] = true;
+            else -- Arcade Mode
+                list[1] = true;
             end;
         end;
         SaveSelections = function(self, list, pn)
-            if list[1] == true then
+            if list[2] == true then
                 PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
-            elseif list[2] == true then
+            elseif list[1] == true then
                 PREFSMAN:SetPreference("AllowW1",'AllowW1_Never');
             end;
         end;
@@ -171,7 +169,6 @@ function OptionRowAvailableNoteskins()
     		LayoutType = "ShowAllInRow",
     		SelectType = "SelectOne",
     		OneChoiceForAllPlayers = false,
-    		ExportOnChange = false,
     		Choices = ns,
     		NumNoteskins = #ns,
     		LoadSelections = function(self, list, pn)

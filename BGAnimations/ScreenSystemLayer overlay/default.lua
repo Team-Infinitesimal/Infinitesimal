@@ -66,24 +66,18 @@ local t = Def.ActorFrame {
 		RefreshCommand=function(self)
 			local gMode = GAMESTATE:GetCoinMode();
 			local eMode = GAMESTATE:IsEventMode();
-
-			if eMode then
+			
+			-- no one wants screen burn-in at home!
+			if gMode == "CoinMode_Home" then
+				self:visible(false);
+			elseif eMode then
+				self:visible(true);
 				self:settext("EVENT MODE");
 			elseif gMode == 'CoinMode_Free' then
+				self:visible(true);
 				self:settext("FREE PLAY");
 			elseif gMode == 'CoinMode_Pay' then
-				local Coins = GAMESTATE:GetCoins();
-				self:settext("CREDIT(S): "..Coins);
-			else
-				self:settext("HOME");
-			end;
-
-			if screen then
-				if screen:GetScreenType() ~= 'ScreenType_Attract' then
-					self:visible(true);
-				else
-					self:visible(false);
-				end;
+				PREFSMAN:SetPreference("CoinMode","Home");
 			end;
 		end;
 
