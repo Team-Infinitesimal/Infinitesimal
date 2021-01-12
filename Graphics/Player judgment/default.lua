@@ -3,7 +3,7 @@ local player = Var "Player";
 local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and true or false;
 
 local JudgeCmds = {
-	TapNoteScore_CheckpointHit = THEME:GetMetric( "Judgment", "JudgmentW1Command" );
+	TapNoteScore_CheckpointHit = promode and THEME:GetMetric( "Judgment", "JudgmentW1Command" ) or THEME:GetMetric( "Judgment", "JudgmentW2Command" );
 	TapNoteScore_W1 = THEME:GetMetric( "Judgment", "JudgmentW1Command" );
 	TapNoteScore_W2 = THEME:GetMetric( "Judgment", "JudgmentW2Command" );
 	TapNoteScore_W3 = THEME:GetMetric( "Judgment", "JudgmentW3Command" );
@@ -14,7 +14,7 @@ local JudgeCmds = {
 };
 
 local TNSFrames = {
-	TapNoteScore_CheckpointHit = 0;
+	TapNoteScore_CheckpointHit = promode and 0 or 1;
 	TapNoteScore_W1 = 0;
 	TapNoteScore_W2 = 1;
 	TapNoteScore_W3 = 2;
@@ -23,11 +23,6 @@ local TNSFrames = {
 	TapNoteScore_Miss = 5;
 	TapNoteScore_CheckpointMiss = 5;
 };
-
-if not promode then
-	TNSFrames[TapNoteScore_CheckpointHit] = 1;
-	JudgeCmds[TapNoteScore_CheckpointHit] = THEME:GetMetric( "Judgment", "JudgmentW2Command" );
-end;
 
 local t = Def.ActorFrame {
 
