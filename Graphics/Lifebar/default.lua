@@ -1,3 +1,5 @@
+-- THE JANKIEST OF JANK THAT STEPMANIA HAS TO OFFER
+
 local function PlayerInfo(pn)
 
 	local t = Def.ActorFrame {
@@ -127,11 +129,11 @@ local function LifeMeterSingle(pn)
 					xpos = 498
 				end
 
-				self:x(xpos-250-20);
+				self:x(xpos-270);
 			end;
 		};
 
-		LoadActor("Blue gradient 1") .. {
+		LoadActor("Blue gradient") .. {
 			BeginCommand=function(self)self:zoomto(40,40):MaskDest():playcommand("Change")end;
 			InitCommand=function(self)self:glowshift():effectperiod(0.6):effectcolor1(1,1,1,0):effectcolor2(1,1,1,1)end;
 			OnCommand=function(self)self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0)end;
@@ -144,32 +146,40 @@ local function LifeMeterSingle(pn)
 					xpos = 498
 				end
 
-				self:x(xpos-250-20);
+				self:x(xpos-270);
 			end;
 		};
 
-		LoadActor("Blue solid single") .. {
-			BeginCommand=function(self)self:player(pn):playcommand("Change"):ztest(true)end;--20
+		LoadActor("Blue gradient") .. {
+			BeginCommand=function(self)self:zoomto(495,40):player(pn):playcommand("Change"):ztest(true)end;--20
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
-				local hothreshold = 1.2--1.2
-				self:cropright(1.07-params.Life);--1
+				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
+				
+				if params.Life >= hothreshold then
+					self:cropright(1-params.Life);
+				else
+					self:cropright(1.075-params.Life);--1
+				end;
 			end;
 		};
 
 		LoadActor("Bar hot") .. {
-			BeginCommand=function(self)self:draworder(5):x(0):visible(false):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
+			BeginCommand=function(self)self:draworder(5):x(0):visible(true):zoomto(495,40):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
 				--self:croprigth(1-lfzoom);
 				if params.Life >= hothreshold then
-					self:visible(true);
+					self:stoptweening();
+					self:linear(0.25);
+					self:diffusealpha(1);
 					self:glowblink();
 					self:effectperiod(0.05);
 					self:effectcolor1(1,1,1,0);
 					self:effectcolor2(1,1,1,.8);
 				else
-					self:stopeffect();
-					self:visible(false);
+					self:stoptweening();
+					self:linear(0.05);
+					self:diffusealpha(0);
 				end;
 			end;
 		};
@@ -178,7 +188,7 @@ local function LifeMeterSingle(pn)
 		LoadActor("Life bar single");
 
 		LoadActor("Tip hot") .. {
-			BeginCommand=function(self)self:player(pn):draworder(5)end;
+			BeginCommand=function(self)self:player(pn):draworder(5):y(0.5)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local dgthreshold = THEME:GetMetric("LifeMeterBar", "DangerThreshold");
 
@@ -210,7 +220,7 @@ local function LifeMeterSingle(pn)
 		};
 
 		LoadActor("Tip danger") .. {
-			BeginCommand=function(self)self:player(pn):draworder(5):visible(false)end;
+			BeginCommand=function(self)self:player(pn):draworder(5):y(0.5):visible(false)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local dgthreshold = THEME:GetMetric("LifeMeterBar", "DangerThreshold");
 				self:glow(0,0,0,1);
@@ -311,7 +321,7 @@ local function LifeMeterDouble(pn)
 			end;
 		};
 
-		LoadActor("Blue gradient 2") .. {
+		LoadActor("Blue gradient") .. {
 			BeginCommand=function(self)self:zoomto(80,40):MaskDest():playcommand("Change")end;
 			InitCommand=function(self)self:glowshift():effectperiod(0.6):effectcolor1(1,1,1,0.3):effectcolor2(1,1,1,0.9)end;
 			OnCommand=function(self)self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0)end;
@@ -329,30 +339,37 @@ local function LifeMeterDouble(pn)
 			end;
 		};
 
-		LoadActor("Blue solid double") .. {
-			BeginCommand=function(self)self:player(pn)playcommand("Change"):x(-8):ztest(true)end;--20
+		LoadActor("Blue gradient") .. {
+			BeginCommand=function(self)self:zoomto(985,40):player(pn):playcommand("Change"):ztest(true)end;--20
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
-				local lfzoom = params.Life;
-				local hothreshold = 1.2--1.2
-				self:cropright(1.04-lfzoom);--1
+				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
+				
+				if params.Life >= hothreshold then
+					self:cropright(1-params.Life);
+				else
+					self:cropright(1.075-params.Life);--1
+				end;
 			end;
 		};
 
 		LoadActor("Bar hot") .. {
 			--customtexturerect( float fLeft, float fTop, float fRight, float fBottom )
-			BeginCommand=function(self)self:draworder(5):x(0):visible(false):customtexturerect(0,0,.5,1):zoomx(2):texcoordvelocity(0.7,0)end;
+			BeginCommand=function(self)self:draworder(5):zoomto(985,40):visible(true):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
 				--self:croprigth(1-lfzoom);
 				if params.Life >= hothreshold then
-					self:visible(true);
+					self:stoptweening();
+					self:linear(0.25);
+					self:diffusealpha(1);
 					self:glowblink();
 					self:effectperiod(0.05);
 					self:effectcolor1(1,1,1,0);
 					self:effectcolor2(1,1,1,.8);
 				else
-					self:stopeffect();
-					self:visible(false);
+					self:stoptweening();
+					self:linear(0.05);
+					self:diffusealpha(0);
 				end;
 			end;
 		};
