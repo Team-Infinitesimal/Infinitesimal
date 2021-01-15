@@ -14,7 +14,7 @@ if player == "PlayerNumber_P2" then lgoffset = 190 end;
 local dboffset = -95;
 if player == "PlayerNumber_P2" then dboffset = 95 end;
 
-local spacing = 29;
+local spacing = 29.2;
 local showdelay = 0.08;
 local playerstats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player);
 

@@ -52,207 +52,8 @@ v1.1
 
 local ProfileSpeedMods = {}
 
--- Returns a new, empty mod table: a table with three members x, C, and m,
--- each being a table with the corresponding numbers set to true.
-local function EmptyModTable()
-	return {x = {}, C = {}, m = {}, a = {}}
-end
-
--- Merge one mod table into another.
-local function MergeInModTable(dst, src)
-	for typ, subtbl in pairs(src) do
-		for n, v in pairs(subtbl) do
-			dst[typ][n] = v
-		end
-	end
-end
-
--- Parses a speed mod and returns the pair (type, number) or nil if parsing
--- failed.
-local function CanonicalizeMod(mod)
-	num = tonumber(mod:match("^(%d+.?%d*)[xX]$"))
-	if num ~= nil then
-		return "x", num
-	end
-
-	num = tonumber(mod:match("^[cC](%d+.?%d*)$"))
-	if num ~= nil then
-		return "C", num
-	end
-
-	num = tonumber(mod:match("^[mM](%d+.?%d*)$"))
-	if num ~= nil then
-		return "m", num
-	end
-	
-	num = tonumber(mod:match("^[aA](%d+.?%d*)$"))
-	if num ~= nil then
-		return "a", num
-	end
-
-	return nil
-end
-
--- Parse a comma-separated string into a mod table.
-local function StringToModTable(str)
-	local mods = EmptyModTable()
-	local valid = false
-
-	string.gsub(str, "%s", "")
-	for _, mod in ipairs(split(",", str)) do
-		local t, n = CanonicalizeMod(mod)
-		if t then
-			mods[t][n] = true
-			valid = true
-		end
-	end
-
-	return valid and mods or nil
-end
-
--- Return the contents of a mod table as a list of mod names.
-local function ModTableToList(mods)
-	local l = {}
-	local tmp = {}
-
-	-- Do x-mods separately because the x comes after
-	for mod, _ in pairs(mods.x) do
-		table.insert(tmp, mod)
-	end
-	table.sort(tmp)
-	for _, mod in ipairs(tmp) do
-		table.insert(l, mod .. "x")
-	end
-
-	-- C- and m-mods
-	for _, modtype in ipairs({"C", "m", "a"}) do
-		tmp = {}
-		for mod, _ in pairs(mods[modtype]) do
-			table.insert(tmp, mod)
-		end
-		table.sort(tmp)
-		for _, mod in ipairs(tmp) do
-			table.insert(l, modtype .. mod)
-		end
-	end
-
-	return l
-end
-
-local DefaultMods = StringToModTable("0.5x,1x,1.5x,2x,3x,4x,5x,6x,7x,8x,C250,C450,m550")
-
--- Reads the custom speed mod file at <path> and returns a corresponding mod
--- table.
-local function ReadSpeedModFile(path)
-	local file = RageFileUtil.CreateRageFile()
-	if not file:Open(path, 1) then
-		file:destroy()
-		return nil
-	end
-
-	local contents = file:Read()
-	file:Close()
-	file:destroy()
-
-	return StringToModTable(contents)
-end
-
--- Hook called during profile load
-function LoadProfileCustom(profile, dir)
-	-- This will be (intentionally) nil if the file is missing or bad
-	local mods = ReadSpeedModFile(dir .. "SpeedMods.txt")
-
-	-- Special case for the machine profile
-	if profile == PROFILEMAN:GetMachineProfile() then
-		ProfileSpeedMods.machine = mods
-		return
-	end
-
-	-- Otherwise, it's a player profile.  Store accordingly.
-	for i = 1, NUM_PLAYERS do
-		if profile == PROFILEMAN:GetProfile(PlayerNumber[i]) then
-			ProfileSpeedMods[PlayerNumber[i]] = mods
-			break
-		end
-	end
-end
-
--- Hook called during profile save
-function SaveProfileCustom(profile, dir)
-	-- Change this if a theme allows you to change and save custom
-	-- per-profile settings.
-end
-
--- Returns a list of speed mods for the current round.
-local function GetSpeedMods()
-	-- Start with machine profile
-	local mods = ProfileSpeedMods.machine or EmptyModTable()
-
-	-- Merge in any active players
-	for _, p in ipairs(GAMESTATE:GetHumanPlayers()) do
-		if ProfileSpeedMods[p] and PROFILEMAN:IsPersistentProfile(p) then
-			MergeInModTable(mods, ProfileSpeedMods[p])
-		else
-			MergeInModTable(mods, DefaultMods)
-		end
-	end
-
-	-- Apparently removing 1x caused crashes, so be sure it's there.
-	-- (This may not be a problem anymore. -- djpohly)
-	mods.x[1] = true
-	return ModTableToList(mods)
-end
-
--- Implementation of custom Lua option row
-function SpeedMods()
-	local t = {
-		Name = "Speed",
-		LayoutType = "ShowAllInRow",
-		SelectType = "SelectOne",
-		OneChoiceForAllPlayers = false,
-		ExportOnChange = false,
-		Choices = GetSpeedMods(),
-
-		LoadSelections = function(self, list, pn)
-			local pref = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")
-			local selected = 0
-
-			for i, choice in ipairs(self.Choices) do
-				if string.find(pref, choice) then
-					-- Found it, use it
-					selected = i
-					break
-				elseif choice == "1x" then
-					-- Pick this unless we find the
-					-- preferred choice
-					selected = i
-				end
-			end
-
-			-- If we didn't find a match, just use the first
-			if selected ~= 0 then
-				list[selected] = true
-			else
-				list[1] = true
-			end
-		end,
-		SaveSelections = function(self, list, pn)
-			local state = GAMESTATE:GetPlayerState(pn)
-			for i, choice in ipairs(self.Choices) do
-				if list[i] then
-					state:SetPlayerOptions("ModsLevel_Preferred", choice)
-					return
-				end
-			end
-			-- Or use the first
-			state:SetPlayerOptions("ModsLevel_Preferred", self.Choices[1])
-		end
-	}
-	return t
-end
-
-local default_speed_increment= 25
-local default_speed_inc_large= 100
+local default_speed_increment = 10
+local default_speed_inc_large = 100
 
 local function get_speed_increment()
 	local increment= default_speed_increment
@@ -384,7 +185,7 @@ function ArbitrarySpeedMods()
 			end
 		end,
 		--We're not saving anything!
-		SaveSelections = function(self, list, pn)
+		SaveSelections= function(self, list, pn)
 
 		end;
 		NotifyOfSelection= function(self, pn, choice)
@@ -406,7 +207,7 @@ function ArbitrarySpeedMods()
 			self:GenChoices()
 			MESSAGEMAN:Broadcast("SpeedChoiceChanged", {pn= pn, mode= val.mode, speed= val.speed})
 			if val.mode == "x" then
-				GAMESTATE:GetPlayerState(pn):SetPlayerOptions("ModsLevel_Preferred",(val.speed/100)..val.mode)
+				GAMESTATE:GetPlayerState(pn):SetPlayerOptions("ModsLevel_Preferred",(val.speed/100).."x")
 			else
 				GAMESTATE:GetPlayerState(pn):SetPlayerOptions("ModsLevel_Preferred",val.mode..val.speed)
 			end

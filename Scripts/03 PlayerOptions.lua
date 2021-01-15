@@ -44,7 +44,7 @@ function OptionRowJudgement()
         LayoutType = "ShowAllInRow";
         SelectType = "SelectOne";
         OneChoiceForAllPlayers = true;
-        Choices = {"NORMAL", "HARD", "VERY HARD", "INFINITY", "GROOVE", "HERO"};
+        Choices = {"Normal", "Hard", "Very Hard", "Infinity", "Groove", "Hero"};
         LoadSelections = function(self, list, pn)
 			-- Thank you StepMania for not cutting off your extra decimals
             local window = tonumber(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW5")));
@@ -131,7 +131,7 @@ function OptionRowModeSelect()
         LayoutType = "ShowAllInRow";
         SelectType = "SelectOne";
         OneChoiceForAllPlayers = true;
-        Choices = {"ARCADE", "PRO"};
+        Choices = {"Arcade", "Pro"};
         LoadSelections = function(self, list, pn)
             local mode = PREFSMAN:GetPreference("AllowW1")
             if mode == "AllowW1_Everywhere" then -- Pro Mode
