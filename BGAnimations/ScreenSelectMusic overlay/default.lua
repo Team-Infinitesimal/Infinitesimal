@@ -16,9 +16,9 @@ for pn in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("Montserrat normal 40px")..{
 
 		InitCommand=function(self)
-			self:y(SCREEN_BOTTOM+79)
+			self:y(SCREEN_BOTTOM+80)
 			:zoom(0.35)
-			:diffuse(color("1,1,1,1"))
+			:diffuse(color("1,1,1,0"))
 
 			if (pn == PLAYER_1) then
 				self:horizalign(right)
@@ -28,17 +28,17 @@ for pn in ivalues(PlayerNumber) do
 				self:x(SCREEN_CENTER_X+110)
 			end;
 
-			self:queuecommand("Set");
+			self:queuecommand("On");
 		end;
 
-		OnCommand=function(self)self:queuecommand("Set")end;
-		PlayerJoinedMessageCommand=function(self)self:queuecommand("Set")end;
-		PlayerUnjoinedMessageCommand=function(self)self:queuecommand("Set")end;
+		PlayerJoinedMessageCommand=function(self)self:queuecommand("On")end;
+		PlayerUnjoinedMessageCommand=function(self)self:queuecommand("On")end;
+		ReloadedProfilesMessageCommand=function(self)self:queuecommand("On")end;
 
 		-- Update when a player joins
-		SetCommand=function(self)
+		OnCommand=function(self)
 			if GAMESTATE:IsHumanPlayer(pn) then
-				self:visible(true);
+				GAMESTATE:LoadProfiles();
 				local profile = PROFILEMAN:GetProfile(pn):GetDisplayName();
 				if profile == "" then
 					self:settext("")
@@ -48,9 +48,9 @@ for pn in ivalues(PlayerNumber) do
 			end;
 
 			self:sleep(0.25)
-			self:decelerate(0.75)
-			self:diffusealpha(1)
-			self:y(SCREEN_BOTTOM-17)
+            :decelerate(0.75)
+			:diffusealpha(1)
+			:y(SCREEN_BOTTOM-20)
 		end;
 	};
 end;
