@@ -10,7 +10,7 @@ local spacing = 29;
 local delay = 2
 
 local baseX = -(spacing*6.5)
-local baseY = 0;
+local baseY = 20;
 
 local stepsArray, stepsSelected;
 
@@ -67,6 +67,8 @@ for i=1,14 do
 			PreviousSongMessageCommand=function(self)self:playcommand("Refresh")end;
 			
 			RefreshCommand=function(self)
+				self:stoptweening();
+				
 				if stepsArray then
 					if GetCurrentStepsIndex(PLAYER_1) > 14 or GetCurrentStepsIndex(PLAYER_2) > 14 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then

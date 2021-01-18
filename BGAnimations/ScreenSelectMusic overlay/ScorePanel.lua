@@ -37,7 +37,7 @@ local t = Def.ActorFrame {
 
 		SongUnchosenMessageCommand=function(self)
 			self:stoptweening()
-			:decelerate(0.1)
+			:decelerate(0.2)
 			:y(SCREEN_CENTER_Y+55)
 			:zoom(0.5)
 			:diffusealpha(0)
@@ -69,7 +69,7 @@ for pn in ivalues(PlayerNumber) do
 			
 			SongUnchosenMessageCommand=function(self)
 				self:stoptweening()
-				:decelerate(0.1)
+				:decelerate(0.2)
 				:xy((pn==PLAYER_1 and SCREEN_CENTER_X-150 or SCREEN_CENTER_X+150),SCREEN_CENTER_Y+55)
 				:zoom(0.1)
 				:diffusealpha(0)

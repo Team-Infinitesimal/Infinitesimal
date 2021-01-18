@@ -64,7 +64,7 @@ local t = Def.ActorFrame {
 	end;
 	
 	--Superbs
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -84,7 +84,7 @@ local t = Def.ActorFrame {
 	};
 
 	-- Perfects
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -101,7 +101,7 @@ local t = Def.ActorFrame {
 	};
 
 	-- Greats
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -119,7 +119,7 @@ local t = Def.ActorFrame {
 	};
 
 	-- Goods
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -137,7 +137,7 @@ local t = Def.ActorFrame {
 	};
 
 	-- Bads
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -155,7 +155,7 @@ local t = Def.ActorFrame {
 	};
 
 	-- Misses
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -173,7 +173,7 @@ local t = Def.ActorFrame {
 	};
 
 	-- Max Combo
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -191,7 +191,7 @@ local t = Def.ActorFrame {
 	};
 
 	-- Accuracy
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -209,7 +209,7 @@ local t = Def.ActorFrame {
 	};
 
 	-- Score
-	LoadFont("montserrat/_montserrat 40px")..{
+	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
@@ -283,7 +283,7 @@ t[#t+1] = LoadActor(THEME:GetPathG("","DifficultyDisplay/_icon"))..{
     end;
 };
 
-t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
+t[#t+1] = LoadFont("Montserrat semibold 40px")..{
     InitCommand=function(self)
         steps = GAMESTATE:GetCurrentSteps(player);
         self:diffusealpha(0)
@@ -292,11 +292,68 @@ t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
         :sleep(2)
         :x(dboffset)
         :addy(spacing*3)
-        :zoom(0.5)
+        :zoom(0.45)
         :accelerate(0.2)
         :diffusealpha(1)
         :settext(steps:GetMeter());
     end;
+};
+
+--- ------------------------------------------------
+--- Judgment
+--- ------------------------------------------------
+
+t[#t+1] = LoadFont("Montserrat normal 40px")..{
+    InitCommand=function(self)
+		self:diffusealpha(0)
+		:x(0)
+		:y(spacing*8.65)
+		:maxwidth(1000)
+		:zoom(0.35);
+	end;
+	OnCommand=function(self)
+		self:sleep(1.75)
+		:decelerate(0.3)
+		:diffusealpha(1)
+		:settext("Judge:");
+	end;
+};
+
+t[#t+1] = LoadFont("Montserrat semibold 40px")..{
+    InitCommand=function(self)
+		self:diffusealpha(0)
+		:x(0)
+		:y(spacing*9.2)
+		:maxwidth(1000)
+		:zoom(0.35);
+	end;
+	OnCommand=function(self)
+		self:sleep(1.75)
+		:decelerate(0.3)
+		:diffusealpha(1)
+		
+		-- If you know, you know
+		local window = tonumber(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW5")));
+		if window == 0.187500 then -- NJ
+			self:settext("Normal");
+		elseif window == 0.170833 then -- HJ
+			self:settext("Hard");
+		elseif window == 0.129166 then -- VJ
+			self:settext("Very Hard");
+		elseif window == 0.200000 then -- INFINITY
+			self:settext("Infinity");
+		elseif window == 0.180000 then -- ITG
+			self:settext("Groove");
+		elseif window == 0.062500 then -- GH
+			self:settext("Hero");
+		else
+			if promode then
+				self:settext(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW1")));
+			else
+				self:settext(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW2")));
+			end;
+		end;
+	end;
 };
 
 --- ------------------------------------------------
