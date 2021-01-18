@@ -47,11 +47,11 @@ local t = Def.ActorFrame {
         end;
 
         Load2Command=function(self)
-            local bg = GetSongBackground(true)
+            local bg = GAMESTATE:GetCurrentSong():GetBackgroundPath()
             if bg then
                 self:Load(bg);
             else
-                self:Load(THEME:GetPathG("","Common fallback background"));
+                self:Load(THEME:GetPathG("Common","fallback background"));
             end;
             self:zoomto(PreviewWidth,PreviewHeight);
         end;

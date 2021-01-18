@@ -60,7 +60,7 @@ for pn in ivalues(PlayerNumber) do
 				if GAMESTATE:IsHumanPlayer(pn) then
 					self:stoptweening()
 					:decelerate(0.25)
-					:xy((pn==PLAYER_1 and SCREEN_CENTER_X-198 or SCREEN_CENTER_X+198),SCREEN_CENTER_Y+120)
+					:xy((pn==PLAYER_1 and SCREEN_CENTER_X-198 or SCREEN_CENTER_X+200),SCREEN_CENTER_Y+120)
 					:zoom(0.2)
 					:diffusealpha(1)
 					:playcommand("Update")
