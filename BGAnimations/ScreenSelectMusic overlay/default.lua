@@ -1,5 +1,7 @@
 local t = Def.ActorFrame {
-
+	
+	LoadActor("ScorePanel");
+	
 	LoadActor("ChartInfo");
 	
 	LoadActor("DifficultyBar");
@@ -7,8 +9,7 @@ local t = Def.ActorFrame {
 	LoadActor("SongPreview");
 	
 	LoadActor("CornerArrows");
-
-    --LoadActor(THEME:GetPathG("","Readies"));
+	
 };
 
 for pn in ivalues(PlayerNumber) do

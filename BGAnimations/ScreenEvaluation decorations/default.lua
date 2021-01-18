@@ -155,7 +155,7 @@ t[#t+1] = LoadFont("Montserrat normal 20px")..{
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = LoadActor("PlayerNumbers", pn)..{
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,136)
+            self:xy(SCREEN_CENTER_X,138)
         end;
     };
 

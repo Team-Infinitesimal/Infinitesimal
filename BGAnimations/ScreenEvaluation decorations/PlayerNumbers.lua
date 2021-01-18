@@ -37,18 +37,29 @@ local accuracy 	=	round(playerstats:GetPercentDancePoints()*100, 2);
 local combo 	= 	playerstats:MaxCombo();
 local score 	= 	scorecap(playerstats:GetScore());
 
-local t = Def.ActorFrame {};
+if getenv(pname(player).."Failed") == true then
+    lifeState = "Fail"
+else
+    lifeState = "Pass"
+end;
 
-t[#t+1] = Def.ActorFrame {
+local tripleS = "LetterGrades/"..lifeState.."3S"
+local doubleS = "LetterGrades/"..lifeState.."2S"
+local singleS = "LetterGrades/"..lifeState.."1S"
+local letA = "LetterGrades/"..lifeState.."A"
+local letB = "LetterGrades/"..lifeState.."B"
+local letC = "LetterGrades/"..lifeState.."C"
+local letD = "LetterGrades/"..lifeState.."D"
+local letF = "LetterGrades/"..lifeState.."F"
 
-	InitCommand=function(self)
+local t = Def.ActorFrame {
+
+	OnCommand=function(self)
 		self:shadowlengthx(1)
 		:shadowlengthy(1)
 		:shadowcolor(0,0,0,1)
 		if promode then
-			self:addy(spacing/2+2);
-		else
-			self:addy(2);
+			self:addy(spacing/2);
 		end;
 	end;
 	
@@ -292,10 +303,42 @@ t[#t+1] = LoadFont("montserrat semibold/_montserrat semibold 40px")..{
 --- Letter Grade
 --- ------------------------------------------------
 
-t[#t+1] = LoadActor(THEME:GetPathG("","LetterGrades"), {lgoffset,superbs,perfects,greats,goods,bads,misses,accuracy,player})..{
-    InitCommand=function(self)
-        self:addy(spacing*3);
-    end;
+t[#t+1] = Def.Sprite {
+	InitCommand=function(self)
+		self:zoom(0.8):diffusealpha(0):addx(lgoffset):addy(spacing*3);
+        self:sleep(2.5);
+		if misses == 0 then
+			if bads == 0 then
+				if goods == 0 then
+					if (PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' and greats or perfects) == 0 then
+							self:Load(THEME:GetPathG("", ""..tripleS));
+						else
+							self:Load(THEME:GetPathG("", ""..doubleS));
+						end;
+				else
+					self:Load(THEME:GetPathG("", ""..singleS));
+				end;
+			else
+				self:Load(THEME:GetPathG("", ""..singleS));
+			end;
+		else
+			if accuracy >= 50 then
+				self:Load(THEME:GetPathG("", ""..letD));
+				if accuracy >= 60 then
+					self:Load(THEME:GetPathG("", ""..letC));
+					if accuracy >= 70 then
+						self:Load(THEME:GetPathG("", ""..letB));
+						if accuracy >= 80 then
+							self:Load(THEME:GetPathG("", ""..letA));
+						end
+					end
+				end
+			else
+				self:Load(THEME:GetPathG("", ""..letF));
+			end
+		end;
+		self:accelerate(0.3):diffusealpha(1):zoom(0.4);
+	end;
 };
 
 return t;
