@@ -128,7 +128,7 @@ local t = Def.ActorFrame {
 		end;
 		
 		RefreshCommand=function(self)
-			if SMSupport() then
+			if not SMSupport() then
 				self:settext("Unsupported version of StepMania detected!");
 			end;
 		end;
