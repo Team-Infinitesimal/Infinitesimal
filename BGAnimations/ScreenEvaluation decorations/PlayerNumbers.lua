@@ -14,7 +14,7 @@ if player == "PlayerNumber_P2" then lgoffset = 190 end;
 local dboffset = -95;
 if player == "PlayerNumber_P2" then dboffset = 95 end;
 
-local spacing = 29.2;
+local spacing = 29.1;
 local showdelay = 0.08;
 local playerstats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player);
 
@@ -62,7 +62,7 @@ local t = Def.ActorFrame {
 			self:addy(spacing/2);
 		end;
 	end;
-	
+
 	--Superbs
 	LoadFont("Montserrat normal 40px")..{
 		InitCommand=function(self)
@@ -233,10 +233,10 @@ local t = Def.ActorFrame {
             self:shadowlengthx(1)
             :shadowlengthy(1)
             :shadowcolor(0,0,0,1)
-            
+
         end;
 
-        
+
     };
 ]]--
 
@@ -331,7 +331,7 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 		self:sleep(1.75)
 		:decelerate(0.3)
 		:diffusealpha(1)
-		
+
 		-- If you know, you know
 		local window = tonumber(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW5")));
 		if window == 0.187500 then -- NJ

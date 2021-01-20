@@ -7,29 +7,29 @@ if promode then
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomy(0)
-            :zoomx(0.4925)
+            :zoomx(0.83)
             :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
             end;
         OnCommand=function(self)
             self:sleep(1)
             :diffusealpha(1)
             :decelerate(0.3)
-            :zoomy(0.4925)
+            :zoomy(0.83)
             end;
     };
-else 
+else
     t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/CenterColumn"))..{
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomy(0)
-            :zoomx(0.4925)
+            :zoomx(0.83)
             :xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
             end;
         OnCommand=function(self)
             self:sleep(1)
             :diffusealpha(1)
             :decelerate(0.3)
-            :zoomy(0.4925)
+            :zoomy(0.83)
             end;
     };
 end;
@@ -52,7 +52,7 @@ t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/EvalSongTitle"))..{
 		:diffusealpha(1)
 		:decelerate(0.3)
 		:zoomy(0.65)
-		
+
 		if not promode then self:addy(5) end;
 	end;
 };
@@ -67,15 +67,15 @@ t[#t+1] = LoadFont("Montserrat semibold 20px")..{
         :settext(song:GetDisplayMainTitle())
 		:maxwidth(700)
 		:x(SCREEN_CENTER_X):zoom(0.7);
-		
+
 		if song:GetDisplaySubTitle() ~= "" then
 			self:y(73);
 		else
 			self:y(75);
 		end;
-		
+
 		if not promode then self:addy(5) end;
-		
+
         self:decelerate(0.25):diffusealpha(1);
     end;
 };
@@ -89,11 +89,11 @@ t[#t+1] = LoadFont("Montserrat normal 20px")..{
         :diffuse(0,0,0,1)
         :maxwidth(700)
         :x(SCREEN_CENTER_X):y(82):zoom(0.35);
-        
+
         if not promode then self:addy(5) end;
-        
+
         if song:GetDisplaySubTitle() then
-            self:settext(song:GetDisplaySubTitle())   
+            self:settext(song:GetDisplaySubTitle())
             :decelerate(0.25):diffusealpha(1);
         else
             self:settext(""):diffusealpha(0);
@@ -111,15 +111,15 @@ t[#t+1] = LoadFont("Montserrat normal 20px")..{
 		:settext(song:GetDisplayArtist())
         :maxwidth(700)
         :x(SCREEN_CENTER_X):zoom(0.6);
-        
+
 		if song:GetDisplaySubTitle() ~= "" then
 			self:y(90);
 		else
 			self:y(88);
 		end;
-		
+
 		if not promode then self:addy(5) end;
-		
+
         self:decelerate(0.25):diffusealpha(1);
     end;
 };
