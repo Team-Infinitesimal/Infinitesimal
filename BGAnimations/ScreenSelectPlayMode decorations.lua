@@ -1,6 +1,8 @@
 local t = Def.ActorFrame {
+	
+	LoadActor(THEME:GetPathG("","ScreenHudFrame"));
 
-    LoadActor("CornerArrows");
+    LoadActor(THEME:GetPathG("","CornerArrows"));
 
     LoadActor(THEME:GetPathG("","ModeSelect/ArcadeMode"))..{
         InitCommand=function(self)

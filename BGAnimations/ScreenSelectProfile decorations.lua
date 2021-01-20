@@ -1,13 +1,6 @@
-local t = Def.ActorFrame {
+-- We're still selecting the profile here, so ScreenHudFrame (which contains profile name displaying) will not be used
 
-	Def.Quad {
-        InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
-			:zoomx(255)
-			:zoomy(SCREEN_HEIGHT)
-            :diffuse(0,0,0,0.75)
-        end;
-    };
+local t = Def.ActorFrame {
 
     LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
         InitCommand=function(self)
@@ -34,7 +27,7 @@ local t = Def.ActorFrame {
             :y(SCREEN_BOTTOM)
         end;
     };
-
-}
+    
+};
 
 return t;

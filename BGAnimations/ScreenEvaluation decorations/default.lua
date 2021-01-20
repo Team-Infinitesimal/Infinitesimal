@@ -34,31 +34,7 @@ else
     };
 end;
 
-t[#t+1] = LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
-	InitCommand=function(self)
-		self:diffusealpha(0)
-		:vertalign(top)
-		:zoom(0.835)
-		:xy(SCREEN_CENTER_X,SCREEN_TOP-100)
-		:diffusealpha(1)
-		:sleep(0.25)
-		:decelerate(0.75)
-		:y(SCREEN_TOP)
-	end;
-};
-
-t[#t+1] = LoadActor(THEME:GetPathG("","ScreenHudBottom"))..{
-	InitCommand=function(self)
-		self:diffusealpha(0)
-		:vertalign(bottom)
-		:zoom(0.835)
-		:xy(SCREEN_CENTER_X,SCREEN_BOTTOM+100)
-		:diffusealpha(1)
-		:sleep(0.25)
-		:decelerate(0.75)
-		:y(SCREEN_BOTTOM)
-	end;
-};
+t[#t+1] = LoadActor(THEME:GetPathG("","ScreenHudFrame"));
 
 --- ------------------------------------------------
 --- Text/Song Info
