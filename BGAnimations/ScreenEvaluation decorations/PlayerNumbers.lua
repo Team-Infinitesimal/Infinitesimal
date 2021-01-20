@@ -11,8 +11,8 @@ if player == "PlayerNumber_P2" then offsetfromcenterx = 300 end;
 local lgoffset = -190;
 if player == "PlayerNumber_P2" then lgoffset = 190 end;
 
-local dboffset = -95;
-if player == "PlayerNumber_P2" then dboffset = 95 end;
+local dboffset = -92;
+if player == "PlayerNumber_P2" then dboffset = 92 end;
 
 local spacing = 29.1;
 local showdelay = 0.08;
