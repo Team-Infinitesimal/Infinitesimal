@@ -37,6 +37,7 @@ for pn in ivalues(PlayerNumber) do
 			self:y(SCREEN_BOTTOM+80)
 			:zoom(0.35)
 			:diffuse(color("1,1,1,0"))
+			:shadowlength(1)
 
 			if (pn == PLAYER_1) then
 				self:horizalign(right)
