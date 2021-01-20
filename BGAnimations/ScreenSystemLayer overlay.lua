@@ -1,3 +1,34 @@
+-- Function originally written by quietly-turning for Simply Love
+local function SMSupport()
+
+	-- ensure that we're using StepMania
+	if type(ProductFamily) ~= "function" or ProductFamily():lower() ~= "stepmania" then return false end
+
+	-- ensure that a global ProductVersion() function exists before attempting to call it
+	if type(ProductVersion) ~= "function" then return false end
+
+	-- get the version string, e.g. "5.0.11" or "5.1.0" or "5.2-git-96f9771" or etc.
+	local version = ProductVersion()
+	if type(version) ~= "string" then return false end
+
+	-- remove the git hash if one is present in the version string
+	version = version:gsub("-.+", "")
+
+	-- split the remaining version string on periods; store each segment in a temp table
+	local t = {}
+	for i in version:gmatch("[^%.]+") do
+		table.insert(t, tonumber(i))
+	end
+
+	-- if we didn't detect SM5.x.x then Something Is Terribly Wrong.
+	if not (t[1] and t[1]==5) then return false end
+
+	-- SM5.3 is supported
+	if not (t[2] and t[2]==3) then return false end
+
+	return true
+end
+
 local t = Def.ActorFrame {
 
 	Def.Quad {
@@ -81,11 +112,32 @@ local t = Def.ActorFrame {
 			end;
 		end;
 
-		OnCommand = cmd(playcommand,'Refresh');
-		RefreshCreditTextMessageCommand = cmd(playcommand,'Refresh');
-		CoinInsertedMessageCommand = cmd(playcommand,'Refresh');
-		CoinModeChangedMessageCommand = cmd(playcommand,'Refresh');
-		PlayerJoinedMessageCommand = cmd(playcommand,'Refresh');
+		OnCommand=function(self)self:playcommand('Refresh')end;
+		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end;
+		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end;
+		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end;
+	};
+	
+	-- Instead of cockblocking users, we will just add a small watermark instead
+	LoadFont("Montserrat normal 20px")..{
+		InitCommand=function(self)
+			self:xy(SCREEN_CENTER_X,8)
+			:diffuse(1,1,1,0.2)
+			:zoom(0.5);
+		end;
+		
+		RefreshCommand=function(self)
+			if SMSupport() then
+				self:settext("Unsupported version of StepMania detected!");
+			end;
+		end;
+		
+		OnCommand=function(self)self:playcommand('Refresh')end;
+		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end;
+		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end;
+		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end;
 	};
 };
 
