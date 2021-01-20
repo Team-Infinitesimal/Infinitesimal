@@ -119,17 +119,44 @@ local t = Def.ActorFrame {
 		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end;
 	};
 	
-	-- Instead of cockblocking users, we will just add a small watermark instead
+	-- Instead of cockblocking users, we will just add a funny watermark instead
 	LoadFont("Montserrat normal 20px")..{
 		InitCommand=function(self)
-			self:xy(SCREEN_CENTER_X,8)
-			:diffuse(1,1,1,0.2)
-			:zoom(0.5);
+			self:xy(SCREEN_CENTER_X+(SCREEN_CENTER_X/2),SCREEN_CENTER_Y+(SCREEN_CENTER_Y/1.5))
+			:diffuse(1,1,1,0)
+			:horizalign(left)
+			:zoom(0.75)
+			:settext("Update StepMania");
 		end;
 		
 		RefreshCommand=function(self)
-			if not SMSupport() then
-				self:settext("Unsupported version of StepMania detected!");
+			if SMSupport() then
+				self:diffusealpha(0)
+			else
+				self:diffusealpha(0.2)
+			end;
+		end;
+		
+		OnCommand=function(self)self:playcommand('Refresh')end;
+		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end;
+		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end;
+		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end;
+		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end;
+	};
+	LoadFont("Montserrat normal 20px")..{
+		InitCommand=function(self)
+			self:xy(SCREEN_CENTER_X+(SCREEN_CENTER_X/2)+1,SCREEN_CENTER_Y+(SCREEN_CENTER_Y/1.5)+16)
+			:diffuse(1,1,1,0.2)
+			:horizalign(left)
+			:zoom(0.5)
+			:settext("Unsupported version detected.");
+		end;
+		
+		RefreshCommand=function(self)
+			if SMSupport() then
+				self:diffusealpha(0)
+			else
+				self:diffusealpha(0.2)
 			end;
 		end;
 		
