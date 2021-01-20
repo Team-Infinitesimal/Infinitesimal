@@ -44,4 +44,10 @@ return Def.ActorFrame {
 			self:scaletoclipped(300,168);
 		end;
 	};
+	
+	LoadActor(THEME:GetPathG("","SongFrame"))..{
+		InitCommand=function(self)
+			self:zoom(1.35):diffusealpha(1);
+		end;
+	};
 };

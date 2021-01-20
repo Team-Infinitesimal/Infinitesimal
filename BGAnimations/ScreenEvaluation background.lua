@@ -3,7 +3,7 @@ local t = Def.ActorFrame {};
 local song = GAMESTATE:GetCurrentSong();
 
 t[#t+1] = Def.ActorFrame {
-    LoadActor(THEME:GetPathG("","EvalBGGradient"))..{
+    LoadActor(THEME:GetPathG("","EvalElements/EvalBGGradient"))..{
         InitCommand=function(self)
             self:Center()
             local song = GAMESTATE:GetCurrentSong()

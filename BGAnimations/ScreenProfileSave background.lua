@@ -1,12 +1,14 @@
 local t = Def.ActorFrame {
 
-    LoadActor(THEME:GetPathG("","bg"))..{
+	Def.Quad {
         InitCommand=function(self)
-            self:Center()
-            :diffusealpha(0.25)
-            :scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
-            end;
+            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
+			:zoomx(SCREEN_WIDTH)
+			:zoomy(SCREEN_HEIGHT)
+            :diffuse(1,1,1,1)
+        end;
     };
-};
+
+}
 
 return t;

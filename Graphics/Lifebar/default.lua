@@ -1,3 +1,5 @@
+-- THE JANKIEST OF JANK THAT STEPMANIA HAS TO OFFER
+
 local function PlayerInfo(pn)
 
 	local t = Def.ActorFrame {
@@ -127,11 +129,11 @@ local function LifeMeterSingle(pn)
 					xpos = 498
 				end
 
-				self:x(xpos-250-20);
+				self:x(xpos-270);
 			end;
 		};
 
-		LoadActor("Blue gradient 1") .. {
+		LoadActor("Blue gradient") .. {
 			BeginCommand=function(self)self:zoomto(40,40):MaskDest():playcommand("Change")end;
 			InitCommand=function(self)self:glowshift():effectperiod(0.6):effectcolor1(1,1,1,0):effectcolor2(1,1,1,1)end;
 			OnCommand=function(self)self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0)end;
@@ -144,32 +146,40 @@ local function LifeMeterSingle(pn)
 					xpos = 498
 				end
 
-				self:x(xpos-250-20);
+				self:x(xpos-270);
 			end;
 		};
 
-		LoadActor("Blue solid single") .. {
-			BeginCommand=function(self)self:player(pn):playcommand("Change"):ztest(true)end;--20
+		LoadActor("Blue gradient") .. {
+			BeginCommand=function(self)self:zoomto(495,40):player(pn):playcommand("Change"):ztest(true)end;--20
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
-				local hothreshold = 1.2--1.2
-				self:cropright(1.07-params.Life);--1
+				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
+				
+				if params.Life >= hothreshold then
+					self:cropright(1-params.Life);
+				else
+					self:cropright(1.075-params.Life);--1
+				end;
 			end;
 		};
 
 		LoadActor("Bar hot") .. {
-			BeginCommand=function(self)self:draworder(5):x(0):visible(false):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
+			BeginCommand=function(self)self:draworder(5):x(0):visible(true):zoomto(495,40):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
 				--self:croprigth(1-lfzoom);
 				if params.Life >= hothreshold then
-					self:visible(true);
+					self:stoptweening();
+					self:linear(0.25);
+					self:diffusealpha(1);
 					self:glowblink();
 					self:effectperiod(0.05);
 					self:effectcolor1(1,1,1,0);
 					self:effectcolor2(1,1,1,.8);
 				else
-					self:stopeffect();
-					self:visible(false);
+					self:stoptweening();
+					self:linear(0.05);
+					self:diffusealpha(0);
 				end;
 			end;
 		};
@@ -178,7 +188,7 @@ local function LifeMeterSingle(pn)
 		LoadActor("Life bar single");
 
 		LoadActor("Tip hot") .. {
-			BeginCommand=function(self)self:player(pn):draworder(5)end;
+			BeginCommand=function(self)self:player(pn):draworder(5):y(0.5)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local dgthreshold = THEME:GetMetric("LifeMeterBar", "DangerThreshold");
 
@@ -210,7 +220,7 @@ local function LifeMeterSingle(pn)
 		};
 
 		LoadActor("Tip danger") .. {
-			BeginCommand=function(self)self:player(pn):draworder(5):visible(false)end;
+			BeginCommand=function(self)self:player(pn):draworder(5):y(0.5):visible(false)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local dgthreshold = THEME:GetMetric("LifeMeterBar", "DangerThreshold");
 				self:glow(0,0,0,1);
@@ -311,7 +321,7 @@ local function LifeMeterDouble(pn)
 			end;
 		};
 
-		LoadActor("Blue gradient 2") .. {
+		LoadActor("Blue gradient") .. {
 			BeginCommand=function(self)self:zoomto(80,40):MaskDest():playcommand("Change")end;
 			InitCommand=function(self)self:glowshift():effectperiod(0.6):effectcolor1(1,1,1,0.3):effectcolor2(1,1,1,0.9)end;
 			OnCommand=function(self)self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0)end;
@@ -329,30 +339,37 @@ local function LifeMeterDouble(pn)
 			end;
 		};
 
-		LoadActor("Blue solid double") .. {
-			BeginCommand=function(self)self:player(pn)playcommand("Change"):x(-8):ztest(true)end;--20
+		LoadActor("Blue gradient") .. {
+			BeginCommand=function(self)self:zoomto(985,40):player(pn):playcommand("Change"):ztest(true)end;--20
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
-				local lfzoom = params.Life;
-				local hothreshold = 1.2--1.2
-				self:cropright(1.04-lfzoom);--1
+				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
+				
+				if params.Life >= hothreshold then
+					self:cropright(1-params.Life);
+				else
+					self:cropright(1.075-params.Life);--1
+				end;
 			end;
 		};
 
 		LoadActor("Bar hot") .. {
 			--customtexturerect( float fLeft, float fTop, float fRight, float fBottom )
-			BeginCommand=function(self)self:draworder(5):x(0):visible(false):customtexturerect(0,0,.5,1):zoomx(2):texcoordvelocity(0.7,0)end;
+			BeginCommand=function(self)self:draworder(5):zoomto(985,40):visible(true):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
 				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
 				--self:croprigth(1-lfzoom);
 				if params.Life >= hothreshold then
-					self:visible(true);
+					self:stoptweening();
+					self:linear(0.25);
+					self:diffusealpha(1);
 					self:glowblink();
 					self:effectperiod(0.05);
 					self:effectcolor1(1,1,1,0);
 					self:effectcolor2(1,1,1,.8);
 				else
-					self:stopeffect();
-					self:visible(false);
+					self:stoptweening();
+					self:linear(0.05);
+					self:diffusealpha(0);
 				end;
 			end;
 		};
@@ -467,168 +484,6 @@ local t = Def.ActorFrame {
 		Condition=(GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides");
 		InitCommand=function(self)self:y(SCREEN_TOP+18):x(SCREEN_CENTER_X):zoomy(0.8*0.66):zoomx((320/384)*0.85*0.71)end; --playcommand,"On";
 	};
-
-	-------------------------------------P1 SCORE gato
-	LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
-
-		InitCommand=function(self)
-			self:horizalign(right)
-			:y(SCREEN_TOP+19)
-			:zoom(0.62)
-			:uppercase(true)
-			:shadowlength(1)
-			:visible(GAMESTATE:IsHumanPlayer(PLAYER_1))
-			:playcommand("Set")
-		end;
-
-		ComboChangedMessageCommand=function(self)
-			local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_1);
-			self:settext(scorecap(PSS:GetScore()));
-		end;
-
-		SetCommand=function(self)
-			local style = GAMESTATE:GetCurrentStyle();
-
-			if GetUserPref("UserPrefScorePosition") == "On" then
-				if style:GetStyleType() == "StyleType_OnePlayerTwoSides" then
-					self:x(SCREEN_RIGHT-83);
-				else
-					self:x(THEME:GetMetric("ScreenGameplay","PlayerP1OnePlayerOneSideX")+119);
-				end
-			end
-
-			if GetUserPref("UserPrefScorePosition") == "Off" then
-				self:y(SCREEN_BOTTOM+9999);
-			end
-
-			if style:GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-				if GetUserPref("UserPrefScorePosition") == "On" then
-					self:x(SCREEN_CENTER_X-25);
-					self:visible(GAMESTATE:GetMasterPlayerNumber() == "PlayerNumber_P1")
-					self:horizalign(right);
-				else
-					self:x(SCREEN_CENTER_X);
-					self:visible(GAMESTATE:GetMasterPlayerNumber() == "PlayerNumber_P1")
-					self:horizalign(center);
-				end
-			end
-		end
-	};
-
-	-----------------------------------P2 SCORE perro
-	LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
-
-		InitCommand=function(self)
-			self:horizalign(left)
-			:y(SCREEN_TOP+19)
-			:zoom(0.62)
-			:uppercase(true)
-			:shadowlength(1)
-			:visible(GAMESTATE:IsHumanPlayer(PLAYER_2))
-			:playcommand("Set")
-		end;
-
-		ComboChangedMessageCommand=function(self)
-
-			local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_2);
-			self:settext(scorecap(PSS:GetScore()));
-		end;
-
-		SetCommand=function(self)
-			local style = GAMESTATE:GetCurrentStyle();
-
-
-			if GetUserPref("UserPrefScorePosition") == "On" then
-					if style:GetStyleType() == "StyleType_OnePlayerTwoSides" then
-						self:x(SCREEN_LEFT+83);
-					else
-						self:x(THEME:GetMetric("ScreenGameplay","PlayerP2OnePlayerOneSideX")-119);
-					end
-			end
-
-
-			if GetUserPref("UserPrefScorePosition") == "Off" then
-					self:y(SCREEN_BOTTOM+9999);
-			end
-
-
-			if style:GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-				if GetUserPref("UserPrefScorePosition") == "On" then
-					self:x(SCREEN_CENTER_X-25);
-					self:visible(GAMESTATE:GetMasterPlayerNumber() == "PlayerNumber_P2")
-					self:horizalign(right);
-				else
-					self:x(SCREEN_CENTER_X);
-					self:visible(GAMESTATE:GetMasterPlayerNumber() == "PlayerNumber_P2")
-					self:horizalign(center);
-				end
-			end
-		end
-	};
-
-	PlayerInfo(PLAYER_1)..{
-		InitCommand=function(self)self:y(SCREEN_TOP+495):zoomy(0.8):draworder(9999):zoomx(0.95):playcommand("On")end;
-		OnCommand=function(self)
-		local style=GAMESTATE:GetCurrentStyle();
-			if GAMESTATE:IsHumanPlayer(PLAYER_1) then
-				if style:GetStyleType() == "StyleType_OnePlayerTwoSides" then
-					self:visible(true);
-					self:x(SCREEN_CENTER_X-220);
-				elseif style:GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-					if GAMESTATE:GetMasterPlayerNumber() == "PlayerNumber_P1" then
-						self:visible(true);
-						self:x(SCREEN_CENTER_X-220);
-					else
-						self:visible(false);
-					end
-				else
-					self:visible(true);
-				--[[	self:x(SCREEN_CENTER_X*0.53125);]]--
-				if SCREEN_CENTER_X == 320 then
-					self:x(THEME:GetMetric(Var "LoadingScreen","PlayerP1OnePlayerOneSideX")-15);
-				else
-					self:x(THEME:GetMetric(Var "LoadingScreen","PlayerP1OnePlayerOneSideX"));
-				end
-				end
-			else
-				self:visible(false);
-			end
-		end;
-	};
-
-	PlayerInfo(PLAYER_2)..{
-		InitCommand=cmd(y,SCREEN_TOP+495;zoomy,0.8;draworder,9999;zoomx,0.95;playcommand,"On";);
-		OnCommand=function(self)
-		local style=GAMESTATE:GetCurrentStyle();
-			if GAMESTATE:IsHumanPlayer(PLAYER_2) then
-				if style:GetStyleType() == "StyleType_OnePlayerTwoSides" then
-					self:visible(true);
-					self:x(SCREEN_CENTER_X+220);
-				elseif style:GetStyleType() == "StyleType_TwoPlayersSharedSides" then
-					if GAMESTATE:GetMasterPlayerNumber() == "PlayerNumber_P2" then
-						self:visible(true);
-						self:x(SCREEN_CENTER_X+220);
-					else
-						self:visible(false);
-					end
-				else
-					self:visible(true);
-					--[[self:x(SCREEN_CENTER_X*1.46875);]]--
-				if SCREEN_CENTER_X == 320 then
-					self:x(THEME:GetMetric(Var "LoadingScreen","PlayerP2OnePlayerOneSideX")+15);
-				else
-					self:x(THEME:GetMetric(Var "LoadingScreen","PlayerP2OnePlayerOneSideX"));
-				end
-
-				end
-			else
-				self:visible(false);
-			end
-		end;
-	};
-
-
-	--LoadActor("song meter");
 
 };
 

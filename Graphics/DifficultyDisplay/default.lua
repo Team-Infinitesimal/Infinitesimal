@@ -9,8 +9,8 @@ local baseZoom = 0.25
 local spacing = 29;
 local delay = 2
 
-local baseX = basicMode and -spacing*1.5 or -(spacing*5.5)
-local baseY = 190;
+local baseX = -(spacing*6.5)
+local baseY = 20;
 
 local stepsArray, stepsSelected;
 
@@ -46,7 +46,7 @@ local t = Def.ActorFrame {
 	end;
 }
 
-for i=1,12 do
+for i=1,14 do
 
 	local j;
 	
@@ -67,12 +67,14 @@ for i=1,12 do
 			PreviousSongMessageCommand=function(self)self:playcommand("Refresh")end;
 			
 			RefreshCommand=function(self)
+				self:stoptweening();
+				
 				if stepsArray then
-					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+					if GetCurrentStepsIndex(PLAYER_1) > 14 or GetCurrentStepsIndex(PLAYER_2) > 14 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
-							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-14);
 						else
-							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-14);
 						end;
 					else
 						j = i;
@@ -134,11 +136,11 @@ for i=1,12 do
 				self:stoptweening();
 
 				if stepsArray then
-					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+					if GetCurrentStepsIndex(PLAYER_1) > 14 or GetCurrentStepsIndex(PLAYER_2) > 14 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
-							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-14);
 						else
-							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-14);
 						end;
 					else
 						j = i;
@@ -171,14 +173,12 @@ for i=1,12 do
 				self:zoom(baseZoom)
 				:x(baseX+spacing*(i-1))
 				:y(baseY)
-				:rotationx(180)
-				:spin()
-				:visible(false);
+				:diffusealpha(0);
 			end;
 			
 			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Set")end;
 			CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Set")end;
-			PlayerJoinedMessageCommand=function(self)self:playcommand("HideCursor")end;
+			--PlayerJoinedMessageCommand=function(self)self:playcommand("HideCursor")end;
 			SongUnchosenMessageCommand=function(self)self:playcommand("HideCursor")end;
 			
 			SongChosenMessageCommand=function(self)
@@ -188,25 +188,25 @@ for i=1,12 do
 			
 			HideCursorCommand=function(self)
 				stepsSelected = false;
-				self:visible(false);
+				self:diffusealpha(0);
 			end;
 	
 			SetCommand=function(self)
 				if stepsArray and stepsSelected and GAMESTATE:IsHumanPlayer(pn) then
-					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+					if GetCurrentStepsIndex(PLAYER_1) > 14 or GetCurrentStepsIndex(PLAYER_2) > 14 then
 						if GetCurrentStepsIndex(PLAYER_1) > GetCurrentStepsIndex(PLAYER_2) then
-							j = i+(GetCurrentStepsIndex(PLAYER_1)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_1)-14);
 						else
-							j = i+(GetCurrentStepsIndex(PLAYER_2)-12);
+							j = i+(GetCurrentStepsIndex(PLAYER_2)-14);
 						end;
 					else
 						j = i;
 					end;
 					
 					if GAMESTATE:GetCurrentSteps(pn) == stepsArray[j] then
-						self:visible(true);
+						self:diffusealpha(1);
 					else
-						self:visible(false);
+						self:diffusealpha(0);
 					end;
 				end;
 			end;
