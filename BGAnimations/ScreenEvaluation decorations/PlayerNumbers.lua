@@ -234,7 +234,7 @@ local t = Def.ActorFrame {
 			:diffusealpha(0)
 			:x(offsetfromcenterx)
 			:addy(spacing*8)
-			:maxwidth(1000)
+			:maxwidth(600)
 			:zoom(0.35);
 		end;
 		OnCommand=function(self)
