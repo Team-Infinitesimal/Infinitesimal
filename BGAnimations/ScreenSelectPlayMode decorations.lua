@@ -11,8 +11,12 @@ local t = Def.ActorFrame {
 				OnCommand=function(self) self:playcommand("RefreshPos") end;
 				MenuLeftP1MessageCommand=function(self) self:playcommand("RefreshPos") end;
 				MenuLeftP2MessageCommand=function(self) self:playcommand("RefreshPos") end;
+				MenuUpP1MessageCommand=function(self) self:playcommand("RefreshPos") end;
+				MenuUpP2MessageCommand=function(self) self:playcommand("RefreshPos") end;
 				MenuRightP1MessageCommand=function(self) self:playcommand("RefreshPos") end;
 				MenuRightP2MessageCommand=function(self) self:playcommand("RefreshPos") end;
+				MenuDownP1MessageCommand=function(self) self:playcommand("RefreshPos") end;
+				MenuDownP2MessageCommand=function(self) self:playcommand("RefreshPos") end;
 
 				RefreshPosCommand=function(self)
 						local selection = SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber())
