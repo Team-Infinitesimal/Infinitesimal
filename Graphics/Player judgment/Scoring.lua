@@ -35,6 +35,7 @@ return Def.ActorFrame {
 		local StepData = GAMESTATE:GetCurrentSteps(bPlayer);
 		local StepLevel = StepData:GetMeter();
 		local StepType = StepData:GetStepsType();
+		local Window = tonumber(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW5")));
 		
 		-- level constant: the multipler utilized to increase scores with more difficult charts and doubles
 		if (StepType == "StepsType_Pump_Double" or 
@@ -50,6 +51,10 @@ return Def.ActorFrame {
 				LevelConstant = StepLevel / 10
 			end;
 		end;
+		
+		if Window == 0.129166 then -- VJ
+			LevelConstant = LevelConstant * 1.2
+		end
 	end;
 	JudgmentMessageCommand=function(self,params)
 		local Notes = {};
