@@ -225,6 +225,25 @@ local t = Def.ActorFrame {
 			:settext(score);
 		end;
 	};
+
+	-- Step Artist
+	LoadFont("Montserrat normal 40px")..{
+		InitCommand=function(self)
+			steps = GAMESTATE:GetCurrentSteps(player);
+			self:halign(alignment)
+			:diffusealpha(0)
+			:x(offsetfromcenterx)
+			:addy(spacing*8)
+			:maxwidth(1000)
+			:zoom(0.35);
+		end;
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay*7)
+			:decelerate(0.3)
+			:diffusealpha(1)
+			:settext("Step Artist: "..steps:GetAuthorCredit());
+		end;
+	};
 };
 --[[
     t[#t+1] = Def.ActorFrame {
