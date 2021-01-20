@@ -65,7 +65,7 @@ t[#t+1] = LoadFont("Montserrat semibold 20px")..{
         :horizalign(center)
         :diffuse(0,0,0,1)
         :settext(song:GetDisplayMainTitle())
-		:maxwidth(700)
+		:maxwidth(400)
 		:x(SCREEN_CENTER_X):zoom(0.7);
 
 		if song:GetDisplaySubTitle() ~= "" then
@@ -87,7 +87,7 @@ t[#t+1] = LoadFont("Montserrat normal 20px")..{
         :sleep(1.75)
         :horizalign(center)
         :diffuse(0,0,0,1)
-        :maxwidth(700)
+        :maxwidth(400)
         :x(SCREEN_CENTER_X):y(82):zoom(0.35);
 
         if not promode then self:addy(5) end;
