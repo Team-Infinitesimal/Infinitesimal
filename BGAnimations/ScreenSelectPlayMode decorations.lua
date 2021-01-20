@@ -14,7 +14,7 @@ local t = Def.ActorFrame {
 				MenuRightP1MessageCommand=function(self) self:playcommand("RefreshPos") end;
 				MenuRightP2MessageCommand=function(self) self:playcommand("RefreshPos") end;
 
-				RefreshPosMessageCommand=function(self)
+				RefreshPosCommand=function(self)
 						local selection = SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber())
 						self:stoptweening()
 						:decelerate(0.25)
