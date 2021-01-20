@@ -131,7 +131,7 @@ function OptionRowModeSelect()
         LayoutType = "ShowAllInRow";
         SelectType = "SelectOne";
         OneChoiceForAllPlayers = true;
-        Choices = {"Arcade", "Pro"};
+        Choices = {"Arcade", "Pro", "Stamina"};
         LoadSelections = function(self, list, pn)
             local mode = PREFSMAN:GetPreference("AllowW1")
             if mode == "AllowW1_Everywhere" then -- Pro Mode
@@ -141,7 +141,9 @@ function OptionRowModeSelect()
             end;
         end;
         SaveSelections = function(self, list, pn)
-            if list[2] == true then
+            if list[3] == true then
+                PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
+            elif list[2] == true then
                 PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
             elseif list[1] == true then
                 PREFSMAN:SetPreference("AllowW1",'AllowW1_Never');

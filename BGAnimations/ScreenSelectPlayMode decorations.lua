@@ -8,20 +8,17 @@ local t = Def.ActorFrame {
 
 		Def.ActorFrame {
 
-				OnCommand=function(self) self:playcommand("Refresh") end;
-				MenuLeftP1MessageCommand=function(self) self:playcommand("MoveLeft") end;
-				MenuLeftP2MessageCommand=function(self) self:playcommand("MoveLeft") end;
-				MenuRightP1MessageCommand=function(self) self:playcommand("MoveRight") end;
-				MenuRightP2MessageCommand=function(self) self:playcommand("MoveRight") end;
+				OnCommand=function(self) self:playcommand("RefreshPos") end;
+				MenuLeftP1MessageCommand=function(self) self:playcommand("RefreshPos") end;
+				MenuLeftP2MessageCommand=function(self) self:playcommand("RefreshPos") end;
+				MenuRightP1MessageCommand=function(self) self:playcommand("RefreshPos") end;
+				MenuRightP2MessageCommand=function(self) self:playcommand("RefreshPos") end;
 
-				MoveLeftCommand=function(self)
-						self:decelerate(0.25)
-						:addx(spacing)
-				end;
-
-				MoveRightCommand=function(self)
-						self:decelerate(0.25)
-						:addx(-spacing)
+				RefreshPosMessageCommand=function(self)
+						local selection = SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber())
+						self:stoptweening()
+						:decelerate(0.25)
+						:x(-spacing*selection)
 				end;
 
 		    LoadActor(THEME:GetPathG("","ModeSelect/ArcadeMode"))..{
@@ -105,7 +102,7 @@ local t = Def.ActorFrame {
 						end;
 						RefreshCommand=function(self)
 								if SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber()) == 2 then
-						PREFSMAN:SetPreference("AllowW1",'AllowW1_Never');
+						PREFSMAN:SetPreference("AllowW1",'AllowW1_Everywhere');
 										self:diffusealpha(1)
 										:queuecommand("Zoom")
 								else
