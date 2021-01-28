@@ -153,7 +153,7 @@ local function LifeMeterSingle(pn)
 		LoadActor("Blue gradient") .. {
 			BeginCommand=function(self)self:zoomto(495,40):player(pn):playcommand("Change"):ztest(true)end;--20
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
-				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
+				local hothreshold = 1;
 				
 				if params.Life >= hothreshold then
 					self:cropright(1-params.Life);
@@ -166,7 +166,7 @@ local function LifeMeterSingle(pn)
 		LoadActor("Bar hot") .. {
 			BeginCommand=function(self)self:draworder(5):x(0):visible(true):zoomto(495,40):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
-				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
+				local hothreshold = 1;
 				--self:croprigth(1-lfzoom);
 				if params.Life >= hothreshold then
 					self:stoptweening();
@@ -342,7 +342,7 @@ local function LifeMeterDouble(pn)
 		LoadActor("Blue gradient") .. {
 			BeginCommand=function(self)self:zoomto(985,40):player(pn):playcommand("Change"):ztest(true)end;--20
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
-				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
+				local hothreshold = 1;
 				
 				if params.Life >= hothreshold then
 					self:cropright(1-params.Life);
@@ -356,7 +356,7 @@ local function LifeMeterDouble(pn)
 			--customtexturerect( float fLeft, float fTop, float fRight, float fBottom )
 			BeginCommand=function(self)self:draworder(5):zoomto(985,40):visible(true):customtexturerect(0,0,.5,1):texcoordvelocity(0.7,0)end;
 			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,params)
-				local hothreshold = THEME:GetMetric("LifeMeterBar", "HotValue");
+				local hothreshold = 1;
 				--self:croprigth(1-lfzoom);
 				if params.Life >= hothreshold then
 					self:stoptweening();

@@ -75,6 +75,14 @@ function LoadPlayerStuff(Player)
 			OnCommand=function(self)self:diffuse(Color("Black")):fadebottom(1):diffusealpha(0.35)end;
 		};
 	};
+	
+	t[#t+1] = Def.ActorFrame {
+		Name = 'GuestText';
+		LoadFont("Montserrat semibold 40px") .. {
+			Text="No profile!";
+			InitCommand=function(self)self:shadowlength(1):zoom(0.5):ztest(true)end;
+		};
+	};
 
 	t[#t+1] = Def.ActorScroller{
 		Name = 'Scroller';
@@ -103,6 +111,7 @@ function UpdateInternal3(self, Player)
 	local joinframe = frame:GetChild('JoinFrame');
 	local smallframe = frame:GetChild('SmallFrame');
 	local bigframe = frame:GetChild('BigFrame');
+	local guesttext = frame:GetChild('GuestText');
 
 	if GAMESTATE:IsHumanPlayer(Player) then
 		frame:visible(true);
@@ -112,6 +121,7 @@ function UpdateInternal3(self, Player)
 			smallframe:visible(true);
 			bigframe:visible(true);
 			scroller:visible(true);
+			guesttext:visible(false);
 			local ind = SCREENMAN:GetTopScreen():GetProfileIndex(Player);
 			if ind > 0 then
 				scroller:SetDestinationItem(ind-1);
@@ -120,17 +130,19 @@ function UpdateInternal3(self, Player)
 					scroller:SetDestinationItem(0);
 					self:queuecommand('UpdateInternal2');
 				else
-					joinframe:visible(true);
+					joinframe:visible(false);
 					smallframe:visible(false);
-					bigframe:visible(false);
+					bigframe:visible(true);
 					scroller:visible(false);
-					seltext:settext('No profile');
+					guesttext:visible(true);
+					--seltext:settext('No profile');
 				end;
 			end;
 		else
 			--using card
 			smallframe:visible(false);
 			scroller:visible(false);
+			guesttext:visible(false);
 			SCREENMAN:GetTopScreen():SetProfileIndex(Player, 0);
 		end;
 	else
@@ -138,6 +150,7 @@ function UpdateInternal3(self, Player)
 		scroller:visible(false);
 		smallframe:visible(false);
 		bigframe:visible(false);
+		guesttext:visible(false);
 	end;
 end;
 
