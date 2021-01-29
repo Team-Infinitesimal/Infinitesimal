@@ -1,3 +1,101 @@
+--[[
+	I will continue to further utilize SetPreference for defining timing modes.
+	Team Rizu: if you are currently expecting themes to utilize your new functions, 
+	you MUST make their documentation available as soon as possible. In this case,
+	attempting to research the only two examples of SmartTiming (Soundwaves and 
+	SL-OutFox) was not enough to make it completely functional. If you wonder if
+	I have brought this up to the team, I have posted about it multiple times in
+	the Discord's theming channel.
+										- SheepyChris
+]]--
+
+function OptionRowJudgement()
+    local t = {
+        Name = "JudgementCustom";
+        LayoutType = "ShowAllInRow";
+        SelectType = "SelectOne";
+        OneChoiceForAllPlayers = true;
+        Choices = {"Normal", "Hard", "Very Hard", "Infinity", "Groove", "Hero"};
+        LoadSelections = function(self, list, pn)
+			-- Thank you StepMania for not cutting off your extra decimals
+            local window = tonumber(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW5")));
+            --SCREENMAN:SystemMessage(window);
+            if window == 0.187500 then -- NJ
+                list[1] = true;
+            elseif window == 0.170833 then -- HJ
+                list[2] = true;
+            elseif window == 0.129166 then -- VJ
+                list[3] = true;
+            elseif window == 0.200000 then -- INFINITY
+                list[4] = true;
+            elseif window == 0.180000 then -- ITG
+                list[5] = true;
+            elseif window == 0.062500 then -- GH
+                list[6] = true;
+            else
+				list[1] = true; -- Fallback to NJ and set it
+				PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
+				PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
+				PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500);
+				PREFSMAN:SetPreference("TimingWindowSecondsW1",0.031250);
+				PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062500);
+				PREFSMAN:SetPreference("TimingWindowSecondsW3",0.104166);
+				PREFSMAN:SetPreference("TimingWindowSecondsW4",0.145833);
+				PREFSMAN:SetPreference("TimingWindowSecondsW5",0.187500);
+            end;
+        end;
+        SaveSelections = function(self, list, pn)
+            PREFSMAN:SetPreference("TimingWindowSecondsMine",0.130000);
+            PREFSMAN:SetPreference("TimingWindowSecondsRoll",0.450000);
+            if list[1] == true then                                         -- NJ
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.031250);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.104166);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.145833);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.187500);
+            elseif list[2] == true then                                     -- HJ
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500); -- HJ still has the same hold tolerance as NJ
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.022916);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.045833);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.087500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.129166);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.170833);
+            elseif list[3] == true then                                     -- VJ
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.029166);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.014583);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.029166);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.095833);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.129166);
+            elseif list[4] == true then                                     -- INFINITY
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.05800);  -- Original was unmodified from ITG, their StepMania build probably handled it differently
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.028000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.058000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.115000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.160000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.200000);
+            elseif list[5] == true then                                     -- GROOVE
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.32000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.021500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.043000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.102000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.135000);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.180000);
+            elseif list[6] == true then                                     -- HERO
+                PREFSMAN:SetPreference("TimingWindowSecondsHold",0.062500); -- Just an approximation. I don't really care if it's accurate
+                PREFSMAN:SetPreference("TimingWindowSecondsW1",0.062501);
+                PREFSMAN:SetPreference("TimingWindowSecondsW2",0.062501);
+                PREFSMAN:SetPreference("TimingWindowSecondsW3",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW4",0.062500);
+                PREFSMAN:SetPreference("TimingWindowSecondsW5",0.062500);
+            end;
+        end;
+    };
+    setmetatable(t, t)
+	  return t
+end;
+
 function OptionRowModeSelect()
     local t = {
         Name = "ModeSelCustom";
