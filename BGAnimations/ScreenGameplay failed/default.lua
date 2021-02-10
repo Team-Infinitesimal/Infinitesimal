@@ -1,6 +1,6 @@
 t = Def.ActorFrame{
 
-    LoadActor("Background")..{
+    LoadActor(THEME:GetPathG("", "GenericGradientBg"))..{
         InitCommand=function(self)
             self:Center()
             :scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
