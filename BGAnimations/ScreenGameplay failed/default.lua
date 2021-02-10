@@ -1,4 +1,4 @@
-t = Def.ActorFrame{
+local t = Def.ActorFrame{
 
     LoadActor(THEME:GetPathG("", "GenericGradientBg"))..{
         InitCommand=function(self)
@@ -26,7 +26,7 @@ t = Def.ActorFrame{
             :decelerate(1)
             :zoom(0.4)
             :diffusealpha(0)
-        end
+        end;
     };
 
     LoadActor("Stars2")..{
@@ -39,7 +39,7 @@ t = Def.ActorFrame{
             :decelerate(1)
             :zoom(0.5)
             :diffusealpha(0)
-        end
+        end;
     };
 
     LoadActor("Stars3")..{
@@ -52,7 +52,7 @@ t = Def.ActorFrame{
             :decelerate(1)
             :zoom(0.6)
             :diffusealpha(0)
-        end
+        end;
     };
 
     LoadActor("Circle")..{
@@ -114,15 +114,24 @@ t = Def.ActorFrame{
             :zoom(0.08)
         end;
     };
+    
+    Def.Quad {
+        InitCommand=function(self)
+            self:sleep(4)
+            :diffuse(0,0,0,0)
+            :scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
+            :linear(1)
+            :diffusealpha(1)
+        end;
+    };
 
     Def.Sound {
-    		File="Voice",
-    		OnCommand=function(self)
-    			   self:sleep(0.1)
-             :sleep(0.5)
-             :queuecommand("Play")
-    		end;
-    		PlayCommand=function(self)self:play()end
+		File="Voice",
+		OnCommand=function(self)
+			self:sleep(0.6)
+			:queuecommand("Play")
+		end;
+		PlayCommand=function(self)self:play()end
   	};
 }
 

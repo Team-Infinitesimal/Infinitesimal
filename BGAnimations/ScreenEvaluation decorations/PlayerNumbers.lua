@@ -37,7 +37,7 @@ local accuracy 	=	round(playerstats:GetPercentDancePoints()*100, 2);
 local combo 	= 	playerstats:MaxCombo();
 local score 	= 	scorecap(playerstats:GetScore());
 
-if getenv(pname(player).."Failed") == true then
+if getenv(pname(player).."StageBreak") == true then
     lifeState = "Fail"
 else
     lifeState = "Pass"
@@ -51,6 +51,8 @@ local letB = "LetterGrades/"..lifeState.."B"
 local letC = "LetterGrades/"..lifeState.."C"
 local letD = "LetterGrades/"..lifeState.."D"
 local letF = "LetterGrades/"..lifeState.."F"
+
+local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini")
 
 local t = Def.ActorFrame {
 
@@ -350,28 +352,7 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 		self:sleep(1.75)
 		:decelerate(0.3)
 		:diffusealpha(1)
-
-		-- If you know, you know
-		local window = tonumber(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW5")));
-		if window == 0.187500 then -- NJ
-			self:settext("Normal");
-		elseif window == 0.170833 then -- HJ
-			self:settext("Hard");
-		elseif window == 0.129166 then -- VJ
-			self:settext("Very Hard");
-		elseif window == 0.200000 then -- INFINITY
-			self:settext("Infinity");
-		elseif window == 0.180000 then -- ITG
-			self:settext("Groove");
-		elseif window == 0.062500 then -- GH
-			self:settext("Hero");
-		else
-			if promode then
-				self:settext(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW1")));
-			else
-				self:settext(string.format("%.6f", PREFSMAN:GetPreference("TimingWindowSecondsW2")));
-			end;
-		end;
+		:settext(CurPrefTiming or "Unknown")
 	end;
 };
 

@@ -17,7 +17,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_Attack']		= 0.104166,
 		['TapNoteScore_Hold']		= 0.125000,
 		['TapNoteScore_Roll']		= 0.350000,
-		['TapNoteScore_Checkpoint']	= 0.125500,
+		['TapNoteScore_Checkpoint']	= 0,
 	};
 	return Name, Timings
 end
@@ -35,7 +35,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_Attack']		= 0.087500,
 		['TapNoteScore_Hold']		= 0.108333,
 		['TapNoteScore_Roll']		= 0.350000,
-		['TapNoteScore_Checkpoint']	= 0.108333,
+		['TapNoteScore_Checkpoint']	= 0,
 	};
 	return Name, Timings
 end
@@ -53,7 +53,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_Attack']		= 0.062500,
 		['TapNoteScore_Hold']		= 0.083333,
 		['TapNoteScore_Roll']		= 0.350000,
-		['TapNoteScore_Checkpoint']	= 0.083333,
+		['TapNoteScore_Checkpoint']	= 0,
 	};
 	return Name, Timings
 end
@@ -71,7 +71,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_Attack']		= 0.135000,
 		['TapNoteScore_Hold']		= 0.320000,
 		['TapNoteScore_Roll']		= 0.450000,
-		['TapNoteScore_Checkpoint']	= 0.166400,
+		['TapNoteScore_Checkpoint']	= 0,
 	};
 	return Name, Timings
 end
@@ -89,7 +89,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_Attack']		= 0.130000,
 		['TapNoteScore_Hold']		= 0.320000,
 		['TapNoteScore_Roll']		= 0.350000,
-		['TapNoteScore_Checkpoint']	= 0.166400,
+		['TapNoteScore_Checkpoint']	= 0,
 	};
 	return Name, Timings
 end
@@ -104,7 +104,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_Attack']		= 0.130000,
 		['TapNoteScore_Hold']		= 0.320000,
 		['TapNoteScore_Roll']		= 0.350000,
-		['TapNoteScore_Checkpoint']	= 0.166400,
+		['TapNoteScore_Checkpoint']	= 0,
 	};
 	return Name, Timings
 end

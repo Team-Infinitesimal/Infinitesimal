@@ -1,6 +1,7 @@
 return {
 	GameMode =
 	{
+		UserPref = true,
 		Default = false,
 		Choices = { OptionNameString('Arcade'), OptionNameString('Pro'), OptionNameString('Stamina') },
 		Values = { false, 1, 2 }

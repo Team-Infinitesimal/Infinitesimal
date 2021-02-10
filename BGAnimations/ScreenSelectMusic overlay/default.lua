@@ -29,28 +29,20 @@ t[#t+1] = LoadActor(THEME:GetPathS("","CloseCommandWindow"))..{
 };
 
 t[#t+1] = LoadActor(THEME:GetPathS("","OpListScroll"))..{
-	OptionsListRightMessageCommand=function(self)
-		self:play();
-	end;
-	OptionsListLeftMessageCommand=function(self)
-		self:play();
-	end;
-	OptionsListQuickChangeMessageCommand=function(self)
+	OptionsListRightMessageCommand=function(self)self:queuecommand("Refresh")end;
+	OptionsListLeftMessageCommand=function(self)self:queuecommand("Refresh")end;
+	OptionsListQuickChangeMessageCommand=function(self)self:queuecommand("Refresh")end;
+	RefreshCommand=function(self)
 		self:play();
 	end;
 };
 
 t[#t+1] = LoadActor(THEME:GetPathS("","OpListChoose"))..{
-	OptionsListStartMessageCommand=function(self)
-		self:play();
-	end;
-	OptionsListResetMessageCommand=function(self)
-		self:play();
-	end;
-	OptionsListPopMessageCommand=function(self)
-		self:play();
-	end;
-	OptionsListPushMessageCommand=function(self)
+	OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end;
+	OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end;
+	OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
+	OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
+	RefreshCommand=function(self)
 		self:play();
 	end;
 };

@@ -1,11 +1,10 @@
 pn = ...
 
-offsetFromSide = 240
+local offsetFromSide = 187
+local xpos = SCREEN_CENTER_X - offsetFromSide
 
-if pn == "PlayerNumber_P1" then
-    xpos = SCREEN_LEFT + offsetFromSide
-else
-    xpos = SCREEN_RIGHT - offsetFromSide
+if pn == PLAYER_2 then
+	xpos = SCREEN_CENTER_X + offsetFromSide
 end;
 
 if PROFILEMAN:GetProfile(pn):GetDisplayName() ~= "" then
@@ -19,16 +18,17 @@ t = Def.ActorFrame {
     LoadActor("badge")..{
         InitCommand=function(self)
             self:xy(xpos, SCREEN_BOTTOM - 20)
-            :zoom(0.15)
+            :zoom(0.45)
         end;
     };
 
-    LoadFont("Montserrat semibold 40px")..{
+    LoadFont("Montserrat semibold 20px")..{
         InitCommand=function(self)
             self:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
             :horizalign(center)
-            :xy(offsetFromSide, SCREEN_BOTTOM - 20)
-            :zoom(0.25)
+            :xy(xpos, SCREEN_BOTTOM - 20)
+            :shadowlength(1)
+            :zoom(0.75)
         end;
     }
 };
