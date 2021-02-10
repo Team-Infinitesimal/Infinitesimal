@@ -309,7 +309,7 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
         steps = GAMESTATE:GetCurrentSteps(player);
         self:diffusealpha(0)
         :shadowlength(0.8)
-		:shadowcolor(color("0,0,0,1"))
+				:shadowcolor(color("0,0,0,1"))
         :sleep(2)
         :x(dboffset)
         :addy(spacing*3)
