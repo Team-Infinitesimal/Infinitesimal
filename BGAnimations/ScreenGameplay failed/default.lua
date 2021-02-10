@@ -7,9 +7,20 @@ t = Def.ActorFrame{
         end
     };
 
+    Def.Quad {
+        InitCommand=function(self)
+            self:diffuse(1,1,1,1)
+            :scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
+            :linear(0.5)
+            :diffusealpha(0)
+        end;
+    };
+
     LoadActor("Stars1")..{
         InitCommand=function(self)
             self:zoom(0.1)
+            :diffusealpha(0)
+            :sleep(0.5)
             :Center()
             :diffusealpha(0.5)
             :decelerate(1)
@@ -21,6 +32,8 @@ t = Def.ActorFrame{
     LoadActor("Stars2")..{
         InitCommand=function(self)
             self:zoom(0.1)
+            :diffusealpha(0)
+            :sleep(0.5)
             :Center()
             :diffusealpha(0.5)
             :decelerate(1)
@@ -32,6 +45,8 @@ t = Def.ActorFrame{
     LoadActor("Stars3")..{
         InitCommand=function(self)
             self:zoom(0.1)
+            :diffusealpha(0)
+            :sleep(0.5)
             :Center()
             :diffusealpha(0.75)
             :decelerate(1)
@@ -40,19 +55,11 @@ t = Def.ActorFrame{
         end
     };
 
-    Def.Quad {
-        InitCommand=function(self)
-            self:zoom(SCREEN_WIDTH*2,SCREEN_HEIGHT*2)
-            :diffuse(1,1,1,1)
-            :linear(0.1)
-            :diffusealpha(0)
-            :sleep(5)
-        end
-    };
-
     LoadActor("Circle")..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-100)
+            :diffusealpha(0)
+            :sleep(0.5)
             :diffusealpha(0.1)
             :sleep(0.25)
             :zoom(0)
@@ -65,6 +72,8 @@ t = Def.ActorFrame{
     LoadActor("Circle")..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+50)
+            :diffusealpha(0)
+            :sleep(0.5)
             :diffusealpha(0.1)
             :sleep(0.85)
             :zoom(0)
@@ -77,6 +86,8 @@ t = Def.ActorFrame{
     LoadActor("Hey")..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-100)
+            :diffusealpha(0)
+            :sleep(0.5)
             :shadowlength(3)
             :shadowcolor(0,0,0,0.25)
             :diffusealpha(0)
@@ -91,6 +102,8 @@ t = Def.ActorFrame{
     LoadActor("GetUpAndDanceMan")..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+50)
+            :diffusealpha(0)
+            :sleep(0.5)
             :shadowlength(3)
             :shadowcolor(0,0,0,0.25)
             :diffusealpha(0)
@@ -105,7 +118,9 @@ t = Def.ActorFrame{
     Def.Sound {
     		File="Voice",
     		OnCommand=function(self)
-    			   self:sleep(0.1):queuecommand("Play")
+    			   self:sleep(0.1)
+             :sleep(0.5)
+             :queuecommand("Play")
     		end;
     		PlayCommand=function(self)self:play()end
   	};
