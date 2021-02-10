@@ -8,7 +8,7 @@ local t = Def.ActorFrame{
 
         OnCommand=function(self)
             self:diffuse(0,0,0,1)
-            :accelerate(0.5)
+            :decelerate(0.5)
             :diffusealpha(0)
             :sleep(0.5)
             end;
