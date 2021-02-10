@@ -16,7 +16,7 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor("Stars1")..{
+    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars1"))..{
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -29,7 +29,7 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor("Stars2")..{
+    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars2"))..{
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -42,7 +42,7 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor("Stars3")..{
+    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars3"))..{
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -55,7 +55,7 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor("Circle")..{
+    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Circle"))..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-100)
             :diffusealpha(0)
@@ -69,7 +69,7 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor("Circle")..{
+    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Circle"))..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+50)
             :diffusealpha(0)
@@ -114,7 +114,7 @@ local t = Def.ActorFrame{
             :zoom(0.08)
         end;
     };
-    
+
     Def.Quad {
         InitCommand=function(self)
             self:sleep(4)
