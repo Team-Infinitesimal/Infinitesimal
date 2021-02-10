@@ -9,7 +9,7 @@ return Def.ActorFrame {
 			self:linear(1)
 			self:diffuse(color("#2D4ABD"))
 		end
-	},
+	};
 
 	LoadActor("arrow")..{
 		InitCommand=function(self)
