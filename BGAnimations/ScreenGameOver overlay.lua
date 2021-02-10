@@ -16,6 +16,27 @@ local t = Def.ActorFrame {
         end;
     };
 
+    Def.Sound {
+    		File=THEME:GetPathS("", "Pewwwww"),
+    		OnCommand=function(self)
+    			   self:queuecommand("Play")
+    		end;
+    		PlayCommand=function(self)
+            self:play()
+        end;
+  	};
+
+    Def.Sound {
+    		File=THEME:GetPathS("", "Boom"),
+    		OnCommand=function(self)
+    			   self:sleep(1.5)
+             :queuecommand("Play")
+    		end;
+    		PlayCommand=function(self)
+            self:play()
+        end;
+  	};
+
     LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Circle"))..{
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
