@@ -360,6 +360,17 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 --- Letter Grade
 --- ------------------------------------------------
 
+t[#t+1] = Def.Sound {
+		File=THEME:GetPathS("", "EvalLetterHit"),
+		OnCommand=function(self)
+				 self:sleep(2.7)
+				 :queuecommand("Play")
+		end;
+		PlayCommand=function(self)
+				self:play()
+		end;
+};
+
 t[#t+1] = Def.Sprite {
 	InitCommand=function(self)
 		self:zoom(0.8):diffusealpha(0):addx(lgoffset):addy(spacing*3);
