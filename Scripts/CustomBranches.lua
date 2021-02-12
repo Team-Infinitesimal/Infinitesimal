@@ -13,4 +13,15 @@ CustomBranch = {
 			return "ScreenSelectPlayMode"
 		end
 	end,
+	AfterProfileSave = function()
+		-- Might be a little too broken? -- Midiman
+		if GAMESTATE:IsEventMode() then
+			return SelectMusicOrCourse()
+		elseif STATSMAN:GetCurStageStats():AllFailed() or
+			GAMESTATE:GetSmallestNumStagesLeftForAnyHumanPlayer() == 0 then
+			return GameOverOrContinue()
+		else
+			return SelectMusicOrCourse()
+		end
+	end,
 }

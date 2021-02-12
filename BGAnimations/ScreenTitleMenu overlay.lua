@@ -72,23 +72,25 @@ local t = Def.ActorFrame {
     -- Info Stuff --
     ----------------
 
-    LoadFont("Montserrat semibold 40px")..{
+    LoadFont("Montserrat semibold 20px")..{
         InitCommand=function(self)
             self:settext(SongStats)
-            :zoom(0.25)
+            :zoom(0.5)
             :xy(SCREEN_LEFT + 5, SCREEN_TOP + 18)
             :vertalign(top)
             :horizalign(left)
+            :shadowlength(1)
         end;
     };
 
-    LoadFont("Montserrat semibold 40px")..{
+    LoadFont("Montserrat semibold 20px")..{
         InitCommand=function(self)
             self:settext(sm_version)
-            :zoom(0.25)
+            :zoom(0.5)
             :xy(SCREEN_LEFT + 5, SCREEN_TOP + 5)
             :vertalign(top)
             :horizalign(left)
+            :shadowlength(1)
         end;
     };
 

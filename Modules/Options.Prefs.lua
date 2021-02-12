@@ -6,6 +6,13 @@ return {
 		Choices = { OptionNameString('Arcade'), OptionNameString('Pro'), OptionNameString('Stamina') },
 		Values = { false, 1, 2 }
 	},
+	BGAMode =
+	{
+		UserPref = true,
+		Default = false,
+		Choices = { OptionNameString('On'), OptionNameString('20% Cover'), OptionNameString('40% Cover'), OptionNameString('60% Cover'), OptionNameString('80% Cover'), OptionNameString('Off') },
+		Values = { false, 1, 2, 3, 4, 5 }
+	},
 	SmartTimings =
 	{
 		SaveSelections = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
