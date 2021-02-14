@@ -1,12 +1,5 @@
 pn = ...
 
-local offsetFromSide = 187
-local xpos = SCREEN_CENTER_X - offsetFromSide
-
-if pn == PLAYER_2 then
-	xpos = SCREEN_CENTER_X + offsetFromSide
-end;
-
 if PROFILEMAN:GetProfile(pn):GetDisplayName() ~= "" then
     displayname = PROFILEMAN:GetProfile(pn):GetDisplayName()
 else
@@ -16,19 +9,25 @@ end;
 t = Def.ActorFrame {
 
     LoadActor("badge")..{
-        InitCommand=function(self)
-            self:xy(xpos, SCREEN_BOTTOM - 20)
-            :zoom(0.45)
+        OnCommand=function(self)
+			if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
+				local pos = SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)):GetX()
+				self:xy(pos, SCREEN_BOTTOM - 20)
+				:zoom(0.45)
+            end
         end;
     };
 
     LoadFont("Montserrat semibold 20px")..{
-        InitCommand=function(self)
-            self:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
-            :horizalign(center)
-            :xy(xpos, SCREEN_BOTTOM - 20)
-            :shadowlength(1)
-            :zoom(0.75)
+        OnCommand=function(self)
+			if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
+				local pos = SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)):GetX()
+				self:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
+				:horizalign(center)
+				:xy(pos, SCREEN_BOTTOM - 20)
+				:shadowlength(1)
+				:zoom(0.75)
+			end;
         end;
     }
 };

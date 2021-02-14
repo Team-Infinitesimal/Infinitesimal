@@ -1,50 +1,4 @@
 return {
-	GameMode =
-	{
-		UserPref = true,
-		Default = false,
-		Choices = { OptionNameString('Arcade'), OptionNameString('Pro'), OptionNameString('Stamina') },
-		Values = { false, 1, 2 }
-	},
-	BGAMode =
-	{
-		UserPref = true,
-		Default = false,
-		Choices = { OptionNameString('On'), OptionNameString('20% Cover'), OptionNameString('40% Cover'), OptionNameString('60% Cover'), OptionNameString('80% Cover'), OptionNameString('Off') },
-		Values = { false, 1, 2, 3, 4, 5 }
-	},
-	SmartTimings =
-	{
-		SaveSelections = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
-		GenForUserPref = true,
-		Default = TimingModes[1],
-		Choices = TimingModes,
-		Values = TimingModes
-	},
-	LuaNoteSkins =
-	{
-		Default = "default",
-		UserPref = true,
-		OneInRow = true,
-		Choices = NOTESKIN:GetNoteSkinNames(),
-		Values = NOTESKIN:GetNoteSkinNames(),
-		LoadFunction = function(self,list,pn)
-			local CurNoteSkin = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin()
-			for i,v2 in ipairs(self.Choices) do
-				if string.lower(tostring(v2)) == string.lower(tostring(CurNoteSkin)) then
-					list[i] = true return
-				end
-			end
-			list[1] = true
-		end,
-		SaveFunction = function(self,list,pn)
-			for i,v2 in ipairs(self.Choices) do
-				if list[i] then
-					GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin(v2)
-				end
-			end
-		end,
-	},
 	SpeedModType =
 	{
 		Default = "x",
@@ -77,4 +31,65 @@ return {
 		SaveFunction = function(self,list,pn)
 		end,
 	},
+	LuaNoteSkins =
+	{
+		Default = "default",
+		UserPref = true,
+		OneInRow = true,
+		Choices = NOTESKIN:GetNoteSkinNames(),
+		Values = NOTESKIN:GetNoteSkinNames(),
+		LoadFunction = function(self,list,pn)
+			local CurNoteSkin = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin()
+			for i,v2 in ipairs(self.Choices) do
+				if string.lower(tostring(v2)) == string.lower(tostring(CurNoteSkin)) then
+					list[i] = true return
+				end
+			end
+			list[1] = true
+		end,
+		SaveFunction = function(self,list,pn)
+			for i,v2 in ipairs(self.Choices) do
+				if list[i] then
+					GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin(v2)
+				end
+			end
+		end,
+	},
+	BGAMode =
+	{
+		UserPref = true,
+		Default = "no cover",
+		Choices = { OptionNameString('On'), OptionNameString('20% Cover'), OptionNameString('40% Cover'), OptionNameString('60% Cover'), OptionNameString('80% Cover'), OptionNameString('Off') },
+		Values = { "no cover", "20% cover", "40% cover", "60% cover", "80% cover", "cover" }
+	},
+	SmartTimings =
+	{
+		SaveSelections = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
+		GenForUserPref = true,
+		Default = TimingModes[1],
+		Choices = TimingModes,
+		Values = TimingModes
+	},
+	ProMode =
+	{
+		UserPref = true,
+		OneChoiceForAllPlayers = true,
+		Default = "AllowW1_Never",
+		Choices = { OptionNameString('Off'), OptionNameString('On') },
+		Values = { "AllowW1_Never", "AllowW1_Everywhere" }
+	},
+	DeviationDisplay =
+    {
+        UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
+	MeasureCounter =
+    {
+        UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
 }
