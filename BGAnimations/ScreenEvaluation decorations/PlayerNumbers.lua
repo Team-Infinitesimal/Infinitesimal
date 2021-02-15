@@ -5,17 +5,19 @@ local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and tr
 local alignment = 0;
 if player == "PlayerNumber_P2" then alignment = 1 end;
 
-local offsetfromcenterx = -300;
-if player == "PlayerNumber_P2" then offsetfromcenterx = 300 end;
+local offsetfromcenterx = -270;
+if player == "PlayerNumber_P2" then offsetfromcenterx = 270 end;
 
-local lgoffset = -190;
-if player == "PlayerNumber_P2" then lgoffset = 190 end;
+local lgoffset = -170;
+if player == "PlayerNumber_P2" then lgoffset = 170 end;
 
-local dboffset = -92;
-if player == "PlayerNumber_P2" then dboffset = 92 end;
+local dboffset = -130;
+if player == "PlayerNumber_P2" then dboffset = 130 end;
 
 local spacing = 29.1;
 local showdelay = 0.08;
+
+local steps = GAMESTATE:GetCurrentSteps(player);
 local playerstats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player);
 
 local superbs 	=	playerstats:GetTapNoteScores("TapNoteScore_W1");
@@ -52,27 +54,21 @@ local letC = "LetterGrades/"..lifeState.."C"
 local letD = "LetterGrades/"..lifeState.."D"
 local letF = "LetterGrades/"..lifeState.."F"
 
-local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini")
-
 local t = Def.ActorFrame {
 
 	OnCommand=function(self)
-		self:shadowlengthx(1)
-		:shadowlengthy(1)
-		:shadowcolor(0,0,0,1)
 		if promode then
 			self:addy(spacing/2);
 		end;
 	end;
 
 	--Superbs
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(-spacing)
-			:maxwidth(1000)
+			:xy(offsetfromcenterx, -spacing)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -86,12 +82,12 @@ local t = Def.ActorFrame {
 	};
 
 	-- Perfects
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
 			:x(offsetfromcenterx)
-			:maxwidth(1000)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -103,13 +99,12 @@ local t = Def.ActorFrame {
 	};
 
 	-- Greats
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(spacing)
-			:maxwidth(1000)
+			:xy(offsetfromcenterx, spacing)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -121,13 +116,12 @@ local t = Def.ActorFrame {
 	};
 
 	-- Goods
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(spacing*2)
-			:maxwidth(1000)
+			:xy(offsetfromcenterx, spacing*2)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -139,13 +133,12 @@ local t = Def.ActorFrame {
 	};
 
 	-- Bads
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(spacing*3)
-			:maxwidth(1000)
+			:xy(offsetfromcenterx, spacing*3)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -157,13 +150,12 @@ local t = Def.ActorFrame {
 	};
 
 	-- Misses
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(spacing*4)
-			:maxwidth(1000)
+			:xy(offsetfromcenterx, spacing*4)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -175,13 +167,12 @@ local t = Def.ActorFrame {
 	};
 
 	-- Max Combo
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(spacing*5)
-			:maxwidth(1000)
+			:xy(offsetfromcenterx, spacing*5)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -193,13 +184,12 @@ local t = Def.ActorFrame {
 	};
 
 	-- Accuracy
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(spacing*6)
-			:maxwidth(1000)
+			:xy(offsetfromcenterx, spacing*6)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -211,13 +201,12 @@ local t = Def.ActorFrame {
 	};
 
 	-- Score
-	LoadFont("Montserrat normal 40px")..{
+	LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
 			self:halign(alignment)
 			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(spacing*7)
-			:maxwidth(1000)
+			:xy(offsetfromcenterx, spacing*7)
+			:shadowlength(0.8)
 			:zoom(0.5);
 		end;
 		OnCommand=function(self)
@@ -227,39 +216,7 @@ local t = Def.ActorFrame {
 			:settext(score);
 		end;
 	};
-
-	-- Step Artist
-	LoadFont("Montserrat normal 40px")..{
-		InitCommand=function(self)
-			steps = GAMESTATE:GetCurrentSteps(player);
-			self:halign(alignment)
-			:diffusealpha(0)
-			:x(offsetfromcenterx)
-			:addy(spacing*8)
-			:maxwidth(600)
-			:zoom(0.35);
-		end;
-		OnCommand=function(self)
-			self:sleep(1.75+showdelay*7)
-			:decelerate(0.3)
-			:diffusealpha(1)
-			:settext("Step Artist: "..steps:GetAuthorCredit());
-		end;
-	};
 };
---[[
-    t[#t+1] = Def.ActorFrame {
-
-        InitCommand=function(self)
-            self:shadowlengthx(1)
-            :shadowlengthy(1)
-            :shadowcolor(0,0,0,1)
-
-        end;
-
-
-    };
-]]--
 
 --- ------------------------------------------------
 --- Difficulty display
@@ -268,10 +225,9 @@ local t = Def.ActorFrame {
 t[#t+1] = LoadActor(THEME:GetPathG("","DifficultyDisplay/_icon"))..{
     InitCommand=function(self)
         self:diffusealpha(0)
-        :sleep(2)
-        :x(dboffset)
-        :addy(spacing*3)
-        :zoom(0.4)
+        :sleep(1.75+showdelay*9)
+        :xy(dboffset, spacing*8.7 - (promode and 8 or 0))
+        :zoom(0.5)
 		:animate(false)
         :accelerate(0.2)
         :diffusealpha(1);
@@ -309,11 +265,9 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
         steps = GAMESTATE:GetCurrentSteps(player);
         self:diffusealpha(0)
         :shadowlength(0.8)
-				:shadowcolor(color("0,0,0,1"))
-        :sleep(2)
-        :x(dboffset)
-        :addy(spacing*3)
-        :zoom(0.45)
+        :sleep(1.75+showdelay*9)
+        :xy(dboffset, spacing*8.7 - (promode and 8 or 0))
+        :zoom(0.5)
         :accelerate(0.2)
         :diffusealpha(1)
         :settext(steps:GetMeter());
@@ -321,38 +275,23 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 };
 
 --- ------------------------------------------------
---- Judgment
+--- Step Artist
 --- ------------------------------------------------
-
-t[#t+1] = LoadFont("Montserrat normal 40px")..{
-    InitCommand=function(self)
-		self:diffusealpha(0)
-		:x(0)
-		:y(spacing*8.65)
-		:maxwidth(1000)
-		:zoom(0.35);
-	end;
-	OnCommand=function(self)
-		self:sleep(1.75)
-		:decelerate(0.3)
-		:diffusealpha(1)
-		:settext("Judge:");
-	end;
-};
 
 t[#t+1] = LoadFont("Montserrat semibold 40px")..{
     InitCommand=function(self)
 		self:diffusealpha(0)
-		:x(0)
-		:y(spacing*9.2)
-		:maxwidth(1000)
+		:halign(0)
+		:xy(offsetfromcenterx, spacing*8.7 - (promode and 8 or 0))
+		:wrapwidthpixels(320):vertspacing(-10):maxheight(128)
+		:shadowlength(0.8)
 		:zoom(0.35);
 	end;
 	OnCommand=function(self)
-		self:sleep(1.75)
+		self:sleep(1.75+showdelay*8)
 		:decelerate(0.3)
 		:diffusealpha(1)
-		:settext(CurPrefTiming or "Unknown")
+		:settext("Step Artist:\n"..steps:GetAuthorCredit() or "Unknown")
 	end;
 };
 
@@ -361,50 +300,47 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 --- ------------------------------------------------
 
 t[#t+1] = Def.Sound {
-		File=THEME:GetPathS("", "EvalLetterHit"),
-		OnCommand=function(self)
-				 self:sleep(2.7)
-				 :queuecommand("Play")
-		end;
-		PlayCommand=function(self)
-				self:play()
-		end;
+	File=THEME:GetPathS("", "EvalLetterHit"),
+	OnCommand=function(self)
+		self:sleep(2.8)
+		:queuecommand("Play")
+	end;
+	PlayCommand=function(self)
+		self:play()
+	end;
 };
 
 t[#t+1] = Def.Sprite {
 	InitCommand=function(self)
-		self:zoom(0.8):diffusealpha(0):addx(lgoffset):addy(spacing*3);
+		self:zoom(0.8):diffusealpha(0):xy(lgoffset, spacing*3);
         self:sleep(2.5);
+        
+        local gradeletter = "F";
 		if misses == 0 then
-			if bads == 0 then
-				if goods == 0 then
-					if (PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' and greats or perfects) == 0 then
-							self:Load(THEME:GetPathG("", ""..tripleS));
-						else
-							self:Load(THEME:GetPathG("", ""..doubleS));
-						end;
-				else
-					self:Load(THEME:GetPathG("", ""..singleS));
+			if bads == 0 and goods == 0 then
+				if promode or greats == 0 then
+					if perfects == 0 then
+						gradeletter = "3S";
+					else
+						gradeletter = "2S";
+					end;
 				end;
 			else
-				self:Load(THEME:GetPathG("", ""..singleS));
+				gradeletter = "1S";
 			end;
 		else
-			if accuracy >= 50 then
-				self:Load(THEME:GetPathG("", ""..letD));
-				if accuracy >= 60 then
-					self:Load(THEME:GetPathG("", ""..letC));
-					if accuracy >= 70 then
-						self:Load(THEME:GetPathG("", ""..letB));
-						if accuracy >= 80 then
-							self:Load(THEME:GetPathG("", ""..letA));
-						end
-					end
-				end
-			else
-				self:Load(THEME:GetPathG("", ""..letF));
-			end
+			if accuracy >= 80 then
+				gradeletter = "A";
+			elseif accuracy >= 70 then
+				gradeletter = "B";
+			elseif accuracy >= 60 then
+				gradeletter = "C";
+			elseif accuracy >= 50 then
+				gradeletter = "D";
+			end;
 		end;
+		
+		self:Load(THEME:GetPathG("","LetterGrades/"..lifeState..gradeletter));
 		self:accelerate(0.3):diffusealpha(1):zoom(0.4);
 	end;
 };

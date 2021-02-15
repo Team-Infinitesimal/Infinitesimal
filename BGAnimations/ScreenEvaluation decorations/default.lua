@@ -1,4 +1,5 @@
 local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and true or false;
+local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini")
 
 local t = Def.ActorFrame {};
 
@@ -125,7 +126,7 @@ t[#t+1] = LoadFont("Montserrat normal 20px")..{
 };
 
 --- ------------------------------------------------
---- Judgement counts, etc
+--- Judgement counts, score, step artist, etc
 --- ------------------------------------------------
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
@@ -134,7 +135,38 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             self:xy(SCREEN_CENTER_X,138)
         end;
     };
-
 end;
+
+--- ------------------------------------------------
+--- Judgment used
+--- ------------------------------------------------
+
+t[#t+1] = LoadFont("Montserrat semibold 40px")..{
+    InitCommand=function(self)
+		self:diffusealpha(0)
+		:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y+160)
+		:vertspacing(-10)
+		:shadowlength(0.8)
+		:zoom(0.35);
+	end;
+	OnCommand=function(self)
+		self:sleep(2.55)
+		:decelerate(0.3)
+		:diffusealpha(1)
+		:settext("Judge:\n"..CurPrefTiming or "Unknown")
+	end;
+};
+
+--local column = GAMESTATE:GetCurrentStyle():GetColumnInfo( GAMESTATE:GetMasterPlayerNumber(), 2 )
+for _,v in pairs(NOTESKIN:GetNoteSkinNames()) do
+	-- GetCurrentStyle returns nil whenever the screen is first initialized. If you want support for
+	-- other gamemodes than Pump with different arrows, uncomment the line above and replace "UpLeft" with column["Name"]
+	t[#t+1] = NOTESKIN:LoadActorForNoteSkin( "UpLeft" , "Tap Note", v )..{
+		Name="NS"..string.lower(v), InitCommand=function(s) s:visible(false) end;
+		OnCommand=function(s) s:diffusealpha(0):sleep(0.2):linear(0.2):diffusealpha(1) end;
+	}
+end;
+
+t[#t+1] = LoadActor(THEME:GetPathG("","ModDisplay"));
 
 return t;

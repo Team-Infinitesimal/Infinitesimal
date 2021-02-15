@@ -1,4 +1,19 @@
 local t = Def.ActorFrame {
+
+	OnCommand=function(self)
+		local player = GAMESTATE:GetMasterPlayerNumber()
+		GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(player))
+		if GAMESTATE:IsCourseMode() then
+			GAMESTATE:UpdateDiscordScreenInfo("Selecting Course","",1)
+		else
+			if GAMESTATE:IsEventMode() then
+				GAMESTATE:UpdateDiscordScreenInfo("Selecting Song (Event)","",1)
+			else
+				local StageIndex = GAMESTATE:GetCurrentStageIndex()
+				GAMESTATE:UpdateDiscordScreenInfo("Selecting Song (Stage ".. StageIndex+1 .. ")","",1)
+			end;
+		end;
+	end;
 	
 	LoadActor("ScorePanel");
 	
@@ -9,6 +24,8 @@ local t = Def.ActorFrame {
 	LoadActor("SongPreview");
 	
 	LoadActor(THEME:GetPathG("","CornerArrows"));
+	
+	LoadActor(THEME:GetPathG("","ModDisplay"));
 	
 };
 

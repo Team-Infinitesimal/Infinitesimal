@@ -8,7 +8,6 @@ function GetChartType(player)
 	if GAMESTATE:GetCurrentSteps(player) then
 		local stepType = GAMESTATE:GetCurrentSteps(player):GetStepsType();
 		local stepDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
-		local stepLevel = GAMESTATE:GetCurrentSteps(player):GetMeter();
 
 		if stepType ~= nil then
 			if stepType == "StepsType_Pump_Single" then
