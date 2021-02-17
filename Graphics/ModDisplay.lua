@@ -120,6 +120,39 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 		end;
 	}
 
+	-- Judgment
+	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
+		InitCommand=function(self)
+			self:zoom(0.35):sleep(0.3)
+			if pn == PLAYER_1 then
+				self:halign(0):xy(SCREEN_LEFT-52,SCREEN_CENTER_Y-10):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+2)
+			else
+				self:halign(1):xy(SCREEN_RIGHT+52,SCREEN_CENTER_Y-10):sleep(0.25):decelerate(0.75):x(SCREEN_RIGHT-2)
+			end;
+		end;
+	};
+
+	t[#t+1] = LoadFont("Montserrat semibold 40px")..{
+		InitCommand=function(self)
+			self:wrapwidthpixels(100):vertspacing(-20):zoom(0.25):sleep(0.3):playcommand("Refresh");
+			if pn == PLAYER_1 then
+				self:xy(SCREEN_LEFT-25.5,SCREEN_CENTER_Y-10):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+24.5)
+			else
+				self:xy(SCREEN_RIGHT+25.5,SCREEN_CENTER_Y-10):sleep(0.25):decelerate(0.75):x(SCREEN_RIGHT-24.5)
+			end;
+		end;
+
+		OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
+
+		RefreshCommand=function(self)
+			local TimingMode = getenv("SmartTimings") and TimingWindow[getenv("SmartTimings")]() or LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Original"
+			self:settext("Judge "..TimingMode)
+		end;
+	}
+
 	-- TODO: add more mod icons by going through current mods
 
 end;
