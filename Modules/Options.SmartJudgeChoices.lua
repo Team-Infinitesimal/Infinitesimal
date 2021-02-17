@@ -1,6 +1,6 @@
 return function(Mode)
 	local JG = LoadModule("Options.SmartJudgments.lua")("Show")
-	local Name = getenv("SmartTimings") and TimingWindow[getenv("SmartTimings")]() or LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Original"
+	local Name = getenv("SmartTimings") and TimingWindow[getenv("SmartTimings")]() or LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Normal"
 	if Name == nil then Name = "" end
 	local Pro = {}
 	local ECFA = {}

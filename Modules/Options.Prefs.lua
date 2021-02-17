@@ -1,36 +1,4 @@
 return {
-	SpeedModType =
-	{
-		Default = "x",
-		UserPref = true,
-		Choices = { OptionNameString("SpeedX"), OptionNameString("SpeedA"), OptionNameString("SpeedM"), OptionNameString("SpeedC") },
-		Values = {"x","a","m","c"},
-		LoadFunction = function(self,list,pn)
-			if GAMESTATE:IsHumanPlayer(pn) then
-				local po = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
-				if po:AvarageScrollBPM() > 0 then list[2] = true return
-					elseif po:MaxScrollBPM() > 0 then list[3] = true return 
-					elseif po:TimeSpacing() > 0 then list[4] = true return 
-					else list[1] = true return 
-				end
-			end
-		end,
-		SaveFunction = function(self,list,pn)
-		end,
-	},
-	SpeedModVal =
-	{
-		Default = 1,
-		OneInRow = true,
-		UserPref = true,
-		Choices = {" "},
-		Values = {" "},
-		LoadFunction = function(self,list,pn)
-			list[1] = true
-		end,
-		SaveFunction = function(self,list,pn)
-		end,
-	},
 	LuaNoteSkins =
 	{
 		Default = "default",
@@ -58,14 +26,22 @@ return {
 	BGAMode =
 	{
 		UserPref = true,
-		Default = "no cover",
+		Default = 0,
 		Choices = { OptionNameString('On'), OptionNameString('20% Cover'), OptionNameString('40% Cover'), OptionNameString('60% Cover'), OptionNameString('80% Cover'), OptionNameString('Off') },
-		Values = { "no cover", "20% cover", "40% cover", "60% cover", "80% cover", "cover" }
+		Values = { 0, 0.2, 0.4, 0.6, 0.8, 1 },
+		SaveFunction = function(self,list,pn)
+			local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
+			for i,v2 in ipairs(self.Choices) do
+				if list[i] then
+					PlayerMods:Cover( self.Values[i], 1 )
+				end
+			end
+		end,
 	},
 	SmartTimings =
 	{
 		SaveSelections = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
-		GenForUserPref = true,
+		UserPref = false, -- for now
 		Default = TimingModes[1],
 		Choices = TimingModes,
 		Values = TimingModes
@@ -73,10 +49,16 @@ return {
 	ProMode =
 	{
 		UserPref = true,
-		OneChoiceForAllPlayers = true,
 		Default = "AllowW1_Never",
 		Choices = { OptionNameString('Off'), OptionNameString('On') },
-		Values = { "AllowW1_Never", "AllowW1_Everywhere" }
+		Values = { "AllowW1_Never", "AllowW1_Everywhere" },
+		SaveFunction = function(self,list,pn)
+			for i,v2 in ipairs(self.Choices) do
+				if list[i] then
+					PREFSMAN:SetPreference("AllowW1", self.Values[i]);
+				end
+			end
+		end,
 	},
 	DeviationDisplay =
     {

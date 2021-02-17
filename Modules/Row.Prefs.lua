@@ -27,7 +27,6 @@ return function(Prefs)
 					local reset = false
 					if v.LoadFunction then
 						v.LoadFunction(self, list, pn)
-						return
 					end
 					if getenv(k.."env"..pn) then reset = true setenv(k.."env"..pn,false) end
 					local Location = "Save/OutFoxPrefs.ini"
@@ -89,7 +88,6 @@ return function(Prefs)
 					local Location = "Save/OutFoxPrefs.ini"
 					if v.SaveFunction then
 						v.SaveFunction(self, list, pn)
-						return
 					end
 					if v.UserPref then 
 							Location = CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini"
