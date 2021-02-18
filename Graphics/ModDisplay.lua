@@ -213,7 +213,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 		end;
 	}
 
-	-- Rush
+	-- Rush (this is a mess I'm sorry)
 	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
 		InitCommand=function(self)
 			self:queuecommand("Refresh")
