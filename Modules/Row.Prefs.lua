@@ -19,7 +19,7 @@ return function(Prefs)
 				Name = k,
 				LayoutType = v.OneInRow and "ShowOneInRow" or "ShowAllInRow",
 				SelectType = v.SelectMultiple and "SelectMultiple" or "SelectOne",
-				OneChoiceForAllPlayers = (not v.UserPref),
+				OneChoiceForAllPlayers = v.OneChoiceForAllPlayers,
 				ExportOnChange = false,
 				Choices = v.Choices,
 				Values = v.Values,

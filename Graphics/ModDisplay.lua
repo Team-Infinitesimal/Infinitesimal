@@ -5,7 +5,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 	-- Speed mods
 	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
 		InitCommand=function(self)
-			self:zoom(0.35)
+			self:zoom(0.35):xy(-9999,-9999)
 			if pn == PLAYER_1 then
 				self:halign(0):xy(SCREEN_LEFT-52,SCREEN_CENTER_Y-100):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+2)
 			else
@@ -16,7 +16,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 
 	t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
-			self:wrapwidthpixels(100):vertspacing(-20):skewx(-0.1):playcommand("Refresh")
+			self:wrapwidthpixels(100):vertspacing(-20):skewx(-0.1):xy(-9999,-9999):playcommand("Refresh")
 			if pn == PLAYER_1 then
 				self:xy(SCREEN_LEFT-25.5,SCREEN_CENTER_Y-100):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+24.5)
 			else
@@ -50,7 +50,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 	-- Noteskins
 	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
 		InitCommand=function(self)
-			self:zoom(0.35):sleep(0.1)
+			self:zoom(0.35):xy(-9999,-9999):sleep(0.1)
 			if pn == PLAYER_1 then
 				self:halign(0):xy(SCREEN_LEFT-52,SCREEN_CENTER_Y-70):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+2)
 			else
@@ -61,7 +61,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 
 	t[#t+1] = Def.ActorProxy{
 		OnCommand=function(self)
-			self:zoom(0.45):sleep(0.1):playcommand("Refresh")
+			self:zoom(0.45):xy(-9999,-9999):sleep(0.1):playcommand("Refresh")
 			if pn == PLAYER_1 then
 				self:xy(SCREEN_LEFT-25.5,SCREEN_CENTER_Y-70):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+24.5)
 			else
@@ -86,7 +86,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 	-- BG Brightness
 	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
 		InitCommand=function(self)
-			self:zoom(0.35):sleep(0.2):playcommand("Refresh")
+			self:zoom(0.35):xy(-9999,-9999):sleep(0.2):playcommand("Refresh")
 			if pn == PLAYER_1 then
 				self:halign(0):xy(SCREEN_LEFT-52,SCREEN_CENTER_Y-40):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+2)
 			else
@@ -100,9 +100,9 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 		OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
 
 		RefreshCommand=function(self)
-			local DarkLevel, CoverSpeed = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):Cover()
+			local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
 			
-			if DarkLevel == 0 then
+			if math.floor(DarkLevel*100) == 0 then
 				self:visible(false)
 			else
 				self:visible(true)
@@ -112,7 +112,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 
 	t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
-			self:wrapwidthpixels(100):vertspacing(-20):zoom(0.35):skewx(-0.1):sleep(0.2):playcommand("Refresh")
+			self:wrapwidthpixels(100):vertspacing(-20):zoom(0.35):skewx(-0.1):xy(-9999,-9999):sleep(0.2):playcommand("Refresh")
 			if pn == PLAYER_1 then
 				self:xy(SCREEN_LEFT-25.5,SCREEN_CENTER_Y-40):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+24.5)
 			else
@@ -126,16 +126,16 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 		OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
 
 		RefreshCommand=function(self)
-			local DarkLevel, CoverSpeed = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):Cover()
-			if DarkLevel == 0 then
+			local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+			if math.floor(DarkLevel*100) == 0 then
 				self:visible(false)
 				self:settext("")
 			else
 				self:visible(true)
-				if DarkLevel == 1 then
+				if math.floor(DarkLevel*100) == 100 then
 					self:settext("BGA OFF")
 				else
-					self:settext("BGA "..math.floor(DarkLevel*100) .."%")
+					self:settext("BGA "..math.floor(DarkLevel*100).."%")
 				end;
 			end;
 		end;
@@ -144,7 +144,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 	-- Judgment
 	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
 		InitCommand=function(self)
-			self:zoom(0.35):sleep(0.5)
+			self:zoom(0.35):xy(-9999,-9999):sleep(0.5)
 			if pn == PLAYER_1 then
 				self:halign(0):xy(SCREEN_LEFT-52,SCREEN_CENTER_Y+50):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+2)
 			else
@@ -155,7 +155,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 	
 	t[#t+1] = Def.Quad{
 		InitCommand=function(self)
-			self:zoomto(41, 26):diffusetopedge(0,0,0,0):sleep(0.5):playcommand("Refresh")
+			self:zoomto(41, 26):diffusetopedge(0,0,0,0):xy(-9999,-9999):sleep(0.5):playcommand("Refresh")
 			if pn == PLAYER_1 then
 				self:halign(0):xy(SCREEN_LEFT-52,SCREEN_CENTER_Y+50):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+4)
 			else
@@ -180,7 +180,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 
 	t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
-			self:wrapwidthpixels(100):vertspacing(-20):zoom(0.45):skewx(-0.1):sleep(0.5):playcommand("Refresh")
+			self:wrapwidthpixels(100):vertspacing(-20):zoom(0.45):skewx(-0.1):xy(-9999,-9999):sleep(0.5):playcommand("Refresh")
 			if pn == PLAYER_1 then
 				self:xy(SCREEN_LEFT-25.5,SCREEN_CENTER_Y+50):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+24.5)
 			else

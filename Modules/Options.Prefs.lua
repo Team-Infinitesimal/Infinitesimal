@@ -29,6 +29,19 @@ return {
 		Default = 0,
 		Choices = { OptionNameString('On'), OptionNameString('20% Cover'), OptionNameString('40% Cover'), OptionNameString('60% Cover'), OptionNameString('80% Cover'), OptionNameString('Off') },
 		Values = { 0, 0.2, 0.4, 0.6, 0.8, 1 },
+		LoadFunction = function(self,list,pn)
+			PlayerProfile = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1)
+			if PlayerProfile ~= "" then
+				local BGAMode = LoadModule("Config.Load.lua")("BGAMode",PlayerProfile.."/OutFoxPrefs.ini")
+				local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
+				for i,v2 in ipairs(self.Values) do
+					if tostring(v2) == tostring(BGAMode) then
+						list[i] = true
+						PlayerMods:Cover( self.Values[i], 1 )
+					end
+				end
+			end
+		end,
 		SaveFunction = function(self,list,pn)
 			local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 			for i,v2 in ipairs(self.Choices) do
