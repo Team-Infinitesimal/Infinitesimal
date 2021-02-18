@@ -137,26 +137,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     };
 end;
 
---- ------------------------------------------------
---- Judgment used
---- ------------------------------------------------
-
-t[#t+1] = LoadFont("Montserrat semibold 40px")..{
-    InitCommand=function(self)
-		self:diffusealpha(0)
-		:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y+160)
-		:vertspacing(-10)
-		:shadowlength(0.8)
-		:zoom(0.35);
-	end;
-	OnCommand=function(self)
-		self:sleep(2.55)
-		:decelerate(0.3)
-		:diffusealpha(1)
-		:settext("Judge:\n"..CurPrefTiming or "Unknown")
-	end;
-};
-
 --local column = GAMESTATE:GetCurrentStyle():GetColumnInfo( GAMESTATE:GetMasterPlayerNumber(), 2 )
 for _,v in pairs(NOTESKIN:GetNoteSkinNames()) do
 	-- GetCurrentStyle returns nil whenever the screen is first initialized. If you want support for

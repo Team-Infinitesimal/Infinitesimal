@@ -111,7 +111,7 @@ local t = Def.ActorFrame{
             :zoom(0.25)
             :accelerate(0.25)
             :diffusealpha(1)
-            :zoom(0.08)
+            :zoom(0.07)
         end;
     };
 
