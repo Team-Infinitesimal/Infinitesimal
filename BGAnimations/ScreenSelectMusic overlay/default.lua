@@ -122,11 +122,16 @@ t[#t+1] = LoadActor("GroupSelect");
 -- Text and Stage Count
 t[#t+1] = LoadFont("Montserrat Semibold 40px")..{
 	InitCommand=function(self)
+		if GetScreenAspectRatio() >= 1.5 then
+			self:x(SCREEN_CENTER_X-250)
+		else
+			self:x(SCREEN_CENTER_X- 190)
+		end;
 		self:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:xy(SCREEN_CENTER_X-250, SCREEN_TOP-150)
+		:y(SCREEN_TOP-150)
 		:settext("SELECT")
 	end;
 	OnCommand=function(self)
@@ -137,11 +142,16 @@ t[#t+1] = LoadFont("Montserrat Semibold 40px")..{
 
 t[#t+1] = LoadFont("Montserrat normal 40px")..{
 	InitCommand=function(self)
+		if GetScreenAspectRatio() >= 1.5 then
+			self:x(SCREEN_CENTER_X-192)
+		else
+			self:x(SCREEN_CENTER_X-132)
+		end;
 		self:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:xy(SCREEN_CENTER_X-192, SCREEN_TOP-150)
+		:y(SCREEN_TOP-150)
 		:settext("MUSIC")
 	end;
 	OnCommand=function(self)
@@ -153,12 +163,17 @@ t[#t+1] = LoadFont("Montserrat normal 40px")..{
 t[#t+1] = LoadFont("Montserrat normal 40px")..{
 	InitCommand=function(self)
 		local CurStage = string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1)
+		if GetScreenAspectRatio() >= 1.5 then
+			self:x(SCREEN_CENTER_X-164)
+		else
+			self:x(SCREEN_CENTER_X-132)
+		end;
 		self:zoom(0.35)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:horizalign(right)
 		:diffuse(0,0,0,1)
-		:xy(SCREEN_CENTER_X-164, SCREEN_TOP-125)
+		:y(SCREEN_TOP-125)
 		:settext("STAGE "..CurStage)
 	end;
 	OnCommand=function(self)

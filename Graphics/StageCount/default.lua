@@ -9,9 +9,9 @@ local t = Def.ActorFrame {
         if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
           local pos = SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)):GetX()
           if pn == PLAYER_1 then
-            self:xy(pos-290, SCREEN_TOP+28)
+            self:xy(pos-286, SCREEN_TOP+28)
           else
-            self:xy(pos+290, SCREEN_TOP+28)
+            self:xy(pos+286, SCREEN_TOP+28)
           end;
         end;
       else
@@ -29,9 +29,9 @@ local t = Def.ActorFrame {
         if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
           local pos = SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)):GetX()
           if pn == PLAYER_1 then
-            self:xy(pos-290, SCREEN_TOP+35)
+            self:xy(pos-286, SCREEN_TOP+35)
           else
-            self:xy(pos+290, SCREEN_TOP+35)
+            self:xy(pos+286, SCREEN_TOP+35)
           end;
         end;
       else

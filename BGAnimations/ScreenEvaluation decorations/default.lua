@@ -156,11 +156,16 @@ t[#t+1] = LoadActor(THEME:GetPathG("","ModDisplay"));
 -- Text
 t[#t+1] = LoadFont("Montserrat Semibold 40px")..{
 	InitCommand=function(self)
+    if GetScreenAspectRatio() >= 1.5 then
+			self:x(SCREEN_CENTER_X-250)
+		else
+			self:x(SCREEN_CENTER_X-220)
+		end;
 		self:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:xy(SCREEN_CENTER_X-250, SCREEN_TOP-150)
+		:y(SCREEN_TOP-150)
 		:settext("DANCE")
 	end;
 	OnCommand=function(self)
@@ -171,11 +176,16 @@ t[#t+1] = LoadFont("Montserrat Semibold 40px")..{
 
 t[#t+1] = LoadFont("Montserrat normal 40px")..{
 	InitCommand=function(self)
+    if GetScreenAspectRatio() >= 1.5 then
+			self:x(SCREEN_CENTER_X-190)
+		else
+			self:x(SCREEN_CENTER_X-160)
+		end;
 		self:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:xy(SCREEN_CENTER_X-190, SCREEN_TOP-150)
+		:y(SCREEN_TOP-150)
 		:settext("GRADE")
 	end;
 	OnCommand=function(self)
