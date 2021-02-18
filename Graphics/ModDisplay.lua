@@ -93,7 +93,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 				self:halign(1):xy(SCREEN_RIGHT+52,SCREEN_CENTER_Y-40):sleep(0.25):decelerate(0.75):x(SCREEN_RIGHT-2)
 			end;
 		end;
-		
+
 		OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end;
 		OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end;
 		OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
@@ -101,7 +101,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 
 		RefreshCommand=function(self)
 			local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
-			
+
 			if math.floor(DarkLevel*100) == 0 then
 				self:visible(false)
 			else
@@ -152,7 +152,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 			end;
 		end;
 	};
-	
+
 	t[#t+1] = Def.Quad{
 		InitCommand=function(self)
 			self:zoomto(41, 26):diffusetopedge(0,0,0,0):xy(-9999,-9999):sleep(0.5):playcommand("Refresh")
@@ -162,7 +162,7 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 				self:halign(1):xy(SCREEN_RIGHT+52,SCREEN_CENTER_Y+50):sleep(0.25):decelerate(0.75):x(SCREEN_RIGHT-4)
 			end;
 		end;
-		
+
 		OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end;
 		OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end;
 		OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
@@ -209,6 +209,101 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 				self:settext("GH")
 			else
 				self:settext("???")
+			end;
+		end;
+	}
+
+	-- Rush
+	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
+		InitCommand=function(self)
+			self:queuecommand("Refresh")
+			self:zoom(0.35):xy(-9999,-9999):sleep(0.6)
+			if pn == PLAYER_1 then
+				self:halign(0):xy(SCREEN_LEFT-52,SCREEN_CENTER_Y+80):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+2)
+			else
+				self:halign(1):xy(SCREEN_RIGHT+52,SCREEN_CENTER_Y+80):sleep(0.25):decelerate(0.75):x(SCREEN_RIGHT-2)
+			end;
+		end;
+
+		OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
+
+		RefreshCommand=function(self)
+			local RushAmount = math.round(GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate())
+			if RushAmount == 1 then
+				self:visible(false)
+			else
+				self:visible(true)
+			end;
+		end;
+	};
+
+	t[#t+1] = LoadActor(THEME:GetPathG("","MusicNote"))..{
+		InitCommand=function(self)
+			self:queuecommand("Refresh")
+			self:zoom(0.1):xy(-9999,-9999):sleep(0.6)
+			if pn == PLAYER_1 then
+				self:halign(1):xy(SCREEN_LEFT-52,SCREEN_CENTER_Y+80):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+36)
+			else
+				self:halign(0):xy(SCREEN_RIGHT+52,SCREEN_CENTER_Y+80):sleep(0.25):decelerate(0.75):x(SCREEN_RIGHT-36)
+			end;
+		end;
+
+		OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
+
+		RefreshCommand=function(self)
+			local RushAmount = math.round(GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate())
+			if RushAmount == 1 then
+				self:visible(false)
+			else
+				self:visible(true)
+			end;
+		end;
+	};
+
+	t[#t+1] = LoadFont("Montserrat semibold 40px")..{
+		InitCommand=function(self)
+			self:wrapwidthpixels(100):vertspacing(-20):zoom(0.3):skewx(-0.1):xy(-9999,-9999):sleep(0.6):playcommand("Refresh")
+			if pn == PLAYER_1 then
+				self:xy(SCREEN_LEFT-25.5,SCREEN_CENTER_Y+80):sleep(0.25):decelerate(0.75):x(SCREEN_LEFT+24.5)
+			else
+				self:xy(SCREEN_RIGHT+25.5,SCREEN_CENTER_Y+80):sleep(0.25):decelerate(0.75):x(SCREEN_RIGHT-24.5)
+			end;
+		end;
+
+		OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
+		OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
+
+		RefreshCommand=function(self)
+			local RushAmount = math.round(GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate())
+			if RushAmount == 1 then
+				self:visible(false)
+			else
+				self:visible(true)
+				if RushAmount == 0.8 then
+					self:settext("RUSH 80%")
+				elseif RushAmount == 0.9 then
+						self:settext("RUSH 90%")
+				elseif RushAmount == 1.1 then
+						self:settext("RUSH 110%")
+				elseif RushAmount == 1.2 then
+						self:settext("RUSH 120%")
+				elseif RushAmount == 1.3 then
+						self:settext("RUSH 130%")
+				elseif RushAmount == 1.4 then
+						self:settext("RUSH 140%")
+				elseif RushAmount == 1.5 then
+						self:settext("RUSH 150%")
+				elseif RushAmount == 2 then
+						self:settext("RUSH 200%")
+				end;
 			end;
 		end;
 	}
