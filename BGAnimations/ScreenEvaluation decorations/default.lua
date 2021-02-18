@@ -149,4 +149,39 @@ end;
 
 t[#t+1] = LoadActor(THEME:GetPathG("","ModDisplay"));
 
+--- --------------------------
+--- Top Left Text
+--- --------------------------
+
+-- Text
+t[#t+1] = LoadFont("Montserrat Semibold 40px")..{
+	InitCommand=function(self)
+		self:zoom(0.4)
+		:shadowcolor(0,0,0,0.25)
+		:shadowlength(0.75)
+		:diffuse(0,0,0,1)
+		:xy(SCREEN_CENTER_X-250, SCREEN_TOP-150)
+		:settext("DANCE")
+	end;
+	OnCommand=function(self)
+		self:decelerate(1)
+		:y(SCREEN_TOP+26)
+	end;
+};
+
+t[#t+1] = LoadFont("Montserrat normal 40px")..{
+	InitCommand=function(self)
+		self:zoom(0.4)
+		:shadowcolor(0,0,0,0.25)
+		:shadowlength(0.75)
+		:diffuse(0,0,0,1)
+		:xy(SCREEN_CENTER_X-190, SCREEN_TOP-150)
+		:settext("GRADE")
+	end;
+	OnCommand=function(self)
+		self:decelerate(1)
+		:y(SCREEN_TOP+26)
+	end;
+};
+
 return t;

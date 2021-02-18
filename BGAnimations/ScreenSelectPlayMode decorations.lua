@@ -126,4 +126,35 @@ local t = Def.ActorFrame {
 		};
 };
 
+-- Text
+t[#t+1] = LoadFont("Montserrat Semibold 40px")..{
+	InitCommand=function(self)
+		self:zoom(0.4)
+		:shadowcolor(0,0,0,0.25)
+		:shadowlength(0.75)
+		:diffuse(0,0,0,1)
+		:xy(SCREEN_CENTER_X-250, SCREEN_TOP-150)
+		:settext("SELECT")
+	end;
+	OnCommand=function(self)
+		self:decelerate(1)
+		:y(SCREEN_TOP+26)
+	end;
+};
+
+t[#t+1] = LoadFont("Montserrat normal 40px")..{
+	InitCommand=function(self)
+		self:zoom(0.4)
+		:shadowcolor(0,0,0,0.25)
+		:shadowlength(0.75)
+		:diffuse(0,0,0,1)
+		:xy(SCREEN_CENTER_X-192, SCREEN_TOP-150)
+		:settext("MODE")
+	end;
+	OnCommand=function(self)
+		self:decelerate(1)
+		:y(SCREEN_TOP+26)
+	end;
+};
+
 return t;

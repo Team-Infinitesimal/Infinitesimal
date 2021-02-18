@@ -13,7 +13,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		InitCommand=function(self)
 			setenv(pname(pn).."StageBreak",false)
 		end;
-		
+
 		["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,param)
 			if param.Life == 0 then
 				setenv(pname(pn).."StageBreak",true)
@@ -21,7 +21,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		end;
 	};
 
-    t[#t+1] = LoadActor(THEME:GetPathG("", "GameplayNameBadge"), pn)
+  t[#t+1] = LoadActor(THEME:GetPathG("", "GameplayNameBadge"), pn)
+
+  t[#t+1] = LoadActor(THEME:GetPathG("", "StageCount"), pn)
 
 end;
 
