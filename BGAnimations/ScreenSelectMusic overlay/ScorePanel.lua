@@ -82,62 +82,66 @@ for pn in ivalues(PlayerNumber) do
 			
 				if GAMESTATE:IsHumanPlayer(pn) and PROFILEMAN:IsPersistentProfile(pn) then
 					playercard = PROFILEMAN:GetProfile(pn);
+					currentsong = GAMESTATE:GetCurrentSong();
+					playersteps = GAMESTATE:GetCurrentSteps(pn);
 					
-					playercardlist = playercard:GetHighScoreList(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn));
-					playerscores = playercardlist:GetHighScores();
-					
-					if playerscores[1] ~= nil then
-						superbs 	=	playerscores[1]:GetTapNoteScore("TapNoteScore_W1");
-						perfects 	= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W2");
-
-						if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
-							perfects = 	perfects + playerscores[1]:GetTapNoteScore("TapNoteScore_CheckpointHit");
-						else
-							superbs = 	superbs + playerscores[1]:GetTapNoteScore("TapNoteScore_CheckpointHit");
-						end;
-
-						greats 		= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W3");
-						goods 		= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W4");
-						bads 		= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W5");
-						misses 		= 	playerscores[1]:GetTapNoteScore("TapNoteScore_Miss") +
-										playerscores[1]:GetTapNoteScore("TapNoteScore_CheckpointMiss");
-
-						accuracy 	=	round(playerscores[1]:GetPercentDP()*100, 2);
+					if playercard and currentsong and playersteps then
+						playercardlist = playercard:GetHighScoreList(currentsong,playersteps);
+						playerscores = playercardlist:GetHighScores();
 						
-						self:diffusealpha(1)
-						
-						if misses == 0 then
-							if bads == 0 then
-								if goods == 0 then
-									if (PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' and greats or perfects) == 0 then
-											self:Load(THEME:GetPathG("", ""..tripleS));
-										else
-											self:Load(THEME:GetPathG("", ""..doubleS));
-										end;
+						if playerscores[1] ~= nil then
+							superbs 	=	playerscores[1]:GetTapNoteScore("TapNoteScore_W1");
+							perfects 	= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W2");
+
+							if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
+								perfects = 	perfects + playerscores[1]:GetTapNoteScore("TapNoteScore_CheckpointHit");
+							else
+								superbs = 	superbs + playerscores[1]:GetTapNoteScore("TapNoteScore_CheckpointHit");
+							end;
+
+							greats 		= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W3");
+							goods 		= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W4");
+							bads 		= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W5");
+							misses 		= 	playerscores[1]:GetTapNoteScore("TapNoteScore_Miss") +
+											playerscores[1]:GetTapNoteScore("TapNoteScore_CheckpointMiss");
+
+							accuracy 	=	round(playerscores[1]:GetPercentDP()*100, 2);
+							
+							self:diffusealpha(1)
+							
+							if misses == 0 then
+								if bads == 0 then
+									if goods == 0 then
+										if (PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' and greats or perfects) == 0 then
+												self:Load(THEME:GetPathG("", ""..tripleS));
+											else
+												self:Load(THEME:GetPathG("", ""..doubleS));
+											end;
+									else
+										self:Load(THEME:GetPathG("", ""..singleS));
+									end;
 								else
 									self:Load(THEME:GetPathG("", ""..singleS));
 								end;
 							else
-								self:Load(THEME:GetPathG("", ""..singleS));
-							end;
-						else
-							if accuracy >= 50 then
-								self:Load(THEME:GetPathG("", ""..letD));
-								if accuracy >= 60 then
-									self:Load(THEME:GetPathG("", ""..letC));
-									if accuracy >= 70 then
-										self:Load(THEME:GetPathG("", ""..letB));
-										if accuracy >= 80 then
-											self:Load(THEME:GetPathG("", ""..letA));
+								if accuracy >= 50 then
+									self:Load(THEME:GetPathG("", ""..letD));
+									if accuracy >= 60 then
+										self:Load(THEME:GetPathG("", ""..letC));
+										if accuracy >= 70 then
+											self:Load(THEME:GetPathG("", ""..letB));
+											if accuracy >= 80 then
+												self:Load(THEME:GetPathG("", ""..letA));
+											end
 										end
 									end
-								end
-							else
-								self:Load(THEME:GetPathG("", ""..letF));
+								else
+									self:Load(THEME:GetPathG("", ""..letF));
+								end;
 							end;
+						else
+							self:diffusealpha(0);
 						end;
-					else
-						self:diffusealpha(0);
 					end;
 				else
 					self:diffusealpha(0);
@@ -180,20 +184,24 @@ for pn in ivalues(PlayerNumber) do
 			
 				if GAMESTATE:IsHumanPlayer(pn) and PROFILEMAN:IsPersistentProfile(pn) then
 					playercard = PROFILEMAN:GetProfile(pn);
+					currentsong = GAMESTATE:GetCurrentSong();
+					playersteps = GAMESTATE:GetCurrentSteps(pn);
 					
-					playercardlist = playercard:GetHighScoreList(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn));
-					playerscores = playercardlist:GetHighScores();
-					
-					if playerscores[1] ~= nil then
-						accuracy = round(playerscores[1]:GetPercentDP()*100, 2);
+					if playercard and currentsong and playersteps then
+						playercardlist = playercard:GetHighScoreList(currentsong,playersteps);
+						playerscores = playercardlist:GetHighScores();
 						
-						if accuracy == nil then
-							self:settext("");
+						if playerscores[1] ~= nil then
+							accuracy = round(playerscores[1]:GetPercentDP()*100, 2);
+							
+							if accuracy == nil then
+								self:settext("");
+							else
+								self:settext(accuracy.."%");
+							end;
 						else
-							self:settext(accuracy.."%");
+							self:settext("");
 						end;
-					else
-						self:settext("");
 					end;
 				else
 					self:settext("");
@@ -236,16 +244,20 @@ for pn in ivalues(PlayerNumber) do
 			
 				if GAMESTATE:IsHumanPlayer(pn) and PROFILEMAN:IsPersistentProfile(pn) then
 					playercard = PROFILEMAN:GetProfile(pn);
+					currentsong = GAMESTATE:GetCurrentSong();
+					playersteps = GAMESTATE:GetCurrentSteps(pn);
 					
-					playercardlist = playercard:GetHighScoreList(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn));
-					playerscores = playercardlist:GetHighScores();
-					
-					if playerscores[1] ~= nil then
-						score = playerscores[1]:GetScore();
+					if playercard and currentsong and playersteps then
+						playercardlist = playercard:GetHighScoreList(currentsong,playersteps);
+						playerscores = playercardlist:GetHighScores();
 						
-						self:settext(score);
-					else
-						self:settext("No Score");
+						if playerscores[1] ~= nil then
+							score = playerscores[1]:GetScore();
+							
+							self:settext(score);
+						else
+							self:settext("No Score");
+						end;
 					end;
 				else
 					self:settext("");

@@ -5,14 +5,26 @@ local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and tr
 local alignment = 0;
 if player == "PlayerNumber_P2" then alignment = 1 end;
 
-local offsetfromcenterx = -270;
-if player == "PlayerNumber_P2" then offsetfromcenterx = 270 end;
+local offsetfromcenterx = 265;
+if GetScreenAspectRatio() >= 1.5 then
+	offsetfromcenterx = 300;
+end
 
-local lgoffset = -170;
-if player == "PlayerNumber_P2" then lgoffset = 170 end;
+local lgoffset = 170;
+if GetScreenAspectRatio() >= 1.5 then
+	lgoffset = 185;
+end
 
-local dboffset = -130;
-if player == "PlayerNumber_P2" then dboffset = 130 end;
+local dboffset = 130;
+if GetScreenAspectRatio() >= 1.5 then
+	dboffset = 150;
+end
+
+if player == "PlayerNumber_P1" then 
+	offsetfromcenterx = -offsetfromcenterx;
+	lgoffset = -lgoffset;
+	dboffset = -dboffset;
+end;
 
 local spacing = 29.1;
 local showdelay = 0.08;
@@ -281,7 +293,7 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 t[#t+1] = LoadFont("Montserrat semibold 40px")..{
     InitCommand=function(self)
 		self:diffusealpha(0)
-		:halign(0)
+		:halign(alignment)
 		:xy(offsetfromcenterx, spacing*8.7 - (promode and 8 or 0))
 		:wrapwidthpixels(320):vertspacing(-10):maxheight(128)
 		:shadowlength(0.8)
@@ -318,12 +330,10 @@ t[#t+1] = Def.Sprite {
         local gradeletter = "F";
 		if misses == 0 then
 			if bads == 0 and goods == 0 then
-				if promode or greats == 0 then
-					if perfects == 0 then
-						gradeletter = "3S";
-					else
-						gradeletter = "2S";
-					end;
+				if greats == 0 or (promode and perfects == 0) then
+					gradeletter = "3S";
+				else
+					gradeletter = "2S";
 				end;
 			else
 				gradeletter = "1S";

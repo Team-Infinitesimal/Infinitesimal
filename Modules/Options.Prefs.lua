@@ -30,7 +30,7 @@ return {
 		Choices = { OptionNameString('On'), OptionNameString('20% Cover'), OptionNameString('40% Cover'), OptionNameString('60% Cover'), OptionNameString('80% Cover'), OptionNameString('Off') },
 		Values = { 0, 0.2, 0.4, 0.6, 0.8, 1 },
 		LoadFunction = function(self,list,pn)
-			PlayerProfile = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1)
+			local PlayerProfile = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1)
 			if PlayerProfile ~= "" then
 				local BGAMode = LoadModule("Config.Load.lua")("BGAMode",PlayerProfile.."/OutFoxPrefs.ini")
 				local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
@@ -55,6 +55,7 @@ return {
 	{
 		SaveSelections = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
 		UserPref = false, -- for now
+		OneChoiceForAllPlayers = true,
 		Default = TimingModes[1],
 		Choices = TimingModes,
 		Values = TimingModes
@@ -62,9 +63,22 @@ return {
 	ProMode =
 	{
 		UserPref = true,
+		OneChoiceForAllPlayers = true,
 		Default = "AllowW1_Never",
 		Choices = { OptionNameString('Off'), OptionNameString('On') },
 		Values = { "AllowW1_Never", "AllowW1_Everywhere" },
+		LoadFunction = function(self,list,pn)
+			local PlayerProfile = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1)
+			if PlayerProfile ~= "" then
+				local ProMode = LoadModule("Config.Load.lua")("ProMode",PlayerProfile.."/OutFoxPrefs.ini")
+				for i,v2 in ipairs(self.Values) do
+					if tostring(v2) == tostring(ProMode) then
+						list[i] = true
+						PREFSMAN:SetPreference("AllowW1", self.Values[i]);
+					end
+				end
+			end
+		end,
 		SaveFunction = function(self,list,pn)
 			for i,v2 in ipairs(self.Choices) do
 				if list[i] then

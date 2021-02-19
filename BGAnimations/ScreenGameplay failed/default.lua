@@ -126,9 +126,26 @@ local t = Def.ActorFrame{
     };
 
     Def.Sound {
+		File=THEME:GetPathS("", "Pewwwww"),
+		OnCommand=function(self)
+			self:queuecommand("Play")
+		end;
+		PlayCommand=function(self)self:play()end
+  	};
+  	
+  	Def.Sound {
 		File="Voice",
 		OnCommand=function(self)
-			self:sleep(0.6)
+			self:sleep(0.9)
+			:queuecommand("Play")
+		end;
+		PlayCommand=function(self)self:play()end
+  	};
+  	
+  	Def.Sound {
+		File=THEME:GetPathS("", "Boom"),
+		OnCommand=function(self)
+			self:sleep(1.8)
 			:queuecommand("Play")
 		end;
 		PlayCommand=function(self)self:play()end
