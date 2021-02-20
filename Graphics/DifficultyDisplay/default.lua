@@ -81,7 +81,7 @@ local DiffDisplay = Def.ActorFrame{
 		else
 			stepsArray = nil
 		end
-		
+
 		if stepsArray then
 			local indexstart = 1
 			-- Generate the index of steps to choose from.
@@ -90,7 +90,7 @@ local DiffDisplay = Def.ActorFrame{
 				-- local al = math.mod( ind, 14 )
 				-- indexstart = ind > 14 and (math.mod( ind, 14 )*2)+math.mod( ind, 14 ) or 0
 				indexstart = ind > 14 and ( math.mod( ind, 14*14 )-math.mod( ind, 14 ) ) or 0
-				SCREENMAN:SystemMessage( ("%i: %i - %i"):format( GetCurrentStepsIndex(pn), indexstart, indexstart+13 ) )
+				-- SCREENMAN:SystemMessage( ("%i: %i - %i"):format( GetCurrentStepsIndex(pn), indexstart, indexstart+13 ) )
 			end
 			for i=1,14 do
 				if stepsArray[ indexstart+i ] then
@@ -99,7 +99,7 @@ local DiffDisplay = Def.ActorFrame{
 					if steps:GetMeter() < 99 then
 						meterset = steps:GetMeter()
 					end
-					
+
 					self:GetChild("")[i]:diffusealpha(1)
 					self:GetChild("")[i]:GetChild("Icon"):setstate( ChartType[steps] )
 					self:GetChild("")[i]:GetChild("Diff"):settext( meterset )
