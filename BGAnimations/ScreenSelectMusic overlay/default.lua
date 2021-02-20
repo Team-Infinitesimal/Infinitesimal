@@ -11,175 +11,129 @@ local t = Def.ActorFrame {
 			else
 				local StageIndex = GAMESTATE:GetCurrentStageIndex()
 				GAMESTATE:UpdateDiscordScreenInfo("Selecting Song (Stage ".. StageIndex+1 .. ")","",1)
-			end;
-		end;
-	end;
+			end
+		end
+	end,
 
-	LoadActor("ScorePanel");
+	LoadActor("ScorePanel"),
+	LoadActor("ChartInfo"),
+	LoadActor("DifficultyBar"),
+	LoadActor("SongPreview"),
+	LoadActor(THEME:GetPathG("","CornerArrows")),
+	LoadActor(THEME:GetPathG("","ModDisplay"))
 
-	LoadActor("ChartInfo");
-
-	LoadActor("DifficultyBar");
-
-	LoadActor("SongPreview");
-
-	LoadActor(THEME:GetPathG("","CornerArrows"));
-
-	LoadActor(THEME:GetPathG("","ModDisplay"));
-
-};
+}
 
 t[#t+1] = LoadActor(THEME:GetPathS("","OpenCommandWindow"))..{
 	CodeMessageCommand=function(self, params)
 		if params.Name == "OpenOpList" then
-			opListPn = params.PlayerNumber;
-			SCREENMAN:GetTopScreen():OpenOptionsList(opListPn);
-			self:play();
-		end;
-	end;
-};
+			opListPn = params.PlayerNumber
+			SCREENMAN:GetTopScreen():OpenOptionsList(opListPn)
+			self:play()
+		end
+	end
+}
 
 t[#t+1] = LoadActor(THEME:GetPathS("","CloseCommandWindow"))..{
 	OptionsListClosedMessageCommand=function(self)
-		self:play();
-	end;
-};
+		self:play()
+	end
+}
 
 t[#t+1] = LoadActor(THEME:GetPathS("","OpListScroll"))..{
-	OptionsListRightMessageCommand=function(self)self:queuecommand("Refresh")end;
-	OptionsListLeftMessageCommand=function(self)self:queuecommand("Refresh")end;
-	OptionsListQuickChangeMessageCommand=function(self)self:queuecommand("Refresh")end;
+	OptionsListRightMessageCommand=function(self)self:queuecommand("Refresh")end,
+	OptionsListLeftMessageCommand=function(self)self:queuecommand("Refresh")end,
+	OptionsListQuickChangeMessageCommand=function(self)self:queuecommand("Refresh")end,
 	RefreshCommand=function(self)
-		self:play();
-	end;
-};
+		self:play()
+	end
+}
 
 t[#t+1] = LoadActor(THEME:GetPathS("","OpListChoose"))..{
-	OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end;
-	OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end;
-	OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
-	OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
+	OptionsListStartMessageCommand=function(self)self:queuecommand("Refresh")end,
+	OptionsListResetMessageCommand=function(self)self:queuecommand("Refresh")end,
+	OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end,
+	OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end,
 	RefreshCommand=function(self)
-		self:play();
-	end;
-};
+		self:play()
+	end
+}
 
 for pn in ivalues(PlayerNumber) do
 	t[#t+1] = LoadActor(THEME:GetPathG("","OpList")) ..{
 		InitCommand=function(self,params)
-			self:draworder(100)
-			:diffusealpha(0)
-			:zoom(0.5)
-			:y(SCREEN_CENTER_Y);
-
-			if pn then
-				if pn == PLAYER_1 then
-					self:x(SCREEN_LEFT-100);
-				elseif pn == PLAYER_2 then
-					self:x(SCREEN_RIGHT+100);
-				end;
-			end;
-		end;
-
+			self:draworder(100):zoom(0.5)
+			:y(SCREEN_CENTER_Y)
+			self:x( pn == PLAYER_1 and -100 or SCREEN_RIGHT+100 )
+		end,
 		OptionsListOpenedMessageCommand=function(self,params)
 			if params.Player == pn then
-				self:playcommand("slideOn");
-			end;
-		end;
-
+				self:playcommand("Slide",{Offset=100})
+			end
+		end,
 		OptionsListClosedMessageCommand=function(self,params)
 			if params.Player == pn then
-				self:playcommand("slideOff");
-			end;
-		end;
+				self:playcommand("Slide",{Offset=-100})
+			end
+		end,
+		SlideCommand=function(self,param)
+			local offsetmove = param.Offset
+			self:decelerate(0.25):x( pn == PLAYER_1 and offsetmove or SCREEN_RIGHT-offsetmove )
+		end,
+	}
+end
 
-		slideOnCommand=function(self)
-			self:diffusealpha(1):decelerate(0.25);
-			if pn then
-				if pn == PLAYER_1 then
-					self:x(SCREEN_LEFT+100);
-				elseif pn == PLAYER_2 then
-					self:x(SCREEN_RIGHT-100);
-				end;
-			end;
-		end;
-
-		slideOffCommand=function(self)
-			self:diffusealpha(1):decelerate(0.25);
-			if pn then
-				if pn == PLAYER_1 then
-					self:x(SCREEN_LEFT-100);
-				elseif pn == PLAYER_2 then
-					self:x(SCREEN_RIGHT+100);
-				end;
-			end;
-		end;
-	};
-end;
-
-t[#t+1] = LoadActor("GroupSelect");
+t[#t+1] = LoadActor("GroupSelect")
 
 -- Text and Stage Count
-t[#t+1] = LoadFont("Montserrat Semibold 40px")..{
+t[#t+1] = Def.BitmapText{
+	Font="Montserrat Semibold 40px",
+	Text="SELECT",
 	InitCommand=function(self)
-		if GetScreenAspectRatio() >= 1.5 then
-			self:x(SCREEN_CENTER_X-250)
-		else
-			self:x(SCREEN_CENTER_X- 190)
-		end;
-		self:zoom(0.4)
+		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and 250 or 190) )
+		:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:y(SCREEN_TOP-150)
-		:settext("SELECT")
-	end;
+		:y(-150)
+	end,
 	OnCommand=function(self)
-		self:decelerate(1)
-		:y(SCREEN_TOP+20)
-	end;
-};
+		self:decelerate(1):y(20)
+	end
+}
 
-t[#t+1] = LoadFont("Montserrat normal 40px")..{
+t[#t+1] = Def.BitmapText{
+	Font="Montserrat normal 40px",
+	Text="MUSIC",
 	InitCommand=function(self)
-		if GetScreenAspectRatio() >= 1.5 then
-			self:x(SCREEN_CENTER_X-192)
-		else
-			self:x(SCREEN_CENTER_X-132)
-		end;
-		self:zoom(0.4)
+		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and 192 or 132) )
+		:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:y(SCREEN_TOP-150)
-		:settext("MUSIC")
-	end;
+		:y(-150)
+	end,
 	OnCommand=function(self)
-		self:decelerate(1)
-		:y(SCREEN_TOP+20)
-	end;
-};
+		self:decelerate(1):y(20)
+	end
+}
 
-t[#t+1] = LoadFont("Montserrat normal 40px")..{
+t[#t+1] = Def.BitmapText{
+	Font="Montserrat normal 40px",
 	InitCommand=function(self)
 		local CurStage = string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1)
-		if GetScreenAspectRatio() >= 1.5 then
-			self:x(SCREEN_CENTER_X-164)
-		else
-			self:x(SCREEN_CENTER_X-132)
-		end;
-		self:zoom(0.35)
+		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and 164 or 132) )
+		:zoom(0.35)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
-		:horizalign(right)
+		:halign(1)
 		:diffuse(0,0,0,1)
-		:y(SCREEN_TOP-125)
+		:y(-125)
 		:settext("STAGE "..CurStage)
-	end;
+	end,
 	OnCommand=function(self)
-		self:decelerate(1)
-		:y(SCREEN_TOP+35)
-	end;
-};
+		self:decelerate(1):y(35)
+	end
+}
 
-return t;
+return t
