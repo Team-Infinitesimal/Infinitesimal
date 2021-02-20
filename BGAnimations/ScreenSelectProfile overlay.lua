@@ -12,7 +12,7 @@ function GetLocalProfiles()
 				Text=profile:GetDisplayName();
 				InitCommand=function(self)self:shadowlength(1):y(-10):zoom(0.5):ztest(true)end;
 			};
-			
+
 			LoadFont("Montserrat normal 20px") .. {
 				InitCommand=function(self)self:shadowlength(1):y(8):zoom(0.5):vertspacing(-8):ztest(true)end;
 				BeginCommand=function(self)
@@ -21,7 +21,7 @@ function GetLocalProfiles()
 				end;
 			};
 		};
-		
+
 		t[#t+1]=ProfileCard;
 	end;
 
@@ -33,7 +33,7 @@ function LoadCard(cColor)
 		LoadActor( THEME:GetPathG("ScreenSelectProfile","CardBackground") ) .. {
 			InitCommand=function(self)self:diffuse(cColor)end;
 		};
-		
+
 		LoadActor( THEME:GetPathG("ScreenSelectProfile","CardFrame") );
 	};
 	return t
@@ -45,16 +45,16 @@ function LoadPlayerStuff(Player)
 
 	t[#t+1] = Def.ActorFrame {
 		Name = 'JoinFrame';
-		
+
 		LoadCard(Color('Black'));
-		
+
 		LoadActor(THEME:GetPathG("","PressCenterStep"))..{
 			InitCommand=function(self)
 				self:zoom(0.75,0.75)
 			end;
 		};
 	};
-	
+
 	t[#t+1] = Def.ActorFrame {
 		Name = 'BigFrame';
 		LoadCard(Color("Black"));
@@ -63,19 +63,26 @@ function LoadPlayerStuff(Player)
 		Name = 'SmallFrame';
 		InitCommand=function(self)self:y(-2)end;
 		Def.Quad {
-			InitCommand=cmd(zoomto,178,40);
+			InitCommand=function(self)
+				self:zoomto(178,40)
+			end,
 			OnCommand=function(self)self:diffuse(Color('Black')):diffusealpha(0.5)end;
 		};
 		Def.Quad {
-			InitCommand=cmd(zoomto,178,40);
+			InitCommand=function(self)
+				self:zoomto(178,40)
+			end,
 			OnCommand=function(self)self:diffuse(Color('Black')):fadeleft(0.25):faderight(0.25):glow(color("1,1,1,0.25"))end;
 		};
 		Def.Quad {
-			InitCommand=cmd(zoomto,178,40;y,-40/2+20);
+			InitCommand=function(self)
+				self:zoomto(178,40)
+				:y(-40/2+20)
+			end,
 			OnCommand=function(self)self:diffuse(Color("Black")):fadebottom(1):diffusealpha(0.35)end;
 		};
 	};
-	
+
 	t[#t+1] = Def.ActorFrame {
 		Name = 'GuestText';
 		LoadFont("Montserrat semibold 40px") .. {
@@ -95,7 +102,7 @@ function LoadPlayerStuff(Player)
 		end;
 		children = GetLocalProfiles();
 	};
-	
+
 	t[#t+1] = Def.ActorFrame {
 		Name = "EffectFrame";
 	};
@@ -225,7 +232,11 @@ local t = Def.ActorFrame {
 			OnCommand=function(self)self:sleep(0.25):decelerate(0.75):zoom(1)end;
 			PlayerJoinedMessageCommand=function(self,param)
 				if param.Player == PLAYER_1 then
-					(cmd(zoom,1.15;decelerate,0.25;zoom,1.0;))(self);
+					(function(self)
+						self:zoom(1.15)
+						:decelerate(0.25)
+						:zoom(1.0)
+					end)(self);
 				end;
 			end;
 			children = LoadPlayerStuff(PLAYER_1);
@@ -236,7 +247,11 @@ local t = Def.ActorFrame {
 			OnCommand=function(self)self:sleep(0.25):decelerate(0.75):zoom(1)end;
 			PlayerJoinedMessageCommand=function(self,param)
 				if param.Player == PLAYER_2 then
-					(cmd(zoom,1.15;decelerate,0.25;zoom,1.0;))(self);
+					(function(self)
+						self:zoom(1.15)
+						:decelerate(0.25)
+						:zoom(1.0)
+					end)(self);
 				end;
 			end;
 			children = LoadPlayerStuff(PLAYER_2);

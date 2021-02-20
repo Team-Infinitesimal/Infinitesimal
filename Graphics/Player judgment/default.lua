@@ -27,14 +27,21 @@ local TNSFrames = {
 local t = Def.ActorFrame {
 
 	LoadActor("Scoring");
-	
+
 	LoadActor(THEME:GetPathG("Judgment","Normal")) .. {
 		Name="Judgment";
-		InitCommand=cmd(pause;visible,false);
+		InitCommand=function(self)
+			self:pause()
+			:visible(false)
+		end,
 		OnCommand=THEME:GetMetric("Judgment","JudgmentOnCommand");
-		ResetCommand=cmd(finishtweening;stopeffect;visible,false);
+		ResetCommand=function(self)
+			self:finishtweening()
+			:stopeffect()
+			:visible(false)
+		end,
 	};
-	
+
 	InitCommand = function(self)
 		c = self:GetChildren();
 	end;
@@ -44,9 +51,9 @@ local t = Def.ActorFrame {
 
 		local iNumStates = c.Judgment:GetNumStates();
 		local iFrame = TNSFrames[param.TapNoteScore];
-		
+
 		local iTapNoteOffset = param.TapNoteOffset;
-		
+
 		if not iFrame then return end
 		if iNumStates == 12 then
 			iFrame = iFrame * 2;
@@ -54,7 +61,7 @@ local t = Def.ActorFrame {
 				iFrame = iFrame + 1;
 			end
 		end
-		
+
 		self:playcommand("Reset");
 
 		c.Judgment:visible( true );
