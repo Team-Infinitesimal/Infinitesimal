@@ -83,9 +83,18 @@ local DiffDisplay = Def.ActorFrame{
 		end
 		
 		if stepsArray then
+			local indexstart = 1
+			-- Generate the index of steps to choose from.
+			for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
+				local ind = GetCurrentStepsIndex(pn)
+				-- local al = math.mod( ind, 14 )
+				-- indexstart = ind > 14 and (math.mod( ind, 14 )*2)+math.mod( ind, 14 ) or 0
+				indexstart = ind > 14 and ( math.mod( ind, 14*14 )-math.mod( ind, 14 ) ) or 0
+				SCREENMAN:SystemMessage( ("%i: %i - %i"):format( GetCurrentStepsIndex(pn), indexstart, indexstart+13 ) )
+			end
 			for i=1,14 do
-				if stepsArray[i] then
-					local steps = stepsArray[i]
+				if stepsArray[ indexstart+i ] then
+					local steps = stepsArray[ indexstart+i ]
 					local meterset = "??"
 					if steps:GetMeter() < 99 then
 						meterset = steps:GetMeter()
@@ -156,7 +165,9 @@ for pn in ivalues(PlayerNumber) do
 		end,
 		SetCommand=function(self)
 			if stepsArray and stepsSelected and GAMESTATE:IsHumanPlayer(pn) then
-				self:x( baseX + (GetCurrentStepsIndex(pn)-1) * spacing )
+				local ind = GetCurrentStepsIndex(pn)
+				local modval = ind > 14 and math.mod( ind, 14 ) or ind
+				self:x( baseX + (modval-1) * spacing )
 			end
 		end
 	}
