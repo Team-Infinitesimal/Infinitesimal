@@ -11,30 +11,31 @@ local t = Def.ActorFrame {
 			local states = Difficulty .. " (".. string.format( "%.2f%%", Percentage*100) .. ")"
 			GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(player))
 			GAMESTATE:UpdateDiscordScreenInfo(details,states,1)
-		end;
-	end;
-};
+		end
+	end
+}
 
 local song = GAMESTATE:GetCurrentSong();
 
 t[#t+1] = Def.ActorFrame {
-    LoadActor(THEME:GetPathG("","EvalElements/EvalBGGradient"))..{
+    Def.Sprite{
+        Texture=THEME:GetPathG("","EvalElements/EvalBGGradient"),
         InitCommand=function(self)
             self:Center()
             local song = GAMESTATE:GetCurrentSong()
             local bg = song:GetBackgroundPath()
-        end;
-    };
+        end
+    },
 
     Def.Sprite {
         InitCommand=function(self)
             self:Center()
             local song = GAMESTATE:GetCurrentSong()
             local bg = song:GetBackgroundPath()
-            self:Load(bg):scaletocover(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-            self:diffusealpha(0.25);
+            self:Load(bg):scaletocover(0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+            self:diffusealpha(0.25)
         end
-    };
-};
+    }
+}
 
-return t;
+return t

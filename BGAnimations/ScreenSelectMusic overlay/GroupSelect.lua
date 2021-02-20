@@ -11,7 +11,20 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 -- Get screen handle so we can adjust the timer.
 local ScreenSelectMusic; --Need a handle on the current screen for reasons...
 --- since this is a group wheel, we need an array of the groups currently loaded in StepMania. So add an array. This will be used as the 'info set' for the wheel.
-local song_groups = SONGMAN:GetSongGroupNames();
+local song_groups = {};
+
+-- Iterate through the song groups and check if they have AT LEAST one song with valid charts.
+-- If so, add them to the group.
+for v in ivalues( SONGMAN:GetSongGroupNames() ) do
+	for s in ivalues( SONGMAN:GetSongsInGroup(v) ) do
+		local st = SongUtil.GetPlayableSteps(s)
+		-- lua.ReportScriptError(#st)
+		if #st > 0 then
+			song_groups[#song_groups+1] = v
+			break
+		end
+	end
+end
 
 -- Next up, we create our wheel.
 
