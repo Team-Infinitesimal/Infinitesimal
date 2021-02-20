@@ -10,39 +10,40 @@ local t = Def.ActorFrame {
             :linear(1)
             :diffusealpha(1)
             :queuecommand("Transition")
-        end;
+        end,
         TransitionMessageCommand=function(self)
             SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
-        end;
-    };
+        end
+    },
 
     Def.Sound {
-    		File=THEME:GetPathS("", "Pewwwww"),
-    		OnCommand=function(self)
-    			   self:queuecommand("Play")
-    		end;
-    		PlayCommand=function(self)
+    	File=THEME:GetPathS("", "Pewwwww"),
+    	OnCommand=function(self)
+    		self:queuecommand("Play")
+    	end,
+    	PlayCommand=function(self)
             self:play()
-        end;
-  	};
+        end
+  	},
 
     Def.Sound {
     		File=THEME:GetPathS("", "Boom"),
     		OnCommand=function(self)
-    			   self:sleep(1.5)
-             :queuecommand("Play")
-    		end;
+    			self:sleep(1.5)
+                :queuecommand("Play")
+    		end,
     		PlayCommand=function(self)
-            self:play()
-        end;
-  	};
+                self:play()
+            end
+  	},
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Circle"))..{
+    Def.Sprite{
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Circle"),
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
             :diffusealpha(0)
             :queuecommand("Expand")
-        end;
+        end,
         ExpandMessageCommand=function(self)
             self:diffusealpha(0.1)
             :zoom(0)
@@ -50,16 +51,17 @@ local t = Def.ActorFrame {
             :diffusealpha(1)
             :zoom(2)
             :queuecommand("Expand")
-        end;
-    };
+        end
+    },
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Circle"))..{
+    Def.Sprite{
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Circle"),
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
             :diffusealpha(0)
             :sleep(1.5)
             :queuecommand("Expand")
-        end;
+        end,
         ExpandMessageCommand=function(self)
             self:diffusealpha(0.1)
             :zoom(0)
@@ -67,10 +69,11 @@ local t = Def.ActorFrame {
             :diffusealpha(1)
             :zoom(2)
             :queuecommand("Expand")
-        end;
-    };
+        end
+    },
 
-    LoadActor(THEME:GetPathG("", "GameOver/Game"))..{
+    Def.Sprite{
+        Texture=THEME:GetPathG("", "GameOver/Game"),
         InitCommand=function(self)
             self:xy(SCREEN_LEFT - 250, SCREEN_CENTER_Y - 60)
             :diffusealpha(0)
@@ -83,10 +86,11 @@ local t = Def.ActorFrame {
             :accelerate(0.5)
             :x(SCREEN_RIGHT + 250)
             :diffusealpha(0)
-        end;
-    };
+        end
+    },
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars1"))..{
+    Def.Sprite{
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Stars1"),
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -96,10 +100,11 @@ local t = Def.ActorFrame {
             :decelerate(1)
             :zoom(0.4)
             :diffusealpha(0)
-        end;
-    };
+        end
+    },
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars2"))..{
+    Def.Sprite{
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Stars2"),
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -112,7 +117,8 @@ local t = Def.ActorFrame {
         end;
     };
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars3"))..{
+    Def.Sprite{
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Stars3"),
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -123,9 +129,10 @@ local t = Def.ActorFrame {
             :zoom(0.6)
             :diffusealpha(0)
         end;
-    };
+    },
 
-    LoadActor(THEME:GetPathG("", "GameOver/Over"))..{
+    Def.Sprite{
+        Texture=THEME:GetPathG("", "GameOver/Over"),
         InitCommand=function(self)
             self:xy(SCREEN_RIGHT + 250, SCREEN_CENTER_Y + 60)
             :diffusealpha(0)
@@ -138,9 +145,8 @@ local t = Def.ActorFrame {
             :accelerate(0.5)
             :x(SCREEN_LEFT - 250)
             :diffusealpha(0)
-        end;
-    };
+        end
+    }
+}
 
-};
-
-return t;
+return t
