@@ -121,17 +121,14 @@ for pn in ivalues(PlayerNumber) do
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
-
-				if math.floor(DarkLevel*100) == 0 then
-					self:visible(false)
-				else
-					self:visible(true)
-				end;
+				if DarkLevel then
+					self:visible( math.floor(DarkLevel*100) == 0 )
+				end
 			else
 				self:visible(false)
-			end;
-		end;
-	};
+			end
+		end
+	}
 
 	t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 		InitCommand=function(self)
@@ -149,17 +146,19 @@ for pn in ivalues(PlayerNumber) do
 			if GAMESTATE:IsSideJoined(pn) then
 				local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
 				
-				if math.floor(DarkLevel*100) == 0 then
-					self:visible(false)
-					self:settext("")
-				else
-					self:visible(true)
-					if math.floor(DarkLevel*100) == 100 then
-						self:settext("BGA OFF")
+				if DarkLevel then
+					if math.floor(DarkLevel*100) == 0 then
+						self:visible(false)
+						self:settext("")
 					else
-						self:settext("BGA "..math.floor(DarkLevel*100).."%")
-					end;
-				end;
+						self:visible(true)
+						if math.floor(DarkLevel*100) == 100 then
+							self:settext("BGA OFF")
+						else
+							self:settext("BGA "..math.floor(DarkLevel*100).."%")
+						end
+					end
+				end
 			else
 				self:visible(false);
 			end;
