@@ -1,29 +1,21 @@
 local pn = ...
 
-t = Def.ActorFrame {
+local t = Def.ActorFrame {
+	OnCommand=function(self)
+		if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
+			local pos = SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)):GetX()
+			self:xy(pos, SCREEN_BOTTOM - 20)
+			self:GetChild("Username"):settext( PROFILEMAN:GetProfile(pn):GetDisplayName() )
+		end
+	end,
 
-  LoadActor("badge")..{
-    OnCommand=function(self)
-		   if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
-			 local pos = SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)):GetX()
-			 self:xy(pos, SCREEN_BOTTOM - 20)
-			 :zoom(0.45)
-      end
-    end;
-  };
+	Def.Sprite{ Texture="badge", OnCommand=function(self) self:zoom(0.45) end },
 
-  LoadFont("Montserrat semibold 20px")..{
-      OnCommand=function(self)
-		  if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
-				local pos = SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)):GetX()
-				self:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
-				:horizalign(center)
-				:xy(pos, SCREEN_BOTTOM - 20)
-				:shadowlength(1)
-				:zoom(0.75)
-		   end;
-     end;
-   };
-};
+	Def.BitmapText{
+		Font="Montserrat semibold 20px",
+		Name="Username",
+		OnCommand=function(self) self:shadowlength(1):zoom(0.75) end
+	}
+}
 
-return t;
+return t
