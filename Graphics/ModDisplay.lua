@@ -1,20 +1,20 @@
 local t = Def.ActorFrame {};
 
 for pn in ivalues(PlayerNumber) do
-	
+
 	local pos_x = SCREEN_LEFT+24.5
 	local pos_y = SCREEN_CENTER_Y-100
 	local pos_out_x = SCREEN_LEFT-24.5
 	local pos_step_y = 30
-	
+
 	if GetScreenAspectRatio() >= 1.5 then
 		pos_x = SCREEN_LEFT+30
 	end;
-	
+
 	if pn == PLAYER_2 then
 		pos_x = SCREEN_RIGHT-24.5
 		pos_out_x = SCREEN_RIGHT+24.5
-		
+
 		if GetScreenAspectRatio() >= 1.5 then
 			pos_x = SCREEN_RIGHT-30
 		end;
@@ -26,7 +26,7 @@ for pn in ivalues(PlayerNumber) do
 			self:zoom(0.35):visible(GAMESTATE:IsSideJoined(pn))
 			:xy(pos_out_x, pos_y):sleep(0.25):decelerate(0.75):x(pos_x)
 		end;
-		
+
 		PlayerJoinedMessageCommand=function(self) self:visible(GAMESTATE:IsSideJoined(pn)) end;
 	};
 
@@ -45,7 +45,7 @@ for pn in ivalues(PlayerNumber) do
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
-				
+
 				local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 				if PlayerMods:AvarageScrollBPM() > 0 then
 					self:zoom(0.35)
@@ -72,9 +72,9 @@ for pn in ivalues(PlayerNumber) do
 			self:zoom(0.35):visible(false):sleep(0.1):queuecommand("Refresh")
 			:xy(pos_out_x, pos_y + pos_step_y):sleep(0.25):decelerate(0.75):x(pos_x)
 		end;
-		
+
 		PlayerJoinedMessageCommand=function(self)self:queuecommand("Refresh")end;
-		
+
 		RefreshCommand=function(self) self:visible(GAMESTATE:IsSideJoined(pn)) end;
 	};
 
@@ -94,7 +94,7 @@ for pn in ivalues(PlayerNumber) do
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
-				
+
 				if SCREENMAN:GetTopScreen() then
 					local CurNoteSkin = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin()
 					self:SetTarget(SCREENMAN:GetTopScreen():GetChild("NS"..string.lower(CurNoteSkin)))
@@ -122,7 +122,7 @@ for pn in ivalues(PlayerNumber) do
 			if GAMESTATE:IsSideJoined(pn) then
 				local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
 				if DarkLevel then
-					self:visible( math.floor(DarkLevel*100) == 0 )
+					self:visible( math.floor(DarkLevel*100) ~= 0 )
 				end
 			else
 				self:visible(false)
@@ -145,7 +145,7 @@ for pn in ivalues(PlayerNumber) do
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
-				
+
 				if DarkLevel then
 					if math.floor(DarkLevel*100) == 0 then
 						self:visible(false)
@@ -171,9 +171,9 @@ for pn in ivalues(PlayerNumber) do
 			self:zoom(0.35):visible(false):sleep(0.5):queuecommand("Refresh")
 			:xy(pos_out_x, pos_y + pos_step_y * 5):sleep(0.25):decelerate(0.75):x(pos_x)
 		end;
-		
+
 		PlayerJoinedMessageCommand=function(self)self:queuecommand("Refresh")end;
-		
+
 		RefreshCommand=function(self) self:visible(GAMESTATE:IsSideJoined(pn)) end;
 	};
 
@@ -188,11 +188,11 @@ for pn in ivalues(PlayerNumber) do
 		OptionsListPopMessageCommand=function(self)self:queuecommand("Refresh")end;
 		OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end;
 		PlayerJoinedMessageCommand=function(self)self:queuecommand("Refresh")end;
-		
+
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
-				
+
 				local ProMode = LoadModule("Config.Load.lua")("ProMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini");
 				if ProMode == "AllowW1_Everywhere" then
 					self:diffusebottomedge(color("#e78df3"))
@@ -220,7 +220,7 @@ for pn in ivalues(PlayerNumber) do
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
-				
+
 				local TimingMode = getenv("SmartTimings") and TimingWindow[getenv("SmartTimings")]() or LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 				if TimingMode == "Normal" then
 					self:settext("NJ")
@@ -259,9 +259,9 @@ for pn in ivalues(PlayerNumber) do
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
-				
+
 				local RushAmount = GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate()
-				
+
 				if RushAmount ~= nil then
 					RushAmount = math.floor(RushAmount*100)
 					self:visible(RushAmount ~= 100)
@@ -287,9 +287,9 @@ for pn in ivalues(PlayerNumber) do
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
-				
+
 				local RushAmount = GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate()
-					
+
 				if RushAmount ~= nil then
 					RushAmount = math.floor(RushAmount*100)
 					self:visible(RushAmount ~= 100)
@@ -315,9 +315,9 @@ for pn in ivalues(PlayerNumber) do
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
-				
+
 				local RushAmount = GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate()
-				
+
 				if RushAmount ~= nil then
 					RushAmount = math.floor(RushAmount*100)
 					self:visible(RushAmount ~= 100)
