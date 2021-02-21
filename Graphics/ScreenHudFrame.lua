@@ -83,7 +83,7 @@ for pn in ivalues(PlayerNumber) do
 		Def.Sprite {
 			Texture=GetPlayerAvatar(pn),
 			InitCommand=function(self)
-				self:scaletocover(0,0,130,0)
+				self:scaletofit(0,0,130,130)
 				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
 				:y(SCREEN_BOTTOM + 80)
 				:MaskDest()
