@@ -15,7 +15,8 @@ t[#t+1] = Def.Quad{
     end;
 }
 
-t[#t+1] = LoadActor("Selector")..{
+t[#t+1] = Def.Sprite {
+  Texture="Selector",
 	InitCommand=function(self)
 		self:zoom(0.5)
 		:pulse()

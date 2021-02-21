@@ -1,6 +1,7 @@
 local t = Def.ActorFrame {
 
-    LoadActor(THEME:GetPathG("","ScreenHudTop"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","ScreenHudTop"),
         InitCommand=function(self)
             self:diffusealpha(0)
             :vertalign(top)
@@ -13,7 +14,8 @@ local t = Def.ActorFrame {
         end;
     };
 
-    LoadActor(THEME:GetPathG("","ScreenHudBottom"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","ScreenHudBottom"),
         InitCommand=function(self)
             self:diffusealpha(0)
             :vertalign(bottom)

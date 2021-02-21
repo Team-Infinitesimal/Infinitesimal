@@ -30,11 +30,14 @@ end;
 
 function LoadCard(cColor)
 	local t = Def.ActorFrame {
-		LoadActor( THEME:GetPathG("ScreenSelectProfile","CardBackground") ) .. {
+		Def.Sprite {
+			Texture=THEME:GetPathG("ScreenSelectProfile","CardBackground"),
 			InitCommand=function(self)self:diffuse(cColor)end;
 		};
 
-		LoadActor( THEME:GetPathG("ScreenSelectProfile","CardFrame") );
+		Def.Sprite {
+			Texture=THEME:GetPathG("ScreenSelectProfile","CardFrame")
+		},
 	};
 	return t
 end

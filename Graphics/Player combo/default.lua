@@ -17,7 +17,8 @@ local t = Def.ActorFrame {
 		Name="Number",
 		OnCommand = THEME:GetMetric("Combo", "NumberOnCommand"),
 	},
-	LoadActor("ComboLabel")..{
+	Def.Sprite {
+		Texture="ComboLabel",
 		Name="ComboLabel";
 		OnCommand = function(self)self:vertalign(top):y(-45)end;
 	};

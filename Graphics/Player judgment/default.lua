@@ -28,7 +28,8 @@ local t = Def.ActorFrame {
 
 	LoadActor("Scoring");
 
-	LoadActor(THEME:GetPathG("Judgment","Normal")) .. {
+	Def.Sprite {
+		Texture=THEME:GetPathG("Judgment","Normal"),
 		Name="Judgment";
 		InitCommand=function(self)
 			self:pause()

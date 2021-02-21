@@ -21,7 +21,8 @@ for pn in ivalues(PlayerNumber) do
 	end
 
 	-- Speed mods
-	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
+	t[#t+1] = Def.Sprite {
+		Texture=THEME:GetPathG("","ModIcon"),
 		InitCommand=function(self)
 			self:zoom(0.35):visible(GAMESTATE:IsSideJoined(pn))
 			:xy(pos_out_x, pos_y):sleep(0.25):decelerate(0.75):x(pos_x)
@@ -67,7 +68,8 @@ for pn in ivalues(PlayerNumber) do
 	}
 
 	-- Noteskins
-	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
+	t[#t+1] = Def.Sprite {
+		Texture=THEME:GetPathG("","ModIcon"),
 		InitCommand=function(self)
 			self:zoom(0.35):visible(false):sleep(0.1):queuecommand("Refresh")
 			:xy(pos_out_x, pos_y + pos_step_y):sleep(0.25):decelerate(0.75):x(pos_x)
@@ -106,7 +108,8 @@ for pn in ivalues(PlayerNumber) do
 	}
 
 	-- BGA Brightness
-	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
+	t[#t+1] = Def.Sprite {
+		Texture=THEME:GetPathG("","ModIcon"),
 		InitCommand=function(self)
 			self:zoom(0.35):visible(false):sleep(0.2):queuecommand("Refresh")
 			:xy(pos_out_x, pos_y + pos_step_y * 2):sleep(0.25):decelerate(0.75):x(pos_x)
@@ -166,7 +169,8 @@ for pn in ivalues(PlayerNumber) do
 	}
 
 	-- Judgment
-	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
+	t[#t+1] = Def.Sprite {
+		Texture=THEME:GetPathG("","ModIcon"),
 		InitCommand=function(self)
 			self:zoom(0.35):visible(false):sleep(0.5):queuecommand("Refresh")
 			:xy(pos_out_x, pos_y + pos_step_y * 5):sleep(0.25):decelerate(0.75):x(pos_x)
@@ -244,7 +248,8 @@ for pn in ivalues(PlayerNumber) do
 	}
 
 	-- Rush
-	t[#t+1] = LoadActor(THEME:GetPathG("","ModIcon"))..{
+	t[#t+1] = Def.Sprite {
+		Texture=THEME:GetPathG("","ModIcon"),
 		InitCommand=function(self)
 			self:zoom(0.35):visible(false):sleep(0.6):queuecommand("Refresh")
 			:xy(pos_out_x, pos_y + pos_step_y * 6):sleep(0.25):decelerate(0.75):x(pos_x)
@@ -272,7 +277,8 @@ for pn in ivalues(PlayerNumber) do
 		end;
 	};
 
-	t[#t+1] = LoadActor(THEME:GetPathG("","MusicNote"))..{
+	t[#t+1] = Def.Sprite {
+		Texture=THEME:GetPathG("","MusicNote"),
 		InitCommand=function(self)
 			self:zoom(0.1):visible(false):sleep(0.6):queuecommand("Refresh")
 			:xy(pos_out_x, pos_y + pos_step_y * 6):sleep(0.25):decelerate(0.75):x(pos_x)

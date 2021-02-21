@@ -2,7 +2,8 @@ local pn = ...
 
 local t = Def.ActorFrame {
 
-  LoadActor("StageCount")..{
+  Def.Sprite {
+    Texture="StageCount",
     OnCommand=function(self)
       self:zoom(0.3)
       if GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides" then

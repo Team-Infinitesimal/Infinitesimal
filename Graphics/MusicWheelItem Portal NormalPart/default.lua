@@ -16,7 +16,8 @@ return Def.ActorFrame {
 		end;
 	};
 
-	LoadActor(THEME:GetPathG("","SongFrame"))..{
+	Def.Sprite {
+		Texture=THEME:GetPathG("","SongFrame"),
 		InitCommand=function(self)
 			self:zoom(1.35):diffusealpha(1);
 		end;

@@ -1,13 +1,15 @@
 local t = Def.ActorFrame{
 
-    LoadActor("centerstep")..{
+    Def.Sprite {
+        Texture="centerstep",
         InitCommand=function(self)
             self:y(55)
             :zoom(0.5,0.5)
             end;
     };
 
-    LoadActor("centerstep")..{
+    Def.Sprite {
+        Texture="centerstep",
         InitCommand=function(self)
             self:y(55)
             :zoom(0.5,0.5)
@@ -25,7 +27,8 @@ local t = Def.ActorFrame{
             end;
     };
 
-    LoadActor("press")..{
+    Def.Sprite {
+        Texture="press",
         InitCommand=function(self)
             self:zoom(0.8,0.8)
             end;
