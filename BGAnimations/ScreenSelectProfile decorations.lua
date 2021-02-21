@@ -1,7 +1,39 @@
--- We're still selecting the profile here, so ScreenHudFrame (which contains profile name displaying) will not be used
-
 local t = Def.ActorFrame {
-    LoadActor(THEME:GetPathG("","BlankScreenHudFrame"))
+    LoadActor(THEME:GetPathG("","BlankScreenHudFrame")),
+
+    Def.BitmapText{
+    	Font="Montserrat Semibold 40px",
+    	Text="SELECT",
+    	InitCommand=function(self)
+    		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and 250 or 190) )
+    		:zoom(0.4)
+    		:shadowcolor(0,0,0,0.25)
+    		:shadowlength(0.75)
+    		:diffuse(0,0,0,1)
+    		:y(-150)
+    	end,
+    	OnCommand=function(self)
+    		self:decelerate(1):y(26)
+    	end
+    },
+
+    Def.BitmapText{
+    	Font="Montserrat normal 40px",
+    	Text="PROFILE",
+    	InitCommand=function(self)
+    		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and 183 or 123) )
+    		:zoom(0.4)
+    		:shadowcolor(0,0,0,0.25)
+    		:shadowlength(0.75)
+    		:diffuse(0,0,0,1)
+    		:y(-150)
+    	end,
+    	OnCommand=function(self)
+    		self:decelerate(1):y(26)
+    	end
+    },
+
+    LoadActor(THEME:GetPathG("", "CornerArrows"))
 };
 
 return t;
