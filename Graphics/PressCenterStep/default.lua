@@ -5,17 +5,17 @@ local t = Def.ActorFrame{
         InitCommand=function(self)
             self:y(55)
             :zoom(0.5,0.5)
-            end;
-    };
+        end
+    },
 
     Def.Sprite {
-        Texture="centerstep",
+       Texture="centerstep",
         InitCommand=function(self)
             self:y(55)
             :zoom(0.5,0.5)
             :diffusealpha(0)
             :queuecommand("FadeEffect")
-            end;
+        end,
         FadeEffectCommand=function(self)
             self:stoptweening()
             :zoom(0.5,0.5)
@@ -24,21 +24,21 @@ local t = Def.ActorFrame{
             :zoom(0.6,0.6)
             :diffusealpha(0)
             :queuecommand("FadeEffect")
-            end;
-    };
+        end
+    },
 
     Def.Sprite {
         Texture="press",
         InitCommand=function(self)
             self:zoom(0.8,0.8)
-            end;
+        end,
         OnCommand=function(self)
             self:bounce()
             :sleep(1.1)
             :effectmagnitude(0,-18,0)
             :effectperiod(0.4286)
-            end;
-    };
-};
+        end
+    }
+}
 
 return t;

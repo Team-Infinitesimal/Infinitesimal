@@ -14,7 +14,7 @@ local SongStats = ("%i songs in %i groups"):format(
 local t = Def.ActorFrame {
 
     Def.Sprite {
-				Texture=THEME:GetPathG("","logo"),
+		Texture=THEME:GetPathG("","logo"),
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-30)
             :zoom(0.5,0.5)
@@ -26,7 +26,7 @@ local t = Def.ActorFrame {
     };
 
     Def.Sprite {
-				Texture=THEME:GetPathG("","blurLogo"),
+		Texture=THEME:GetPathG("","blurLogo"),
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-30)
             :zoom(0.49,0.49)
@@ -48,8 +48,7 @@ local t = Def.ActorFrame {
         end;
     };
 
-    Def.Sprite {
-				Texture=THEME:GetPathG("","PressCenterStep"),
+    LoadActor(THEME:GetPathG("","PressCenterStep"))..{
         InitCommand=function(self)
             self:xy(SCREEN_LEFT+107,350)
             :zoom(0.75,0.75)
@@ -60,8 +59,7 @@ local t = Def.ActorFrame {
         end;
     };
 
-    Def.Sprite {
-				Texture=THEME:GetPathG("","PressCenterStep"),
+    LoadActor(THEME:GetPathG("","PressCenterStep"))..{
         InitCommand=function(self)
             self:xy(SCREEN_RIGHT-107,350)
             :zoom(0.75,0.75)
