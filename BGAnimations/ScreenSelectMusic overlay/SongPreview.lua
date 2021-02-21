@@ -4,7 +4,7 @@ local PreviewWidth = 340;
 local PreviewHeight = 191.25;
 
 local t = Def.ActorFrame {
-	
+
 	-- Frame
     LoadActor(THEME:GetPathG("","PreviewFrame"))..{
         InitCommand=function(self)
@@ -13,22 +13,24 @@ local t = Def.ActorFrame {
             :zoom(0.75,0.75)
         end;
     };
-    
-    LoadActor(THEME:GetPathG("","noise"))..{
-		InitCommand=function(self)
+
+    Def.Sprite {
+				Texture=THEME:GetPathG("","noise"),
+				InitCommand=function(self)
             self:xy(PreviewX,PreviewY)
             :zoomto(PreviewWidth,PreviewHeight)
             :texcoordvelocity(24,16);
         end;
 	};
-	
-	LoadActor(THEME:GetPathG("","pixelLogo"))..{
+
+	Def.Sprite {
+		Texture=THEME:GetPathG("","pixelLogo"),
 		InitCommand=function(self)
             self:xy(PreviewX,PreviewY)
             :zoomto(PreviewWidth*0.8,PreviewHeight*0.8);
         end;
 	};
-	
+
 	-- Video display
     Def.Sprite {
         InitCommand=function(self)
@@ -67,7 +69,7 @@ local t = Def.ActorFrame {
             self:zoomto(PreviewWidth,PreviewHeight):decelerate(0.2):diffusealpha(1);
         end;
     };
-    
+
     -- Top info panel
     Def.Quad {
         InitCommand=function(self)
@@ -77,7 +79,7 @@ local t = Def.ActorFrame {
             :diffuse(0,0,0,0.75)
         end;
     };
-    
+
     -- Title
     LoadFont("Montserrat semibold 40px")..{
         InitCommand=function(self)
@@ -95,7 +97,7 @@ local t = Def.ActorFrame {
             end;
         end;
     };
-    
+
     -- Length
     LoadFont("Montserrat semibold 40px")..{
         InitCommand=function(self)
@@ -115,7 +117,7 @@ local t = Def.ActorFrame {
             end;
         end;
     };
-    
+
     -- Bottom info panel
     Def.Quad {
         InitCommand=function(self)
@@ -125,7 +127,7 @@ local t = Def.ActorFrame {
             :diffuse(0,0,0,0.75)
         end;
     };
-	
+
 	-- Artist
     LoadFont("Montserrat semibold 40px")..{
         InitCommand=function(self)
@@ -143,7 +145,7 @@ local t = Def.ActorFrame {
             end;
         end;
     };
-	
+
 	-- BPM
 	LoadFont("Montserrat semibold 40px")..{
         InitCommand=function(self)
@@ -176,7 +178,7 @@ local t = Def.ActorFrame {
         end;
     };
 
-    --[[ 
+    --[[
     Def.ActorFrame {
         OnCommand=function(self)
             self:xy(SCREEN_CENTER_X+125,SCREEN_CENTER_Y-140)

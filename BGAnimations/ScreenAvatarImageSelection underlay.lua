@@ -74,7 +74,8 @@ t[#t+1] = Def.ActorFrame{
         s:accelerate(0.2):addy(-20):diffusealpha(0)
     end,
 
-    LoadActor(THEME:GetPathG("", "AvatarMask"))..{
+    Def.Sprite {
+      Texture=THEME:GetPathG("", "AvatarMask"),
       InitCommand=function(self)
         self:zoom(0.26)
         :MaskSource()

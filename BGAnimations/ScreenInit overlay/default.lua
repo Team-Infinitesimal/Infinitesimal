@@ -11,7 +11,8 @@ return Def.ActorFrame {
 		end
 	};
 
-	LoadActor("arrow")..{
+	Def.Sprite {
+		Texture="arrow",
 		InitCommand=function(self)
 			self:diffusealpha(0)
 			:sleep(1.5)
@@ -23,7 +24,8 @@ return Def.ActorFrame {
 		end;
 	};
 
-	LoadActor("dj505")..{
+	Def.Sprite {
+		Texture="dj505",
 		InitCommand=function(self)
 			self:diffusealpha(0)
 			:sleep(2.5)

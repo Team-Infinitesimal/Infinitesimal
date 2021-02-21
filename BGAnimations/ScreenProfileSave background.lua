@@ -1,6 +1,7 @@
 local t = Def.ActorFrame {
 
-		LoadActor(THEME:GetPathG("", "GenericGradientBg"))..{
+		Def.Sprite {
+				Texture=THEME:GetPathG("", "GenericGradientBg"),
 				InitCommand=function(self)
 						self:scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
 				end;

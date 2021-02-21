@@ -25,7 +25,8 @@ local t = Def.ActorFrame {
 						:x(-spacing*selection)
 				end;
 
-		    LoadActor(THEME:GetPathG("","ModeSelect/ArcadeMode"))..{
+		    Def.Sprite {
+						Texture=THEME:GetPathG("","ModeSelect/ArcadeMode"),
 		        InitCommand=function(self)
 		            self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
 		            :zoom(0.5)
@@ -58,7 +59,8 @@ local t = Def.ActorFrame {
 		        end;
 		    };
 
-		    LoadActor(THEME:GetPathG("","ModeSelect/ProMode"))..{
+		    Def.Sprite {
+						Texture=THEME:GetPathG("","ModeSelect/ProMode"),
 		        InitCommand=function(self)
 		            self:xy(SCREEN_CENTER_X+spacing,SCREEN_CENTER_Y)
 		            :zoom(0.5)
@@ -91,7 +93,8 @@ local t = Def.ActorFrame {
 		        end;
 		    };
 
-				LoadActor(THEME:GetPathG("","ModeSelect/StaminaMode"))..{
+				Def.Sprite {
+						Texture=THEME:GetPathG("","ModeSelect/StaminaMode"),
 						InitCommand=function(self)
 								self:xy(SCREEN_CENTER_X+(spacing*2),SCREEN_CENTER_Y)
 								:zoom(0.5)

@@ -1,6 +1,7 @@
 local t = Def.ActorFrame{
 
-    LoadActor(THEME:GetPathG("", "GenericGradientBg"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "GenericGradientBg"),
         InitCommand=function(self)
             self:Center()
             :scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
@@ -16,7 +17,8 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars1"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Stars1"),
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -29,7 +31,8 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars2"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Stars2"),
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -42,7 +45,8 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Stars3"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Stars3"),
         InitCommand=function(self)
             self:zoom(0.1)
             :diffusealpha(0)
@@ -55,7 +59,8 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Circle"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Circle"),
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-100)
             :diffusealpha(0)
@@ -69,7 +74,8 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor(THEME:GetPathG("", "ParticlesAndEffects/Circle"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "ParticlesAndEffects/Circle"),
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+50)
             :diffusealpha(0)
@@ -83,7 +89,8 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor("Hey")..{
+    Def.Sprite {
+        Texture="Hey",
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-100)
             :diffusealpha(0)
@@ -99,7 +106,8 @@ local t = Def.ActorFrame{
         end;
     };
 
-    LoadActor("GetUpAndDanceMan")..{
+    Def.Sprite {
+        Texture="GetUpAndDanceMan",
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+50)
             :diffusealpha(0)
@@ -132,7 +140,7 @@ local t = Def.ActorFrame{
 		end;
 		PlayCommand=function(self)self:play()end
   	};
-  	
+
   	Def.Sound {
 		File="Voice",
 		OnCommand=function(self)
@@ -141,7 +149,7 @@ local t = Def.ActorFrame{
 		end;
 		PlayCommand=function(self)self:play()end
   	};
-  	
+
   	Def.Sound {
 		File=THEME:GetPathS("", "Boom"),
 		OnCommand=function(self)

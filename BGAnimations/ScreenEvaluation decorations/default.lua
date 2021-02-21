@@ -4,7 +4,8 @@ local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxP
 local t = Def.ActorFrame {};
 
 if promode then
-    t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/ProCenterColumn"))..{
+    t[#t+1] = Def.Sprite {
+        Texture=THEME:GetPathG("","EvalElements/ProCenterColumn"),
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomy(0)
@@ -19,7 +20,8 @@ if promode then
             end;
     };
 else
-    t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/CenterColumn"))..{
+    t[#t+1] = Def.Sprite {
+        Texture=THEME:GetPathG("","EvalElements/CenterColumn"),
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoomy(0)
@@ -41,7 +43,8 @@ t[#t+1] = LoadActor(THEME:GetPathG("","ScreenHudFrame"));
 --- Text/Song Info
 --- ------------------------------------------------
 
-t[#t+1] = LoadActor(THEME:GetPathG("","EvalElements/EvalSongTitle"))..{
+t[#t+1] = Def.Sprite {
+  Texture=THEME:GetPathG("","EvalElements/EvalSongTitle"),
 	InitCommand=function(self)
 		self:diffusealpha(0)
 		:zoomy(0)
