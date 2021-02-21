@@ -35,6 +35,18 @@ end
 
 local t = Def.ActorFrame {}
 
+local DiffLabelIndex = {
+	"NEW",
+	"ANOTHER",
+	"PRO",
+	"TRAIN",
+	"QUEST",
+	"UCS",
+	"HIDDEN",
+	"INFINITY",
+	"JUMP"
+}
+
 local ChartType = setmetatable(
 {
 	Modes = {
@@ -96,17 +108,26 @@ local DiffDisplay = Def.ActorFrame{
 				if stepsArray[ i+offset ] then
 					local steps = stepsArray[ i+offset ]
 					local meterset = "??"
+					local StepTypeIndex = 10
 					if steps:GetMeter() < 99 then
 						meterset = steps:GetMeter()
+					end
+
+					for k,v in pairs(DiffLabelIndex) do
+						if string.find(string.upper(steps:GetDescription()), v) then
+							StepTypeIndex = k - 1
+						end
 					end
 
 					self:GetChild("")[i]:diffusealpha(1)
 					self:GetChild("")[i]:GetChild("Icon"):setstate( ChartType[steps] )
 					self:GetChild("")[i]:GetChild("Diff"):settext( meterset )
+					self:GetChild("")[i]:GetChild("Label"):setstate( StepTypeIndex )
 				else
 					self:GetChild("")[i]:GetChild("Icon"):setstate(7)
 					self:GetChild("")[i]:GetChild("Diff"):settext("--")
 					self:GetChild("")[i]:diffusealpha(0.3)
+					self:GetChild("")[i]:GetChild("Label"):setstate( 10 )
 				end
 			end
 		else
@@ -114,6 +135,7 @@ local DiffDisplay = Def.ActorFrame{
 				self:GetChild("")[i]:GetChild("Icon"):setstate(7)
 				self:GetChild("")[i]:GetChild("Diff"):settext("--")
 				self:GetChild("")[i]:diffusealpha(0.3)
+				self:GetChild("")[i]:GetChild("Label"):setstate( 10 )
 			end
 		end
 	end
@@ -128,6 +150,14 @@ for i=1,14 do
 			Name="Icon",
 			InitCommand=function(self)
 				self:zoom(baseZoom):xy(baseX+spacing*(i-1),baseY):animate(false)
+			end,
+		},
+
+		Def.Sprite{
+			Texture=THEME:GetPathG("", "DiffLabels 1x11"),
+			Name="Label",
+			InitCommand=function(self)
+				self:zoom(baseZoom):xy(baseX+spacing*(i-1), baseY-8):animate(false)
 			end,
 		},
 
