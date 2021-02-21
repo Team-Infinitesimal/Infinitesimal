@@ -87,7 +87,6 @@ for pn in ivalues(PlayerNumber) do
 				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
 				:y(SCREEN_BOTTOM + 80)
 				:MaskDest()
-				:queuecommand("On")
 				:sleep(0.25)
 				:decelerate(0.75)
 				:y(SCREEN_BOTTOM-28)
@@ -99,6 +98,9 @@ for pn in ivalues(PlayerNumber) do
 
 			OnCommand=function(self)
 				self:Load(GetPlayerAvatar(pn))
+				:scaletofit(0,0,130,130)
+				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
+				:y(SCREEN_BOTTOM-28)
 				:visible(GAMESTATE:IsHumanPlayer(pn))
 			end
 		},

@@ -1,5 +1,5 @@
 local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and true or false;
-local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini")
+local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/Infinitesimal.ini")
 
 local t = Def.ActorFrame {};
 

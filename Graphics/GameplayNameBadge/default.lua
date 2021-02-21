@@ -3,7 +3,7 @@ local pn = ...
 local t = Def.ActorFrame {
 	OnCommand=function(self)
 		if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
-			local pos = SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)):GetX()
+			local pos = THEME:GetMetric(Var "LoadingScreen","Player".. ToEnumShortString( pn ) .."OnePlayerOneSideX")
 			self:xy(pos, SCREEN_BOTTOM - 20)
 			self:GetChild("Username"):settext( PROFILEMAN:GetProfile(pn):GetDisplayName() )
 		end

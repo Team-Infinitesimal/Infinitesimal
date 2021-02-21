@@ -8,8 +8,8 @@ local TNS = {
 
 return Def.ActorFrame{
     OnCommand=function(self)
-        self.mode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Normal"
-        self.PadRelation = LoadModule("Config.Load.lua")("DisableLowerWindows","Save/OutFoxPrefs.ini") or false
+        self.mode = LoadModule("Config.Load.lua")("SmartTimings","Save/Infinitesimal.ini") or "Normal"
+        self.PadRelation = LoadModule("Config.Load.lua")("DisableLowerWindows","Save/Infinitesimal.ini") or false
         self.TimingTable = nil
         self.TimingOrdering = {}
 

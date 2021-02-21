@@ -123,7 +123,7 @@ for pn in ivalues(PlayerNumber) do
 
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
-				local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+				local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini")
 				if DarkLevel then
 					self:visible( math.floor(DarkLevel*100) ~= 0 )
 				end
@@ -147,7 +147,7 @@ for pn in ivalues(PlayerNumber) do
 
 		RefreshCommand=function(self)
 			if GAMESTATE:IsSideJoined(pn) then
-				local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+				local DarkLevel = LoadModule("Config.Load.lua")("BGAMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini")
 
 				if DarkLevel then
 					if math.floor(DarkLevel*100) == 0 then
@@ -197,7 +197,7 @@ for pn in ivalues(PlayerNumber) do
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
 
-				local ProMode = LoadModule("Config.Load.lua")("ProMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini");
+				local ProMode = LoadModule("Config.Load.lua")("ProMode",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini");
 				if ProMode == "AllowW1_Everywhere" then
 					self:diffusebottomedge(color("#e78df3"))
 				else
@@ -225,7 +225,7 @@ for pn in ivalues(PlayerNumber) do
 			if GAMESTATE:IsSideJoined(pn) then
 				self:visible(true)
 
-				local TimingMode = getenv("SmartTimings") and TimingWindow[getenv("SmartTimings")]() or LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+				local TimingMode = getenv("SmartTimings") and TimingWindow[getenv("SmartTimings")]() or LoadModule("Config.Load.lua")("SmartTimings","Save/Infinitesimal.ini") or "Unknown"
 				if TimingMode == "Normal" then
 					self:settext("NJ")
 				elseif TimingMode == "Hard" then

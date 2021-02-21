@@ -1,4 +1,11 @@
 return {
+	AlwaysShowPlayMode =
+	{
+		Default = false,
+		OneChoiceForAllPlayers = true,
+		Choices = { OptionNameString('Off'), OptionNameString('On') },
+		Values = { false, true }
+	},
 	LuaNoteSkins =
 	{
 		Default = "default",
@@ -32,7 +39,7 @@ return {
 		LoadFunction = function(self,list,pn)
 			local PlayerProfile = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1)
 			if PlayerProfile ~= "" then
-				local BGAMode = LoadModule("Config.Load.lua")("BGAMode",PlayerProfile.."/OutFoxPrefs.ini")
+				local BGAMode = LoadModule("Config.Load.lua")("BGAMode",PlayerProfile.."/Infinitesimal.ini")
 				local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 				for i,v2 in ipairs(self.Values) do
 					if tostring(v2) == tostring(BGAMode) then
@@ -70,7 +77,7 @@ return {
 		LoadFunction = function(self,list,pn)
 			local PlayerProfile = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1)
 			if PlayerProfile ~= "" then
-				local ProMode = LoadModule("Config.Load.lua")("ProMode",PlayerProfile.."/OutFoxPrefs.ini")
+				local ProMode = LoadModule("Config.Load.lua")("ProMode",PlayerProfile.."/Infinitesimal.ini")
 				for i,v2 in ipairs(self.Values) do
 					if tostring(v2) == tostring(ProMode) then
 						list[i] = true
@@ -98,7 +105,7 @@ return {
     {
         UserPref = true,
         Default = false,
-        Choices = { OptionNameString('Off'), OptionNameString('On') },
-        Values = {false, true}
+        Choices = { OptionNameString('Off'), OptionNameString('Stream Only'), OptionNameString('All') },
+        Values = {false, "Stream", "All"}
     },
 }

@@ -12,11 +12,13 @@ local NoteData = {}
 local streams, prev_measure
 local current_count, stream_index, current_stream_length
 
+local MeasureCounter = LoadModule("Config.Load.lua")("MeasureCounter",CheckIfUserOrMachineProfile(string.sub(player,-1)-1).."/Infinitesimal.ini")
+
 local InitializeMeasureCounter = function()
 
 	NoteData = {}
 
-	local notes_per_measure = tonumber(LoadModule("Config.Load.lua")("MeasureCounterDivisions",CheckIfUserOrMachineProfile(string.sub(player,-1)-1).."/OutFoxPrefs.ini"))
+	local notes_per_measure = 16
 	local threshold = 2
 	if GAMESTATE:GetCurrentSong() then
 		if GAMESTATE:Env()["ChartData"..player] then
@@ -50,7 +52,7 @@ local GetTextForMeasure = function(self, current_measure, Measures, stream_index
 
 	local text = ""
 	if Measures[stream_index].isBreak then
-		if HideRestCounts == false then
+		if MeasureCounter == "All" then
 			-- NOTE: We let the lowest value be 0. This means that e.g.,
 			-- for an 8 measure break, we will display the numbers 7 -> 0
 			local measures_left = current_stream_length - current_count

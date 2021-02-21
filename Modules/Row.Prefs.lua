@@ -1,17 +1,17 @@
 return function(Prefs)
 	for pn = 1,2 do
-		if FILEMAN:DoesFileExist("Save/MachineProfile/OutFoxPrefsForPlayerp"..pn.."/OutFoxPrefs.ini") then 
+		if FILEMAN:DoesFileExist("Save/MachineProfile/InfPrefsForPlayerp"..pn.."/Infinitesimal.ini") then 
 			local Createfile = RageFileUtil.CreateRageFile()
-			Createfile:Open("Save/MachineProfile/OutFoxPrefsForPlayerp"..pn.."/OutFoxPrefs.ini", 2)
+			Createfile:Open("Save/MachineProfile/InfPrefsForPlayerp"..pn.."/Infinitesimal.ini", 2)
 			Createfile:Write("")
 			Createfile:Close()
 			Createfile:destroy()
 		end
 	end
 	for k,v in pairs(Prefs) do
-		if not LoadModule("Config.Exists.lua")(k,"Save/OutFoxPrefs.ini") and not v.UserPref then
+		if not LoadModule("Config.Exists.lua")(k,"Save/Infinitesimal.ini") and not v.UserPref then
 			for i,v2 in ipairs(v.Values) do
-				if tostring(v2) == tostring(v.Default) then LoadModule("Config.save.lua")(k,tostring(v.Values[i]),"Save/OutFoxPrefs.ini") end
+				if tostring(v2) == tostring(v.Default) then LoadModule("Config.save.lua")(k,tostring(v.Values[i]),"Save/Infinitesimal.ini") end
 			end
 		end
 		_G[k] = function()
@@ -29,8 +29,8 @@ return function(Prefs)
 						v.LoadFunction(self, list, pn)
 					end
 					if getenv(k.."env"..pn) then reset = true setenv(k.."env"..pn,false) end
-					local Location = "Save/OutFoxPrefs.ini"
-					if v.UserPref then Location = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1).."/OutFoxPrefs.ini" end
+					local Location = "Save/Infinitesimal.ini"
+					if v.UserPref then Location = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1).."/Infinitesimal.ini" end
 					if not reset and LoadModule("Config.Exists.lua")(k,Location) then
 						local CurPref = LoadModule("Config.Load.lua")(k,Location)
 						for i,v2 in ipairs(self.Values) do
@@ -59,8 +59,8 @@ return function(Prefs)
 				NotifyOfSelection= function(self, pn, choice)
 					if v.GenForOther then 
 						setenv(k,choice)
-						local Location = "Save/OutFoxPrefs.ini"
-						if v.GenForUserPref then Location = CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini" end
+						local Location = "Save/Infinitesimal.ini"
+						if v.GenForUserPref then Location = CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini" end
 						local CurPref = LoadModule("Config.Load.lua")(v.GenForOther[1],Location)
 						CurPref = string.gsub(tostring(CurPref), " ", "")
 						local Reset = {true,true}
@@ -85,12 +85,12 @@ return function(Prefs)
 					MESSAGEMAN:Broadcast(k.."Change", {pn=pn,choice=choice,choicename=self.Values[choice]})
 				end,
 				SaveSelections = function(self, list, pn)
-					local Location = "Save/OutFoxPrefs.ini"
+					local Location = "Save/Infinitesimal.ini"
 					if v.SaveFunction then
 						v.SaveFunction(self, list, pn)
 					end
 					if v.UserPref then 
-							Location = CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini"
+							Location = CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini"
 					end
 					-- If multiple items, then go through all options.
 					if v.SelectMultiple then
