@@ -24,15 +24,18 @@ Infinitesimal displays randomly selected wallpapers during the profile saving sc
 
 ## Special thanks
 This theme wouldn't be here if it weren't for the help of the following people:
-* JoseVarela (loads of code optimization and refactoring, suggestions and development assistance)
+* JoseVarelaP (loads of code optimization and refactoring, suggestions and development assistance)
 * Luizsan (creator of PIU Delta / member of Team Infinity and SSC, many notes and examples taken from his work)
 * Jousway (development assistance)
-* Accelerator (development assistance)
+* Accelerator/Rhythm Lunatic (development assistance)
 * Engine_Machiner (development assistance)
+* Bedrock Solid (music, suggestions and playtesting)
+* 4199 (suggestions and playtesting)
 * SHRMP0 (suggestions and playtesting)
 * Enally (suggestions and playtesting)
 * djgrs (suggestions and playtesting)
 * CrackItUp group (origin and home of the theme's development)
 * Team Infinity (setting a landmark in PIU's interface and graphics design)
+* RGAB Community
 
 And at last, you for trying out our theme!
