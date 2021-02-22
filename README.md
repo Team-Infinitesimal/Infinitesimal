@@ -5,7 +5,7 @@
 ## About PIU Infinitesimal
 This theme aims to be a spiritual successor to Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilize original assets when possible and bring high performance to the table with StepMania 5.3/OutFox.
 
-**It is important to state that we do not condone the usage of Pay Mode or the removal of the credits on this theme. If such things are done, we will unfortunately start to block off bits of source code or give up on the project all together.**
+**It is important to state that we do not condone the usage of Pay Mode or the removal of the credits on this theme. If such things are done, we will unfortunately start to block off bits of source code or give up on the project altogether.**
 
 ![image](https://i.imgur.com/PTc1qEs.png)
 
@@ -25,7 +25,7 @@ Infinitesimal displays randomly selected wallpapers during the profile saving sc
 ## Special thanks
 This theme wouldn't be here if it weren't for the help of the following people:
 * JoseVarela (loads of code optimization and refactoring, suggestions and development assistance)
-* Luizsan (creator of PIU Delta and Infinity, many notes and examples taken from his work)
+* Luizsan (creator of PIU Delta / member of Team Infinity and SSC, many notes and examples taken from his work)
 * Jousway (development assistance)
 * Accelerator (development assistance)
 * Engine_Machiner (development assistance)
