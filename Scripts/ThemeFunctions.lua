@@ -33,3 +33,11 @@ function GetChartType(player)
 		end;
 	end;
 end;
+
+function getRandomWall()
+-- borrowed from RIO
+	local sImagesPath = THEME:GetPathG("","Wallpapers");
+	local sRandomWalls = FILEMAN:GetDirListing(sImagesPath.."/",false,true);
+	 math.randomseed(Hour()*3600+Second());
+	return sRandomWalls[math.random(#sRandomWalls)];
+end;
