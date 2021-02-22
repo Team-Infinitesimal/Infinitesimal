@@ -13,6 +13,14 @@ CustomBranch = {
 			return "ScreenSelectPlayMode"
 		end
 	end,
+	AfterSelectProfile = function()
+		local ShowPlayMode = LoadModule("Config.Load.lua")("AlwaysShowPlayMode","Save/Infinitesimal.ini")
+		if ShowPlayMode then
+			return "ScreenSelectPlayMode"
+		else
+			return "ScreenSelectMusic"
+		end
+	end,
 	AfterProfileSave = function()
 		-- Might be a little too broken? -- Midiman
 		if GAMESTATE:IsEventMode() then

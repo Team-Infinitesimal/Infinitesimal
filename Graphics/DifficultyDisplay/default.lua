@@ -154,10 +154,10 @@ for i=1,14 do
 		},
 
 		Def.Sprite{
-			Texture=THEME:GetPathG("", "DiffLabels 1x11"),
+			Texture=THEME:GetPathG("", "DiffLabels"),
 			Name="Label",
 			InitCommand=function(self)
-				self:zoom(baseZoom):xy(baseX+spacing*(i-1), baseY-8):animate(false)
+				self:zoom(baseZoom*2):xy(baseX+spacing*(i-1), baseY-8):animate(false)
 			end,
 		},
 

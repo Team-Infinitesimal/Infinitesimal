@@ -30,7 +30,7 @@ local LevelConstant = 1;
 local GradeBonus = 300000;
 local CurrentCombo = 0;
 
-local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini")
+local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/Infinitesimal.ini")
 
 return Def.ActorFrame {
 	InitCommand=function(self)
