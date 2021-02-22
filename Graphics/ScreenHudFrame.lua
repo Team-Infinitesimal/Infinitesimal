@@ -34,14 +34,15 @@ local t = Def.ActorFrame {
 for pn in ivalues(PlayerNumber) do
 	
 	t[#t+1] = Def.ActorFrame {
-	
+		
 		Def.Sprite {
-			Texture="EmptyAvatarSlot",
+			Texture="AvatarMask",
 			InitCommand=function(self)
 				self:zoom(0.26)
-				:x(pn == PLAYER_1 and SCREEN_CENTER_X-138 or SCREEN_CENTER_X+138)
+				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
 				:y(SCREEN_BOTTOM + 80)
 				:rotationy(pn == PLAYER_1 and 0 or 180)
+				:MaskSource()
 				:queuecommand("On")
 				:sleep(0.25)
 				:decelerate(0.75)
@@ -56,15 +57,15 @@ for pn in ivalues(PlayerNumber) do
 				self:visible(GAMESTATE:IsHumanPlayer(pn))
 			end
 		},
-
+		
 		Def.Sprite {
-			Texture="AvatarMask",
+			Texture="EmptyAvatarSlot",
 			InitCommand=function(self)
 				self:zoom(0.26)
-				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
+				:x(pn == PLAYER_1 and SCREEN_CENTER_X-138 or SCREEN_CENTER_X+138)
 				:y(SCREEN_BOTTOM + 80)
 				:rotationy(pn == PLAYER_1 and 0 or 180)
-				:MaskSource()
+				:MaskDest()
 				:queuecommand("On")
 				:sleep(0.25)
 				:decelerate(0.75)
@@ -105,10 +106,10 @@ for pn in ivalues(PlayerNumber) do
 			end
 		},
 
-		LoadFont("Montserrat normal 40px")..{
+		LoadFont("Montserrat normal 20px")..{
 			InitCommand=function(self)
 				self:y(SCREEN_BOTTOM+80)
-				:zoom(0.3)
+				:zoom(0.5)
 				:diffuse(color("1,1,1,1"))
 				:shadowlength(1)
 				:horizalign(pn == PLAYER_1 and right or left)

@@ -330,8 +330,8 @@ t[#t+1] = Def.Sprite {
         local gradeletter = "F";
 		if misses == 0 then
 			if bads == 0 and goods == 0 then
-				if greats == 0 or (promode and perfects == 0) then
-					gradeletter = "3S";
+				if greats == 0 then
+					gradeletter = promode and (perfects == 0 and "3S" or "2S") or "3S";
 				else
 					gradeletter = "2S";
 				end;
