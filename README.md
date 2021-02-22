@@ -19,4 +19,7 @@ This theme aims to essentially be a spiritual successor to Pump It Up Infinity, 
 
 Download from the `Code > Download ZIP` button, extract the .zip file and place the folder it in `/Appearance/Themes`.
 
+## Custom Wallpapers
+Infinitesimal displays randomly selected wallpapers during the profile save screen after every song. You can add your own by dropping any wallpaper inside of the `/Graphics/Wallpapers` directory. You're free to remove the existing ones or add new ones as you like!
+
 ![logo](https://raw.githubusercontent.com/dj505/PIU-Infinitesimal/master/Graphics/logo%20(doubleres).png)
