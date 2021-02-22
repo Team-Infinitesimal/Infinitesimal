@@ -1,3 +1,6 @@
+local WallpaperDir = getRandomWall()
+local UseLogo = true
+
 local t = Def.ActorFrame {
 
 	Def.Quad{
@@ -13,7 +16,7 @@ local t = Def.ActorFrame {
 
 	Def.BitmapText {
     Font="Montserrat normal 40px",
-		Text=ScreenString("Saving Profiles")
+		Text=ScreenString("Saving Profiles"),
 		InitCommand=function(self)
       self:Center()
       :zoom(0.75)
@@ -32,7 +35,8 @@ local t = Def.ActorFrame {
   Def.Sprite {
     Texture=THEME:GetPathG("", "logo"),
     InitCommand=function(self)
-      self:halign(1)
+      self:visible(string.find(string.lower(WallpaperDir), "withlogo") == nil)
+      :halign(1)
       :valign(1)
       :zoom(0.25)
       :xy(SCREEN_RIGHT-15, SCREEN_BOTTOM-10)
