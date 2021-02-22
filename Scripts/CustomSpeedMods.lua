@@ -184,10 +184,8 @@ function ArbitrarySpeedMods()
 				list[2]= true
 			end
 		end,
-		--We're not saving anything!
 		SaveSelections= function(self, list, pn)
-
-		end;
+		end,
 		NotifyOfSelection= function(self, pn, choice)
 			-- Adjust for the status elements
 			local real_choice= choice - self.NumPlayers
@@ -206,10 +204,33 @@ function ArbitrarySpeedMods()
 			end
 			self:GenChoices()
 			MESSAGEMAN:Broadcast("SpeedChoiceChanged", {pn= pn, mode= val.mode, speed= val.speed})
+			
+			local poptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
+			-- modify stage, song and current too so this will work in edit mode.
+			local stoptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Stage")
+			local soptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Song")
+			local coptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Current")
 			if val.mode == "x" then
-				GAMESTATE:GetPlayerState(pn):SetPlayerOptions("ModsLevel_Preferred",(val.speed/100).."x")
+				local speed= val.speed / 100
+				poptions:XMod(speed)
+				stoptions:XMod(speed)
+				soptions:XMod(speed)
+				coptions:XMod(speed)
+			elseif val.mode == "C" then
+				poptions:CMod(val.speed)
+				stoptions:CMod(val.speed)
+				soptions:CMod(val.speed)
+				coptions:CMod(val.speed)
+			elseif val.mode == "m" then
+				poptions:MMod(val.speed)
+				stoptions:MMod(val.speed)
+				soptions:MMod(val.speed)
+				coptions:MMod(val.speed)
 			else
-				GAMESTATE:GetPlayerState(pn):SetPlayerOptions("ModsLevel_Preferred",val.mode..val.speed)
+				poptions:AMod(val.speed)
+				stoptions:AMod(val.speed)
+				soptions:AMod(val.speed)
+				coptions:AMod(val.speed)
 			end
 			
 			return true

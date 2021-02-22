@@ -2,7 +2,8 @@ local t = Def.ActorFrame {};
 
 for player in ivalues(PlayerNumber) do
 
-    t[#t+1] = LoadActor("Ready"..pname(player))..{
+    t[#t+1] = Def.Sprite {
+      Texture="Ready"..pname(player),
 
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y+50)

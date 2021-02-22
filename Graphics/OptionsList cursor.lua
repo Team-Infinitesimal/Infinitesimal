@@ -15,8 +15,15 @@ t[#t+1] = Def.Quad{
     end;
 }
 
-t[#t+1] = LoadActor("Selector")..{
-	 InitCommand=cmd(zoom,0.5;pulse;effectmagnitude,0.95,1,1;effectperiod,0.75;y,1);
+t[#t+1] = Def.Sprite {
+  Texture="Selector",
+	InitCommand=function(self)
+		self:zoom(0.5)
+		:pulse()
+		:effectmagnitude(0.95,1,1)
+		:effectperiod(0.75)
+		:y(1);
+	end;
 }
 
 return t

@@ -30,6 +30,8 @@ local LevelConstant = 1;
 local GradeBonus = 300000;
 local CurrentCombo = 0;
 
+local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/Infinitesimal.ini")
+
 return Def.ActorFrame {
 	InitCommand=function(self)
 		local StepData = GAMESTATE:GetCurrentSteps(bPlayer);
@@ -52,7 +54,7 @@ return Def.ActorFrame {
 			end;
 		end;
 		
-		if Window == 0.129166 then -- VJ
+		if CurPrefTiming == "Very Hard" then
 			LevelConstant = LevelConstant * 1.2
 		end
 	end;
@@ -102,19 +104,23 @@ return Def.ActorFrame {
 		elseif iGreats > 0 then
 			GradeBonus = 150000;
 		end;
-
-		-- combo score: self explanatory tbh
+		
 		local ComboScore = 0;
-		if CurrentCombo > 50 and TapNoteScore <= "TapNoteScore_W3" then
-			ComboScore = 1000;
-		end;
+		local NoteScore = TapNoteScorePoints[TapNoteScore];
+		
+		if TapNoteScore <= "TapNoteScore_W3" then
+			-- combo score: self explanatory tbh
+			if CurrentCombo > 50 then
+				ComboScore = 1000;
+			end;
 
-		-- note score: same with here I guess
-		local NoteScore = TapNoteScorePoints[TapNoteScore] + ComboScore;
-		if iStepsCount > 2 then
-			NoteScore = NoteScore * 1.5;
-		elseif iStepsCount >= 4 then
-			NoteScore = NoteScore * 2;
+			-- note score: same with here I guess
+			NoteScore = NoteScore + ComboScore;
+			if iStepsCount > 2 then
+				NoteScore = NoteScore * 1.5;
+			elseif iStepsCount >= 4 then
+				NoteScore = NoteScore * 2;
+			end;
 		end;
 
 		-- !!! hack: removes extra combo/score count from the end of hold arrows !!!

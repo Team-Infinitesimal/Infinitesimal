@@ -125,10 +125,10 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("Montserrat semibold 20px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(InfoY-38.5)
+			:y(InfoY-39)
 			:horizalign(center)
 			:zoom(0.5)
-			:maxwidth(175)
+			:wrapwidthpixels(190):vertspacing(-8):maxheight(40)
 			:diffusealpha(0)
 		end;
 
@@ -154,8 +154,11 @@ for player in ivalues(PlayerNumber) do
 
 		CurrentStepsP1ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
+				local chartName = GAMESTATE:GetCurrentSteps(player):GetChartName();
 				local chartDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
-				if chartDescription ~= nil then
+				if chartName ~= "" then
+					self:settext(chartName);
+				elseif chartDescription ~= nil then
 					self:settext(string.upper(chartDescription)); --Because the last thing Pump stepcharts have is consistency
 				else
 					self:settext("");
@@ -165,9 +168,12 @@ for player in ivalues(PlayerNumber) do
 
 		CurrentStepsP2ChangedMessageCommand=function(self)
 			if (GAMESTATE:GetCurrentSteps(player)) then
+				local chartName = GAMESTATE:GetCurrentSteps(player):GetChartName();
 				local chartDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
-				if chartDescription ~= nil then
-					self:settext(string.upper(chartDescription));
+				if chartName ~= "" then
+					self:settext(chartName);
+				elseif chartDescription ~= nil then
+					self:settext(string.upper(chartDescription)); --Because the last thing Pump stepcharts have is consistency
 				else
 					self:settext("");
 				end;
@@ -476,10 +482,10 @@ for player in ivalues(PlayerNumber) do
 	t[#t+1] = LoadFont("Montserrat semibold 20px")..{
 		InitCommand=function(self)
 			self:x(SCREEN_CENTER_X)
-			:y(InfoY+70)
+			:y(InfoY+69) --nice
 			:horizalign(center)
 			:zoom(0.6)
-			:maxwidth(130)
+			:wrapwidthpixels(146):vertspacing(-8):maxheight(34)
 			:diffusealpha(0)
 		end;
 

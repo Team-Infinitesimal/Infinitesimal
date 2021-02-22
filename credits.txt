@@ -1,18 +1,22 @@
 PIU Infinitesimal is a theme created by dj505.
 Special thanks to testers for feedback.
-Special thanks to Rhythm Lunatic, Tertu, Gio, and others for advice and help with progrmaming.
+Special thanks to Rhythm Lunatic, Tertu, Gio, JoseVarelaP, and others for advice and help with programming/optimization.
 
 ~=== Infinitesimal Credits ===~
 
 ~= Main Programming =~
 - dj505
 - SheepyChris
+- JoseVarelaP
 
 ~= Testing / Feedback =~
 - SheepyChris
 - 4199
 - SHRMP0
 - Sushi
+
+~= Optimization / Fixes =~
+- JoseVarelaP
 
 ~= Graphics / Artwork =~
 - dj505

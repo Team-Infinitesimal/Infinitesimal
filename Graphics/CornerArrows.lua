@@ -1,6 +1,7 @@
 local t = Def.ActorFrame {
 
-    LoadActor(THEME:GetPathG("","ShiftUL"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","ShiftUL"),
         InitCommand=function(self)
             self:zoom(0.2)
             :xy(SCREEN_LEFT+200,SCREEN_TOP+200)
@@ -9,7 +10,8 @@ local t = Def.ActorFrame {
         end;
     };
 
-    LoadActor(THEME:GetPathG("","ShiftUR"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","ShiftUR"),
         InitCommand=function(self)
             self:zoom(0.2)
             :xy(SCREEN_RIGHT-200,SCREEN_TOP+200)
@@ -18,7 +20,8 @@ local t = Def.ActorFrame {
         end;
     };
 
-    LoadActor(THEME:GetPathG("","ShiftDL"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","ShiftDL"),
         InitCommand=function(self)
             self:zoom(0.2)
             :xy(SCREEN_LEFT+200,SCREEN_BOTTOM-200)
@@ -27,7 +30,8 @@ local t = Def.ActorFrame {
         end;
     };
 
-    LoadActor(THEME:GetPathG("","ShiftDR"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","ShiftDR"),
         InitCommand=function(self)
             self:zoom(0.2)
             :xy(SCREEN_RIGHT-200,SCREEN_BOTTOM-200)
@@ -38,7 +42,8 @@ local t = Def.ActorFrame {
 
     --Glowy Arrows
 
-    LoadActor(THEME:GetPathG("","GlowShiftDL"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","GlowShiftDL"),
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoom(0.2)
@@ -54,7 +59,8 @@ local t = Def.ActorFrame {
         end;
     };
 
-    LoadActor(THEME:GetPathG("","GlowShiftDR"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","GlowShiftDR"),
         InitCommand=function(self)
             self:diffusealpha(0)
             :zoom(0.2)

@@ -1,26 +1,30 @@
-local t = Def.ActorFrame {
+local t = Def.ActorFrame {}
 
-    LoadActor(THEME:GetPathG("","Lifebar"))..{
-        InitCommand=function(self)
-            self:xy(SCREEN_LEFT,SCREEN_TOP+10)
-        end;
-    };
-};
-
+local isdouble = GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides"
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
-		t[#t+1] = Def.Actor {
-        InitCommand=function(self)
-            setenv(pname(pn).."Failed",false)
-        end;
-        
-  			["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,param)
-						if param.Life == 0 then
-								setenv(pname(pn).."Failed",true)
-            end;
-  			end;
-		};
+	t[#t+1] = LoadActor( THEME:GetPathG("","Lifebar"), { Player = pn, Double = isdouble } )..{
+		InitCommand=function(self)
+			local xpos = THEME:GetMetric(Var "LoadingScreen","Player".. ToEnumShortString( pn ) .."OnePlayerOneSideX")
+			self:xy( isdouble and SCREEN_CENTER_X or xpos , 18 )
+		end
+	}
 
-end;
+	t[#t+1] = Def.Actor {
+		InitCommand=function(self)
+			setenv(pname(pn).."StageBreak",false)
+		end,
 
-return t;
+		["LifeMeterChanged"..pname(pn).."MessageCommand"]=function(self,param)
+			if param.Life <= 0 then
+				setenv(pname(pn).."StageBreak",true)
+			end
+		end
+	}
+
+  t[#t+1] = LoadActor(THEME:GetPathG("", "GameplayNameBadge"), pn)
+  t[#t+1] = LoadActor(THEME:GetPathG("", "StageCount"), pn)
+
+end
+
+return t

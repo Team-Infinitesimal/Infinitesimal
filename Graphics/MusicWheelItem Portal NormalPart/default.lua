@@ -5,7 +5,9 @@ return Def.ActorFrame {
 	-- banners
 	Def.Banner {
 		Name="SongBanner";
-		InitCommand=cmd(diffusealpha,1);
+		InitCommand=function(self)
+			self:diffusealpha(1)
+		end,
 		SetMessageCommand=function(self,params)
 			self:stoptweening();
 			if not path then path = THEME:GetPathG("Common","fallback songbanner") end
@@ -13,8 +15,9 @@ return Def.ActorFrame {
 			self:scaletoclipped(300,168);
 		end;
 	};
-	
-	LoadActor(THEME:GetPathG("","SongFrame"))..{
+
+	Def.Sprite {
+		Texture=THEME:GetPathG("","SongFrame"),
 		InitCommand=function(self)
 			self:zoom(1.35):diffusealpha(1);
 		end;

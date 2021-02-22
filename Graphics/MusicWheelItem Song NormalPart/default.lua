@@ -14,13 +14,20 @@ end;
 
 --local total = 0
 return Def.ActorFrame {
-	OnCommand=cmd(diffusealpha,1;zoom,1);
-	PlayerJoinedMessageCommand=cmd(playcommand,"On");
+	OnCommand=function(self)
+		self:diffusealpha(1)
+		:zoom(1)
+	end,
+	PlayerJoinedMessageCommand=function(self)
+		self:playcommand("On")
+	end,
 
 	-- banners
 	Def.Banner {
 		Name="SongBanner";
-		InitCommand=cmd(diffusealpha,1);
+		InitCommand=function(self)
+			self:diffusealpha(1)
+		end,
 		SetMessageCommand=function(self,params)
 			self:stoptweening();
 			local song = params.Song;
@@ -44,8 +51,9 @@ return Def.ActorFrame {
 			self:scaletoclipped(300,168);
 		end;
 	};
-	
-	LoadActor(THEME:GetPathG("","SongFrame"))..{
+
+	Def.Sprite {
+		Texture=THEME:GetPathG("","SongFrame"),
 		InitCommand=function(self)
 			self:zoom(1.35):diffusealpha(1);
 		end;

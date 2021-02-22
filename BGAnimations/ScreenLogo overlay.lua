@@ -1,6 +1,7 @@
 local t = Def.ActorFrame {
 
-    LoadActor(THEME:GetPathG("","logo"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","logo"),
         InitCommand=function(self)
             self:Center()
             :zoom(0.5,0.5)
@@ -8,7 +9,8 @@ local t = Def.ActorFrame {
             end;
     };
 
-    LoadActor(THEME:GetPathG("","blurLogo"))..{
+    Def.Sprite {
+        Texture=THEME:GetPathG("","blurLogo"),
         InitCommand=function(self)
             self:Center()
             :zoom(0.49,0.49)

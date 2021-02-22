@@ -1,9 +1,3 @@
-function SetPlayMode()
-    GAMESTATE:SetCurrentPlayMode("PlayMode_Regular");
-    GAMESTATE:SetCurrentStyle("Single");
-    return "ScreenSelectPlayMode"
-end;
-
 --Adds commas to your score, apparently
 function scorecap(n) -- credit http://richard.warburton.it
 	local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(,-)$')
@@ -14,7 +8,6 @@ function GetChartType(player)
 	if GAMESTATE:GetCurrentSteps(player) then
 		local stepType = GAMESTATE:GetCurrentSteps(player):GetStepsType();
 		local stepDescription = GAMESTATE:GetCurrentSteps(player):GetDescription();
-		local stepLevel = GAMESTATE:GetCurrentSteps(player):GetMeter();
 
 		if stepType ~= nil then
 			if stepType == "StepsType_Pump_Single" then
