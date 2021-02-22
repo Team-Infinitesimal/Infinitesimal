@@ -48,9 +48,9 @@ for pn in ivalues(PlayerNumber) do
 				self:visible(true)
 
 				local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
-				if PlayerMods:AvarageScrollBPM() > 0 then
+				if PlayerMods:AverageScrollBPM() > 0 then
 					self:zoom(0.35)
-					self:settext("AV "..PlayerMods:AvarageScrollBPM())
+					self:settext("AV "..PlayerMods:AverageScrollBPM())
 				elseif PlayerMods:MaxScrollBPM() > 0 then
 					self:zoom(0.35)
 					self:settext("M "..PlayerMods:MaxScrollBPM())
