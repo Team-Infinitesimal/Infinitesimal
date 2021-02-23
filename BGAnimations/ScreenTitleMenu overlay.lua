@@ -16,59 +16,41 @@ local t = Def.ActorFrame {
     Def.Sprite {
 		Texture=THEME:GetPathG("","logo"),
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-30)
+            self:Center()
             :zoom(0.5,0.5)
-
-			if GetScreenAspectRatio() >= 1.5 then
-				self:y(SCREEN_CENTER_Y)
-			end;
-        end;
-    };
+        end
+    },
 
     Def.Sprite {
 		Texture=THEME:GetPathG("","blurLogo"),
         InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y-30)
+            self:Center()
             :zoom(0.49,0.49)
             :diffusealpha(0)
             :queuecommand("Flash")
-
-			if GetScreenAspectRatio() >= 1.5 then
-				self:y(SCREEN_CENTER_Y)
-			end;
-        end;
+        end,
         FlashCommand=function(self)
-            self:sleep(3)
-            :decelerate(1)
-            :diffusealpha(0.75)
-            :sleep(0.75)
-            :accelerate(1)
+            self:accelerate(3.4288)
+            :diffusealpha(1)
+            :decelerate(3.4288)
             :diffusealpha(0)
             :queuecommand("Flash")
-        end;
-    };
+        end
+    },
 
     LoadActor(THEME:GetPathG("","PressCenterStep"))..{
         InitCommand=function(self)
-            self:xy(SCREEN_LEFT+107,350)
+            self:xy(SCREEN_LEFT+150,SCREEN_BOTTOM-100)
             :zoom(0.75,0.75)
-
-			if GetScreenAspectRatio() >= 1.5 then
-				self:y(300)
-			end;
-        end;
-    };
+        end
+    },
 
     LoadActor(THEME:GetPathG("","PressCenterStep"))..{
         InitCommand=function(self)
-            self:xy(SCREEN_RIGHT-107,350)
+            self:xy(SCREEN_RIGHT-150,SCREEN_BOTTOM-100)
             :zoom(0.75,0.75)
-
-			if GetScreenAspectRatio() >= 1.5 then
-				self:y(300)
-			end;
-        end;
-    };
+        end
+    },
 
     ----------------
     -- Info Stuff --
@@ -76,26 +58,15 @@ local t = Def.ActorFrame {
 
     LoadFont("Montserrat semibold 20px")..{
         InitCommand=function(self)
-            self:settext(SongStats)
+            self:settext(SongStats.."\n"..sm_version)
             :zoom(0.5)
-            :xy(SCREEN_LEFT + 5, SCREEN_TOP + 18)
+            :xy(SCREEN_LEFT+8, SCREEN_TOP+8)
             :vertalign(top)
             :horizalign(left)
             :shadowlength(1)
-        end;
-    };
+        end
+    }
 
-    LoadFont("Montserrat semibold 20px")..{
-        InitCommand=function(self)
-            self:settext(sm_version)
-            :zoom(0.5)
-            :xy(SCREEN_LEFT + 5, SCREEN_TOP + 5)
-            :vertalign(top)
-            :horizalign(left)
-            :shadowlength(1)
-        end;
-    };
-
-};
+}
 
 return t;
