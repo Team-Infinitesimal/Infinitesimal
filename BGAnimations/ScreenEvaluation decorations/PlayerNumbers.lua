@@ -15,15 +15,14 @@ if GetScreenAspectRatio() >= 1.5 then
 	lgoffset = 185;
 end
 
-local dboffset = 130;
-if GetScreenAspectRatio() >= 1.5 then
-	dboffset = 150;
-end
+local dboffset = 40;
+local saoffset = 100;
 
 if player == "PlayerNumber_P1" then 
 	offsetfromcenterx = -offsetfromcenterx;
 	lgoffset = -lgoffset;
 	dboffset = -dboffset;
+	saoffset = -saoffset;
 end;
 
 local spacing = 29.1;
@@ -238,7 +237,7 @@ t[#t+1] = LoadActor(THEME:GetPathG("","DifficultyDisplay/_icon"))..{
     InitCommand=function(self)
         self:diffusealpha(0)
         :sleep(1.75+showdelay*9)
-        :xy(dboffset, spacing*8.7 - (promode and 8 or 0))
+        :xy(dboffset, spacing*9 - (promode and 8 or 0))
         :zoom(0.5)
 		:animate(false)
         :accelerate(0.2)
@@ -278,7 +277,7 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
         self:diffusealpha(0)
         :shadowlength(0.8)
         :sleep(1.75+showdelay*9)
-        :xy(dboffset, spacing*8.7 - (promode and 8 or 0))
+        :xy(dboffset, spacing*9 - (promode and 8 or 0))
         :zoom(0.5)
         :accelerate(0.2)
         :diffusealpha(1)
@@ -293,9 +292,9 @@ t[#t+1] = LoadFont("Montserrat semibold 40px")..{
 t[#t+1] = LoadFont("Montserrat semibold 40px")..{
     InitCommand=function(self)
 		self:diffusealpha(0)
-		:halign(alignment)
-		:xy(offsetfromcenterx, spacing*8.7 - (promode and 8 or 0))
-		:wrapwidthpixels(320):vertspacing(-10):maxheight(128)
+		:halign(math.abs(alignment - 1))
+		:xy(saoffset, spacing*8.7 - (promode and 8 or 0))
+		:wrapwidthpixels(960):vertspacing(-10):maxheight(128)
 		:shadowlength(0.8)
 		:zoom(0.35);
 	end;
