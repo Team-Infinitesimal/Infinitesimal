@@ -44,7 +44,7 @@ local DiffLabelIndex = {
 	"UCS",
 	"HIDDEN",
 	"INFINITY",
-	"JUMP"
+	"JUMP",
 }
 
 local ChartType = setmetatable(
@@ -117,6 +117,10 @@ local DiffDisplay = Def.ActorFrame{
 						if string.find(string.upper(steps:GetDescription()), v) then
 							StepTypeIndex = k - 1
 						end
+					end
+					
+					if string.find(string.upper(steps:GetChartName()), "UCS CONTEST") then
+						StepTypeIndex = 9
 					end
 
 					self:GetChild("")[i]:diffusealpha(1)

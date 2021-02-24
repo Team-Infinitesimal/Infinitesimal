@@ -32,7 +32,7 @@ function LoadCard(cColor)
 	local t = Def.ActorFrame {
 
 		InitCommand=function(self)
-			self:y(15)
+			self:y(15):diffusealpha(0.75)
 		end,
 
 		Def.Sprite {
@@ -73,7 +73,7 @@ function LoadPlayerStuff(Player)
 	};
 	t[#t+1] = Def.ActorFrame {
 		Name = 'SmallFrame';
-		InitCommand=function(self)self:y(-2)end;
+		InitCommand=function(self)self:y(17)end;
 		Def.Quad {
 			InitCommand=function(self)
 				self:zoomto(178,40)
@@ -106,7 +106,7 @@ function LoadPlayerStuff(Player)
 	t[#t+1] = Def.ActorScroller{
 		Name = 'Scroller';
 		NumItemsToDraw=6;
-		OnCommand=function(self)self:y(1):SetFastCatchup(true):SetMask(200,58):SetSecondsPerItem(0.1)end;
+		OnCommand=function(self)self:y(20):SetFastCatchup(true):SetMask(200,69):SetSecondsPerItem(0.1)end;
 		TransformFunction=function(self, offset, itemIndex, numItems)
 			local focus = scale(math.abs(offset),0,2,1,0);
 			self:visible(false);
