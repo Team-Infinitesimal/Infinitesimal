@@ -30,13 +30,22 @@ end;
 
 function LoadCard(cColor)
 	local t = Def.ActorFrame {
+
+		InitCommand=function(self)
+			self:y(15)
+		end,
+
 		Def.Sprite {
 			Texture=THEME:GetPathG("ScreenSelectProfile","CardBackground"),
 			InitCommand=function(self)self:diffuse(cColor)end;
 		};
 
 		Def.Sprite {
-			Texture=THEME:GetPathG("ScreenSelectProfile","CardFrame")
+			Texture=THEME:GetPathG("ScreenSelectProfile","CardFrame"),
+			InitCommand=function(self)
+				self:y(-15)
+				:zoom(0.5)
+			end,
 		},
 	};
 	return t
