@@ -6,9 +6,11 @@ local t = Def.ActorFrame {
 		:x(SCREEN_CENTER_X)
         :y(SCREEN_CENTER_Y+27.5)
 	end,
+	
 	SongChosenMessageCommand=function(self)
 		self:stoptweening():decelerate(0.25):zoom(1.265)
 	end,
+	
 	SongUnchosenMessageCommand=function(self)
 		self:stoptweening():decelerate(0.2):zoom(1)
 	end,

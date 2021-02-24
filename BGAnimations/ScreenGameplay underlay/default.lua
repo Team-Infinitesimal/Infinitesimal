@@ -1,12 +1,14 @@
 -- Originally from Soundwaves/OutFox
 
 local t = Def.ActorFrame {
+
 	OnCommand=function(self) 
 		self:playcommand("UpdateDiscordInfo")
-	end;
+	end,
 	
 	UpdateDiscordInfoCommand=function(s)
 		local player = GAMESTATE:GetMasterPlayerNumber()
+		
 		if GAMESTATE:GetCurrentSong() then
 			local title = PREFSMAN:GetPreference("ShowNativeLanguage") and GAMESTATE:GetCurrentSong():GetDisplayMainTitle() or GAMESTATE:GetCurrentSong():GetTranslitFullTitle()
 			local songname = title .. " - " .. GAMESTATE:GetCurrentSong():GetDisplayArtist()
@@ -15,6 +17,7 @@ local t = Def.ActorFrame {
 			
 			local stats = STATSMAN:GetCurStageStats()
 			if not stats then return end;
+			
 			local courselength = function()
 				if GAMESTATE:IsCourseMode() then
 					if GAMESTATE:GetPlayMode() ~= "PlayMode_Endless" then
@@ -24,11 +27,12 @@ local t = Def.ActorFrame {
 					return GAMESTATE:GetCurrentCourse():GetDisplayFullTitle().. " (Song ".. stats:GetPlayerStageStats( player ):GetSongsPassed()+1 .. ")" or ""
 				end
 			end
+			
 			GAMESTATE:UpdateDiscordSongPlaying(GAMESTATE:IsCourseMode() and courselength() or state,songname,GAMESTATE:GetCurrentSong():GetLastSecond())
 		end
-	end;
+	end,
 	
-	CurrentSongChangedMessageCommand=function(s) s:playcommand("UpdateDiscordInfo") end;
+	CurrentSongChangedMessageCommand=function(s) s:playcommand("UpdateDiscordInfo") end
 }
 
 for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
@@ -40,4 +44,4 @@ for pn in ivalues( GAMESTATE:GetHumanPlayers() ) do
 	end
 end
 
-return t;
+return t

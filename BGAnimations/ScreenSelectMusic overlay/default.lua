@@ -3,6 +3,7 @@ local t = Def.ActorFrame {
 	OnCommand=function(self)
 		local player = GAMESTATE:GetMasterPlayerNumber()
 		GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(player))
+		
 		if GAMESTATE:IsCourseMode() then
 			GAMESTATE:UpdateDiscordScreenInfo("Selecting Course","",1)
 		else
