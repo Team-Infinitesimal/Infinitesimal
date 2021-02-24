@@ -15,7 +15,8 @@ local t = Def.ActorFrame {
 			end
 		end
 	end,
-
+	
+	LoadActor(THEME:GetPathG("","Readies")),
 	LoadActor("ScorePanel"),
 	LoadActor("ChartInfo"),
 	LoadActor("DifficultyBar"),

@@ -81,7 +81,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 14 or -13))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 14 or -13))
 		end,
 		
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
@@ -128,7 +128,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 14 or -13))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 14 or -13))
 		end,
 		
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
@@ -185,7 +185,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 10 or -17.5))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 10 or -17.5))
 		end,
 		
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
@@ -228,7 +228,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 57.5 or 30))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 57.5 or 30))
 		end,
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
@@ -271,7 +271,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 10 or -17.5))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 10 or -17.5))
 		end,
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
@@ -314,7 +314,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 57.5 or 30))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 57.5 or 30))
 		end,
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
@@ -357,7 +357,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 10 or -17.5))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 10 or -17.5))
 		end,
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
@@ -400,7 +400,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 57.5 or 30))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 57.5 or 30))
 		end,
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
@@ -443,7 +443,7 @@ for player in ivalues(PlayerNumber) do
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x(InfoXP1+(player == PLAYER_1 and 14 or -13))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 14 or -13))
 		end,
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
