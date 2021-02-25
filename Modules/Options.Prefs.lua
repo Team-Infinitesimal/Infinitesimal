@@ -75,7 +75,7 @@ return {
 		Choices = { OptionNameString('Off'), OptionNameString('On') },
 		Values = { "AllowW1_Never", "AllowW1_Everywhere" },
 		LoadFunction = function(self,list,pn)
-			local PlayerProfile = PROFILEMAN:GetProfileDir(string.sub(pn,-1)-1)
+			local PlayerProfile = PROFILEMAN:GetProfileDir(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1)
 			if PlayerProfile ~= "" then
 				local ProMode = LoadModule("Config.Load.lua")("ProMode",PlayerProfile.."/Infinitesimal.ini")
 				for i,v2 in ipairs(self.Values) do

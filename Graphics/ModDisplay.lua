@@ -189,7 +189,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		OptionsListPushMessageCommand=function(self)self:queuecommand("Refresh")end,
 
 		RefreshCommand=function(self)
-			local ProMode = PREFSMAN:GetPreference("AllowW1")
+			local ProMode = LoadModule("Config.Load.lua")("ProMode",CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/Infinitesimal.ini")
 			if ProMode == "AllowW1_Everywhere" then
 				self:diffusebottomedge(color("#e78df3"))
 			else
