@@ -83,7 +83,7 @@ local DiffDisplay = Def.ActorFrame{
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	NextSongMessageCommand=function(self) self:playcommand("Refresh") end,
 	PreviousSongMessageCommand=function(self) self:playcommand("Refresh") end,
-	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+	
 	RefreshCommand=function(self)
 		self:stoptweening()
 
@@ -184,19 +184,23 @@ for pn in ivalues(PlayerNumber) do
 		InitCommand=function(self)
 			self:zoom(baseZoom):xy(baseX,baseY):visible(false)
 		end,
+		
 		CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Set") end,
 		CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Set") end,
 		SongUnchosenMessageCommand=function(self) self:playcommand("HideCursor") end,
+		
 		SongChosenMessageCommand=function(self)
 			stepsSelected = true
 			if GAMESTATE:IsHumanPlayer(pn) then
 				self:visible(true):playcommand("Set")
 			end
 		end,
+		
 		HideCursorCommand=function(self)
 			stepsSelected = false
 			self:visible(false)
 		end,
+		
 		SetCommand=function(self)
 			if stepsArray and stepsSelected and GAMESTATE:IsHumanPlayer(pn) then
 				local ind = GetCurrentStepsIndex(pn)

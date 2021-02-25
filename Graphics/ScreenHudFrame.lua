@@ -43,18 +43,10 @@ for pn in ivalues(PlayerNumber) do
 				:y(SCREEN_BOTTOM + 80)
 				:rotationy(pn == PLAYER_1 and 0 or 180)
 				:MaskSource()
-				:queuecommand("On")
+				:visible(GAMESTATE:IsHumanPlayer(pn))
 				:sleep(0.25)
 				:decelerate(0.75)
 				:y(SCREEN_BOTTOM-28)
-			end,
-
-			PlayerJoinedMessageCommand=function(self)self:queuecommand("On")end,
-			PlayerUnjoinedMessageCommand=function(self)self:queuecommand("On")end,
-			ReloadedProfilesMessageCommand=function(self)self:queuecommand("On")end,
-
-			OnCommand=function(self)
-				self:visible(GAMESTATE:IsHumanPlayer(pn))
 			end
 		},
 		
@@ -66,43 +58,24 @@ for pn in ivalues(PlayerNumber) do
 				:y(SCREEN_BOTTOM + 80)
 				:rotationy(pn == PLAYER_1 and 0 or 180)
 				:MaskDest()
-				:queuecommand("On")
+				:visible(GAMESTATE:IsHumanPlayer(pn))
 				:sleep(0.25)
 				:decelerate(0.75)
 				:y(SCREEN_BOTTOM-28)
-			end,
-
-			PlayerJoinedMessageCommand=function(self)self:queuecommand("On")end,
-			PlayerUnjoinedMessageCommand=function(self)self:queuecommand("On")end,
-			ReloadedProfilesMessageCommand=function(self)self:queuecommand("On")end,
-
-			OnCommand=function(self)
-				self:visible(GAMESTATE:IsHumanPlayer(pn))
 			end
 		},
 
 		Def.Sprite {
 			Texture=GetPlayerAvatar(pn),
 			InitCommand=function(self)
-				self:scaletofit(0,0,130,130)
+				self:visible(GAMESTATE:IsHumanPlayer(pn))
+				:scaletofit(0,0,130,130)
 				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
 				:y(SCREEN_BOTTOM + 80)
 				:MaskDest()
 				:sleep(0.25)
 				:decelerate(0.75)
 				:y(SCREEN_BOTTOM-28)
-			end,
-
-			PlayerJoinedMessageCommand=function(self)self:queuecommand("On")end,
-			PlayerUnjoinedMessageCommand=function(self)self:queuecommand("On")end,
-			ReloadedProfilesMessageCommand=function(self)self:queuecommand("On")end,
-
-			OnCommand=function(self)
-				self:Load(GetPlayerAvatar(pn))
-				:scaletofit(0,0,130,130)
-				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
-				:y(SCREEN_BOTTOM-28)
-				:visible(GAMESTATE:IsHumanPlayer(pn))
 			end
 		},
 
@@ -114,29 +87,19 @@ for pn in ivalues(PlayerNumber) do
 				:shadowlength(1)
 				:horizalign(pn == PLAYER_1 and right or left)
 				:x(pn == PLAYER_1 and SCREEN_CENTER_X-80 or SCREEN_CENTER_X+80)
-				:queuecommand("On")
-				:sleep(0.25)
-				:decelerate(0.75)
-				:y(SCREEN_BOTTOM-16)
-			end,
-
-			PlayerJoinedMessageCommand=function(self)self:queuecommand("On")end,
-			PlayerUnjoinedMessageCommand=function(self)self:queuecommand("On")end,
-			ReloadedProfilesMessageCommand=function(self)self:queuecommand("On")end,
-
-			-- Update when a player joins
-			OnCommand=function(self)
+				
 				if GAMESTATE:IsHumanPlayer(pn) then
 					GAMESTATE:LoadProfiles()
 					self:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
 				end
 
 				self:visible(GAMESTATE:IsHumanPlayer(pn))
+				:sleep(0.25)
+				:decelerate(0.75)
+				:y(SCREEN_BOTTOM-16)
 			end
 		}
-	
 	}
-
 end
 
 return t

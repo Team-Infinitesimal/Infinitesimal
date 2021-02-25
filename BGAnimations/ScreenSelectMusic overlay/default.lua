@@ -16,6 +16,12 @@ local t = Def.ActorFrame {
 		end
 	end,
 	
+	PlayerJoinedMessageCommand=function(self)
+		SOUND:DimMusic(0,65536)
+		SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectProfile");
+		SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen");
+	end;
+	
 	LoadActor(THEME:GetPathG("","Readies")),
 	LoadActor("ScorePanel"),
 	LoadActor("ChartInfo"),
@@ -25,6 +31,12 @@ local t = Def.ActorFrame {
 	LoadActor(THEME:GetPathG("","ModDisplay"))
 
 }
+
+t[#t+1] = LoadActor( THEME:GetPathS("Common","start") )..{
+	PlayerJoinedMessageCommand=function(self)
+		self:play()
+	end;
+};
 
 t[#t+1] = LoadActor(THEME:GetPathS("","OpenCommandWindow"))..{
 	CodeMessageCommand=function(self, params)

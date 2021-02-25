@@ -1,6 +1,8 @@
 return Def.ActorFrame {
 
-	InitCommand=function(self)self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)end,
+	InitCommand=function(self)
+		self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
+	end,
 	
 	OnCommand=function(self)
 		for pn in ivalues(PlayerNumber) do

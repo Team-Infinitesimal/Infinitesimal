@@ -211,12 +211,8 @@ local t = Def.ActorFrame {
 			end;
 		end;
 		if params.Name == 'Back' then
-			if GAMESTATE:GetNumPlayersEnabled()==0 then
-				SCREENMAN:GetTopScreen():Cancel();
-			else
-				MESSAGEMAN:Broadcast("BackButton");
-				SCREENMAN:GetTopScreen():SetProfileIndex(params.PlayerNumber, -2);
-			end;
+			-- Let's simplify things to avoid crashes whenever being utilized out of order
+			SCREENMAN:GetTopScreen():Cancel();
 		end;
 	end;
 
