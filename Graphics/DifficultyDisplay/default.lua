@@ -169,8 +169,7 @@ for i=1,14 do
 			Font="montserrat semibold/_montserrat semibold 40px",
 			Name="Diff",
 			InitCommand=function(self)
-				self:zoom(baseZoom):shadowlength(0.8)
-				:shadowcolor(Color.Black):xy(baseX+spacing*(i-1),baseY)
+				self:zoom(baseZoom):shadowlength(0.8):xy(baseX+spacing*(i-1),baseY)
 			end
 		}
 	}
