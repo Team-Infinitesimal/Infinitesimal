@@ -1,20 +1,10 @@
 local player = ...
 
 local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and true or false
+local alignment = player == "PlayerNumber_P2" and 1 or 0
 
-local alignment = 0
-if player == "PlayerNumber_P2" then alignment = 1 end
-
-local offsetfromcenterx = 265
-if GetScreenAspectRatio() >= 1.5 then
-	offsetfromcenterx = 300
-end
-
-local lgoffset = 170
-if GetScreenAspectRatio() >= 1.5 then
-	lgoffset = 185
-end
-
+local offsetfromcenterx = GetScreenAspectRatio() >= 1.5 and 300 or 265
+local lgoffset = GetScreenAspectRatio() >= 1.5 and 185 or 170
 local dboffset = 40
 local saoffset = 100
 
@@ -31,21 +21,16 @@ local showdelay = 0.08
 local steps = GAMESTATE:GetCurrentSteps(player)
 local playerstats = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
 
-local superbs 	=	playerstats:GetTapNoteScores("TapNoteScore_W1")
-local perfects 	= 	playerstats:GetTapNoteScores("TapNoteScore_W2")
-
-if PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Never' then
-	perfects 	= perfects + playerstats:GetTapNoteScores("TapNoteScore_CheckpointHit")
-else
-	superbs 	= superbs + playerstats:GetTapNoteScores("TapNoteScore_CheckpointHit")
-end
-
+local superbs 	=	playerstats:GetTapNoteScores("TapNoteScore_W1") + 
+					(promode and playerstats:GetTapNoteScores("TapNoteScore_CheckpointHit") or 0)
+local perfects 	= 	playerstats:GetTapNoteScores("TapNoteScore_W2") + 
+					(not promode and playerstats:GetTapNoteScores("TapNoteScore_CheckpointHit") or 0)
 local greats 	= 	playerstats:GetTapNoteScores("TapNoteScore_W3")
 local goods 	= 	playerstats:GetTapNoteScores("TapNoteScore_W4")
 local bads 		= 	playerstats:GetTapNoteScores("TapNoteScore_W5")
 local misses 	= 	playerstats:GetTapNoteScores("TapNoteScore_Miss") +
 		            playerstats:GetTapNoteScores("TapNoteScore_CheckpointMiss")
-
+					
 local accuracy 	=	round(playerstats:GetPercentDancePoints()*100, 2)
 local combo 	= 	playerstats:MaxCombo()
 local score 	= 	scorecap(playerstats:GetScore())
@@ -56,14 +41,47 @@ else
     lifeState = "Pass"
 end
 
-local tripleS = "LetterGrades/"..lifeState.."3S"
-local doubleS = "LetterGrades/"..lifeState.."2S"
-local singleS = "LetterGrades/"..lifeState.."1S"
-local letA = "LetterGrades/"..lifeState.."A"
-local letB = "LetterGrades/"..lifeState.."B"
-local letC = "LetterGrades/"..lifeState.."C"
-local letD = "LetterGrades/"..lifeState.."D"
-local letF = "LetterGrades/"..lifeState.."F"
+local ChartType = setmetatable(
+{
+	Modes = {
+		["StepsType_Pump_Single"] = function( steps )
+			return string.find(steps:GetDescription(), "SP") and 3 or 2
+		end,
+		["StepsType_Pump_Double"] = function( steps )
+			if string.find(steps:GetDescription(), "DP") then
+				return steps:GetMeter() == 99 and 1 or 0
+			end
+			return 6
+		end,
+		["StepsType_Pump_Halfdouble"] = function() return 5 end,
+		["StepsType_Pump_Routine"] = function() return 4 end,
+	}
+},
+{
+	__index = function( this, desc )
+		local state = 7
+
+		local type = desc:GetStepsType()
+		if this.Modes[type] then
+			state = this.Modes[type]( desc )
+		end
+
+		return state
+	end
+}
+)
+
+local DiffLabelIndex = {
+	"NEW",
+	"ANOTHER",
+	"PRO",
+	"TRAIN",
+	"QUEST",
+	"UCS",
+	"HIDDEN",
+	"INFINITY",
+	"JUMP",
+}
 
 local t = Def.ActorFrame {
 
@@ -74,7 +92,8 @@ local t = Def.ActorFrame {
 	end,
 
 	--Superbs
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:xy(offsetfromcenterx, -spacing)
@@ -89,7 +108,8 @@ local t = Def.ActorFrame {
 	},
 
 	-- Perfects
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:x(offsetfromcenterx)
@@ -102,7 +122,8 @@ local t = Def.ActorFrame {
 	},
 
 	-- Greats
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:xy(offsetfromcenterx, spacing)
@@ -115,7 +136,8 @@ local t = Def.ActorFrame {
 	},
 
 	-- Goods
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:xy(offsetfromcenterx, spacing*2)
@@ -128,7 +150,8 @@ local t = Def.ActorFrame {
 	},
 
 	-- Bads
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:xy(offsetfromcenterx, spacing*3)
@@ -141,7 +164,8 @@ local t = Def.ActorFrame {
 	},
 
 	-- Misses
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:xy(offsetfromcenterx, spacing*4)
@@ -154,7 +178,8 @@ local t = Def.ActorFrame {
 	},
 
 	-- Max Combo
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:xy(offsetfromcenterx, spacing*5)
@@ -167,7 +192,8 @@ local t = Def.ActorFrame {
 	},
 
 	-- Accuracy
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:xy(offsetfromcenterx, spacing*6)
@@ -180,7 +206,8 @@ local t = Def.ActorFrame {
 	},
 
 	-- Score
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:halign(alignment):diffusealpha(0)
 			:xy(offsetfromcenterx, spacing*7)
@@ -197,112 +224,119 @@ local t = Def.ActorFrame {
 --- Difficulty display
 --- ------------------------------------------------
 
-t[#t+1] = LoadActor(THEME:GetPathG("","DifficultyDisplay/_icon"))..{
-    InitCommand=function(self)
-        self:diffusealpha(0):sleep(1.75+showdelay*9)
-        :xy(dboffset, spacing*9 - (promode and 8 or 0))
-        :zoom(0.5):animate(false)
-        :accelerate(0.2):diffusealpha(1)
+t[#t+1] = Def.ActorFrame {
+	Def.Sprite {
+		Texture=THEME:GetPathG("","DifficultyDisplay/_icon"),
+		InitCommand=function(self)
+			self:diffusealpha(0):sleep(1.75+showdelay*9)
+			:xy(dboffset, spacing*9 - (promode and 8 or 0))
+			:zoom(0.5):animate(false)
+			:accelerate(0.2):diffusealpha(1)
 
-		local steps = GAMESTATE:GetCurrentSteps(player)
-		if steps:GetStepsType() == "StepsType_Pump_Single" then
-			if (string.find(steps:GetDescription(), "SP")) then
-				self:setstate(5)
-			else
-				self:setstate(2)
-			end
-		elseif steps:GetStepsType() == "StepsType_Pump_Double" then
-			--Check for StepF2 Double Performance tag
-			if string.find(steps:GetDescription(), "DP") then
-				if string.find(steps:GetMeter(), "99") then
-					self:setstate(1)
-				else
-					self:setstate(0)
-				end
-			else
-				self:setstate(6)
-			end
-		elseif steps:GetStepsType() == "StepsType_Pump_Halfdouble" then
-			self:setstate(5)
-		elseif steps:GetStepsType() == "StepsType_Pump_Routine" then
-			self:setstate(4)
-		else
-			self:setstate(3)
+			local steps = GAMESTATE:GetCurrentSteps(player)
+			self:setstate(ChartType[steps])
 		end
-    end
-}
-
-t[#t+1] = LoadFont("Montserrat semibold 40px")..{
-    InitCommand=function(self)
-        steps = GAMESTATE:GetCurrentSteps(player)
-        self:diffusealpha(0):shadowlength(0.8)
-        :sleep(1.75+showdelay*9)
-        :xy(dboffset, spacing*9 - (promode and 8 or 0))
-        :zoom(0.5):accelerate(0.2):diffusealpha(1)
-        :settext(steps:GetMeter())
-    end
+	},
+	
+	Def.Sprite {
+		Texture=THEME:GetPathG("", "DiffLabels"),
+		InitCommand=function(self)
+			self:diffusealpha(0):sleep(1.75+showdelay*9)
+			:xy(dboffset, spacing*8.5 - (promode and 8 or 0))
+			:zoom(0.75):animate(false)
+			:accelerate(0.2):diffusealpha(1)
+			
+			local StepTypeIndex = 10
+			for k,v in pairs(DiffLabelIndex) do
+				if string.find(string.upper(steps:GetDescription()), v) then
+					StepTypeIndex = k - 1
+				end
+			end
+			if string.find(string.upper(steps:GetChartName()), "UCS CONTEST") then
+				StepTypeIndex = 9
+			end
+			self:setstate(StepTypeIndex)
+		end
+	},
+	
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
+		InitCommand=function(self)
+			steps = GAMESTATE:GetCurrentSteps(player)
+			self:diffusealpha(0):shadowlength(0.8)
+			:sleep(1.75+showdelay*9)
+			:xy(dboffset, spacing*9 - (promode and 8 or 0))
+			:zoom(0.5):accelerate(0.2):diffusealpha(1)
+			:settext(steps:GetMeter())
+		end
+	}
 }
 
 --- ------------------------------------------------
 --- Step Artist
 --- ------------------------------------------------
 
-t[#t+1] = LoadFont("Montserrat semibold 40px")..{
-    InitCommand=function(self)
-		self:diffusealpha(0):halign(math.abs(alignment - 1))
-		:xy(saoffset, spacing*8.7 - (promode and 8 or 0))
-		:wrapwidthpixels(960):vertspacing(-10):maxheight(128)
-		:shadowlength(0.8):zoom(0.35)
-	end,
-	OnCommand=function(self)
-		self:sleep(1.75+showdelay*8)
-		:decelerate(0.3):diffusealpha(1)
-		:settext("Step Artist:\n"..steps:GetAuthorCredit() or "Unknown")
-	end
+t[#t+1] = Def.ActorFrame {
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
+		InitCommand=function(self)
+			self:diffusealpha(0):halign(math.abs(alignment - 1))
+			:xy(saoffset, spacing*8.7 - (promode and 8 or 0))
+			:wrapwidthpixels(960):vertspacing(-10):maxheight(128)
+			:shadowlength(0.8):zoom(0.35)
+		end,
+		OnCommand=function(self)
+			self:sleep(1.75+showdelay*8)
+			:decelerate(0.3):diffusealpha(1)
+			:settext("Step Artist:\n"..steps:GetAuthorCredit() or "Unknown")
+		end
+	}
 }
 
 --- ------------------------------------------------
 --- Letter Grade
 --- ------------------------------------------------
 
-t[#t+1] = Def.Sound {
-	File=THEME:GetPathS("", "EvalLetterHit"),
-	OnCommand=function(self)
-		self:sleep(2.8):queuecommand("Play")
-	end,
-	PlayCommand=function(self) self:play() end
-}
-
-t[#t+1] = Def.Sprite {
-	InitCommand=function(self)
-		self:zoom(0.8):diffusealpha(0):xy(lgoffset, spacing*3):sleep(2.5)
-        
-        local gradeletter = "F"
-		if misses == 0 then
-			if bads == 0 and goods == 0 then
-				if greats == 0 then
-					gradeletter = promode and (perfects == 0 and "3S" or "2S") or "3S"
+t[#t+1] = Def.ActorFrame {
+	Def.Sound {
+		File=THEME:GetPathS("", "EvalLetterHit"),
+		OnCommand=function(self)
+			self:sleep(2.8):queuecommand("Play")
+		end,
+		PlayCommand=function(self) self:play() end
+	},
+	
+	Def.Sprite {
+		InitCommand=function(self)
+			self:zoom(0.8):diffusealpha(0):xy(lgoffset, spacing*3):sleep(2.5)
+			
+			local gradeletter = "F"
+			if misses == 0 then
+				if bads == 0 and goods == 0 then
+					if greats == 0 then
+						gradeletter = promode and (perfects == 0 and "3S" or "2S") or "3S"
+					else
+						gradeletter = "2S"
+					end
 				else
-					gradeletter = "2S"
+					gradeletter = "1S"
 				end
 			else
-				gradeletter = "1S"
+				if accuracy >= 80 then
+					gradeletter = "A"
+				elseif accuracy >= 70 then
+					gradeletter = "B"
+				elseif accuracy >= 60 then
+					gradeletter = "C"
+				elseif accuracy >= 50 then
+					gradeletter = "D"
+				end
 			end
-		else
-			if accuracy >= 80 then
-				gradeletter = "A"
-			elseif accuracy >= 70 then
-				gradeletter = "B"
-			elseif accuracy >= 60 then
-				gradeletter = "C"
-			elseif accuracy >= 50 then
-				gradeletter = "D"
-			end
+			
+			self:Load(THEME:GetPathG("","LetterGrades/"..lifeState..gradeletter))
+			:accelerate(0.3):diffusealpha(1):zoom(0.4)
 		end
-		
-		self:Load(THEME:GetPathG("","LetterGrades/"..lifeState..gradeletter))
-		:accelerate(0.3):diffusealpha(1):zoom(0.4)
-	end
+	}
 }
 
 return t
