@@ -267,7 +267,12 @@ t[#t+1] = Def.ActorFrame {
 			:sleep(1.75+showdelay*9)
 			:xy(dboffset, spacing*9 - (promode and 8 or 0))
 			:zoom(0.5):accelerate(0.2):diffusealpha(1)
-			:settext(steps:GetMeter())
+			
+			local meterset = "??"
+			if steps:GetMeter() < 99 then
+				meterset = steps:GetMeter()
+			end
+			self:settext(meterset)
 		end
 	}
 }
@@ -288,7 +293,13 @@ t[#t+1] = Def.ActorFrame {
 		OnCommand=function(self)
 			self:sleep(1.75+showdelay*8)
 			:decelerate(0.3):diffusealpha(1)
-			:settext("Step Artist:\n"..steps:GetAuthorCredit() or "Unknown")
+			
+			local author = steps:GetAuthorCredit()
+			if author == nil or author == "" then
+				self:settext("Step Artist:\nUnknown")
+			else
+				self:settext("Step Artist:\n"..author)
+			end
 		end
 	}
 }

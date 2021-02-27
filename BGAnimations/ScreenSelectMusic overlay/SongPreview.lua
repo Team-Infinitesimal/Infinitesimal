@@ -41,32 +41,41 @@ local t = Def.ActorFrame {
             self:stoptweening():diffusealpha(0):sleep(0.4)
             if GAMESTATE:GetCurrentSong() then
 				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil then
-      				self:queuecommand("Load2")
+      				self:queuecommand("LoadBG")
                 else
                     self:queuecommand("LoadAnimated")
       			end
 			end
         end,
 
-        Load2Command=function(self)
-            local bg = GAMESTATE:GetCurrentSong():GetBackgroundPath()
-            if bg then
-                self:Load(bg)
+        LoadBGCommand=function(self)
+			self:Load(nil)
+            local path = GAMESTATE:GetCurrentSong():GetBackgroundPath()
+            if path then
+				if FILEMAN:DoesFileExist(path) then
+					self:Load(path)
+				else
+					self:Load(THEME:GetPathG("Common","fallback background"))
+				end
             else
                 self:Load(THEME:GetPathG("Common","fallback background"))
             end
-            self:zoomto(PreviewWidth,PreviewHeight)
+            self:zoomto(PreviewWidth,PreviewHeight):decelerate(0.2):diffusealpha(1)
         end,
 
         LoadAnimatedCommand=function(self)
         	self:Load(nil) -- an attempt to clear out previous preview to conserve on memory usage
             local path = GAMESTATE:GetCurrentSong():GetPreviewVidPath()
             if path then
-                self:Load(path)
-            else
-                self:Load(THEME:GetPathG("","static"))
+				if FILEMAN:DoesFileExist(path) then
+					self:Load(path):zoomto(PreviewWidth,PreviewHeight)
+					:decelerate(0.2):diffusealpha(1)
+				else
+					self:queuecommand("LoadBG")
+				end
+			else
+				self:queuecommand("LoadBG")
             end
-            self:zoomto(PreviewWidth,PreviewHeight):decelerate(0.2):diffusealpha(1)
         end
     },
 
@@ -81,7 +90,8 @@ local t = Def.ActorFrame {
     },
 
     -- Title
-    LoadFont("Montserrat semibold 40px")..{
+    Def.BitmapText {
+		Font="Montserrat semibold 40px",
         InitCommand=function(self)
             self:horizalign(left)
             :xy(PreviewX-(PreviewWidth/2)+4,PreviewY-86)
@@ -98,7 +108,8 @@ local t = Def.ActorFrame {
     },
 
     -- Length
-    LoadFont("Montserrat semibold 40px")..{
+    Def.BitmapText {
+		Font="Montserrat semibold 40px",
         InitCommand=function(self)
             self:horizalign(right)
             :xy(PreviewX+(PreviewWidth/2)-4,PreviewY-86)
@@ -126,7 +137,8 @@ local t = Def.ActorFrame {
     },
 
 	-- Artist
-    LoadFont("Montserrat semibold 40px")..{
+    Def.BitmapText {
+		Font="Montserrat semibold 40px",
         InitCommand=function(self)
             self:horizalign(left)
             :xy(PreviewX-(PreviewWidth/2)+4,PreviewY+85.5)
@@ -143,7 +155,8 @@ local t = Def.ActorFrame {
     },
 
 	-- BPM
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
         InitCommand=function(self)
             self:horizalign(right)
             :xy(PreviewX+(PreviewWidth/2)-4,PreviewY+85.5)
@@ -155,40 +168,40 @@ local t = Def.ActorFrame {
             self:stoptweening():diffusealpha(0)
             if song then
                 local speedvalue
-                if song:IsDisplayBpmRandom() then
+				local rawbpm = song:GetDisplayBpms()
+				local lobpm = math.ceil(rawbpm[1])
+				local hibpm = math.ceil(rawbpm[2])
+				if lobpm == hibpm then
+					speedvalue = hibpm
+				else
+					speedvalue = lobpm.."-"..hibpm
+				end
+				
+				if song:IsDisplayBpmRandom() or speedvalue == 0 then
                     speedvalue = "???"
-                else
-                    local rawbpm = GAMESTATE:GetCurrentSong():GetDisplayBpms()
-                    local lobpm = math.ceil(rawbpm[1])
-                    local hibpm = math.ceil(rawbpm[2])
-                    if lobpm == hibpm then
-                        speedvalue = hibpm
-                    else
-                        speedvalue = lobpm.."-"..hibpm
-                    end
                 end
                 self:settext(speedvalue.." BPM"):diffusealpha(1)
             end
         end
-    }
-
-    --[[
+    },
+    
 	Def.Sprite {
 		InitCommand=function(self)
-			self:xy(SCREEN_CENTER_X+125,SCREEN_CENTER_Y-140)
-			:zoomto(0.1):diffusealpha(0)
+			self:diffusealpha(0):xy(SCREEN_CENTER_X+125,SCREEN_CENTER_Y-125)
 		end,
 		CurrentSongChangedMessageCommand=function(self)
-			self:stoptweening():diffusealpha(0)
+			self:stoptweening():diffusealpha(0):sleep(0.4)
 			if GAMESTATE:GetCurrentSong() then
 				if GAMESTATE:GetCurrentSong():GetCDTitlePath() then
 					self:Load(GAMESTATE:GetCurrentSong():GetCDTitlePath())
+					:scaletofit(0,0,50,50)
+					:xy(SCREEN_CENTER_X+125,SCREEN_CENTER_Y-125)
+					:decelerate(0.2)
 					:diffusealpha(1)
 				end
 			end
 		end
 	}
-    ]]--
 }
 
 return t
