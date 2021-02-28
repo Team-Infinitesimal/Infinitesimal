@@ -52,7 +52,7 @@ local t = Def.ActorFrame {
 			:xy(SCREEN_CENTER_X, (promode and 75 or 80)):zoom(0.7)
 
 			if song:GetDisplaySubTitle() ~= "" then
-				self:addy(2)
+				self:addy(-2)
 			end
 
 			self:decelerate(0.25):diffuse(0,0,0,1)
