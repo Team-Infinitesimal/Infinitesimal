@@ -22,8 +22,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		end
 	}
 
-  t[#t+1] = LoadActor(THEME:GetPathG("", "GameplayNameBadge"), pn)
-  t[#t+1] = LoadActor(THEME:GetPathG("", "StageCount"), pn)
+	t[#t+1] = LoadActor(THEME:GetPathG("", "GameplayNameBadge"), pn)
+	t[#t+1] = LoadActor(THEME:GetPathG("", "StageCount"), pn)
 
 end
 

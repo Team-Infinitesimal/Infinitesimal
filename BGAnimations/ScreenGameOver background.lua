@@ -1,5 +1,4 @@
 local t = Def.ActorFrame {
-
     Def.Sprite{
         Texture=THEME:GetPathG("", "GenericGradientBg"),
         InitCommand=function(self)
@@ -7,7 +6,6 @@ local t = Def.ActorFrame {
             :scaletocover(0, 0, SCREEN_RIGHT, SCREEN_BOTTOM)
         end
     }
-
 }
 
 return t

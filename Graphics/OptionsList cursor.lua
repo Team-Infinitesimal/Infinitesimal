@@ -11,8 +11,8 @@ t[#t+1] = Def.Quad{
         :fadeleft(0.25)
         :faderight(0.25)
         :blend(Blend.Add)
-        :y(1);
-    end;
+        :y(1)
+    end
 }
 
 t[#t+1] = Def.Sprite {
@@ -22,8 +22,8 @@ t[#t+1] = Def.Sprite {
 		:pulse()
 		:effectmagnitude(0.95,1,1)
 		:effectperiod(0.75)
-		:y(1);
-	end;
+		:y(1)
+	end
 }
 
 return t

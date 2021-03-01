@@ -10,8 +10,8 @@ t[#t+1] = Def.Quad{
         :fadeleft(0.75)
         :faderight(0.75)
         :blend(Blend.Add)
-        :y(6);
-    end;
+        :y(6)
+    end
 }
 t[#t+1] = Def.Quad{
 	  InitCommand=function(self)
@@ -23,8 +23,8 @@ t[#t+1] = Def.Quad{
         :fadeleft(0.75)
         :faderight(0.75)
         :blend(Blend.Add)
-        :y(6);
-    end;
+        :y(6)
+    end
 }
 
 return t

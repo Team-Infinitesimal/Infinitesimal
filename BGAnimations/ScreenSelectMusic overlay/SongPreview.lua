@@ -6,7 +6,8 @@ local PreviewHeight = 191.25
 local t = Def.ActorFrame {
 
 	-- Frame
-    LoadActor(THEME:GetPathG("","PreviewFrame"))..{
+    Def.Sprite {
+		Texture=THEME:GetPathG("","PreviewFrame"),
         InitCommand=function(self)
             self:horizalign(center)
             :xy(PreviewX,PreviewY)

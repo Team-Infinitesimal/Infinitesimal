@@ -7,8 +7,8 @@ local t = Def.ActorFrame {
             :xy(SCREEN_LEFT+200,SCREEN_TOP+200)
             :decelerate(0.75)
             :xy(SCREEN_LEFT+60,SCREEN_TOP+60)
-        end;
-    };
+        end
+    },
 
     Def.Sprite {
         Texture=THEME:GetPathG("","ShiftUR"),
@@ -17,8 +17,8 @@ local t = Def.ActorFrame {
             :xy(SCREEN_RIGHT-200,SCREEN_TOP+200)
             :decelerate(0.75)
             :xy(SCREEN_RIGHT-60,SCREEN_TOP+60)
-        end;
-    };
+        end
+    },
 
     Def.Sprite {
         Texture=THEME:GetPathG("","ShiftDL"),
@@ -27,8 +27,8 @@ local t = Def.ActorFrame {
             :xy(SCREEN_LEFT+200,SCREEN_BOTTOM-200)
             :decelerate(0.75)
             :xy(SCREEN_LEFT+60,SCREEN_BOTTOM-60)
-        end;
-    };
+        end
+    },
 
     Def.Sprite {
         Texture=THEME:GetPathG("","ShiftDR"),
@@ -37,10 +37,46 @@ local t = Def.ActorFrame {
             :xy(SCREEN_RIGHT-200,SCREEN_BOTTOM-200)
             :decelerate(0.75)
             :xy(SCREEN_RIGHT-60,SCREEN_BOTTOM-60)
-        end;
-    };
+        end
+    },
 
     --Glowy Arrows
+    
+    --[[
+    Def.Sprite {
+        Texture=THEME:GetPathG("","GlowShiftUL"),
+        InitCommand=function(self)
+            self:diffusealpha(0)
+            :zoom(0.2)
+            :xy(SCREEN_LEFT+60,SCREEN_TOP+60)
+        end,
+        CodeMessageCommand=function(self)
+            self:stoptweening()
+            :zoom(0.2)
+            :diffusealpha(0.6)
+            :decelerate(0.4)
+            :zoom(0.25)
+            :diffusealpha(0)
+        end
+    },
+
+    Def.Sprite {
+        Texture=THEME:GetPathG("","GlowShiftUR"),
+        InitCommand=function(self)
+            self:diffusealpha(0)
+            :zoom(0.2)
+            :xy(SCREEN_RIGHT-60,SCREEN_TOP+60)
+        end,
+        CodeMessageCommand=function(self)
+            self:stoptweening()
+            :zoom(0.2)
+            :diffusealpha(0.75)
+            :decelerate(0.4)
+            :zoom(0.25)
+            :diffusealpha(0)
+        end
+    },
+    ]]--
 
     Def.Sprite {
         Texture=THEME:GetPathG("","GlowShiftDL"),
@@ -48,7 +84,7 @@ local t = Def.ActorFrame {
             self:diffusealpha(0)
             :zoom(0.2)
             :xy(SCREEN_LEFT+60,SCREEN_BOTTOM-60)
-        end;
+        end,
         PreviousSongMessageCommand=function(self)
             self:stoptweening()
             :zoom(0.2)
@@ -56,8 +92,8 @@ local t = Def.ActorFrame {
             :decelerate(0.4)
             :zoom(0.25)
             :diffusealpha(0)
-        end;
-    };
+        end
+    },
 
     Def.Sprite {
         Texture=THEME:GetPathG("","GlowShiftDR"),
@@ -65,7 +101,7 @@ local t = Def.ActorFrame {
             self:diffusealpha(0)
             :zoom(0.2)
             :xy(SCREEN_RIGHT-60,SCREEN_BOTTOM-60)
-        end;
+        end,
         NextSongMessageCommand=function(self)
             self:stoptweening()
             :zoom(0.2)
@@ -73,8 +109,8 @@ local t = Def.ActorFrame {
             :decelerate(0.4)
             :zoom(0.25)
             :diffusealpha(0)
-        end;
-    };
-};
+        end
+    }
+}
 
 return t;

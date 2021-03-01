@@ -104,7 +104,7 @@ t[#t+1] = Def.BitmapText{
 	Font="Montserrat Semibold 40px",
 	Text="SELECT",
 	InitCommand=function(self)
-		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and 250 or 190) )
+		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and (GetScreenAspectRatio() * 108) + 58 or 190) )
 		:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
@@ -120,7 +120,7 @@ t[#t+1] = Def.BitmapText{
 	Font="Montserrat normal 40px",
 	Text="MUSIC",
 	InitCommand=function(self)
-		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and 192 or 132) )
+		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and (GetScreenAspectRatio() * 108) or 132) )
 		:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
@@ -136,7 +136,7 @@ t[#t+1] = Def.BitmapText{
 	Font="Montserrat normal 40px",
 	InitCommand=function(self)
 		local CurStage = string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1)
-		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and 164 or 132) )
+		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and (GetScreenAspectRatio() * 108) - 28 or 132) )
 		:zoom(0.35)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)

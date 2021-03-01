@@ -11,8 +11,8 @@ local t = Def.ActorFrame {
             :sleep(0.25)
             :decelerate(0.75)
             :y(SCREEN_TOP)
-        end;
-    };
+        end
+    }
 
     Def.Sprite {
         Texture=THEME:GetPathG("","ScreenHudBottom"),
@@ -25,9 +25,8 @@ local t = Def.ActorFrame {
             :sleep(0.25)
             :decelerate(0.75)
             :y(SCREEN_BOTTOM)
-        end;
-    };
+        end
+    }
+}
 
-};
-
-return t;
+return t

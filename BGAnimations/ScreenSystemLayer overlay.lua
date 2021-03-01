@@ -1,4 +1,7 @@
--- Function originally written by quietly-turning for Simply Love
+-- The following is borrowed from Simply Love under the GNU GPL v3 license
+-- https://github.com/quietly-turning/Simply-Love-SM5
+-- Copyright (C) 2020 quietly-turning
+
 local function SMSupport()
 
 	-- ensure that we're using StepMania
@@ -29,6 +32,8 @@ local function SMSupport()
 	return true
 end
 
+-- Original, non-borrowed code begins here
+
 local t = Def.ActorFrame {
 
 	Def.Quad {
@@ -38,21 +43,22 @@ local t = Def.ActorFrame {
 			:horizalign(left)
 			:vertalign(top)
 			:y(SCREEN_TOP)
-			:diffuse(color("0,0,0,0"));
-		end;
+			:diffuse(color("0,0,0,0"))
+		end,
 		OnCommand=function(self)
 			self:finishtweening()
-			:diffusealpha(0.8);
-		end;
+			:diffusealpha(0.8)
+		end,
 		OffCommand=function(self)
 			self:sleep(3)
 			:linear(0.5)
-			:diffusealpha(0);
-		end;
-	};
+			:diffusealpha(0)
+		end
+	},
 
-	LoadFont("montserrat semibold/_montserrat semibold 40px") .. {
-		Name="Text";
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
+		Name="Text",
 		InitCommand=function(self)
 			self:maxwidth(SCREEN_WIDTH*2)
 			:x(SCREEN_LEFT+8)
@@ -60,43 +66,49 @@ local t = Def.ActorFrame {
 			:horizalign(left)
 			:vertalign(top)
 			:diffusealpha(0);
-		end;
+		end,
 		OnCommand=function(self)
 			self:finishtweening()
 			:diffusealpha(1)
 			:zoom(0.35);
-		end;
+		end,
 		OffCommand=function(self)
 			self:sleep(3)
 			:linear(0.5)
 			:diffusealpha(0);
-		end;
-	};
+		end
+	},
 
 	SystemMessageMessageCommand = function(self, params)
-		self:GetChild("Text"):settext(params.Message);
-		self:playcommand( "On" );
+		self:GetChild("Text"):settext(params.Message)
+		self:playcommand( "On" )
 		if params.NoAnimate then
-			self:finishtweening();
-			
-		end;
-		self:playcommand( "Off" );
-	end;
+			self:finishtweening()
+		end
+		self:playcommand( "Off" )
+	end,
 
-	HideSystemMessageMessageCommand = function(self)self:finishtweening()end;
+	HideSystemMessageMessageCommand = function(self)self:finishtweening()end,
 
-	LoadFont("Montserrat semibold 40px")..{
+	Def.BitmapText {
+		Font="Montserrat semibold 40px",
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X,SCREEN_BOTTOM-17)
 			:queuecommand('Refresh')
 			:diffuse(1,1,1,1)
 			:glow(color(0.8,0.8,1,1))
-			:zoom(0.4);
-		end;
+			:zoom(0.4)
+		end,
+		
+		OnCommand=function(self)self:playcommand('Refresh')end,
+		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end,
+		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end,
+		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end,
+		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end,
 
 		RefreshCommand=function(self)
-			local gMode = GAMESTATE:GetCoinMode();
-			local eMode = GAMESTATE:IsEventMode();
+			local gMode = GAMESTATE:GetCoinMode()
+			local eMode = GAMESTATE:IsEventMode()
 			
 			-- no one wants screen burn-in at home!
 			if gMode == "CoinMode_Home" then
@@ -109,63 +121,52 @@ local t = Def.ActorFrame {
 				self:settext("FREE PLAY");
 			elseif gMode == 'CoinMode_Pay' then
 				PREFSMAN:SetPreference("CoinMode","Home");
-			end;
-		end;
-
-		OnCommand=function(self)self:playcommand('Refresh')end;
-		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end;
-		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end;
-		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end;
-	};
+			end,
+		end
+	},
 	
 	-- Instead of cockblocking users, we will just add a funny watermark instead
-	LoadFont("Montserrat normal 20px")..{
+	Def.BitmapText {
+		Font="Montserrat normal 20px",
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X+(SCREEN_CENTER_X/2),SCREEN_CENTER_Y+(SCREEN_CENTER_Y/1.5))
 			:diffuse(1,1,1,0)
 			:horizalign(left)
 			:zoom(0.75)
-			:settext("Update StepMania");
-		end;
+			:settext("Update StepMania")
+		end,
+		
+		OnCommand=function(self)self:playcommand('Refresh')end,
+		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end,
+		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end,
+		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end,
+		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end,
 		
 		RefreshCommand=function(self)
-			if SMSupport() then
-				self:diffusealpha(0)
-			else
-				self:diffusealpha(0.2)
-			end;
-		end;
-		
-		OnCommand=function(self)self:playcommand('Refresh')end;
-		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end;
-		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end;
-		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end;
-	};
-	LoadFont("Montserrat normal 20px")..{
+			self:diffusealpha(SMSupport() and 0 or 0.2)
+		end
+	},
+	
+	Def.BitmapText {
+		Font="Montserrat normal 20px",
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X+(SCREEN_CENTER_X/2)+1,SCREEN_CENTER_Y+(SCREEN_CENTER_Y/1.5)+16)
 			:diffuse(1,1,1,0.2)
 			:horizalign(left)
 			:zoom(0.5)
-			:settext("Unsupported version detected.");
-		end;
+			:settext("Unsupported version detected.")
+		end,
+		
+		OnCommand=function(self)self:playcommand('Refresh')end,
+		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end,
+		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end,
+		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end,
+		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end,
 		
 		RefreshCommand=function(self)
-			if SMSupport() then
-				self:diffusealpha(0)
-			else
-				self:diffusealpha(0.2)
-			end;
-		end;
-		
-		OnCommand=function(self)self:playcommand('Refresh')end;
-		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end;
-		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end;
-		CoinModeChangedMessageCommand=function(self)self:playcommand('Refresh')end;
-		PlayerJoinedMessageCommand=function(self)self:playcommand('Refresh')end;
-	};
-};
+			self:diffusealpha(SMSupport() and 0 or 0.2)
+		end
+	}
+}
 
-return t;
+return t

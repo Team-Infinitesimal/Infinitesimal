@@ -53,6 +53,6 @@ local t = Def.ActorFrame {
 		Pulse( c.Number, param )
 		Pulse( c.ComboLabel, param )
 	end
-};
+}
 
-return t;
+return t
