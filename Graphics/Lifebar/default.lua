@@ -2,6 +2,8 @@ local args = ...
 local pn = args.Player
 local needsdouble = args.Double
 
+local ScoreDisplay = LoadModule("Config.Load.lua")("ScoreDisplay",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini")
+
 local dgthreshold = 0.2
 local lifebarwidth = needsdouble and 985 or 495
 
@@ -9,6 +11,7 @@ local t = Def.ActorFrame {
 	OnCommand=function(self)
 		self:zoomy(0.8*0.66):zoomx((340/384)*0.85*0.66)
 	end,
+	
 	LifeChangedMessageCommand=function(self,params)
 		if params.Player == pn then
 			local life = params.LifeMeter:GetLife()
@@ -116,6 +119,35 @@ local t = Def.ActorFrame {
 		Texture="Tip danger",
 		Name="TipDanger",
 		BeginCommand=function(self) self:draworder(5):y(0.5):visible(false) end
+	},
+	
+	Def.BitmapText{
+		Font="Montserrat semibold 20px",
+		InitCommand=function(self)
+			self:x(235):halign(1):shadowlength(1):diffuse(1,1,0,1):visible(false)
+			if ScoreDisplay then self:visible(true) end
+			self:playcommand("Refresh")
+		end,
+		OnCommand=function(self)self:playcommand("Refresh")end,
+		JudgmentMessageCommand=function(self)self:playcommand("Refresh")end,
+		RefreshCommand=function(self)
+			if ScoreDisplay then
+				local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+				
+				if ScoreDisplay == "Score" then
+					self:settext(scorecap(PSS:GetScore()))
+				else
+					local TotalAcc = PSS:GetCurrentPossibleDancePoints()
+					local CurrentAcc = PSS:GetActualDancePoints()
+					
+					if TotalAcc ~= 0 then
+						self:settext(math.floor(CurrentAcc/TotalAcc*10000)/100 .. "%")
+					else
+						self:settext("0%")
+					end
+				end
+			end
+		end
 	}
 }
 

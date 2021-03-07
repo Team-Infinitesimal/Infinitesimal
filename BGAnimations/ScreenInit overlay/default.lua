@@ -9,6 +9,7 @@ return Def.ActorFrame {
 			Location = CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini"
 			LoadModule("Config.Save.lua")("ProMode", "AllowW1_Never", Location)
 			LoadModule("Config.Save.lua")("DeviationDisplay", tostring(false), Location)
+			LoadModule("Config.Save.lua")("ScoreDisplay", tostring(false), Location)
 			LoadModule("Config.Save.lua")("MeasureCounter", tostring(false), Location)
 		end
 	end,

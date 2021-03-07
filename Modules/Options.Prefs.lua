@@ -101,11 +101,18 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
+    ScoreDisplay =
+    {
+        UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('Score'), OptionNameString('Percent') },
+        Values = {false, "Score", "Percent"}
+    },
 	MeasureCounter =
     {
         UserPref = true,
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('Stream Only'), OptionNameString('All') },
         Values = {false, "Stream", "All"}
-    },
+    }
 }

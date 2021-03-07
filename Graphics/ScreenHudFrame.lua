@@ -38,7 +38,7 @@ for pn in ivalues(PlayerNumber) do
 		Def.Sprite {
 			Texture="AvatarMask",
 			InitCommand=function(self)
-				self:zoom(0.26)
+				self:zoom(0.52)
 				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
 				:y(SCREEN_BOTTOM + 80)
 				:rotationy(pn == PLAYER_1 and 0 or 180)
@@ -73,6 +73,20 @@ for pn in ivalues(PlayerNumber) do
 				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
 				:y(SCREEN_BOTTOM + 80)
 				:MaskDest()
+				:sleep(0.25)
+				:decelerate(0.75)
+				:y(SCREEN_BOTTOM-28)
+			end
+		},
+		
+		Def.Quad {
+			InitCommand=function(self)
+				self:zoomx(130):zoomy(48)
+				:x(pn == PLAYER_1 and (SCREEN_CENTER_X-138) or (SCREEN_CENTER_X+138))
+				:y(SCREEN_BOTTOM + 80)
+				:diffuse(0,0,0,0):diffusebottomedge(0,0,0,0.25)
+				:MaskDest()
+				:visible(GAMESTATE:IsHumanPlayer(pn))
 				:sleep(0.25)
 				:decelerate(0.75)
 				:y(SCREEN_BOTTOM-28)
