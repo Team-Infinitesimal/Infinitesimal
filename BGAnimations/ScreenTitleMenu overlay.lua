@@ -13,8 +13,12 @@ local SongStats = ("%i songs in %i groups"):format(
 
 local t = Def.ActorFrame {
 
-	Def.ActorFrame {
+	OnCommand=function(self)
+		GAMESTATE:UpdateDiscordGameMode(GAMESTATE:GetCurrentGame():GetName())
+		GAMESTATE:UpdateDiscordScreenInfo("Title Menu","",1)
+	end,
 
+	Def.ActorFrame {
 		InitCommand=function(self)
 			self:Center():addy(-10)
 			:queuecommand("ZoomY")
@@ -68,7 +72,6 @@ local t = Def.ActorFrame {
 				:queuecommand("Flash")
 			end
 		}
-
 	},
 
 	LoadActor(THEME:GetPathG("","PressCenterStep"))..{

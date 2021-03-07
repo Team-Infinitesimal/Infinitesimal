@@ -66,7 +66,7 @@ local t = Def.ActorFrame {
 		Texture="Pulse",
 		Name="Pulse",
 		BeginCommand=function(self)
-			self:zoomto(40,40)
+			self:zoomto(needsdouble and 80 or 40, 40)
 			:blend(Blend.Add)
 			:diffuseshift()
 			:effectcolor1(1,1,1,1)
@@ -80,7 +80,7 @@ local t = Def.ActorFrame {
 	Def.Sprite{
 		Texture="Blue gradient",
 		Name="Gradient1",
-		BeginCommand=function(self) self:zoomto(needsdouble and 80 or 40,40):MaskDest() end,
+		BeginCommand=function(self) self:zoomto(needsdouble and 80 or 40, 40):MaskDest() end,
 		InitCommand=function(self) self:glowshift():effectperiod(0.6):effectcolor1(1,1,1,0):effectcolor2(1,1,1,1) end,
 		OnCommand=function(self) self:bounce():effectmagnitude(-40,0,0):effectclock("bgm"):effecttiming(1,0,0,0) end
 	},
