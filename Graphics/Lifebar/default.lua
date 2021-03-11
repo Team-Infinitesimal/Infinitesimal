@@ -124,7 +124,7 @@ local t = Def.ActorFrame {
 	Def.BitmapText{
 		Font="Montserrat semibold 20px",
 		InitCommand=function(self)
-			self:x(235):halign(1):shadowlength(1):diffuse(1,1,0,1):visible(false)
+			self:x(needsdouble and 480 or 235):halign(1):shadowlength(1):diffuse(1,1,0,1):visible(false)
 			if ScoreDisplay then self:visible(true) end
 			self:playcommand("Refresh")
 		end,

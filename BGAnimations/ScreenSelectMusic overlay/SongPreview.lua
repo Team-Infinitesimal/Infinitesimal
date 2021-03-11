@@ -95,7 +95,7 @@ local t = Def.ActorFrame {
 		Font="Montserrat semibold 40px",
         InitCommand=function(self)
             self:horizalign(left)
-            :xy(PreviewX-(PreviewWidth/2)+4,PreviewY-86)
+            :xy(PreviewX-(PreviewWidth/2)+4,PreviewY-86.5)
             :zoom(0.35):maxwidth(800)
         end,
         
@@ -113,7 +113,7 @@ local t = Def.ActorFrame {
 		Font="Montserrat semibold 40px",
         InitCommand=function(self)
             self:horizalign(right)
-            :xy(PreviewX+(PreviewWidth/2)-4,PreviewY-86)
+            :xy(PreviewX+(PreviewWidth/2)-4,PreviewY-86.5)
             :zoom(0.35):maxwidth(550)
         end,
 
