@@ -7,8 +7,6 @@ This theme aims to be a spiritual successor to Pump It Up Infinity, an uncommon 
 
 **It is important to state that we do not condone the usage of Pay Mode or the removal of the credits on this theme. If such things are done, we will unfortunately start to block off bits of source code or give up on the project altogether.**
 
-![image](https://i.imgur.com/PTc1qEs.png)
-
 ## Requirements
 * OutFox Alpha 4.9.7 or newer
 
@@ -18,6 +16,12 @@ Older StepMania versions such as `5.0.12`, `5.1b2` and `5.1-new` are not support
 Since this theme is currently on a rolling release, we highly recommend downloading the theme through GitHub Desktop (or `git` for Linux users) and pull subsequent updates that are pushed to the repository. If you're unable to do so, you can also download from the `Code > Download ZIP` button on the main page and extract the .zip file to your OutFox Themes folder (by default in `Appearance/Themes`).
 
 **If you are upgrading from a previous version by `Download ZIP`, fully delete the old folder first. Do not merge the new folder into the old.**
+
+## Showcase
+
+![image](https://i.imgur.com/pamOyYL.png)
+![image](https://i.imgur.com/2Ngk6am.png)
+![image](https://i.imgur.com/OWZ69pv.png)
 
 ## Custom Wallpapers
 Infinitesimal displays randomly selected wallpapers during the profile saving screen after every song. You can add your own by dropping any wallpaper inside of the `/Graphics/Wallpapers` directory. You're free to remove the existing ones or add new ones as you like!
