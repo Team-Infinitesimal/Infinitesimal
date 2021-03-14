@@ -35,12 +35,6 @@ local accuracy 	=	round(playerstats:GetPercentDancePoints()*100, 2)
 local combo 	= 	playerstats:MaxCombo()
 local score 	= 	scorecap(playerstats:GetScore())
 
-if getenv(pname(player).."StageBreak") == true then
-    lifeState = "Fail"
-else
-    lifeState = "Pass"
-end
-
 local ChartType = setmetatable(
 {
 	Modes = {
@@ -342,6 +336,11 @@ t[#t+1] = Def.ActorFrame {
 				elseif accuracy >= 50 then
 					gradeletter = "D"
 				end
+			end
+			
+			local lifeState = "Pass"
+			if getenv(pname(player).."StageBreak") == true then
+				lifeState = "Fail"
 			end
 			
 			self:Load(THEME:GetPathG("","LetterGrades/"..lifeState..gradeletter))
