@@ -26,6 +26,9 @@ Since this theme is currently on a rolling release, we highly recommend download
 ## Custom Wallpapers
 Infinitesimal displays randomly selected wallpapers during the profile saving screen after every song. You can add your own by dropping any wallpaper inside of the `/Graphics/Wallpapers` directory. You're free to remove the existing ones or add new ones as you like!
 
+## Additional Resources
+If you're looking for assets such as more noteskins or folder icons from StepP1, you can grab them [here](https://drive.google.com/drive/folders/1pO9rbaPUwTTDFuEo_4tX8S1BEwmfukeF?usp=sharing). Keep in mind these are independent from the theme and are only here for accessibility purposes to newcomers.
+
 ## Current Limitations and Issues
 The theme currently has a few limitations that are beyond our reach. Here is a list of known limitations and issues:
 * Difficulty balls are out of order due to the lack of level sorting;
