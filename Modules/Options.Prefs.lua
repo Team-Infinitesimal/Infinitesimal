@@ -6,6 +6,13 @@ return {
 		Choices = { OptionNameString('Off'), OptionNameString('On') },
 		Values = { false, true }
 	},
+	UseTouchElements =
+	{
+		Default = false,
+		OneChoiceForAllPlayers = true,
+		Choices = { OptionNameString('Off'), OptionNameString('On') },
+		Values = { false, true }
+	},
 	LuaNoteSkins =
 	{
 		Default = "default",

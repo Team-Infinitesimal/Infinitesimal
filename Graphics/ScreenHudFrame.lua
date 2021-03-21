@@ -3,14 +3,14 @@ local t = Def.ActorFrame {
     Def.Sprite {
 		Texture="ScreenHudTop",
         InitCommand=function(self)
-            self:vertalign(top)
-			:zoom(0.835)
-            :xy(SCREEN_CENTER_X,SCREEN_TOP-100)
+          self:vertalign(top)
+			    :zoom(0.835)
+          :xy(SCREEN_CENTER_X,SCREEN_TOP-100)
         end,
         OnCommand=function(self)
-			self:sleep(0.25)
-            :decelerate(0.75)
-            :y(SCREEN_TOP)
+			     self:sleep(0.25)
+          :decelerate(0.75)
+          :y(SCREEN_TOP)
         end
     },
 
@@ -32,9 +32,9 @@ local t = Def.ActorFrame {
 
 -- Avatars
 for pn in ivalues(PlayerNumber) do
-	
+
 	t[#t+1] = Def.ActorFrame {
-		
+
 		Def.Sprite {
 			Texture="AvatarMask",
 			InitCommand=function(self)
@@ -49,7 +49,7 @@ for pn in ivalues(PlayerNumber) do
 				:y(SCREEN_BOTTOM-28)
 			end
 		},
-		
+
 		Def.Sprite {
 			Texture="EmptyAvatarSlot",
 			InitCommand=function(self)
@@ -78,7 +78,7 @@ for pn in ivalues(PlayerNumber) do
 				:y(SCREEN_BOTTOM-28)
 			end
 		},
-		
+
 		Def.Quad {
 			InitCommand=function(self)
 				self:zoomx(130):zoomy(48)
@@ -101,7 +101,7 @@ for pn in ivalues(PlayerNumber) do
 				:shadowlength(1)
 				:horizalign(pn == PLAYER_1 and right or left)
 				:x(pn == PLAYER_1 and SCREEN_CENTER_X-80 or SCREEN_CENTER_X+80)
-				
+
 				if GAMESTATE:IsHumanPlayer(pn) then
 					GAMESTATE:LoadProfiles()
 					self:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())

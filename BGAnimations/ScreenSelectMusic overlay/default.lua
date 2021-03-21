@@ -3,7 +3,7 @@ local t = Def.ActorFrame {
 	OnCommand=function(self)
 		local player = GAMESTATE:GetMasterPlayerNumber()
 		GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(player))
-		
+
 		if GAMESTATE:IsCourseMode() then
 			GAMESTATE:UpdateDiscordScreenInfo("Selecting Course","",1)
 		else
@@ -15,13 +15,13 @@ local t = Def.ActorFrame {
 			end
 		end
 	end,
-	
+
 	PlayerJoinedMessageCommand=function(self)
 		SOUND:DimMusic(0,65536)
 		SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectProfile");
 		SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen");
 	end;
-	
+
 	LoadActor(THEME:GetPathG("","Readies")),
 	LoadActor("ScorePanel"),
 	LoadActor("ChartInfo"),
@@ -149,5 +149,10 @@ t[#t+1] = Def.BitmapText{
 		self:decelerate(1):y(35)
 	end
 }
+
+local TouchElements = LoadModule("Config.Load.lua")("UseTouchElements","Save/Infinitesimal.ini")
+if TouchElements then
+	t[#t+1] = LoadActor("TouchElements")
+end
 
 return t

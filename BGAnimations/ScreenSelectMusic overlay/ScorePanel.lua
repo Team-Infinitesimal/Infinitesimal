@@ -11,7 +11,7 @@ end;
 ]]--
 
 local t = Def.ActorFrame {
-	
+
 	LoadActor(THEME:GetPathG("","ScorePanel"))..{
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y+55)
@@ -45,7 +45,7 @@ for pn in ivalues(PlayerNumber) do
 				self:xy(SCREEN_CENTER_X+(pn == PLAYER_1 and -150 or 150), SCREEN_CENTER_Y+55)
 				:zoom(0.1):diffusealpha(0)
 			end,
-			
+
 			SongChosenMessageCommand=function(self)
 				if GAMESTATE:IsHumanPlayer(pn) then
 					self:stoptweening():decelerate(0.25)
@@ -53,26 +53,26 @@ for pn in ivalues(PlayerNumber) do
 					:zoom(0.2):diffusealpha(1):playcommand("Update")
 				end
 			end,
-			
+
 			SongUnchosenMessageCommand=function(self)
 				self:stoptweening():decelerate(0.2)
 				:xy(SCREEN_CENTER_X+(pn == PLAYER_1 and -150 or 150), SCREEN_CENTER_Y+55)
 				:zoom(0.1):diffusealpha(0)
 			end,
-			
+
 			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Update")end,
 			CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Update")end,
-			
+
 			UpdateCommand=function(self)
 				if GAMESTATE:IsHumanPlayer(pn) and PROFILEMAN:IsPersistentProfile(pn) then
 					playercard = PROFILEMAN:GetProfile(pn)
 					currentsong = GAMESTATE:GetCurrentSong()
 					playersteps = GAMESTATE:GetCurrentSteps(pn)
-					
+
 					if playercard and currentsong and playersteps then
 						playercardlist = playercard:GetHighScoreList(currentsong,playersteps)
 						playerscores = playercardlist:GetHighScores()
-						
+
 						if playerscores[1] ~= nil then
 							superbs 	=	playerscores[1]:GetTapNoteScore("TapNoteScore_W1")
 							perfects 	= 	playerscores[1]:GetTapNoteScore("TapNoteScore_W2")
@@ -90,9 +90,9 @@ for pn in ivalues(PlayerNumber) do
 											playerscores[1]:GetTapNoteScore("TapNoteScore_CheckpointMiss")
 
 							accuracy 	=	round(playerscores[1]:GetPercentDP()*100, 2)
-							
+
 							self:diffusealpha(1)
-							
+
 							local gradeletter = "F"
 							if misses == 0 then
 								if bads == 0 and goods == 0 then
@@ -115,7 +115,7 @@ for pn in ivalues(PlayerNumber) do
 									gradeletter = "D"
 								end
 							end
-							
+
 							self:Load(THEME:GetPathG("","LetterGrades/"..lifeState..gradeletter))
 						else
 							self:diffusealpha(0)
@@ -126,14 +126,14 @@ for pn in ivalues(PlayerNumber) do
 				end
 			end
 		},
-		
+
 		LoadFont("montserrat/_montserrat 40px")..{
 			InitCommand=function(self)
 				self:xy(SCREEN_CENTER_X+(pn==PLAYER_1 and -100 or 100), SCREEN_CENTER_Y+30)
 				:horizalign(pn==PLAYER_1 and left or right)
 				:zoom(0.2):diffusecolor(0,0,0,0):maxwidth(1000)
 			end,
-			
+
 			SongChosenMessageCommand=function(self)
 				if GAMESTATE:IsHumanPlayer(pn) then
 					self:stoptweening():decelerate(0.25)
@@ -141,29 +141,29 @@ for pn in ivalues(PlayerNumber) do
 					:zoom(0.35):diffusealpha(1):playcommand("Update")
 				end
 			end,
-			
+
 			SongUnchosenMessageCommand=function(self)
 				self:stoptweening():decelerate(0.1)
 				:xy(SCREEN_CENTER_X+(pn==PLAYER_1 and -100 or 100), SCREEN_CENTER_Y+30)
 				:zoom(0.2):diffusealpha(0)
 			end,
-			
+
 			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Update")end,
 			CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Update")end,
-			
+
 			UpdateCommand=function(self)
 				if GAMESTATE:IsHumanPlayer(pn) and PROFILEMAN:IsPersistentProfile(pn) then
 					playercard = PROFILEMAN:GetProfile(pn)
 					currentsong = GAMESTATE:GetCurrentSong()
 					playersteps = GAMESTATE:GetCurrentSteps(pn)
-					
+
 					if playercard and currentsong and playersteps then
 						playercardlist = playercard:GetHighScoreList(currentsong,playersteps)
 						playerscores = playercardlist:GetHighScores()
-						
+
 						if playerscores[1] ~= nil then
 							accuracy = round(playerscores[1]:GetPercentDP()*100, 2)
-							
+
 							if accuracy == nil then
 								self:settext("")
 							else
@@ -178,14 +178,14 @@ for pn in ivalues(PlayerNumber) do
 				end
 			end
 		},
-		
+
 		LoadFont("montserrat/_montserrat 40px")..{
 			InitCommand=function(self)
 				self:xy(SCREEN_CENTER_X+(pn==PLAYER_1 and -100 or 100), SCREEN_CENTER_Y+45)
 				:horizalign(pn==PLAYER_1 and left or right)
 				:zoom(0.2):diffusecolor(0,0,0,0):maxwidth(1000)
 			end,
-			
+
 			SongChosenMessageCommand=function(self)
 				if GAMESTATE:IsHumanPlayer(pn) then
 					self:stoptweening():decelerate(0.25)
@@ -193,29 +193,29 @@ for pn in ivalues(PlayerNumber) do
 					:zoom(0.35):diffusealpha(1):playcommand("Update")
 				end
 			end,
-			
+
 			SongUnchosenMessageCommand=function(self)
 				self:stoptweening():decelerate(0.1)
 				:xy(SCREEN_CENTER_X+(pn==PLAYER_1 and -100 or 100), SCREEN_CENTER_Y+45)
 				:zoom(0.2):diffusealpha(0)
 			end,
-			
+
 			CurrentStepsP1ChangedMessageCommand=function(self)self:playcommand("Update")end,
 			CurrentStepsP2ChangedMessageCommand=function(self)self:playcommand("Update")end,
-			
+
 			UpdateCommand=function(self)
 				if GAMESTATE:IsHumanPlayer(pn) and PROFILEMAN:IsPersistentProfile(pn) then
 					playercard = PROFILEMAN:GetProfile(pn)
 					currentsong = GAMESTATE:GetCurrentSong()
 					playersteps = GAMESTATE:GetCurrentSteps(pn)
-					
+
 					if playercard and currentsong and playersteps then
 						playercardlist = playercard:GetHighScoreList(currentsong,playersteps)
 						playerscores = playercardlist:GetHighScores()
-						
+
 						if playerscores[1] ~= nil then
 							score = playerscores[1]:GetScore()
-							
+
 							self:settext(score)
 						else
 							self:settext("No Score")
@@ -227,6 +227,14 @@ for pn in ivalues(PlayerNumber) do
 			end
 		}
 	}
+
+end
+
+local TouchElements = LoadModule("Config.Load.lua")("UseTouchElements","Save/Infinitesimal.ini")
+if TouchElements then
+	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
+		t[#t+1] = LoadActor("PanelTouchElements", pn)
+	end
 end
 
 return t

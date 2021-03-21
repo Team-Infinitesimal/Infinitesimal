@@ -18,9 +18,9 @@ local t = Def.ActorFrame {
 			:zoomy(0.83)
 		end
 	},
-	
+
 	LoadActor(THEME:GetPathG("","ScreenHudFrame")),
-	
+
 	--- ------------------------------------------------
 	--- Text/Song Info
 	--- ------------------------------------------------
@@ -43,7 +43,7 @@ local t = Def.ActorFrame {
 	LoadFont("Montserrat semibold 20px")..{
 		InitCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong()
-			
+
 			self:diffusealpha(0)
 			:sleep(1.75)
 			:horizalign(center)
@@ -62,7 +62,7 @@ local t = Def.ActorFrame {
 	LoadFont("Montserrat normal 20px")..{
 		InitCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong()
-			
+
 			self:diffusealpha(0)
 			:sleep(1.75)
 			:horizalign(center)
@@ -81,7 +81,7 @@ local t = Def.ActorFrame {
 	LoadFont("Montserrat normal 20px")..{
 		InitCommand=function(self)
 			local song = GAMESTATE:GetCurrentSong()
-			
+
 			self:diffusealpha(0)
 			:sleep(1.75)
 			:horizalign(center)
@@ -134,7 +134,7 @@ t[#t+1] = LoadFont("Montserrat Semibold 40px")..{
 		else
 			self:x(SCREEN_CENTER_X-220)
 		end
-		
+
 		self:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
@@ -155,7 +155,7 @@ t[#t+1] = LoadFont("Montserrat normal 40px")..{
 		else
 			self:x(SCREEN_CENTER_X-160)
 		end
-		
+
 		self:zoom(0.4)
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
@@ -168,5 +168,14 @@ t[#t+1] = LoadFont("Montserrat normal 40px")..{
 		:y(SCREEN_TOP+26)
 	end
 }
+
+--- --------------
+--- Touch Elements
+--- --------------
+
+local TouchElements = LoadModule("Config.Load.lua")("UseTouchElements","Save/Infinitesimal.ini")
+if TouchElements then
+	t[#t+1] = LoadActor("TouchElements")
+end
 
 return t
