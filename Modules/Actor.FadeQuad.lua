@@ -7,7 +7,7 @@ return function( TweenTime, TweenType, ColorMethod1, ColorMethod2 )
             end,
             OnCommand=function(self)
                 self:diffuse( ColorMethod1 )
-                :tween( TweenTime, TweenType )
+                :tween( TweenTime, TweenType, {0,0,0,0} )
                 :diffuse( ColorMethod2 )
                 :sleep(0.5)
             end
