@@ -49,6 +49,7 @@ This theme wouldn't be here if it weren't for the help of the following people:
 * Bedrock Solid (music, suggestions and playtesting)
 * 4199 (suggestions and playtesting)
 * SHRMP0 (suggestions and playtesting)
+* chuckette (generally being awesome)
 * Enally (suggestions and playtesting)
 * djgrs (suggestions and playtesting)
 * CrackItUp group (origin and home of the theme's development)
