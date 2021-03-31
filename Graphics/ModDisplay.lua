@@ -224,6 +224,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				self:settext("VJ")
 			elseif TimingMode == "Infinity" then
 				self:settext("INF")
+			elseif TimingMode == "Pro" then
+				self:settext("PRO")
 			elseif TimingMode == "Groove" then
 				self:settext("ITG")
 			elseif TimingMode == "Hero" then

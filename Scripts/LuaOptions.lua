@@ -12,7 +12,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_W3']			= 0.104166,
 		['TapNoteScore_W4']			= 0.145833,
 		['TapNoteScore_W5']			= 0.187500,
-		
+
 		['TapNoteScore_HitMine']	= 0.145833,
 		['TapNoteScore_Attack']		= 0.104166,
 		['TapNoteScore_Hold']		= 0.125000,
@@ -30,7 +30,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_W3']			= 0.087500,
 		['TapNoteScore_W4']			= 0.129166,
 		['TapNoteScore_W5']			= 0.170833,
-		
+
 		['TapNoteScore_HitMine']	= 0.129166,
 		['TapNoteScore_Attack']		= 0.087500,
 		['TapNoteScore_Hold']		= 0.108333,
@@ -48,7 +48,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_W3']			= 0.062500,
 		['TapNoteScore_W4']			= 0.095833,
 		['TapNoteScore_W5']			= 0.129166,
-		
+
 		['TapNoteScore_HitMine']	= 0.095833,
 		['TapNoteScore_Attack']		= 0.062500,
 		['TapNoteScore_Hold']		= 0.083333,
@@ -66,11 +66,29 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_W3']			= 0.115000,
 		['TapNoteScore_W4']			= 0.160000,
 		['TapNoteScore_W5']			= 0.200000,
-		
+
 		['TapNoteScore_HitMine']	= 0.130000,
 		['TapNoteScore_Attack']		= 0.135000,
 		['TapNoteScore_Hold']		= 0.320000,
 		['TapNoteScore_Roll']		= 0.450000,
+		['TapNoteScore_Checkpoint']	= 0,
+	};
+	return Name, Timings
+end
+
+TimingWindow[#TimingWindow+1] = function()
+	local Name = "Pro"
+	local Timings= {
+		['TapNoteScore_W1']			= 0.026000,
+		['TapNoteScore_W2']			= 0.055000,
+		['TapNoteScore_W3']			= 0.100000,
+		['TapNoteScore_W4']			= 0.1450000,
+		['TapNoteScore_W5']			= 0.000000,
+
+		['TapNoteScore_HitMine']	= 0.070000,
+		['TapNoteScore_Attack']		= 0.135000,
+		['TapNoteScore_Hold']		= 0.350000,
+		['TapNoteScore_Roll']		= 0.350000,
 		['TapNoteScore_Checkpoint']	= 0,
 	};
 	return Name, Timings
@@ -84,7 +102,7 @@ TimingWindow[#TimingWindow+1] = function()
 		['TapNoteScore_W3']			= 0.102000,
 		['TapNoteScore_W4']			= 0.135000,
 		['TapNoteScore_W5']			= 0.180000,
-		
+
 		['TapNoteScore_HitMine']	= 0.070000,
 		['TapNoteScore_Attack']		= 0.130000,
 		['TapNoteScore_Hold']		= 0.320000,
@@ -99,7 +117,7 @@ TimingWindow[#TimingWindow+1] = function()
 	local Timings= {
 		['TapNoteScore_W1']			= 0.062500,
 		['TapNoteScore_W2']			= 0.062500,
-		
+
 		['TapNoteScore_HitMine']	= 0.070000,
 		['TapNoteScore_Attack']		= 0.130000,
 		['TapNoteScore_Hold']		= 0.320000,
@@ -133,7 +151,7 @@ function TimingOrder(TimTab)
 		"W1","W2","W3","W4","W5",
 		"HitMine","Attack","Hold","Roll","Checkpoint"
 	}
-	
+
 	-- Iterate all judgments that are available.
 	for k,v in pairs(TimTab) do
 		for a,s in pairs( availableJudgments ) do
