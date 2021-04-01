@@ -124,11 +124,17 @@ local DiffDisplay = Def.ActorFrame{
 					end
 
 					self:GetChild("")[i]:diffusealpha(1)
-					self:GetChild("")[i]:GetChild("Icon"):setstate( ChartType[steps] )
+					
+					if IsGame("pump") then
+						self:GetChild("")[i]:GetChild("Icon"):setstate( ChartType[steps] ):diffuse(Color.White)
+					else
+						self:GetChild("")[i]:GetChild("Icon"):setstate(7):diffuse(CustomDifficultyToColor(StepsOrTrailToCustomDifficulty(steps)))
+					end
+					
 					self:GetChild("")[i]:GetChild("Diff"):settext( meterset )
 					self:GetChild("")[i]:GetChild("Label"):setstate( StepTypeIndex )
 				else
-					self:GetChild("")[i]:GetChild("Icon"):setstate(7)
+					self:GetChild("")[i]:GetChild("Icon"):setstate(7):diffuse(Color.White)
 					self:GetChild("")[i]:GetChild("Diff"):settext("--")
 					self:GetChild("")[i]:diffusealpha(0.3)
 					self:GetChild("")[i]:GetChild("Label"):setstate( 10 )
@@ -136,7 +142,7 @@ local DiffDisplay = Def.ActorFrame{
 			end
 		else
 			for i=1,14 do
-				self:GetChild("")[i]:GetChild("Icon"):setstate(7)
+				self:GetChild("")[i]:GetChild("Icon"):setstate(7):diffuse(Color.White)
 				self:GetChild("")[i]:GetChild("Diff"):settext("--")
 				self:GetChild("")[i]:diffusealpha(0.3)
 				self:GetChild("")[i]:GetChild("Label"):setstate( 10 )

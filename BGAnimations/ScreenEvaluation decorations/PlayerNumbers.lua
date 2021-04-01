@@ -228,7 +228,12 @@ t[#t+1] = Def.ActorFrame {
 			:accelerate(0.2):diffusealpha(1)
 
 			local steps = GAMESTATE:GetCurrentSteps(player)
-			self:setstate(ChartType[steps])
+			
+			if IsGame("pump") then
+				self:setstate( ChartType[steps] )
+			else
+				self:setstate(7):diffuse(CustomDifficultyToColor(StepsOrTrailToCustomDifficulty(steps)))
+			end
 		end
 	},
 	

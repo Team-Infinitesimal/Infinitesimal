@@ -33,14 +33,14 @@ local t = Def.ActorFrame {
 		end,
 
 		Def.Sprite {
-			Texture=THEME:GetPathG("","logo"),
+			Texture=THEME:GetPathG("",IsGame("dance") and "groove_logo" or "logo"),
 			InitCommand=function(self)
 				self:zoom(0.5,0.5)
 			end
 		},
 
 		Def.Sprite {
-			Texture=THEME:GetPathG("","logo"),
+			Texture=THEME:GetPathG("",IsGame("dance") and "groove_logo" or "logo"),
 			InitCommand=function(self)
 				self:zoom(0.5,0.5)
 				:queuecommand("Pulse")
@@ -58,7 +58,7 @@ local t = Def.ActorFrame {
 		},
 
 		Def.Sprite {
-			Texture=THEME:GetPathG("","blurLogo"),
+			Texture=THEME:GetPathG("",IsGame("dance") and "groove_blurLogo" or "blurLogo"),
 			InitCommand=function(self)
 				self:zoom(0.8,0.8)
 				:diffusealpha(0)
