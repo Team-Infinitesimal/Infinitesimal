@@ -1,30 +1,13 @@
--- I'm so sorry
 local function isFC()
-  local FCStates = {}
   for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     local playerStats = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
     if playerStats:FullCombo() then
-      if pn == "PlayerNumber_P1" then
-        FCStates[0] = true
-      else
-        FCStates[1] = true
-      end
-    else
-      if pn == "PlayerNumber_P1" then
-        FCStates[0] = false
-      else
-        FCStates[1] = false
-      end
-    end
+      return true
+    end;
   end
-  if FCStates[0] == true or FCStates[1] == true then
-    return true
-  else
-    return false
-  end
+  return false
 end
--- There are probably many better ways to do this but I can't think of a single one
--- I just need the transition between screens to last a little longer if either player gets a full combo
+-- Thanks Accelerator/Rhythm Lunatic/however I should credit you for making the above code not horrible
 
 return Def.ActorFrame {
 
