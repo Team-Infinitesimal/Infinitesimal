@@ -5,15 +5,15 @@ local function isFC()
     local playerStats = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
     if playerStats:FullCombo() then
       if pn == "PlayerNumber_P1" then
-        FCStates[1] = true
+        FCStates[0] = true
       else
-        FCStates[2] = true
+        FCStates[1] = true
       end
     else
       if pn == "PlayerNumber_P1" then
-        FCStates[1] = false
+        FCStates[0] = false
       else
-        FCStates[2] = false
+        FCStates[1] = false
       end
     end
   end
