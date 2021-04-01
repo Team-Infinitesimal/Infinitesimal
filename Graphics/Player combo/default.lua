@@ -35,7 +35,7 @@ local t = Def.ActorFrame {
 			elseif params.FullComboW3 then
 				self:effectcolor1(colours.FullComboW3)
 			elseif params.FullComboW4 then
-				self:effectcolor1(colours.FullComboW2)
+				self:effectcolor1(colours.FullComboW4)
 			elseif params.Combo then
 				self:stopeffect()
 			elseif params.Misses then
