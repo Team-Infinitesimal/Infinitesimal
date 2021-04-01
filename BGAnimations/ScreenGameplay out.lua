@@ -7,11 +7,11 @@ local function isFC()
       if pn == "PlayerNumber_P1" then
         FCStates[1] = true
       else
-        FCStates[1] = false
+        FCStates[2] = true
       end
     else
       if pn == "PlayerNumber_P1" then
-        FCStates[2] = true
+        FCStates[1] = false
       else
         FCStates[2] = false
       end
