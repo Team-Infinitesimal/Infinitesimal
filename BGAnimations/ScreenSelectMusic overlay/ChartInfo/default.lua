@@ -9,17 +9,17 @@ t[#t+1] = LoadActor(THEME:GetPathG("","GradientUI"))..{
 		:y(baseY-60)
 		:visible(false)
 	end
-	
+
 	SongChosenMessageCommand=function(self)
 		self:stoptweening()
 		:visible(true)
 		:decelerate(0.3)
 		:y(baseY+80)
 	end
-	
+
 	SongUnchosenMessageCommand=function(self)self:playcommand("Close")end
 	PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end
-	
+
 	CloseCommand=function(self)
 		self:stoptweening()
 		:decelerate(0.3)
@@ -53,7 +53,7 @@ for player in ivalues(PlayerNumber) do
                 self:x(InfoXP2)
             end
         end,
-        
+
         SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
 		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end
 
@@ -64,7 +64,7 @@ for player in ivalues(PlayerNumber) do
             :x(SCREEN_CENTER_X)
         end
     }
-	
+
 	--=============================================================================
 	--		Chart Type
 	--=============================================================================
@@ -74,7 +74,8 @@ for player in ivalues(PlayerNumber) do
 			self:xy(SCREEN_CENTER_X,InfoY-57.5)
 			:horizalign(center)
 			:zoom(0.5):maxwidth(175)
-			:diffusecolor(0,0,0,0)
+			:diffusecolor(255,255,255,0)
+      :skewx(-0.25)
 		end,
 
 		SongChosenMessageCommand=function(self)
@@ -83,10 +84,10 @@ for player in ivalues(PlayerNumber) do
 			:decelerate(0.25)
 			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 14 or -13))
 		end,
-		
+
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
 		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end
-		
+
 		CloseCommand=function(self)
 			self:decelerate(0.2)
 			:diffusealpha(0)
@@ -111,7 +112,7 @@ for player in ivalues(PlayerNumber) do
 			end
 		end
 	}
-	
+
 	--=============================================================================
 	--		Chart Description
 	--=============================================================================
@@ -130,7 +131,7 @@ for player in ivalues(PlayerNumber) do
 			:decelerate(0.25)
 			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 14 or -13))
 		end,
-		
+
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
 		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end
 
@@ -187,7 +188,7 @@ for player in ivalues(PlayerNumber) do
 			:decelerate(0.25)
 			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 10 or -17.5))
 		end,
-		
+
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
 		--PlayerJoinedMessageCommand=function(self)self:playcommand("Close")end
 
