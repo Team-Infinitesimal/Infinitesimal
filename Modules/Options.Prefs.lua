@@ -13,6 +13,13 @@ return {
 		Choices = { OptionNameString('Off'), OptionNameString('On') },
 		Values = { false, true }
 	},
+	UseProfileBubble =
+	{
+		Default = false,
+		OneChoiceForAllPlayers = true,
+		Choices = { OptionNameString('Off'), OptionNameString('On') },
+		Values = { false, true }
+	},
 	LuaNoteSkins =
 	{
 		Default = "default",

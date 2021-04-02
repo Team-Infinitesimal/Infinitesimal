@@ -1,3 +1,7 @@
+local function getCurStage()
+	return string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1)
+end
+
 local t = Def.ActorFrame {
 
 	OnCommand=function(self)
@@ -135,7 +139,6 @@ t[#t+1] = Def.BitmapText{
 t[#t+1] = Def.BitmapText{
 	Font="Montserrat normal 40px",
 	InitCommand=function(self)
-		local CurStage = string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1)
 		self:x(SCREEN_CENTER_X - (GetScreenAspectRatio() >= 1.5 and (GetScreenAspectRatio() * 108) - 28 or 132) )
 		:zoom(0.35)
 		:shadowcolor(0,0,0,0.25)
@@ -143,7 +146,7 @@ t[#t+1] = Def.BitmapText{
 		:halign(1)
 		:diffuse(0,0,0,1)
 		:y(-125)
-		:settext("STAGE "..CurStage)
+		:settext("STAGE "..getCurStage())
 	end,
 	OnCommand=function(self)
 		self:decelerate(1):y(35)
@@ -153,6 +156,13 @@ t[#t+1] = Def.BitmapText{
 local TouchElements = LoadModule("Config.Load.lua")("UseTouchElements","Save/Infinitesimal.ini")
 if TouchElements then
 	t[#t+1] = LoadActor("TouchElements")
+end
+
+local ProfileBubble = LoadModule("Config.Load.lua")("UseProfileBubble","Save/Infinitesimal.ini")
+if ProfileBubble and (getCurStage() == "01") then
+	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
+		t[#t+1] = LoadActor("ProfileBubble", pn)
+	end
 end
 
 return t
