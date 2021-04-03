@@ -1,12 +1,13 @@
 local player = ...
-local colorVar
+local colorVar1
+local colorVar2
 
 if player == PLAYER_1 then
-	colorVar1 = color("0.85,0.5,0.3,1")
-	colorVar2 = color("0.85,0.5,0.3,0.75")
-else
 	colorVar1 = color("0.3,0.5,0.85,1")
 	colorVar2 = color("0.3,0.5,0.85,0.75")
+else
+	colorVar1 = color("0.85,0.5,0.3,1")
+	colorVar2 = color("0.85,0.5,0.3,0.75")
 end
 
 local t = Def.ActorFrame{}

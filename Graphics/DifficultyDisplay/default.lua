@@ -83,7 +83,7 @@ local DiffDisplay = Def.ActorFrame{
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	NextSongMessageCommand=function(self) self:playcommand("Refresh") end,
 	PreviousSongMessageCommand=function(self) self:playcommand("Refresh") end,
-	
+
 	RefreshCommand=function(self)
 		self:stoptweening()
 
@@ -118,19 +118,19 @@ local DiffDisplay = Def.ActorFrame{
 							StepTypeIndex = k - 1
 						end
 					end
-					
+
 					if string.find(string.upper(steps:GetChartName()), "UCS CONTEST") then
 						StepTypeIndex = 9
 					end
 
 					self:GetChild("")[i]:diffusealpha(1)
-					
+
 					if IsGame("pump") then
 						self:GetChild("")[i]:GetChild("Icon"):setstate( ChartType[steps] ):diffuse(Color.White)
 					else
 						self:GetChild("")[i]:GetChild("Icon"):setstate(7):diffuse(CustomDifficultyToColor(StepsOrTrailToCustomDifficulty(steps)))
 					end
-					
+
 					self:GetChild("")[i]:GetChild("Diff"):settext( meterset )
 					self:GetChild("")[i]:GetChild("Label"):setstate( StepTypeIndex )
 				else
@@ -189,23 +189,23 @@ for pn in ivalues(PlayerNumber) do
 		InitCommand=function(self)
 			self:zoom(baseZoom):xy(baseX,baseY):visible(false)
 		end,
-		
+
 		CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Set") end,
 		CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Set") end,
 		SongUnchosenMessageCommand=function(self) self:playcommand("HideCursor") end,
-		
+
 		SongChosenMessageCommand=function(self)
 			stepsSelected = true
 			if GAMESTATE:IsHumanPlayer(pn) then
 				self:visible(true):playcommand("Set")
 			end
 		end,
-		
+
 		HideCursorCommand=function(self)
 			stepsSelected = false
 			self:visible(false)
 		end,
-		
+
 		SetCommand=function(self)
 			if stepsArray and stepsSelected and GAMESTATE:IsHumanPlayer(pn) then
 				local ind = GetCurrentStepsIndex(pn)
