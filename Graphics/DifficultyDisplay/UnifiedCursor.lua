@@ -2,7 +2,7 @@ local player = ...
 local colorVar1
 local colorVar2
 
-if player == PLAYER_1 then
+if player == PLAYER_2 then
 	colorVar1 = color("0.3,0.5,0.85,1")
 	colorVar2 = color("0.3,0.5,0.85,0.75")
 else

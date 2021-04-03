@@ -75,14 +75,14 @@ for player in ivalues(PlayerNumber) do
 			:horizalign(center)
 			:zoom(0.5):maxwidth(175)
 			:diffusecolor(255,255,255,0)
-      :skewx(-0.25)
+			:skewx(-0.25)
 		end,
 
 		SongChosenMessageCommand=function(self)
 			self:stoptweening()
 			:diffusealpha(GAMESTATE:IsHumanPlayer(player) and 1 or 0)
 			:decelerate(0.25)
-			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 14 or -13))
+			:x((player == PLAYER_1 and InfoXP1 or InfoXP2)+(player == PLAYER_1 and 8 or -5))
 		end,
 
 		SongUnchosenMessageCommand=function(self)self:playcommand("Close")end,
