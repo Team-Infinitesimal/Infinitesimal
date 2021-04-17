@@ -130,7 +130,7 @@ local t = Def.ActorFrame {
     -- Bottom info panel
     Def.Quad {
         InitCommand=function(self)
-            self:xy(PreviewX,PreviewY+85.5)
+            self:xy(PreviewX,PreviewY+86)
 			:zoomx(PreviewWidth)
 			:zoomy(20)
             :diffuse(0,0,0,0.75)
