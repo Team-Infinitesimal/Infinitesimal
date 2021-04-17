@@ -5,7 +5,7 @@ local needsdouble = args.Double
 local ScoreDisplay = LoadModule("Config.Load.lua")("ScoreDisplay",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini")
 
 local dgthreshold = 0.2
-local lifebarwidth = needsdouble and 985 or 495
+local lifebarwidth = needsdouble and 983 or 492
 
 local t = Def.ActorFrame {
 	OnCommand=function(self)
@@ -150,5 +150,12 @@ local t = Def.ActorFrame {
 		end
 	}
 }
+
+if LoadModule("Config.Load.lua")("SongProgress",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini") then
+	t[#t+1] = Def.SongMeterDisplay {
+		StreamWidth=lifebarwidth,
+		Stream=Def.Quad({ InitCommand=function(self) self:zoomy(3.5):addy(-22):diffuse(Color.Yellow) end })
+	}
+end
 
 return t

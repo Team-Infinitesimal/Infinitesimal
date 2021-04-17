@@ -128,5 +128,12 @@ return {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('Stream Only'), OptionNameString('All') },
         Values = {false, "Stream", "All"}
+    },
+    SongProgress =
+    {
+        UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
     }
 }
