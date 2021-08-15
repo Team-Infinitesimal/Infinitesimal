@@ -20,6 +20,13 @@ return {
 		Choices = { OptionNameString('Off'), OptionNameString('On') },
 		Values = { false, true }
 	},
+	ShowPreviewVideos =
+	{
+		Default = true,
+		OneChoiceForAllPlayers = true,
+		Choices = { OptionNameString('Off'), OptionNameString('On') },
+		Values = { false, true }
+	},
 	LuaNoteSkins =
 	{
 		Default = "default",

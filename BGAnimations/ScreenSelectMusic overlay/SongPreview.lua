@@ -3,6 +3,8 @@ local PreviewY = SCREEN_CENTER_Y-70
 local PreviewWidth = 340
 local PreviewHeight = 191.25
 
+local ShowPreviewVideos = LoadModule("Config.Load.lua")("ShowPreviewVideos","Save/Infinitesimal.ini")
+
 local t = Def.ActorFrame {
 
 	-- Frame
@@ -41,12 +43,12 @@ local t = Def.ActorFrame {
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0):sleep(0.4)
             if GAMESTATE:GetCurrentSong() then
-				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil then
-      				self:queuecommand("LoadBG")
+        				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() ~= nil and ShowPreviewVideos then
+              			self:queuecommand("LoadAnimated")
                 else
-                    self:queuecommand("LoadAnimated")
-      			end
-			end
+                    self:queuecommand("LoadBG")
+              	end
+			      end
         end,
 
         LoadBGCommand=function(self)
@@ -98,7 +100,7 @@ local t = Def.ActorFrame {
             :xy(PreviewX-(PreviewWidth/2)+4,PreviewY-86.5)
             :zoom(0.35):maxwidth(800)
         end,
-        
+
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0)
             local song = GAMESTATE:GetCurrentSong()
@@ -145,7 +147,7 @@ local t = Def.ActorFrame {
             :xy(PreviewX-(PreviewWidth/2)+4,PreviewY+85.5)
             :zoom(0.35):maxwidth(650)
         end,
-        
+
         CurrentSongChangedMessageCommand=function(self)
             self:stoptweening():diffusealpha(0)
             local song = GAMESTATE:GetCurrentSong()
@@ -177,7 +179,7 @@ local t = Def.ActorFrame {
 				else
 					speedvalue = lobpm.."-"..hibpm
 				end
-				
+
 				if song:IsDisplayBpmRandom() or speedvalue == 0 then
                     speedvalue = "???"
                 end
@@ -185,7 +187,7 @@ local t = Def.ActorFrame {
             end
         end
     },
-    
+
 	Def.Sprite {
 		InitCommand=function(self)
 			self:diffusealpha(0):xy(SCREEN_CENTER_X+125,SCREEN_CENTER_Y-125)
