@@ -236,8 +236,8 @@ local t = Def.ActorFrame {
 	children = {
 		Def.ActorFrame {
 			Name = 'P1Frame';
-			InitCommand=function(self)self:x(SCREEN_CENTER_X-160):y(SCREEN_CENTER_Y):zoom(0)end;
-			OnCommand=function(self)self:sleep(0.25):decelerate(0.75):zoom(1)end;
+			InitCommand=function(self)self:x(SCREEN_CENTER_X-160):y(SCREEN_CENTER_Y):zoom(0.5):diffusealpha(0)end;
+			OnCommand=function(self)self:sleep(0.25):decelerate(0.85):zoom(1):diffusealpha(1)end;
 			PlayerJoinedMessageCommand=function(self,param)
 				if param.Player == PLAYER_1 then
 					(function(self)
@@ -251,8 +251,8 @@ local t = Def.ActorFrame {
 		};
 		Def.ActorFrame {
 			Name = 'P2Frame';
-			InitCommand=function(self)self:x(SCREEN_CENTER_X+160):y(SCREEN_CENTER_Y):zoom(0)end;
-			OnCommand=function(self)self:sleep(0.25):decelerate(0.75):zoom(1)end;
+			InitCommand=function(self)self:x(SCREEN_CENTER_X+160):y(SCREEN_CENTER_Y):zoom(0.5):diffusealpha(0)end;
+			OnCommand=function(self)self:sleep(0.25):decelerate(0.85):zoom(1):diffusealpha(1)end;
 			PlayerJoinedMessageCommand=function(self,param)
 				if param.Player == PLAYER_2 then
 					(function(self)

@@ -64,7 +64,7 @@ local t = Def.ActorFrame {
 			:zoom(0.4)
 			:settext("")
 		end,
-		
+
 		OnCommand=function(self)self:playcommand('Refresh')end,
 		RefreshCreditTextMessageCommand=function(self)self:playcommand('Refresh')end,
 		CoinInsertedMessageCommand=function(self)self:playcommand('Refresh')end,
@@ -74,7 +74,8 @@ local t = Def.ActorFrame {
 		RefreshCommand=function(self)
 			local gMode = GAMESTATE:GetCoinMode()
 			local eMode = GAMESTATE:IsEventMode()
-			
+			local Coins = GAMESTATE:GetCoins()
+
 			-- no one wants screen burn-in at home!
 			if gMode == "CoinMode_Home" then
 				self:visible(false)
@@ -83,11 +84,11 @@ local t = Def.ActorFrame {
 			elseif gMode == 'CoinMode_Free' then
 				self:visible(true):settext("FREE PLAY")
 			elseif gMode == 'CoinMode_Pay' then
-				PREFSMAN:SetPreference("CoinMode","Home")
+				self:visible(true):settext("CREDIT(S): "..Coins)
 			end
 		end
 	},
-	
+
 	-- Instead of cockblocking users, we will just add a funny watermark instead
 	Def.BitmapText {
 		Font="Montserrat normal 20px",
@@ -97,11 +98,11 @@ local t = Def.ActorFrame {
 			:horizalign(left)
 			:zoom(0.75)
 			:settext("Update StepMania")
-			
+
 			self:diffusealpha(string.find(ProductVersion(), "5.3") and 0 or 0.2)
 		end
 	},
-	
+
 	Def.BitmapText {
 		Font="Montserrat normal 20px",
 		InitCommand=function(self)
@@ -110,7 +111,7 @@ local t = Def.ActorFrame {
 			:horizalign(left)
 			:zoom(0.5)
 			:settext("Unsupported version detected.")
-			
+
 			self:diffusealpha(string.find(ProductVersion(), "5.3") and 0 or 0.2)
 		end
 	}

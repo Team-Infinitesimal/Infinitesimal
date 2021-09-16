@@ -5,3 +5,5 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 end
 
 return t
+
+

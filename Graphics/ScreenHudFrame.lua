@@ -4,7 +4,7 @@ local t = Def.ActorFrame {
 		Texture="ScreenHudTop",
         InitCommand=function(self)
           self:vertalign(top)
-			    :zoom(0.835)
+			    :zoom(1.335)
           :xy(SCREEN_CENTER_X,SCREEN_TOP-100)
         end,
         OnCommand=function(self)
@@ -18,11 +18,11 @@ local t = Def.ActorFrame {
 		Texture="ScreenHudBottom",
         InitCommand=function(self)
             self:vertalign(bottom)
-			:zoom(0.835)
+			      :zoom(1.35)
             :xy(SCREEN_CENTER_X,SCREEN_BOTTOM+100)
         end,
         OnCommand=function(self)
-			self:sleep(0.25)
+			  self:sleep(0.25)
             :decelerate(0.75)
             :y(SCREEN_BOTTOM)
         end
