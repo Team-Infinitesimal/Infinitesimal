@@ -78,6 +78,16 @@ local t = Def.ActorFrame {
 		InitCommand=function(self)
 			self:xy(SCREEN_LEFT+(GetScreenAspectRatio()*95),SCREEN_BOTTOM-100)
 			:zoom(0.75,0.75)
+			:queuecommand("Refresh")
+		end,
+		StorageDevicesChangedMessageCommand=function(self)self:queuecommand("Refresh")end,
+		RefreshCommand=function(self)
+			CardState = MEMCARDMAN:GetCardState(PLAYER_1)
+			if CardState == "MemoryCardState_none" then
+				self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/press"))
+			elseif CardState == "MemoryCardState_ready" then
+				self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/usb"))
+			end
 		end
 	},
 
@@ -85,6 +95,16 @@ local t = Def.ActorFrame {
 		InitCommand=function(self)
 			self:xy(SCREEN_RIGHT-(GetScreenAspectRatio()*95),SCREEN_BOTTOM-100)
 			:zoom(0.75,0.75)
+			:queuecommand("Refresh")
+		end,
+		StorageDevicesChangedMessageCommand=function(self)self:queuecommand("Refresh")end,
+		RefreshCommand=function(self)
+			CardState = MEMCARDMAN:GetCardState(PLAYER_2)
+			if CardState == "MemoryCardState_none" then
+				self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/press"))
+			elseif CardState == "MemoryCardState_ready" then
+				self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/usb"))
+			end
 		end
 	},
 

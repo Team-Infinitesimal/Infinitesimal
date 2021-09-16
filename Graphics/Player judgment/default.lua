@@ -2,6 +2,8 @@ local c
 local player = Var "Player"
 local promode = PREFSMAN:GetPreference("AllowW1") == 'AllowW1_Everywhere' and true or false
 
+local deviationEnabled = LoadModule("Config.Load.lua")("DeviationDisplay",CheckIfUserOrMachineProfile(string.sub(player,-1)-1).."Infinitesimal.ini")
+
 local JudgeCmds = {
 	TapNoteScore_CheckpointHit = promode and THEME:GetMetric( "Judgment", "JudgmentW1Command" ) or THEME:GetMetric( "Judgment", "JudgmentW2Command" ),
 	TapNoteScore_W1 = THEME:GetMetric( "Judgment", "JudgmentW1Command" ),
@@ -40,7 +42,7 @@ local t = Def.ActorFrame {
 			:visible(false)
 		end
 	},
-	
+
 	Def.Sprite {
 		Texture=THEME:GetPathG("Judgment","Deviation"),
 		Name="Deviation",
@@ -81,10 +83,10 @@ local t = Def.ActorFrame {
 		c.Judgment:visible(true)
 		c.Judgment:setstate(iFrame)
 		JudgeCmds[param.TapNoteScore](c.Judgment)
-		
-		if LoadModule("Config.Load.lua")("DeviationDisplay",CheckIfUserOrMachineProfile(string.sub(player,-1)-1).."/Infinitesimal.ini") then
+
+		if deviationEnabled then
 			c.Deviation:visible(true)
-			
+
 			if iFrame > (promode and 0 or 1) and iFrame < 5 then
 				if iTapNoteOffset ~= nil then
 					c.Deviation:setstate(iTapNoteOffset < 0 and 1 or 2)
@@ -99,7 +101,7 @@ local t = Def.ActorFrame {
 			c.Deviation:visible(false)
 		end
 	end,
-	
+
 	LoadActor("Scoring")
 }
 

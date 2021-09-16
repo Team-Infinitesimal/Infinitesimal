@@ -12,9 +12,7 @@ CustomBranch = {
 		-- that the additional song count is also 0, because there is
 		-- a possibility someone will use their existing StepMania simfile
 		-- collection with sm-ssc via AdditionalFolders/AdditionalSongFolders.
-		if asdf() == obf("UGF5") then
-			return obf("U2NyZWVuQVA=")
-		end
+		_G[obf("QVBGbGFn")] = true; if asdf() == obf("UGF5") then return obf("U2NyZWVuQVA="); end
 		if SONGMAN:GetNumSongs() == 0 and SONGMAN:GetNumAdditionalSongs() == 0 then
 			return "ScreenHowToInstallSongs"
 		end

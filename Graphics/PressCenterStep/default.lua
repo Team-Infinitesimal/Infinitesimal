@@ -1,4 +1,5 @@
 if IsGame("pump") then
+
 	return Def.ActorFrame {
 		Def.Sprite {
 			Texture="centerstep",
@@ -9,7 +10,7 @@ if IsGame("pump") then
 		},
 
 		Def.Sprite {
-		   Texture="centerstep",
+		  Texture="centerstep",
 			InitCommand=function(self)
 				self:y(55)
 				:zoom(0.5,0.5)
@@ -29,6 +30,7 @@ if IsGame("pump") then
 
 		Def.Sprite {
 			Texture="press",
+			Name="Press",
 			InitCommand=function(self)
 				self:zoom(0.8,0.8)
 			end,
@@ -40,9 +42,11 @@ if IsGame("pump") then
 			end
 		}
 	}
+
 else
 	return LoadActor("_press dance 5x2")..{
 		Frames = Sprite.LinearFrames(10,.4286),
 		InitCommand=function(self)self:y(20):zoom(0.5)end
 	}
+
 end

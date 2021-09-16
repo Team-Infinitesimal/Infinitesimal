@@ -3,7 +3,7 @@ return Def.ActorFrame {
 	InitCommand=function(self)
 		self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
 	end,
-	
+
 	OnCommand=function(self)
 		for pn in ivalues(PlayerNumber) do
 			Location = CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/Infinitesimal.ini"
