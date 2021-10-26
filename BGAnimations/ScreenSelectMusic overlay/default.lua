@@ -77,21 +77,24 @@ t[#t+1] = LoadActor(THEME:GetPathS("","OpListChoose"))..{
 	end
 }
 
+-- Command Window
+-- Text inside window offset is inside metrics.ini
+-- OptionsListP1OnCommand and OptionsListP2OnCommand
 for pn in ivalues(PlayerNumber) do
 	t[#t+1] = LoadActor(THEME:GetPathG("","OpList")) ..{
 		InitCommand=function(self,params)
-			self:draworder(100):zoom(0.5)
+			self:draworder(135):zoom(0.5)
 			:y(SCREEN_CENTER_Y)
-			self:x( pn == PLAYER_1 and -100 or SCREEN_RIGHT+100 )
+			self:x( pn == PLAYER_1 and -135 or SCREEN_RIGHT+135 )
 		end,
 		OptionsListOpenedMessageCommand=function(self,params)
 			if params.Player == pn then
-				self:playcommand("Slide",{Offset=100})
+				self:playcommand("Slide",{Offset=135})
 			end
 		end,
 		OptionsListClosedMessageCommand=function(self,params)
 			if params.Player == pn then
-				self:playcommand("Slide",{Offset=-100})
+				self:playcommand("Slide",{Offset=-135})
 			end
 		end,
 		SlideCommand=function(self,param)
@@ -113,7 +116,7 @@ t[#t+1] = Def.BitmapText{
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:y(-150)
+		:y(-135)
 	end,
 	OnCommand=function(self)
 		self:decelerate(1):y(20)
@@ -129,7 +132,7 @@ t[#t+1] = Def.BitmapText{
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:y(-150)
+		:y(-135)
 	end,
 	OnCommand=function(self)
 		self:decelerate(1):y(20)
