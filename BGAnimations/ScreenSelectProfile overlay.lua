@@ -72,6 +72,8 @@ function LoadPlayerStuff(Player)
 					self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/press"))
 				elseif CardState == "MemoryCardState_ready" then
 					self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/usb"))
+				elseif CardState == "MemoryCardState_error" then
+					self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/card_error"))
 				end
 			end
 		};

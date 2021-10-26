@@ -129,7 +129,7 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('Score'), OptionNameString('Percent') },
         Values = {false, "Score", "Percent"}
     },
-	MeasureCounter =
+		MeasureCounter =
     {
         UserPref = true,
         Default = false,

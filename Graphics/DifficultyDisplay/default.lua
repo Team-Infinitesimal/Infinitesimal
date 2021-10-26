@@ -159,7 +159,7 @@ for i=1,14 do
 			Texture="_icon",
 			Name="Icon",
 			InitCommand=function(self)
-				self:zoom(baseZoom):xy(baseX+spacing*(i-1),baseY):animate(false)
+				self:zoom(baseZoom*1.05):xy(baseX+spacing*(i-1),baseY):animate(false)
 			end,
 		},
 
@@ -175,7 +175,7 @@ for i=1,14 do
 			Font="montserrat semibold/_montserrat semibold 40px",
 			Name="Diff",
 			InitCommand=function(self)
-				self:zoom(baseZoom):shadowlength(0.8):xy(baseX+spacing*(i-1),baseY)
+				self:zoom(baseZoom*1.4):shadowlength(1.2):xy(baseX+spacing*(i-1),baseY)
 			end
 		}
 	}
