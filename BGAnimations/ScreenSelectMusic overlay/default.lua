@@ -83,18 +83,18 @@ t[#t+1] = LoadActor(THEME:GetPathS("","OpListChoose"))..{
 for pn in ivalues(PlayerNumber) do
 	t[#t+1] = LoadActor(THEME:GetPathG("","OpList")) ..{
 		InitCommand=function(self,params)
-			self:draworder(135):zoom(0.5)
+			self:draworder(132):zoom(0.5)
 			:y(SCREEN_CENTER_Y)
-			self:x( pn == PLAYER_1 and -135 or SCREEN_RIGHT+135 )
+			self:x( pn == PLAYER_1 and -132 or SCREEN_RIGHT+132 )
 		end,
 		OptionsListOpenedMessageCommand=function(self,params)
 			if params.Player == pn then
-				self:playcommand("Slide",{Offset=135})
+				self:playcommand("Slide",{Offset=132})
 			end
 		end,
 		OptionsListClosedMessageCommand=function(self,params)
 			if params.Player == pn then
-				self:playcommand("Slide",{Offset=-135})
+				self:playcommand("Slide",{Offset=-132})
 			end
 		end,
 		SlideCommand=function(self,param)
@@ -116,7 +116,7 @@ t[#t+1] = Def.BitmapText{
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:y(-135)
+		:y(-132)
 	end,
 	OnCommand=function(self)
 		self:decelerate(1):y(20)
@@ -132,7 +132,7 @@ t[#t+1] = Def.BitmapText{
 		:shadowcolor(0,0,0,0.25)
 		:shadowlength(0.75)
 		:diffuse(0,0,0,1)
-		:y(-135)
+		:y(-132)
 	end,
 	OnCommand=function(self)
 		self:decelerate(1):y(20)
