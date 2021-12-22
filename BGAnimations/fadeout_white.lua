@@ -1,1 +1,0 @@
-return LoadModule("Actor.FadeQuad.lua")( 0.5, "accelerate", color("1,1,1,0"), Color.White )
