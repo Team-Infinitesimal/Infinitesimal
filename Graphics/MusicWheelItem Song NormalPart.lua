@@ -1,9 +1,5 @@
 return Def.ActorFrame{
-	Def.Sprite {
-		Texture=THEME:GetPathG("", "MusicWheel/SongFrame"),
-	},
-    
-	Def.Banner {
+    Def.Banner {
 		SetMessageCommand=function(self, params)
 			if params.Song then
 				local Path = params.Song:GetBannerPath()
@@ -18,6 +14,10 @@ return Def.ActorFrame{
 				self:LoadFromCachedBanner(Path):scaletoclipped(212, 120) 
 			end
 		end
+	},
+    
+    Def.Sprite {
+		Texture=THEME:GetPathG("", "MusicWheel/SongFrame"),
 	},
     
     Def.BitmapText {
