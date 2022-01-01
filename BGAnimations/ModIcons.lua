@@ -8,6 +8,7 @@ local pnNum = (pn == PLAYER_1) and 0 or 1
 local PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 local PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsArray("ModsLevel_Preferred")
 
+-- A list of mods we do not want to display through the icons
 local PlayerModsBlacklist = {
     "Overhead",
     "FailImmediateContinue",
@@ -77,7 +78,7 @@ local t = Def.ActorFrame {
         end
         
         -- Populate all of the available icons
-        for i = 1, (#PlayerModsArray > 8 and 8 or #PlayerModsArray) do
+        for i = 1, (#PlayerModsArray > IconAmount and IconAmount or #PlayerModsArray) do
             self:GetChild("IconFrame")[i]:GetChild("Icon"):visible(true)
             self:GetChild("IconFrame")[i]:GetChild("Text"):visible(true):settext(PlayerModsArray[i])
             IconCount = i + 1

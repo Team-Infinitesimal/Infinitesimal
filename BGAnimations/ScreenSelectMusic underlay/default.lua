@@ -11,6 +11,8 @@ local t = Def.ActorFrame {
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y):zoom(1)
         end,
         
+        LoadActor("ScoreDisplay", 0, -100),
+        
         LoadActor("SongPreview", 0, -100),
         
         Def.Sprite {
