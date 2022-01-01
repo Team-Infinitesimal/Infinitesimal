@@ -14,7 +14,6 @@ return Def.ActorFrame {
             self:scaletofit(0, 0, 1280, 128)
             :xy(SCREEN_CENTER_X, SCREEN_BOTTOM)
             :halign(0.5):valign(1)
-            
         end,
     }
 }

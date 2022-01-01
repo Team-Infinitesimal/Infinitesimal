@@ -53,7 +53,7 @@ local t = Def.ActorFrame {
 		if CurrentSong then ChartArray = SongUtil.GetPlayableSteps(CurrentSong) end
 
 		if ChartArray then
-			-- Generate the index of steps to choose from.
+			-- Generate the index of charts to choose from.
 			local ChartIndexP1 = GetCurrentChartIndex(PLAYER_1, ChartArray)
             local ChartIndexP2 = GetCurrentChartIndex(PLAYER_2, ChartArray)
             local ChartIndex = ChartIndexP1 > ChartIndexP2 and ChartIndexP1 or ChartIndexP2
@@ -77,8 +77,10 @@ local t = Def.ActorFrame {
 					
 					self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ChartTypeToColor(Chart))
 					self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
-					self:GetChild("")[i]:GetChild("HighlightP1"):visible((ChartIndexP1 == i + ListOffset) and SongIsChosen)
-                    self:GetChild("")[i]:GetChild("HighlightP2"):visible((ChartIndexP2 == i + ListOffset) and SongIsChosen)
+					self:GetChild("")[i]:GetChild("HighlightP1"):visible(
+                        (ChartIndexP1 == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
+                    self:GetChild("")[i]:GetChild("HighlightP2"):visible(
+                        (ChartIndexP2 == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_2))
                     
                     --local ChartLabelString = ""
                     local ChartLabelIndex = 0
