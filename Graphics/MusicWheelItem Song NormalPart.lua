@@ -28,11 +28,13 @@ return Def.ActorFrame{
 		SetMessageCommand=function(self, params)
 			if params.Index then
 				self:settext(params.Index + 1)
+                --[[
 				if params.HasFocus ~= nil and params.HasFocus then
 					self:diffusealpha(1)
 				else
 					self:diffusealpha(0.5)
 				end
+                ]]
 			end
 		end
 	}

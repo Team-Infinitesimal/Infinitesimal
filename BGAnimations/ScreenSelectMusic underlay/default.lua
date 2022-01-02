@@ -26,7 +26,7 @@ local t = Def.ActorFrame {
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {        
-        LoadActor("../ModIcons.lua", pn == PLAYER_2 and SCREEN_RIGHT - 16 or 16, 131, pn),
+        LoadActor("../ModIcons.lua", pn == PLAYER_2 and SCREEN_RIGHT - 16 or 16, 160, pn),
     }
 end
 
