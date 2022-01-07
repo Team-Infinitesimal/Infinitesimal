@@ -1,18 +1,14 @@
-local PanelX, PanelY = ...
-
 local t = Def.ActorFrame {}
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         Def.ActorFrame {
-            InitCommand=function(self)
-                self:xy(PanelX, PanelY)
-            end,
             SongChosenMessageCommand=function(self) 
-                self:stoptweening():easeoutexpo(0.5):x(PanelX - (pn == PLAYER_2 and -380 or 380))
+                self:stoptweening():easeoutexpo(0.5)
+                :x((IsUsingWideScreen() and 380 or 361) * (pn == PLAYER_2 and 1 or -1))
             end,
             SongUnchosenMessageCommand=function(self) 
-                self:stoptweening():easeoutexpo(0.5):x(PanelX)
+                self:stoptweening():easeoutexpo(0.5):x(0)
             end,
             
             ["CurrentSteps" .. ToEnumShortString(pn) .. "ChangedMessageCommand"]=function(self) self:playcommand("Refresh") end,
@@ -49,7 +45,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     local MachineName = MachineHighScores[1]:GetName()
                     
                     self:GetChild("MachineGrade"):Load(THEME:GetPathG("", "LetterGrades/" .. 
-                            LoadModule("PIU/Score.Grading.lua")(ProfileScores[1])))
+                            LoadModule("PIU/Score.Grading.lua")(MachineHighScores[1])))
                     self:GetChild("MachineScore"):settext(MachineName .. "\n" .. MachineDP .. "\n" .. MachineScore)
                 else
                     self:GetChild("MachineGrade"):Load(nil)

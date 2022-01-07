@@ -4,11 +4,6 @@ GraphH = GraphH / 2
 
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 
-if not GAMESTATE:Env()["ColorTable"] then
-	GAMESTATE:Env()["ColorTable"] = LoadModule("Theme.Colors.lua")( LoadModule("Config.Load.lua")("ParaSubTheme","Save/OutFoxPrefs.ini") )
-end
-local ColorTable = GAMESTATE:Env()["ColorTable"]
-
 local colorrange = function(val,range,color1,color2)
     return lerp_color((val/range), color1, color2)
 end
@@ -34,7 +29,7 @@ local amv = Def.ActorFrame{
 				-- Grab every instance of the NPS data.
 				local step = GAMESTATE:GetCurrentSteps(pn)
 				local stepcolor = ChartTypeToColor(step)
-				local graphcolor = GameColor.Custom["HeaderColorA"]
+				local graphcolor = ColorDarkTone(stepcolor)
 				peak, npst, NMeasure, mcount = LoadModule("Chart.GetNPS.lua")(step)
 				if npst then
 					for k,v in pairs( npst ) do

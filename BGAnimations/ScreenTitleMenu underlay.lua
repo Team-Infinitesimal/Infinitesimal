@@ -1,6 +1,7 @@
 return Def.ActorFrame {
     InitCommand=function(self)
-        self:Center():queuecommand("ZoomY")
+        self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 20)
+        :queuecommand("ZoomY")
     end,
 
     ZoomYCommand=function(self)

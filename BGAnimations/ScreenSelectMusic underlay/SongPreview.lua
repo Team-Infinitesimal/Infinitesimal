@@ -1,4 +1,3 @@
-local FrameX, FrameY = ...
 local FrameW = 640
 local FrameH = 360
 
@@ -8,7 +7,7 @@ local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 
 local t = Def.ActorFrame {
     OnCommand=function(self)
-        self:zoom(0.8):xy(FrameX, FrameY)
+        self:zoom(0.8)
     end,
     
     Def.Sprite {

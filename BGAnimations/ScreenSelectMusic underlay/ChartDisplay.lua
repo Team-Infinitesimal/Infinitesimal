@@ -1,9 +1,9 @@
 local ItemW = 56
 local ItemH = 56
-local FrameX, FrameY, ItemAmount = ...
+local ItemAmount = ...
 local ItemTotalW = ItemW * ((ItemAmount - 1) / 2)
 
-local FrameX = FrameX - ItemTotalW
+local FrameX = -ItemTotalW
 
 local SongIsChosen = false
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
@@ -123,7 +123,7 @@ for i=1,ItemAmount do
 			Name="Icon",
 			Texture=THEME:GetPathG("", "DifficultyDisplay/Ball"),
 			InitCommand=function(self)
-				self:xy(FrameX + ItemW * (i - 1), FrameY)
+				self:xy(FrameX + ItemW * (i - 1), 0)
 			end
 		},
 
@@ -131,7 +131,7 @@ for i=1,ItemAmount do
 			Font="Montserrat numbers 40px",
 			Name="Level",
 			InitCommand=function(self)
-				self:xy(FrameX + ItemW * (i - 1), FrameY):zoom(0.6):maxwidth(75)
+				self:xy(FrameX + ItemW * (i - 1), 0):zoom(0.6):maxwidth(75)
 			end
 		},
         
@@ -139,7 +139,7 @@ for i=1,ItemAmount do
 			Name="Label",
             Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
 			InitCommand=function(self)
-				self:xy(FrameX + ItemW * (i - 1), FrameY + 20):animate(false)
+				self:xy(FrameX + ItemW * (i - 1), 20):animate(false)
 			end
 		},
         
@@ -147,7 +147,7 @@ for i=1,ItemAmount do
 			Name="HighlightP1",
 			Texture=THEME:GetPathG("", "DifficultyDisplay/Cursor"),
 			InitCommand=function(self)
-				self:xy(FrameX + ItemW * (i - 1), FrameY):blend('add')
+				self:xy(FrameX + ItemW * (i - 1), 0):blend('add')
 				:diffuse(Color.Red)
 				:visible(false)
 			end
@@ -157,7 +157,7 @@ for i=1,ItemAmount do
 			Name="HighlightP2",
 			Texture=THEME:GetPathG("", "DifficultyDisplay/Cursor"),
 			InitCommand=function(self)
-				self:xy(FrameX + ItemW * (i - 1), FrameY):blend('add')
+				self:xy(FrameX + ItemW * (i - 1), 0):blend('add')
 				:diffuse(Color.Blue):rotationx(180)
 				:visible(false)
 			end

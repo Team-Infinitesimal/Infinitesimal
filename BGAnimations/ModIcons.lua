@@ -48,6 +48,14 @@ local t = Def.ActorFrame {
             end
         end
         
+        -- 1x is not included in the engine list by default, so we need to do... this. Ew.
+        if (PlayerMods:XMod() == 1 and 
+            PlayerMods:MMod() == nil and 
+            PlayerMods:CMod() == nil and 
+            PlayerMods:AMod() == nil) then
+            table.insert(PlayerModsArray, "1x")
+        end
+        
         local CurNoteSkin = PlayerMods:NoteSkin()
         if string.find(ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current")), CurNoteSkin) ~= nil then
             removeFirst(PlayerModsArray, CurNoteSkin)
