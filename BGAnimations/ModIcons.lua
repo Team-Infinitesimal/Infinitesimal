@@ -1,6 +1,6 @@
 local IconX, IconY, pn = ...
-local IconW = 58
-local IconH = 43
+local IconW = 64
+local IconH = 44
 local IconX = IconX + ((pn == PLAYER_2 and -IconW or IconW) / 2)
 local IconAmount = 8
 
@@ -48,6 +48,11 @@ local t = Def.ActorFrame {
             end
         end
         
+        local CurNoteSkin = PlayerMods:NoteSkin()
+        if string.find(ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current")), CurNoteSkin) ~= nil then
+            removeFirst(PlayerModsArray, CurNoteSkin)
+        end
+        
         -- 1x is not included in the engine list by default, so we need to do... this. Ew.
         if (PlayerMods:XMod() == 1 and 
             PlayerMods:MMod() == nil and 
@@ -56,9 +61,11 @@ local t = Def.ActorFrame {
             table.insert(PlayerModsArray, "1x")
         end
         
-        local CurNoteSkin = PlayerMods:NoteSkin()
-        if string.find(ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current")), CurNoteSkin) ~= nil then
-            removeFirst(PlayerModsArray, CurNoteSkin)
+        -- Translate all engine strings
+        for i = 1, #PlayerModsArray do
+            local ModText = THEME:GetString("ModIcons", PlayerModsArray[i])
+            -- Only override strings if translations are available
+            if ModText ~= "" then PlayerModsArray[i] = ModText end
         end
         
         -- The following are Lua mods not contained in the engine's PlayerOptions
@@ -67,12 +74,13 @@ local t = Def.ActorFrame {
         -- Increase the value so that we can use it as percentage
         BGAFilter = round(BGAFilter * 100)
         if BGAFilter ~= 0 then
-            table.insert(PlayerModsArray, (BGAFilter == 100 and "Full " or BGAFilter .. "% ") .. THEME:GetString("OptionNames", "Filter"))
+            table.insert(PlayerModsArray, THEME:GetString("ModIcons", "Filter") .. " " .. (BGAFilter == 100 and "Off" or BGAFilter .. "%"))
         end
         
         -- Timing mode
         local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
-        if TimingMode then
+        -- We don't want to display NJ!
+        if TimingMode and TimingMode ~= "Pump Normal" then
             table.insert(PlayerModsArray, TimingMode)
         end
         
@@ -81,7 +89,7 @@ local t = Def.ActorFrame {
         if RushAmount ~= nil then
             RushAmount = math.floor(RushAmount * 100)
             if RushAmount ~= 100 then
-                table.insert(PlayerModsArray, THEME:GetString("OptionNames", "Rush") .. " " .. RushAmount)
+                table.insert(PlayerModsArray, THEME:GetString("ModIcons", "Rush") .. " " .. RushAmount)
             end
         end
         
@@ -130,12 +138,12 @@ for i = 1, IconAmount do
         },
         Def.BitmapText {
             Name="Text",
-            Font="Common Bold",
+            Font="Montserrat semibold 20px",
             InitCommand=function(self)
                 self:xy(IconX, IconY + (i > 1 and IconH or 0) + IconH * (i - 1))
-                :wrapwidthpixels(IconW / self:GetZoom())
-                :maxwidth(IconW / self:GetZoom())
-                :maxheight(IconH / self:GetZoom()):vertspacing(-8)
+                :wrapwidthpixels(IconW - 4)
+                :maxwidth(IconW - 4)
+                :maxheight(IconH - 4):vertspacing(-8)
                 :visible(false)
             end
         }

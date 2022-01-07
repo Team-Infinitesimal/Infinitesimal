@@ -761,5 +761,21 @@ return {
 				if list[i] then PREFSMAN:SetPreference("VideoRenderers",v2) return end
 			end
 		end
-	}
+	},
+    
+    -- Infinitesimal mods
+    ScoreDisplay =
+    {
+        UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('Score'), OptionNameString('Percent') },
+        Values = {false, "Score", "Percent"}
+    },
+    SongProgress =
+    {
+        UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
 }

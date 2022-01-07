@@ -47,7 +47,7 @@ local t = Def.ActorFrame {
 	Def.Sprite {
 		Texture="ComboLabel",
 		Name="ComboLabel";
-		OnCommand = function(self)self:vertalign(top):y(-45)end;
+		OnCommand = function(self)self:vertalign(top):y(-40)end;
 	};
 
 	InitCommand = function(self)
