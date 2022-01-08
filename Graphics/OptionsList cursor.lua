@@ -6,11 +6,11 @@ return Def.ActorFrame{
             :effectcolor1(color("#9334BD"))
             :effectperiod(0.75)
             :effectoffset(0.325)
-            :zoomto(130,16)
+            :zoomto(150,20)
             :fadeleft(0.25)
             :faderight(0.25)
             :blend(Blend.Add)
-            :y(1)
+            :MaskDest()
         end
     },
     
@@ -21,7 +21,7 @@ return Def.ActorFrame{
             :pulse()
             :effectmagnitude(0.95,1,1)
             :effectperiod(0.75)
-            :y(1)
+            :MaskDest()
         end
     }
 }

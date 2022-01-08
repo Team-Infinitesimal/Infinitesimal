@@ -49,7 +49,9 @@ local t = Def.ActorFrame {
         end
         
         local CurNoteSkin = PlayerMods:NoteSkin()
-        if string.find(ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current")), CurNoteSkin) ~= nil then
+        local OptionsNoteskin = ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current"))
+        -- Hyphens will break string searching, we need to remove them any anything else that could break
+        if string.match(string.gsub(OptionsNoteskin, "%p", ""), string.gsub(CurNoteSkin, "%p", "")) ~= nil then
             removeFirst(PlayerModsArray, CurNoteSkin)
         end
         
@@ -58,7 +60,7 @@ local t = Def.ActorFrame {
             PlayerMods:MMod() == nil and 
             PlayerMods:CMod() == nil and 
             PlayerMods:AMod() == nil) then
-            table.insert(PlayerModsArray, "1x")
+            table.insert(PlayerModsArray, 1, "1x")
         end
         
         -- The following are Lua mods not contained in the engine's PlayerOptions
@@ -67,7 +69,7 @@ local t = Def.ActorFrame {
         -- Increase the value so that we can use it as percentage
         BGAFilter = round(BGAFilter * 100)
         if BGAFilter ~= 0 then
-            table.insert(PlayerModsArray, THEME:GetString("ModIcons", "Filter") .. " " .. (BGAFilter == 100 and "Off" or BGAFilter .. "%"))
+            table.insert(PlayerModsArray, 2, THEME:GetString("ModIcons", "Filter") .. " " .. (BGAFilter == 100 and "Off" or BGAFilter .. "%"))
         end
         
         -- Timing mode
