@@ -5,7 +5,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         Def.ActorFrame {
             SongChosenMessageCommand=function(self) 
                 self:stoptweening():easeoutexpo(0.5)
-                :x((IsUsingWideScreen() and 380 or 361) * (pn == PLAYER_2 and 1 or -1))
+                :x((IsUsingWideScreen() and 380 or 360) * (pn == PLAYER_2 and 1 or -1))
             end,
             SongUnchosenMessageCommand=function(self) 
                 self:stoptweening():easeoutexpo(0.5):x(0)

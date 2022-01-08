@@ -7,6 +7,7 @@ local FrameX = -ItemTotalW
 
 local SongIsChosen = false
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
+local CenterList = LoadModule("Config.Load.lua")("CenterChartList", "Save/OutFoxPrefs.ini")
 
 function GetCurrentChartIndex(pn, ChartArray)
 	local PlayerSteps = GAMESTATE:GetCurrentSteps(pn)
@@ -36,8 +37,8 @@ local ChartLabels = {
 
 local t = Def.ActorFrame {
 	InitCommand=function(self) self:playcommand("Refresh") end,
-	["CurrentStepsP1ChangedMessageCommand"]=function(self) self:playcommand("Refresh") end,
-    ["CurrentStepsP2ChangedMessageCommand"]=function(self) self:playcommand("Refresh") end,
+	CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+    CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	NextSongMessageCommand=function(self) self:playcommand("Refresh") end,
 	PreviousSongMessageCommand=function(self) self:playcommand("Refresh") end,
@@ -63,9 +64,11 @@ local t = Def.ActorFrame {
 				ListOffset = ChartIndex - ItemAmount + (ChartIndex == #ChartArray and 0 or 1)
 			end
 			
-			-- Shift the positioning of the charts if they don't take up all visible slots
-			local ChartArrayW = ItemW * ((#ChartArray < ItemAmount and #ChartArray or ItemAmount) - 1) / 2
-			self:x(ItemTotalW - ChartArrayW)
+            if CenterList then
+                -- Shift the positioning of the charts if they don't take up all visible slots
+                local ChartArrayW = ItemW * ((#ChartArray < ItemAmount and #ChartArray or ItemAmount) - 1) / 2
+                self:x(ItemTotalW - ChartArrayW)
+            end
 			
 			for i=1,ItemAmount do
 				local Chart = ChartArray[ i + ListOffset ]
@@ -98,7 +101,11 @@ local t = Def.ActorFrame {
                         self:GetChild("")[i]:GetChild("Label"):visible(false)
                     end
 				else
-					self:GetChild("")[i]:GetChild("Icon"):visible(false)
+                    if not CenterList then
+                        self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(Color.White):diffusealpha(0.25)
+                    else
+                        self:GetChild("")[i]:GetChild("Icon"):visible(false)
+                    end
 					self:GetChild("")[i]:GetChild("Level"):visible(false)
                     self:GetChild("")[i]:GetChild("Label"):visible(false)
 					self:GetChild("")[i]:GetChild("HighlightP1"):visible(false)

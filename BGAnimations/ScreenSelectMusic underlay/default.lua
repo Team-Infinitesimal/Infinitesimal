@@ -1,4 +1,4 @@
-local ModIconX = IsUsingWideScreen() and 16 or 5
+local ModIconX = IsUsingWideScreen() and 16 or 4
 
 local t = Def.ActorFrame {}
 
@@ -14,10 +14,10 @@ t[#t+1] = Def.ActorFrame {
             self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y):zoom(0.5)
         end,
         SongChosenMessageCommand=function(self) 
-            self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y + 90):zoom(1)
+            self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y + 95):zoom(1)
         end,
         SongUnchosenMessageCommand=function(self) 
-            self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y):zoom(0.5)
+            self:stoptweening():easeoutexpo(0.25):y(SCREEN_CENTER_Y):zoom(0.5)
         end,
         
         Def.Sprite {
@@ -31,9 +31,8 @@ t[#t+1] = Def.ActorFrame {
 
 t[#t+1] = Def.ActorFrame {
     Def.ActorFrame {
-        InitCommand=function(self)
-            self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
-        end,
+        InitCommand=function(self) self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y) end,
+        
         SongChosenMessageCommand=function(self) 
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y-40):zoom(0.9) 
         end,
@@ -49,14 +48,24 @@ t[#t+1] = Def.ActorFrame {
             InitCommand=function(self) self:y(-100) end
         },
         
-        Def.Sprite {
-            Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
-            InitCommand=function(self) self:y(85):zoom(1.2) end
-        },
-        
-        LoadActor("ChartDisplay", 12) .. {
-            InitCommand=function(self) self:y(85) end
-        },
+        Def.ActorFrame {
+            InitCommand=function(self) self:y(85) end,
+            
+            SongChosenMessageCommand=function(self) 
+                self:stoptweening():easeoutexpo(0.5):y(94):zoom(1.25) 
+            end,
+            SongUnchosenMessageCommand=function(self) 
+                self:stoptweening():easeoutexpo(0.5):y(85):zoom(1)
+            end,
+            
+            Def.Sprite {
+                Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
+                InitCommand=function(self) self:zoom(1.2) end,
+                
+            },
+            
+            LoadActor("ChartDisplay", 12)
+        }
     }
 }
 

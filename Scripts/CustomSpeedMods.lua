@@ -200,7 +200,7 @@ function ArbitrarySpeedMods()
 					val.speed= math.round(new_val)
 				end
 			elseif real_choice >= 5 then
-				val.mode= ({"x", "C", "m", "a"})[real_choice - 4]
+				val.mode= ({"x", "a", "m", "C"})[real_choice - 4]
 			end
 			self:GenChoices()
 			MESSAGEMAN:Broadcast("SpeedChoiceChanged", {pn= pn, mode= val.mode, speed= val.speed})
@@ -255,7 +255,10 @@ function ArbitrarySpeedMods()
 			end
 			self.Choices= {
 				"+" .. big_inc, "+" .. small_inc, "-" .. small_inc, "-" .. big_inc,
-				"Xmod", "Cmod", "Mmod", "Amod"}
+				THEME:GetString("OptionNames", "SpeedX"), 
+                THEME:GetString("OptionNames", "SpeedA"),
+                THEME:GetString("OptionNames", "SpeedM"),
+                THEME:GetString("OptionNames", "SpeedC")}
 			-- Insert the status element for P2 first so it will be second
 			for i, pn in ipairs({PLAYER_2, PLAYER_1}) do
 				local val= self.CurValues[pn]

@@ -36,7 +36,7 @@ local t = Def.ActorFrame {
 -- Special thanks to RhythmLunatic/Accelerator and ROAD24
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	-- This will allow us to determine the position of the list
-    local OptionsListActor
+    local OptionsListActor, OptionsListMenu
     
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self,params)
@@ -44,8 +44,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         end,
         
         OnCommand=function(self)
-			OptionsListActor = SCREENMAN:GetTopScreen():GetChild("OptionsList" .. pname(pn))
-		end,
+            OptionsListActor = SCREENMAN:GetTopScreen():GetChild("OptionsList" .. pname(pn))
+        end,
         
         -- Move the list around when opened/closed
         OptionsListOpenedMessageCommand=function(self, params)
@@ -60,17 +60,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             end
         end,
         
-        -- Make us able to view what menu we're in (and also reset changes)
+        -- Make us able to view what menu we're in later (and also adjust its position)
         OptionsMenuChangedMessageCommand=function(self, params)
             if params.Player == pn then 
-                local OptionsListMenu = params.Menu
+                OptionsListMenu = params.Menu
                 
-                -- Appropriately grab the amount of items
-                OptionsListNumItems = tonumber(THEME:GetMetric("ScreenOptionsMaster", OptionsListMenu))
-                
-                if OptionsListMenu ~= "Noteskins" and OptionsListMenu ~= "TimingWindow" then
-                    OptionsListActor:stoptweening():y(SCREEN_CENTER_Y - 180)
-                end
+                self:playcommand("Adjust", params)
             end
         end,
         
@@ -79,11 +74,14 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         OptionsListStartMessageCommand=function(self, params) self:playcommand("Adjust", params) end,
         OptionsListQuickChangeMessageCommand=function(self, params) self:playcommand("Adjust", params) end,
         
+        -- To avoid overflowing the list, we will hide the outer parts and
+        -- dynamically move the entire list's vertical position relative
+        -- to what the player is currently selecting
         AdjustCommand=function(self, params)
             if params.Player == pn then
-                --SCREENMAN:SystemMessage(params.Selection)
-                if params.Selection + 1 > 10 then
-                    OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180 - (26 * (params.Selection - 10)))
+                -- Edge case since we don't need to scroll in Speed Mods
+                if params.Selection + 1 > 9  and OptionsListMenu ~= "AutoVelocity" then
+                    OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180 - (26 * (params.Selection - 9)))
                 else
                     OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180)
                 end

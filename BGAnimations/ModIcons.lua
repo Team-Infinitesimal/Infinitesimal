@@ -50,7 +50,7 @@ local t = Def.ActorFrame {
         
         local CurNoteSkin = PlayerMods:NoteSkin()
         local OptionsNoteskin = ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current"))
-        -- Hyphens will break string searching, we need to remove them any anything else that could break
+        -- Hyphens will break string searching, we need to remove them and any anything else that could break
         if string.match(string.gsub(OptionsNoteskin, "%p", ""), string.gsub(CurNoteSkin, "%p", "")) ~= nil then
             removeFirst(PlayerModsArray, CurNoteSkin)
         end
@@ -84,7 +84,7 @@ local t = Def.ActorFrame {
         if RushAmount ~= nil then
             RushAmount = math.floor(RushAmount * 100)
             if RushAmount ~= 100 then
-                table.insert(PlayerModsArray, THEME:GetString("ModIcons", "Rush") .. " " .. RushAmount)
+                table.insert(PlayerModsArray, THEME:GetString("ModIcons", "Rush") .. "\n" .. RushAmount)
             end
         end
         
