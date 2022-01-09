@@ -1,4 +1,6 @@
-local t = Def.ActorFrame {}
+local t = Def.ActorFrame {
+    LoadActor("ScreenFilter")
+}
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do	
 	t[#t+1] = Def.ActorFrame {
