@@ -53,6 +53,14 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 end
             },
             
+            Def.Sprite {
+                Name="BallTrim",
+                Texture=THEME:GetPathG("", "DifficultyDisplay/LargeTrim"),
+                InitCommand=function(self) 
+                    self:xy(79.25 * PlayerDirection, 0.25):zoom(0.75)
+                end
+            },
+            
             Def.BitmapText {
                 Name="Meter",
                 Font="Montserrat numbers 40px",

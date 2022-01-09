@@ -79,6 +79,7 @@ local t = Def.ActorFrame {
 					local ChartDescription = Chart:GetDescription()
 					
 					self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ChartTypeToColor(Chart))
+                    self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
 					self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
 					self:GetChild("")[i]:GetChild("HighlightP1"):visible(
                         (ChartIndexP1 == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
@@ -103,8 +104,10 @@ local t = Def.ActorFrame {
 				else
                     if not CenterList then
                         self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(Color.White):diffusealpha(0.25)
+                        self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
                     else
                         self:GetChild("")[i]:GetChild("Icon"):visible(false)
+                        self:GetChild("")[i]:GetChild("IconTrim"):visible(false)
                     end
 					self:GetChild("")[i]:GetChild("Level"):visible(false)
                     self:GetChild("")[i]:GetChild("Label"):visible(false)
@@ -115,6 +118,7 @@ local t = Def.ActorFrame {
 		else
 			for i=1,ItemAmount do
 				self:GetChild("")[i]:GetChild("Icon"):visible(false)
+                self:GetChild("")[i]:GetChild("IconTrim"):visible(false)
 				self:GetChild("")[i]:GetChild("Level"):visible(false)
                 self:GetChild("")[i]:GetChild("Label"):visible(false)
 				self:GetChild("")[i]:GetChild("HighlightP1"):visible(false)
@@ -129,6 +133,14 @@ for i=1,ItemAmount do
 		Def.Sprite {
 			Name="Icon",
 			Texture=THEME:GetPathG("", "DifficultyDisplay/Ball"),
+			InitCommand=function(self)
+				self:xy(FrameX + ItemW * (i - 1), 0)
+			end
+		},
+        
+        Def.Sprite {
+			Name="IconTrim",
+			Texture=THEME:GetPathG("", "DifficultyDisplay/Trim"),
 			InitCommand=function(self)
 				self:xy(FrameX + ItemW * (i - 1), 0)
 			end
