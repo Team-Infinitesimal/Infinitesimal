@@ -1,7 +1,6 @@
-local IconX, IconY, pn = ...
+local pn = ...
 local IconW = 64
 local IconH = 44
-local IconX = IconX + ((pn == PLAYER_2 and -IconW or IconW) / 2)
 local IconAmount = 8
 
 local pnNum = (pn == PLAYER_1) and 0 or 1
@@ -106,14 +105,14 @@ local t = Def.ActorFrame {
     -- Noteskin display
     Def.Sprite {
         Texture=THEME:GetPathG("", "UI/ModIcon"),
-        InitCommand=function(self) self:xy(IconX, IconY + IconH) end
+        InitCommand=function(self) self:y(IconH) end
     }
 }
 
 -- This will be responsible for displaying the selected noteskin
 t[#t+1] = Def.ActorProxy {
     OnCommand=function(self)
-        self:xy(IconX, IconY + IconH)
+        self:y(IconH)
         :zoom(0.6)
         :playcommand("Refresh")
     end,
@@ -134,7 +133,7 @@ for i = 1, IconAmount do
             Name="Icon",
             Texture=THEME:GetPathG("", "UI/ModIcon"),
             InitCommand=function(self) 
-                self:xy(IconX, IconY + (i > 1 and IconH or 0) + IconH * (i - 1))
+                self:y((i > 1 and IconH or 0) + IconH * (i - 1))
                 :visible(false)
             end
         },
@@ -142,7 +141,7 @@ for i = 1, IconAmount do
             Name="Text",
             Font="Montserrat semibold 20px",
             InitCommand=function(self)
-                self:xy(IconX, IconY + (i > 1 and IconH or 0) + IconH * (i - 1))
+                self:y((i > 1 and IconH or 0) + IconH * (i - 1))
                 :wrapwidthpixels(IconW - 4)
                 :maxwidth(IconW - 4)
                 :maxheight(IconH - 4):vertspacing(-8)
