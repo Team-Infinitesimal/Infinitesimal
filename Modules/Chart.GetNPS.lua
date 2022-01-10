@@ -43,15 +43,14 @@ return function(Steps)
         for k,v in pairs( GAMESTATE:GetCurrentSong():GetNoteData(chartint) ) do
             if TD:GetElapsedTimeFromBeat(v[1]) > mMargin then
                 local originalval = mDuration == 0 and 0 or CalcNPS(measureNotes,mDuration)
-                measureNPS = math.round(originalval)
-                PeakNPS = (measureNPS > PeakNPS or originalval > PeakNPS) and originalval or PeakNPS
+                PeakNPS = (originalval > PeakNPS) and originalval or PeakNPS
                 if(measureNotes >= 15) then
                     streamMeasures[#streamMeasures+1] = measureCount+1
                 end
 
                 -- Reset stuff
                 measureNotes = 0
-                Density[measureCount+1] = measureNPS
+                Density[measureCount+1] = originalval
                 
                 measureCount = measureCount + 1
                 mDuration = TD:GetElapsedTimeFromBeat((measureCount+1)*4) - TD:GetElapsedTimeFromBeat(measureCount*4)

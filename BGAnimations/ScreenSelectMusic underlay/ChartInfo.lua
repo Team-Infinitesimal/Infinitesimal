@@ -80,10 +80,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Name="ChartInfo",
             InitCommand=function(self)
                 self:maxwidth(PanelW / self:GetZoom())
-                :vertspacing(-3)
+                :vertspacing(-6)
                 :skewx(-0.2)
                 :x(-170 + (pn == PLAYER_2 and 340 or 0))
-                :y(12)
+                :y(13)
             end
         },
 
@@ -170,9 +170,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 end
             end,
 
-            ShowAMVCommand=function(self) self:linear(PreviewDelay):diffusealpha(1):valign(1) end,
-            -- I added valign(1) :)
-            LoadActor("../NPSDiagram", (pn == PLAYER_2 and 128 or -128), 109, 250, 45, false, pn)
+            ShowAMVCommand=function(self) self:linear(PreviewDelay):diffusealpha(1) end,
+            -- valign(1) doesn't work with ActorMultiVertex :(
+            LoadActor("../NPSDiagram", (pn == PLAYER_2 and 128 or -128), 111, 250, 40, false, pn)
         }
     }
 end
