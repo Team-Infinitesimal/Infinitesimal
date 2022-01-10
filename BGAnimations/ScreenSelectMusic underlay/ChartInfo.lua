@@ -170,9 +170,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 end
             end,
 
-            ShowAMVCommand=function(self) self:linear(PreviewDelay):diffusealpha(1) end,
-            -- Stop being an idiot, add valign(1) and fix height limits later
-            LoadActor("../NPSDiagram", -122 + (pn == PLAYER_2 and 244 or 0), 136, 240, 84, false, pn)
+            ShowAMVCommand=function(self) self:linear(PreviewDelay):diffusealpha(1):valign(1) end,
+            -- I added valign(1) :)
+            LoadActor("../NPSDiagram", (pn == PLAYER_2 and 125 or -125), 109, 260, 45, false, pn)
         }
     }
 end
