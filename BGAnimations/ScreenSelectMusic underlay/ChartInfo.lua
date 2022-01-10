@@ -172,7 +172,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
             ShowAMVCommand=function(self) self:linear(PreviewDelay):diffusealpha(1):valign(1) end,
             -- I added valign(1) :)
-            LoadActor("../NPSDiagram", (pn == PLAYER_2 and 125 or -125), 109, 260, 45, false, pn)
+            LoadActor("../NPSDiagram", (pn == PLAYER_2 and 128 or -128), 109, 250, 45, false, pn)
         }
     }
 end
