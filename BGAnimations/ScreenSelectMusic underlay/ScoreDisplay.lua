@@ -1,6 +1,10 @@
 local t = Def.ActorFrame {}
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
+    -- Player 2's panel is slightly adjusted, so we need to correct
+    -- the positioning of actors so that they fit in properly
+    local CorrectionX = pn == PLAYER_2 and -15 or 0
+    
     t[#t+1] = Def.ActorFrame {
         Def.ActorFrame {
             SongChosenMessageCommand=function(self)
@@ -60,21 +64,29 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     self:xy(0, 0):zoom(0.75)
                 end,
             },
+            
+            Def.Sprite {
+                Name="PersonalGrade",
+                Texture=THEME:GetPathG("", "LetterGrades/FailF"),
+                InitCommand=function(self)
+                    self:xy(-40 + CorrectionX, -35):zoom(0.2)
+                end,
+            },
 
             Def.BitmapText {
                 Name="PersonalScore",
                 Font="Common normal",
                 InitCommand=function(self)
-                    self:xy(85, -36):zoom(1):halign(1)
+                    self:xy(90 + CorrectionX, -35):zoom(1):halign(1)
                     :diffuse(Color.White):vertspacing(-6)
                 end,
             },
-
+            
             Def.Sprite {
-                Name="PersonalGrade",
+                Name="MachineGrade",
                 Texture=THEME:GetPathG("", "LetterGrades/FailF"),
                 InitCommand=function(self)
-                    self:xy(-45, -36):zoom(0.2)
+                    self:xy(-40 + CorrectionX, 60):zoom(0.2)
                 end,
             },
 
@@ -82,16 +94,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Name="MachineScore",
                 Font="Common normal",
                 InitCommand=function(self)
-                    self:xy(85, 60):zoom(1):halign(1)
+                    self:xy(90 + CorrectionX, 60):zoom(1):halign(1)
                     :diffuse(Color.White):vertspacing(-6)
-                end,
-            },
-
-            Def.Sprite {
-                Name="MachineGrade",
-                Texture=THEME:GetPathG("", "LetterGrades/FailF"),
-                InitCommand=function(self)
-                    self:xy(-45, 60):zoom(0.2)
                 end,
             },
         }

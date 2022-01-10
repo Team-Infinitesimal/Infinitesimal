@@ -1,7 +1,8 @@
-local PanelW = 328
+local PanelW = 330
 local PanelH = 120
 
-local StatsX = 57
+local StatsX = 55
+local StatsXSpacing = 25
 local StatsY = 46
 
 local SongIsChosen = false
@@ -58,12 +59,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 ChartInfoText = string.upper(ChartInfoText)
 
                 self:GetChild("ChartInfo"):settext(ChartInfoText)
-                self:GetChild("Steps"):settext(ChartRadar:GetValue('RadarCategory_TapsAndHolds') .. "\n" .. THEME:GetString("ChartStats","Steps"))
-                self:GetChild("Jumps"):settext(ChartRadar:GetValue('RadarCategory_Jumps') .. "\n" .. THEME:GetString("ChartStats","Jumps"))
-                self:GetChild("Holds"):settext(ChartRadar:GetValue('RadarCategory_Holds') .. "\n" .. THEME:GetString("ChartStats","Holds"))
-                self:GetChild("Hands"):settext(ChartRadar:GetValue('RadarCategory_Hands') .. "\n" .. THEME:GetString("ChartStats","Hands"))
-                self:GetChild("Mines"):settext(ChartRadar:GetValue('RadarCategory_Mines') .. "\n" .. THEME:GetString("ChartStats","Mines"))
-                self:GetChild("Rolls"):settext(ChartRadar:GetValue('RadarCategory_Rolls') .. "\n" .. THEME:GetString("ChartStats","Rolls"))
+                self:GetChild("Steps"):settext(THEME:GetString("ChartStats","Steps") .. "\n" .. ChartRadar:GetValue('RadarCategory_TapsAndHolds'))
+                self:GetChild("Jumps"):settext(THEME:GetString("ChartStats","Jumps") .. "\n" .. ChartRadar:GetValue('RadarCategory_Jumps'))
+                self:GetChild("Holds"):settext(THEME:GetString("ChartStats","Holds") .. "\n" .. ChartRadar:GetValue('RadarCategory_Holds'))
+                self:GetChild("Hands"):settext(THEME:GetString("ChartStats","Hands") .. "\n" .. ChartRadar:GetValue('RadarCategory_Hands'))
+                self:GetChild("Mines"):settext(THEME:GetString("ChartStats","Mines") .. "\n" .. ChartRadar:GetValue('RadarCategory_Mines'))
+                self:GetChild("Rolls"):settext(THEME:GetString("ChartStats","Rolls") .. "\n" .. ChartRadar:GetValue('RadarCategory_Rolls'))
             else
                 self:GetChild("ChartType"):settext("")
                 self:GetChild("Steps"):settext("")
@@ -82,7 +83,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:maxwidth(PanelW / self:GetZoom())
                 :vertspacing(-6)
                 :skewx(-0.2)
-                :x(-170 + (pn == PLAYER_2 and 340 or 0))
+                :x(-172 + (pn == PLAYER_2 and 345 or 0))
                 :y(13)
             end
         },
@@ -94,7 +95,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:zoom(0.75)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
-                :x(30 - StatsX * 6 + PlayerX)
+                :x(StatsXSpacing - StatsX * 6 + PlayerX)
                 :y(StatsY)
             end
         },
@@ -106,7 +107,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:zoom(0.75)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
-                :x(30 - StatsX * 5 + PlayerX)
+                :x(StatsXSpacing - StatsX * 5 + PlayerX)
                 :y(StatsY)
             end
         },
@@ -118,7 +119,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:zoom(0.75)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
-                :x(30 - StatsX * 4 + PlayerX)
+                :x(StatsXSpacing - StatsX * 4 + PlayerX)
                 :y(StatsY)
             end
         },
@@ -130,7 +131,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:zoom(0.75)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
-                :x(30 - StatsX * 3 + PlayerX)
+                :x(StatsXSpacing - StatsX * 3 + PlayerX)
                 :y(StatsY)
             end
         },
@@ -142,7 +143,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:zoom(0.75)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
-                :x(30 - StatsX * 2 + PlayerX)
+                :x(StatsXSpacing - StatsX * 2 + PlayerX)
                 :y(StatsY)
             end
         },
@@ -154,7 +155,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:zoom(0.75)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
-                :x(30 - StatsX + PlayerX)
+                :x(StatsXSpacing - StatsX + PlayerX)
                 :y(StatsY)
             end
         },
