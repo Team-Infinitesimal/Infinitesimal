@@ -12,16 +12,16 @@ local GetStreamBreakdown = function(Player)
     if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(Player) then
         local streams = LoadModule("Chart.GetStreamMeasure.lua")(NMeasure, 2, mcount)
         if not streams then return "" end
-        
+
         local streamLengths = {}
-        
+
         for i, stream in ipairs(streams) do
             local streamCount = tostring(stream.streamEnd - stream.streamStart)
             if not stream.isBreak then
                 streamLengths[#streamLengths + 1] = streamCount
             end
         end
-        
+
         return table.concat(streamLengths, "/")
     end
     return ""
@@ -32,30 +32,31 @@ local t = Def.ActorFrame {}
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     -- This will help us position each element to each player's side
     local PlayerX = pn == PLAYER_2 and 339 or 0
-    
+
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self) self:queuecommand("Refresh") end,
         ["CurrentSteps".. ToEnumShortString(pn) .."ChangedMessageCommand"]=function(self) self:playcommand("Refresh") end,
-        
+
         RefreshCommand=function(self)
             if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(pn) then
                 local Song = GAMESTATE:GetCurrentSong()
                 local Chart = GAMESTATE:GetCurrentSteps(pn)
                 local ChartRadar = Chart:GetRadarValues(pn)
-                
+
                 local ChartAuthorText = Chart:GetAuthorCredit()
                 if ChartAuthorText == "" then ChartAuthorText = "Unknown" end
-                
+
                 local ChartTypeText = ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) .. " " .. Chart:GetMeter()
-                
+
                 local ChartDescriptionText = Chart:GetChartName()
                 -- if ChartDescriptionText == "" then ChartDescriptionText = ToUpper(Chart:GetDescription()) end
-                
+
                 local ChartInfoText = ChartTypeText .. " by " .. ChartAuthorText
-                if ChartDescriptionText ~= "" then 
+                if ChartDescriptionText ~= "" then
                     ChartInfoText = ChartInfoText .. "\n" .. ChartDescriptionText
                 end
-                
+                ChartInfoText = string.upper(ChartInfoText)
+
                 self:GetChild("ChartInfo"):settext(ChartInfoText)
                 self:GetChild("Steps"):settext(ChartRadar:GetValue('RadarCategory_TapsAndHolds') .. "\n" .. THEME:GetString("ChartStats","Steps"))
                 self:GetChild("Jumps"):settext(ChartRadar:GetValue('RadarCategory_Jumps') .. "\n" .. THEME:GetString("ChartStats","Jumps"))
@@ -73,18 +74,19 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:GetChild("Rolls"):settext("")
             end
         end,
-        
+
         Def.BitmapText {
-            Font="Montserrat normal 20px",
+            Font="Montserrat extrabold 20px",
             Name="ChartInfo",
             InitCommand=function(self)
                 self:maxwidth(PanelW / self:GetZoom())
                 :vertspacing(-3)
+                :skewx(-0.2)
                 :x(-170 + (pn == PLAYER_2 and 340 or 0))
                 :y(12)
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat normal 20px",
             Name="Steps",
@@ -96,7 +98,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :y(StatsY)
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat normal 20px",
             Name="Jumps",
@@ -108,7 +110,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :y(StatsY)
             end
         },
-        
+
         Def.BitmapText{
             Font="Montserrat normal 20px",
             Name="Holds",
@@ -120,7 +122,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :y(StatsY)
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat normal 20px",
             Name="Hands",
@@ -132,7 +134,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :y(StatsY)
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat normal 20px",
             Name="Mines",
@@ -144,7 +146,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :y(StatsY)
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat normal 20px",
             Name="Rolls",
@@ -156,18 +158,18 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :y(StatsY)
             end
         },
-        
+
         Def.ActorFrame {
             InitCommand=function(self) self:diffusealpha(1):queuecommand("ShowAMV") end,
             SongChosenMessageCommand=function(self) self:stoptweening():diffusealpha(1):queuecommand("ShowAMV") end,
-            
+
             ["CurrentSteps".. ToEnumShortString(pn) .."ChangedMessageCommand"]=function(self)
                 self:stoptweening():diffusealpha(0)
                 if GAMESTATE:GetCurrentSong() then
                     self:decelerate(PreviewDelay):queuecommand("ShowAMV")
                 end
             end,
-            
+
             ShowAMVCommand=function(self) self:linear(PreviewDelay):diffusealpha(1) end,
             -- Stop being an idiot, add valign(1) and fix height limits later
             LoadActor("../NPSDiagram", -122 + (pn == PLAYER_2 and 244 or 0), 136, 240, 84, false, pn)
