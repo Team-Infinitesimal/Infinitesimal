@@ -68,7 +68,14 @@ if LoadModule("Config.Load.lua")("ChartPreview", "Save/OutFoxPrefs.ini") then
             if GAMESTATE:GetCurrentSong() then
                 self:AddChildFromPath(THEME:GetPathB("", "NotefieldPreview"))
             end
-        end
+        end,
+        Def.Quad {
+            InitCommand=function(self)
+                self:y(-100):zoomto(854, 480):diffuse(Color.Black):diffusealpha(0.5):visible(false)
+            end,
+            SongChosenMessageCommand=function(self) self:visible(true) end,
+            SongUnchosenMessageCommand=function(self) self:visible(false) end,
+        }
     }
 end
 

@@ -1,6 +1,6 @@
 local t = Def.ActorFrame {
     Def.Sprite {
-        InitCommand=function(self) self:playcommand("Refresh") end,
+        OnCommand=function(self) self:playcommand("Refresh") end,
         StartTransitioningCommand=function(self) self:playcommand("Refresh") end,
         
         RefreshCommand=function(self)

@@ -11,7 +11,7 @@ local PlayerPos = GAMESTATE:GetNumPlayersEnabled() == 1 and "OnePlayerTwoSides" 
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 local ShouldDisplay = false
 
-function GetCurrentChartIndex(pn, ChartArray)
+local function GetCurrentChartIndex(pn, ChartArray)
 	local PlayerSteps = GAMESTATE:GetCurrentSteps(pn)
 	-- Not sure how the previous checks fails at times, so here it is once again
 	if ChartArray then
@@ -22,17 +22,17 @@ function GetCurrentChartIndex(pn, ChartArray)
 		end
 	end
 	-- If it reaches this point, the selected steps doesn't equal anything
-	return -1
+	return nil
 end
 
 local t = Def.ActorFrame {}
 
-for i, v in ipairs(GAMESTATE:GetEnabledPlayers()) do
+for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
     t[#t+1] = Def.ActorFrame {
-        Name="Player" .. ToEnumShortString(v),
+        Name="Player" .. ToEnumShortString(pn),
         FOV=45,
         InitCommand=function(self)
-            self:x(THEME:GetMetric('ScreenGameplay', 'Player' .. ToEnumShortString(v) .. PlayerPos .. 'X') - SCREEN_CENTER_X)
+            self:x(THEME:GetMetric('ScreenGameplay', 'Player' .. ToEnumShortString(pn) .. PlayerPos .. 'X') - SCREEN_CENTER_X)
             :zoom(SCREEN_HEIGHT / 480):visible(false)
         end,
         
@@ -41,26 +41,35 @@ for i, v in ipairs(GAMESTATE:GetEnabledPlayers()) do
 
         Def.NoteField {
             Name = "NotefieldPreview",
-            Player = v,
-            NoteSkin = GAMESTATE:GetPlayerState(v):GetPlayerOptions('ModsLevel_Preferred'):NoteSkin(),
+            Player = pn,
+            NoteSkin = GAMESTATE:GetPlayerState(pn):GetPlayerOptions('ModsLevel_Preferred'):NoteSkin(),
             DrawDistanceAfterTargetsPixels = NotefieldRenderAfter,
             DrawDistanceBeforeTargetsPixels = NotefieldRenderBefore,
             YReverseOffsetPixels = ReceptorOffset,
             FieldID=1,
             InitCommand=function(self)
-                self:y(NotefieldY):GetPlayerOptions('ModsLevel_Current'):StealthPastReceptors(true, true)
+                self:y(NotefieldY):GetPlayerOptions("ModsLevel_Current"):StealthPastReceptors(true, true)
+                
+                local PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")
+                self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
             end,
+            
             CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
             CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+            
+            OptionsListStartMessageCommand=function(self)
+                local PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")
+                self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+            end,
             
             RefreshCommand=function(self)
                 self:SetNoteDataFromLua({})
                 
                 local ChartArray = nil
                 local Song = GAMESTATE:GetCurrentSong()
-                if Song then ChartArray = SongUtil.GetPlayableSteps(Song) else return end
+                if Song then ChartArray = Song:GetAllSteps() else return end
                 
-                local ChartIndex = GetCurrentChartIndex(v, ChartArray)
+                local ChartIndex = GetCurrentChartIndex(pn, ChartArray)
                 if not ChartIndex then return end
                 
                 local NoteData = Song:GetNoteData(ChartIndex)

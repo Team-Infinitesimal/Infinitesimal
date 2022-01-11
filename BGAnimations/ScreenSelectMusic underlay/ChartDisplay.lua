@@ -9,7 +9,7 @@ local SongIsChosen = false
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 local CenterList = LoadModule("Config.Load.lua")("CenterChartList", "Save/OutFoxPrefs.ini")
 
-function GetCurrentChartIndex(pn, ChartArray)
+local function GetCurrentChartIndex(pn, ChartArray)
 	local PlayerSteps = GAMESTATE:GetCurrentSteps(pn)
 	-- Not sure how the previous checks fails at times, so here it is once again
 	if ChartArray then
