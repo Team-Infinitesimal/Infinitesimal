@@ -40,13 +40,10 @@ local t = Def.ActorFrame {
 	CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
     CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-	NextSongMessageCommand=function(self) self:playcommand("Refresh") end,
-	PreviousSongMessageCommand=function(self) self:playcommand("Refresh") end,
 	
 	-- These are to control the visibility of the chart highlight.
 	SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
 	SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
-	StartSelectingGroupMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
 	
 	RefreshCommand=function(self)
 		local ChartArray = nil

@@ -784,4 +784,10 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
+    ChartPreview =
+    {
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
 }

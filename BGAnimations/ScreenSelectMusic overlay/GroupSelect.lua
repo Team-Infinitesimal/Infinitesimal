@@ -159,11 +159,11 @@ local function inputs(event)
 	if SCREENMAN:get_input_redirected(pn) then 
 		if button == "Center" or button == "Start" then
 			CloseWheel()
-		elseif button == "DownLeft" or button == "MenuLeft" then
+		elseif button == "DownLeft" or button == "MenuLeft"or button == "Left" then
 			scroller:scroll_by_amount(-1)
 			SOUND:PlayOnce(THEME:GetPathS("MusicWheel", "change"), true);
 			MESSAGEMAN:Broadcast("PreviousGroup") --If you have arrows or graphics on the screen and you only want them to respond when left or right is pressed.
-		elseif button == "DownRight" or button == "MenuRight" then
+		elseif button == "DownRight" or button == "MenuRight" or button == "Right" then
 			scroller:scroll_by_amount(1)
 			SOUND:PlayOnce(THEME:GetPathS("MusicWheel", "change"), true);
 			MESSAGEMAN:Broadcast("NextGroup")

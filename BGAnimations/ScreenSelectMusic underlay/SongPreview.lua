@@ -2,9 +2,9 @@ local FrameW = 640
 local FrameH = 360
 
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
+local DisplayNotefield = false
 
 -- Video/background display
-
 local t = Def.ActorFrame {
     OnCommand=function(self)
         self:zoom(0.8)
@@ -58,26 +58,21 @@ local t = Def.ActorFrame {
     }
 }
 
--- Chart preview, if I can make this work
-
-t[#t+1] = Def.ActorFrame {
-    InitCommand=function(self)
-        self:y(75):zoom(0.75)
-        self:visible(false):RemoveAllChildren()
-    end,
-    CurrentStepsP1ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
-    CurrentStepsP2ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
-    CurrentSongChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
-    RefreshCommand=function(self)
-        self:RemoveAllChildren()
-        self:sleep(PreviewDelay):AddChildFromPath(THEME:GetPathB("", "NotefieldPreview"))
-        self:visible(true)
-    end
-}
-
+-- Chart preview WIP, use at your own risk!
+if LoadModule("Config.Load.lua")("ChartPreview", "Save/OutFoxPrefs.ini") then
+    t[#t+1] = Def.ActorFrame {
+        InitCommand=function(self)
+            self:y(75):zoom(0.75)
+        end,
+        OnCommand=function(self)
+            if GAMESTATE:GetCurrentSong() then
+                self:AddChildFromPath(THEME:GetPathB("", "NotefieldPreview"))
+            end
+        end
+    }
+end
 
 -- Portion dedicated to song stats
-
 t[#t+1] = Def.ActorFrame {
     InitCommand=function(self) self:playcommand("Refresh") end,
     CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
