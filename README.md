@@ -2,6 +2,8 @@
 
 ![logo](https://raw.githubusercontent.com/dj505/PIU-Infinitesimal/master/Graphics/logo%20(doubleres).png)
 
+## [Discord server is now available for more development insights and discussion!](https://discord.gg/ex6e4jNm6s)
+
 ## About Infinitesimal
 This theme aims to be a spiritual successor to Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilize original assets when possible and bring high performance + cross-platform support to the table with OutFox.
 
