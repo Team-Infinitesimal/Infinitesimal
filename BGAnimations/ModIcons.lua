@@ -87,8 +87,8 @@ local t = Def.ActorFrame {
             end
         end
         
-        -- Translate all strings
-        for i = 1, #PlayerModsArray do
+        -- Translate all strings that come after speed mods and BGA filter
+        for i = 3, #PlayerModsArray do
             local ModText = THEME:GetString("ModIcons", PlayerModsArray[i])
             -- Only override strings if translations are available
             if ModText ~= "" then PlayerModsArray[i] = ModText end
