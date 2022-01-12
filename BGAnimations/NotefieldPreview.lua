@@ -49,6 +49,7 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
             FieldID=1,
             InitCommand=function(self)
                 self:y(NotefieldY):GetPlayerOptions("ModsLevel_Current"):StealthPastReceptors(true, true)
+                self:AutoPlay(true)
                 
                 local PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")
                 self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
