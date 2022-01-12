@@ -9,7 +9,6 @@ local NotefieldY = (ReceptorPosNormal + ReceptorPosReverse) / 2
 
 local PlayerPos = GAMESTATE:GetNumPlayersEnabled() == 1 and "OnePlayerTwoSides" or "TwoPlayersTwoSides"
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
-local ShouldDisplay = false
 
 local function GetCurrentChartIndex(pn, ChartArray)
 	local PlayerSteps = GAMESTATE:GetCurrentSteps(pn)
@@ -64,9 +63,9 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
             end,
             
             RefreshCommand=function(self)
-                self:SetNoteDataFromLua({})
-                
+                self:AutoPlay(false)
                 local ChartArray = nil
+                
                 local Song = GAMESTATE:GetCurrentSong()
                 if Song then ChartArray = Song:GetAllSteps() else return end
                 
@@ -76,8 +75,10 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                 local NoteData = Song:GetNoteData(ChartIndex)
                 if not NoteData then return end
                 
+                self:SetNoteDataFromLua({})
                 --SCREENMAN:SystemMessage("Loading ChartIndex!")
                 self:SetNoteDataFromLua(NoteData)
+                self:AutoPlay(true)
             end
         }
     }
