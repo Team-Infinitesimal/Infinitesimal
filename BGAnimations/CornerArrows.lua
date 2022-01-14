@@ -37,7 +37,7 @@ return Def.ActorFrame {
     Def.Sprite {
         Texture=THEME:GetPathG("", "CornerArrows/ShiftDL"),
         InitCommand=function(self) self:zoom(0.5):xy(-72, SCREEN_BOTTOM + 72):easeoutexpo(1):xy(72, SCREEN_BOTTOM - 72) end,
-        OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(72, SCREEN_BOTTOM + 72) end
+        OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(-72, SCREEN_BOTTOM + 72) end
     },
     
     Def.Sprite {
