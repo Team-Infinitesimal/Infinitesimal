@@ -17,6 +17,8 @@ local MeterUpdate = function(self)
 end
 
 local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0
+local ScoreDisplay = LoadModule("Config.Load.lua")("ScoreDisplay", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini")
+local SongProgress = LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini")
 
 local t = Def.ActorFrame {
 	InitCommand=function(self) self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100) end,
@@ -133,15 +135,44 @@ local t = Def.ActorFrame {
             :diffusealpha(0)
 		end
 	},
-
-	Def.SongMeterDisplay {
-		InitCommand=function(self)
-            self:SetStreamWidth(BarW - 12):y(-(BarH / 2) - 1)
+    
+    Def.BitmapText{
+        Font="Montserrat semibold 20px",
+        InitCommand=function(self)
+            self:x(BarW / 2 - 10):zoom(0.8):skewx(-0.2):halign(1)
+            :diffuse(Color.Yellow):shadowlength(1):playcommand("Refresh")
         end,
-        Stream=Def.Quad {
-            InitCommand=function(self) self:zoomto(384, 2):diffuse(Color.Yellow) end
-        }
-	}
+        JudgmentMessageCommand=function(self) self:playcommand("Refresh") end,
+        RefreshCommand=function(self)
+            local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+            
+            if ScoreDisplay == "Score" then
+                self:settext(PSS:GetScore())
+            elseif ScoreDisplay == "Percent" then
+                local TotalAcc = PSS:GetCurrentPossibleDancePoints()
+                local CurrentAcc = PSS:GetActualDancePoints()
+                
+                if TotalAcc ~= 0 then
+                    self:settext(math.floor(CurrentAcc / TotalAcc * 10000) / 100 .. "%")
+                else
+                    self:settext("0%")
+                end
+            end
+        end
+    }
 }
+
+if LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini") then
+    t[#t+1] = Def.ActorFrame {
+        Def.SongMeterDisplay {
+            InitCommand=function(self)
+                self:SetStreamWidth(BarW - 12):y(-(BarH / 2) - 1)
+            end,
+            Stream=Def.Quad {
+                InitCommand=function(self) self:zoomto(384, 2):diffuse(Color.Yellow) end
+            }
+        }
+    }
+end
 
 return t

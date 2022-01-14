@@ -60,9 +60,14 @@ return function(Player)
 			if CurPrefTiming == "Very Hard" then
 				LevelConstant = LevelConstant * 1.2
 			end
+            
+            -- Reset your score, dummy
+            local CSS = STATSMAN:GetCurStageStats()
+            local PSS = CSS:GetPlayerStageStats(Player)
+            PSS:SetScore(0)
 		end,
 		
-		JudgmentMessageCommand=function(self,params)
+		JudgmentMessageCommand=function(self, params)
 			local Notes = {}
 			local Holds = {}
 			local StepsCount = 0
