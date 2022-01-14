@@ -3,6 +3,12 @@ return Def.ActorFrame {
         self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 20)
         :queuecommand("ZoomY")
     end,
+    
+    OffCommand=function(self)
+        self:stoptweening()
+        :easeoutexpo(0.5)
+        :zoom(1.5):diffusealpha(0)
+    end,
 
     ZoomYCommand=function(self)
         self:accelerate(3.4288)
@@ -34,7 +40,7 @@ return Def.ActorFrame {
             :diffusealpha(0)
             :sleep(1.7144)
             :queuecommand("Pulse")
-        end
+        end,
     },
 
     Def.Sprite {
@@ -50,6 +56,12 @@ return Def.ActorFrame {
             :decelerate(3.4288)
             :diffusealpha(0)
             :queuecommand("Flash")
-        end
+        end,
+        OffCommand=function(self)
+            self:stoptweening()
+            :diffusealpha(1)
+            :easeoutexpo(1)
+            :zoom(2):diffusealpha(0)
+        end,
     }
 }

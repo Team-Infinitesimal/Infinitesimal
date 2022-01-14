@@ -2,7 +2,8 @@ return Def.ActorFrame {
     -- Up Left
     Def.Sprite {
         Texture=THEME:GetPathG("", "CornerArrows/ShiftUL"),
-        InitCommand=function(self) self:xy(72, 72):zoom(0.5) end
+        InitCommand=function(self) self:zoom(0.5):xy(-72, -72):easeoutexpo(1):xy(72, 72) end,
+        OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(-72, -72) end
     },
     
     Def.Sprite {
@@ -18,12 +19,13 @@ return Def.ActorFrame {
     -- Up Right
     Def.Sprite {
         Texture=THEME:GetPathG("", "CornerArrows/ShiftUR"),
-        InitCommand=function(self) self:xy(SCREEN_RIGHT - 72, 72):zoom(0.5) end
+        InitCommand=function(self) self:zoom(0.5):xy(SCREEN_RIGHT + 72, -72):easeoutexpo(1):xy(SCREEN_RIGHT - 72, 72) end,
+        OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(SCREEN_RIGHT + 72, -72) end
     },
     
     Def.Sprite {
         Texture=THEME:GetPathG("", "CornerArrows/GlowShiftUR"),
-        InitCommand=function(self) self:xy(SCREEN_RIGHT - 72, 72):zoom(0.5):blend('add'):diffusealpha(0) end,
+        InitCommand=function(self) self:xy(SCREEN_RIGHT - 72, -72):zoom(0.5):blend('add'):diffusealpha(0) end,
         SongUnchosenMessageCommand=function(self) self:playcommand("Glow") end,
         StartSelectingGroupMessageCommand=function(self) self:playcommand("Glow") end,
         GlowCommand=function(self)
@@ -34,7 +36,8 @@ return Def.ActorFrame {
     -- Down Left
     Def.Sprite {
         Texture=THEME:GetPathG("", "CornerArrows/ShiftDL"),
-        InitCommand=function(self) self:xy(72, SCREEN_BOTTOM - 72):zoom(0.5) end
+        InitCommand=function(self) self:zoom(0.5):xy(-72, SCREEN_BOTTOM + 72):easeoutexpo(1):xy(72, SCREEN_BOTTOM - 72) end,
+        OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(72, SCREEN_BOTTOM + 72) end
     },
     
     Def.Sprite {
@@ -48,7 +51,8 @@ return Def.ActorFrame {
     -- Down Right
     Def.Sprite {
         Texture=THEME:GetPathG("", "CornerArrows/ShiftDR"),
-        InitCommand=function(self) self:xy(SCREEN_RIGHT - 72, SCREEN_BOTTOM - 72):zoom(0.5) end
+        InitCommand=function(self) self:zoom(0.5):xy(SCREEN_RIGHT + 72, SCREEN_BOTTOM + 72):easeoutexpo(1):xy(SCREEN_RIGHT - 72, SCREEN_BOTTOM - 72) end,
+        OffCommand=function(self) self:stoptweening():easeoutexpo(1):xy(SCREEN_RIGHT + 72, SCREEN_BOTTOM + 72) end
     },
     
     Def.Sprite {
