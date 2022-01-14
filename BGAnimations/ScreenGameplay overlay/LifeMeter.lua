@@ -33,7 +33,7 @@ local t = Def.ActorFrame {
 		Name="Background",
 		InitCommand=function(self)
 			self:zoomto(BarW, BarH)
-      :diffuse(color("#353535"))
+            :diffuse(color("#353535"))
 			:diffusebottomedge(color("#5f5f5f"))
 		end
 	},
@@ -50,7 +50,6 @@ local t = Def.ActorFrame {
 
 				self:diffusetopedge(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
 				:diffusebottomedge(pn == PLAYER_1 and (LifeAmount < 0.33 and Color.Red or color("#ed1e79")) or (LifeAmount < 0.33 and Color.Red or color("#1fbcff")))
-				--self:diffuse(LifeAmount < 0.33 and Color.Red or color(0,0,0,0))
 				:cropright(1 - LifeAmount)
 			end
 		end
@@ -69,8 +68,8 @@ local t = Def.ActorFrame {
 		Name="Pulse",
 		InitCommand=function(self)
 			self:zoomto(20, BarH - 12):halign(0)
-			self:bounce():effectmagnitude(20,0,0):effectclock("bgm"):effecttiming(0,0,1,0)
-			self:MaskDest():ztestmode("ZTestMode_WriteOnFail")
+			:bounce():effectmagnitude(20,0,0):effectclock("bgm"):effecttiming(0,0,1,0)
+			:MaskDest():ztestmode("ZTestMode_WriteOnFail")
 		end,
 		LifeChangedMessageCommand=function(self, params)
 			if params.Player == pn then
@@ -88,20 +87,20 @@ local t = Def.ActorFrame {
 		end
 	},
 
-	Def.Quad {
+	Def.Sprite {
 		Name="RainbowMeter",
+        Texture=THEME:GetPathG("", "UI/RainbowBar"),
 		InitCommand=function(self)
 			self:zoomto(BarW - 12, BarH - 12)
-			:rainbow()
 			:texcoordvelocity(-0.5, 0)
-      :diffusealpha(0)
+            :diffusealpha(0)
 		end,
 		LifeChangedMessageCommand=function(self, params)
 			if params.Player == pn then
 				local LifeAmount = params.LifeMeter:GetLife()
 
                 if LifeAmount >= 1 and not MeterHot then
-                    self:diffusealpha(1)
+                    self:stoptweening():linear(0.5):diffusealpha(1)
                     MeterHot = true
                 elseif LifeAmount < 1 and MeterHot then
                     self:diffusealpha(0)
@@ -110,41 +109,6 @@ local t = Def.ActorFrame {
 			end
 		end
 	},
-
-    --[[
-    Def.Quad {
-		Name="MeterPulse",
-        Texture="InsertPulseTextureHere",
-		InitCommand=function(self)
-			MeterActor = self
-			self:zoomto(BarW - 12, BarH - 12)
-			:cropright(0.5)
-		end,
-		LifeChangedMessageCommand=function(self, params)
-			if params.Player == pn then
-				local LifeAmount = params.LifeMeter:GetLife()
-
-				self:cropright(1 - LifeAmount)
-			end
-		end
-	},
-    ]]
-
-		Def.BitmapText{
-			Font="Montserrat semibold 20px",
-			InitCommand=function(self)
-				self:zoom(0.9):x(-175):skewx(-0.2):halign(0):diffuse(1,1,1,1)
-				self:playcommand("Refresh")
-			end,
-			OnCommand=function(self)self:playcommand("Refresh")end,
-			JudgmentMessageCommand=function(self)self:playcommand("Refresh")end,
-			RefreshCommand=function(self)
-				if ScoreDisplay then
-					local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
-					self:settext(PSS:GetScore())
-				end
-			end
-		},
 
 	Def.SongMeterDisplay {
 		InitCommand=function(self)
