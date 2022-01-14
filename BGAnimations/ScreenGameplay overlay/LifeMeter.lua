@@ -144,6 +144,9 @@ local t = Def.ActorFrame {
         end,
         JudgmentMessageCommand=function(self) self:playcommand("Refresh") end,
         RefreshCommand=function(self)
+            -- Let's give ourselves some time for our score module to properly calculate meanwhile
+            self:stoptweening():sleep(0.1)
+            
             local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
             
             if ScoreDisplay == "Score" then
