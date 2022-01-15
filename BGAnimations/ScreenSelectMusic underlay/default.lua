@@ -1,5 +1,3 @@
-local ModIconX = IsUsingWideScreen() and 40 or 33
-
 local t = Def.ActorFrame {}
 
 -- Unfortunately, it's easier to iterate through the current players
@@ -8,8 +6,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         LoadActor("../ModIcons", pn) .. {
             InitCommand=function(self)
-                self:xy(pn == PLAYER_2 and SCREEN_RIGHT + ModIconX * 2 or -ModIconX * 2, 160)
-                :easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - ModIconX or ModIconX)
+                self:xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 160)
+                :easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
             end,
         }
     }

@@ -59,12 +59,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 ChartInfoText = string.upper(ChartInfoText)
 
                 self:GetChild("ChartInfo"):settext(ChartInfoText)
-                self:GetChild("Steps"):settext(THEME:GetString("ChartStats","Steps") .. "\n" .. ChartRadar:GetValue('RadarCategory_TapsAndHolds'))
-                self:GetChild("Jumps"):settext(THEME:GetString("ChartStats","Jumps") .. "\n" .. ChartRadar:GetValue('RadarCategory_Jumps'))
-                self:GetChild("Holds"):settext(THEME:GetString("ChartStats","Holds") .. "\n" .. ChartRadar:GetValue('RadarCategory_Holds'))
-                self:GetChild("Hands"):settext(THEME:GetString("ChartStats","Hands") .. "\n" .. ChartRadar:GetValue('RadarCategory_Hands'))
-                self:GetChild("Mines"):settext(THEME:GetString("ChartStats","Mines") .. "\n" .. ChartRadar:GetValue('RadarCategory_Mines'))
-                self:GetChild("Rolls"):settext(THEME:GetString("ChartStats","Rolls") .. "\n" .. ChartRadar:GetValue('RadarCategory_Rolls'))
+                self:GetChild("Steps"):settext(THEME:GetString("PaneDisplay", "Steps") .. "\n" .. ChartRadar:GetValue('RadarCategory_TapsAndHolds'))
+                self:GetChild("Jumps"):settext(THEME:GetString("PaneDisplay", "Jumps") .. "\n" .. ChartRadar:GetValue('RadarCategory_Jumps'))
+                self:GetChild("Holds"):settext(THEME:GetString("PaneDisplay", "Holds") .. "\n" .. ChartRadar:GetValue('RadarCategory_Holds'))
+                self:GetChild("Hands"):settext(THEME:GetString("PaneDisplay", "Hands") .. "\n" .. ChartRadar:GetValue('RadarCategory_Hands'))
+                self:GetChild("Mines"):settext(THEME:GetString("PaneDisplay", "Mines") .. "\n" .. ChartRadar:GetValue('RadarCategory_Mines'))
+                self:GetChild("Rolls"):settext(THEME:GetString("PaneDisplay", "Rolls") .. "\n" .. ChartRadar:GetValue('RadarCategory_Rolls'))
             else
                 self:GetChild("ChartType"):settext("")
                 self:GetChild("Steps"):settext("")
