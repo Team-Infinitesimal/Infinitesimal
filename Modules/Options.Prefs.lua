@@ -219,11 +219,16 @@ return {
 		OneInRow = true,
 		Default = THEME:GetMetric("Common","DefaultJudgment"),
 		Choices = LoadModule("Options.SmartJudgeChoices.lua")(),
-		Values = LoadModule("Options.SmartJudgeChoices.lua")("Value")
+		Values = LoadModule("Options.SmartJudgeChoices.lua")("Value"),
+        Reload = function(self)
+			self.Choices = LoadModule("Options.SmartJudgeChoices.lua")()
+			return "ReloadChanged_All"
+		end,
+        ReloadRowMessages = {"OptionsListStartMessage"}
 	},
 	SmartTimings =
 	{
-		GenForOther = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
+		SaveSelections = {"SmartJudgments", LoadModule("Options.SmartJudgeChoices.lua")},
 		GenForUserPref = true,
 		Default = TimingModes[1],
 		Choices = TimingModes,
