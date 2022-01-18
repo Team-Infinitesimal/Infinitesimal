@@ -1,6 +1,6 @@
 # Infinitesimal - an Infinity-inspired OutFox theme
 
-![logo](https://raw.githubusercontent.com/dj505/PIU-Infinitesimal/master/Graphics/logo%20(doubleres).png)
+![logo](Graphics/Logo/Logo (doubleres).png)
 
 ## [Discord server is now available for more development insights and discussion!](https://discord.gg/ex6e4jNm6s)
 
@@ -28,6 +28,7 @@ Since this theme is currently on a rolling release, we highly recommend download
 * BGA OFF + BGA Dark with adjustable levels;
 * Deviation, score, measures and song progress display...;
 * Customize appearance options, modifiers, rush...;
+* Chart preview on the song selection screen;
 * Online(ish) multiplayer via [everyone.dance](https://everyone.dance).
 
 ![image](https://i.imgur.com/pamOyYL.png)
@@ -52,7 +53,8 @@ The theme currently has a few limitations that are beyond our reach. Here is a l
 * Holds might be extremely hard or easy to hit due to how the tickcount is currently handled;
 * Hold heads currently counts as tap notes, you don't need to step on them but they will count in your accuracy;
 * Some chart effects will be missing or broken from incomplete parsing;
-* Scoring might be inconsistent due to a race condition against the engine's score.
+* Scoring might be inconsistent due to a race condition against the engine's score;
+* Chart previews may be inconsistent or may not display entirely depending on the initially selected style. 
 
 Hopefully all of these should be gone soon with future Project OutFox developments and improvements by Team OutFox!
 
