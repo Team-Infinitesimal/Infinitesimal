@@ -1,6 +1,6 @@
 # Infinitesimal - an Infinity-inspired OutFox theme
 
-![logo](Graphics/Logo/Logo (doubleres).png)
+![logo](https://raw.githubusercontent.com/dj505/Infinitesimal/rewrite/Graphics/Logo/Logo%20(doubleres).png)
 
 ## [Discord server is now available for more development insights and discussion!](https://discord.gg/ex6e4jNm6s)
 
@@ -54,7 +54,7 @@ The theme currently has a few limitations that are beyond our reach. Here is a l
 * Hold heads currently counts as tap notes, you don't need to step on them but they will count in your accuracy;
 * Some chart effects will be missing or broken from incomplete parsing;
 * Scoring might be inconsistent due to a race condition against the engine's score;
-* Chart previews may be inconsistent or may not display entirely depending on the initially selected style. 
+* Chart previews may be inconsistent or may not display entirely depending on the initially selected style.
 
 Hopefully all of these should be gone soon with future Project OutFox developments and improvements by Team OutFox!
 
