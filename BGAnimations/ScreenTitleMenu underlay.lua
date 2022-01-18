@@ -3,7 +3,7 @@ return Def.ActorFrame {
         self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 20)
         :queuecommand("ZoomY")
     end,
-    
+
     OffCommand=function(self)
         self:stoptweening()
         :easeoutexpo(0.5)
@@ -46,7 +46,7 @@ return Def.ActorFrame {
     Def.Sprite {
         Texture=THEME:GetPathG("", "Logo/BlurLogo"),
         InitCommand=function(self)
-            self:zoom(1.25)
+            self:zoom(0.81)
             :diffusealpha(0)
             :queuecommand("Flash")
         end,
