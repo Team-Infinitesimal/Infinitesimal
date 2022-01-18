@@ -19,24 +19,26 @@ return Def.ActorFrame {
     FOV=90,
 
     Def.Sprite {
+      Name="GridTop",
       Texture="grid",
       InitCommand=function(self)
         self:xy(SCREEN_CENTER_X, 0)
         :zoomx(2.2)
         :halign(0.5):valign(0)
-        :rotationx(88)
+        :rotationx(84)
         :texcoordvelocity(0, 0.25)
         :fadebottom(1)
       end
     },
 
     Def.Sprite {
+      Name="GridBottom",
       Texture="grid",
       InitCommand=function(self)
         self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM)
         :zoomx(2.2)
         :halign(0.5):valign(0)
-        :rotationx(88)
+        :rotationx(102)
         :texcoordvelocity(0, 0.25)
         :fadebottom(1)
       end
