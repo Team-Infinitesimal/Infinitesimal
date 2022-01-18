@@ -27,6 +27,7 @@ return Def.ActorFrame {
         :halign(0.5):valign(0)
         :rotationx(84)
         :texcoordvelocity(0, 0.25)
+        :diffusealpha(0.5)
         :fadebottom(1)
       end
     },
@@ -40,6 +41,7 @@ return Def.ActorFrame {
         :halign(0.5):valign(0)
         :rotationx(102)
         :texcoordvelocity(0, 0.25)
+        :diffusealpha(0.5)
         :fadebottom(1)
       end
     }
