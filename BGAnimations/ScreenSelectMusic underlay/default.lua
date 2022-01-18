@@ -1,5 +1,15 @@
 local t = Def.ActorFrame {}
 
+-- The column thing
+t[#t+1] = Def.Quad {
+    InitCommand=function(self)
+        self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
+        :zoomx(255)
+        :zoomy(SCREEN_HEIGHT)
+        :diffuse(0,0,0,0.75)
+    end
+}
+
 -- Unfortunately, it's easier to iterate through the current players
 -- here to avoid having to deal with more iterating children actors
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
