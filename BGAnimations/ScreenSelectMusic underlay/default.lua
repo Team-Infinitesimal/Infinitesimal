@@ -3,10 +3,12 @@ local t = Def.ActorFrame {}
 -- The column thing
 t[#t+1] = Def.Quad {
     InitCommand=function(self)
-        self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y)
+        self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y):valign(0.5)
         :zoomx(255)
-        :zoomy(SCREEN_HEIGHT)
         :diffuse(0,0,0,0.75)
+        :zoomy(0)
+        :decelerate(0.5)
+        :zoomy(SCREEN_HEIGHT)
     end
 }
 
