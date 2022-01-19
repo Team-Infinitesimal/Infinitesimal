@@ -13,7 +13,7 @@ local t = Def.ActorFrame {
     
     -- TODO: Dynamically adjust the Y position relative to the amount of lines on screen?
     LoadActor("EvalSongInfo") .. {
-        InitCommand=function(self) self:xy(SCREEN_CENTER_X, 122) end,
+        InitCommand=function(self) self:xy(SCREEN_CENTER_X, 140) end,
     },
     
     LoadActor("../HudPanels")
@@ -27,6 +27,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 :easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
             end,
         },
+		
+		LoadActor("EvalBall", pn) .. {
+			InitCommand=function(self)
+				self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 130 or -130), SCREEN_CENTER_Y + 6)
+			end,
+		}
         
         --[[ No grades for now due to engine limitations/difficulties :(
         Def.Sprite {

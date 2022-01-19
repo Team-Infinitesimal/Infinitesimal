@@ -87,7 +87,7 @@ local t = Def.ActorFrame {
                     local ChartLabelIndex = 0
                     
                     for Index, String in pairs(ChartLabels) do
-						if string.find(string.upper(Chart:GetDescription()), String) then
+						if string.find(ToUpper(Chart:GetDescription()), String) then
 							--ChartLabelString = String
                             ChartLabelIndex = Index
 						end
@@ -155,7 +155,7 @@ for i=1,ItemAmount do
 			Name="Label",
             Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
 			InitCommand=function(self)
-				self:xy(FrameX + ItemW * (i - 1), 20):animate(false)
+				self:xy(FrameX + ItemW * (i - 1), 16):animate(false)
 			end
 		},
         

@@ -1,3 +1,15 @@
+local ChartLabels = {
+	"NEW",
+	"ANOTHER",
+	"PRO",
+	"TRAIN",
+	"QUEST",
+	"UCS",
+	"HIDDEN",
+	"INFINITY",
+	"JUMP",
+}
+
 local t = Def.ActorFrame {
     Def.Sprite {
         OnCommand=function(self) self:playcommand("Refresh") end,
@@ -37,6 +49,17 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     self:GetChild("Ball"):diffuse(ChartTypeToColor(Chart))
                     self:GetChild("Meter"):settext(ChartMeter)
                     self:GetChild("Credit"):settext(ChartAuthor)
+					
+					local ChartLabelIndex = 0
+					for Index, String in pairs(ChartLabels) do
+						if string.find(ToUpper(Chart:GetDescription()), String) then
+							ChartLabelIndex = Index
+						end
+					end
+					
+					if ChartLabelIndex ~= 0 then
+						self:GetChild("Label"):visible(true):setstate(ChartLabelIndex - 1)
+					end
                 end
             end,
             
@@ -68,6 +91,14 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     self:xy(79.25 * PlayerDirection, 0.25):zoom(0.88) 
                 end
             },
+			
+			Def.Sprite {
+				Name="Label",
+				Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
+				InitCommand=function(self)
+					self:xy(79.25 * PlayerDirection, 22.25):visible(false):animate(false)
+				end
+			},
             
             Def.BitmapText {
                 Name="Credit",

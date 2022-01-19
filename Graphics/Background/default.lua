@@ -23,7 +23,8 @@ for i=1,4 do
     Texture="Squiggles/"..i,
     InitCommand=function(self)
       self:Center()
-      :texcoordvelocity(math.random(-2, 2) / 10, 0)
+	  :zoom(1 + i / 8)
+      :texcoordvelocity(math.random(-3, 3) / 10, 0)
       :diffusealpha(0.25)
     end
   }

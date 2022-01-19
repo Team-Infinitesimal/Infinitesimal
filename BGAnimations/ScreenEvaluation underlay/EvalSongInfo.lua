@@ -1,4 +1,4 @@
-local FrameW = 512
+local FrameW = 620
 local FrameH = 76
 
 return Def.ActorFrame {
@@ -31,17 +31,18 @@ return Def.ActorFrame {
     end,
     
     Def.Sprite {
-        Texture=THEME:GetPathG("", "Evaluation/EvalSongInfo")
+        Texture=THEME:GetPathG("", "Evaluation/EvalSongInfo"),
+		InitCommand=function(self) self:zoom(1.25) end
     },
     
     Def.BitmapText {
         Font="Montserrat semibold 40px",
         Name="Title",
         InitCommand=function(self)
-            self:zoom(0.7):valign(0)
+            self:zoom(0.9):valign(0)
             :maxwidth(FrameW * 0.85 / self:GetZoom())
             :diffuse(Color.Black)
-            :y(-28)
+            :y(-34)
         end
     },
     
@@ -49,10 +50,10 @@ return Def.ActorFrame {
         Font="Montserrat normal 40px",
         Name="Artist",
         InitCommand=function(self)
-            self:zoom(0.5):valign(1)
+            self:zoom(0.65):valign(1)
             :maxwidth(FrameW * 0.5 / self:GetZoom())
             :diffuse(Color.Black)
-            :y(14)
+            :y(18)
         end
     },
 
@@ -60,10 +61,10 @@ return Def.ActorFrame {
         Font="Montserrat normal 20px",
         Name="Length",
         InitCommand=function(self)
-            self:zoom(0.8):halign(1):valign(1)
+            self:zoom(1):halign(1):valign(1)
             :maxwidth(FrameW * 0.2 / self:GetZoom())
             :diffuse(Color.Black)
-            :xy(FrameW / 2 - 36, 14)
+            :xy(FrameW / 2 - 36, 18)
         end
     }, 
 
@@ -71,10 +72,10 @@ return Def.ActorFrame {
         Font="Montserrat normal 20px",
         Name="BPM",
         InitCommand=function(self)
-            self:zoom(0.8):halign(0):valign(1)
+            self:zoom(1):halign(0):valign(1)
             :maxwidth(FrameW * 0.175 / self:GetZoom())
             :diffuse(Color.Black)
-            :xy(-FrameW / 2 + 36, 14)
+            :xy(-FrameW / 2 + 36, 18)
         end
     }
 }

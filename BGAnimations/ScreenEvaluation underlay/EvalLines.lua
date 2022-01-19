@@ -8,7 +8,8 @@ Name[#Name+1] = "Score"
 Length = Length + 4
 
 local RowAmount = Length
-local RowH = 48
+local RowH = 40
+local RowX = IsUsingWideScreen() and 150 or 100
 local RowY = SCREEN_CENTER_Y - (RowAmount * RowH) / 2
 
 -- And a function to make even better use out of the table.
@@ -38,7 +39,7 @@ for i = 1, RowAmount do
             Texture=THEME:GetPathG("", "Evaluation/EvalRow"),
             InitCommand=function(self) 
                 self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1))
-                :valign(0):visible(true)
+                :valign(0):zoom(0.8)
             end
         }
     }
@@ -61,8 +62,8 @@ for i = 1, RowAmount do
             Name="RowLabel",
             Font="Montserrat normal 40px",
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 20)
-                :valign(0):maxwidth(360):skewx(-0.2):zoom(0.8):visible(true)
+                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 15)
+                :valign(0):maxwidth(360):skewx(-0.2):zoom(0.75):visible(true)
                 
                 if Name[i] == "Accuracy" or Name[i] == "Score" then
                     self:settext(ToUpper(THEME:GetString("EvaluationLabel", Name[i])))
@@ -77,7 +78,7 @@ for i = 1, RowAmount do
             Font="Montserrat semibold 40px",
             Text=GetJLineValue(Name[i], PLAYER_1),
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X - 380, RowY + RowH * (i - 1) + 17):shadowlength(1)
+                self:xy(RowX, RowY + RowH * (i - 1) + 15):shadowlength(1):zoom(0.8)
                 :halign(0):valign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_1))
             end
         },
@@ -87,7 +88,7 @@ for i = 1, RowAmount do
             Font="Montserrat semibold 40px",
             Text=GetJLineValue(Name[i], PLAYER_2),
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X + 380, RowY + RowH * (i - 1) + 17):shadowlength(1)
+                self:xy(SCREEN_RIGHT - RowX, RowY + RowH * (i - 1) + 15):shadowlength(1):zoom(0.8)
                 :halign(0):valign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_2))
             end
         }

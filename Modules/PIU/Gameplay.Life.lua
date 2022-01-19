@@ -1,16 +1,18 @@
 --[[
 		K-Pump life gauge system by SheepyChris, created on June 11, 2021
 		For this module to work properly, you will need to zero out all metrics in [LifeMeterBar].
+		
+		Temporarily set Perfects as W1 due to the default Pump timing windows,
+		this behavior will be discussed and defined later with the OutFox team
 ]]
 
 return function(pn)
 	local TapNoteScoreLife = {
 		TapNoteScore_CheckpointHit = 12,	-- HOLD PERFECT
-		TapNoteScore_W1 = 12,				-- SUPERB
-		TapNoteScore_W2 = 12,				-- PERFECT
-		TapNoteScore_W3 = 10,				-- GREAT
-		TapNoteScore_W4 = 0,				-- GOOD
-		TapNoteScore_W5 = -50,				-- BAD
+		TapNoteScore_W1 = 12,				-- PERFECT
+		TapNoteScore_W2 = 10,				-- GREAT
+		TapNoteScore_W3 = 0,				-- GOOD
+		TapNoteScore_W4 = -50,				-- BAD
 		TapNoteScore_Miss = -500,			-- MISS
 		TapNoteScore_CheckpointMiss = -500,	-- HOLD MISS
 		TapNoteScore_None =	0,
@@ -55,14 +57,13 @@ return function(pn)
 			if State:GetPlayerController() ~= "PlayerController_Autoplay" then
 				local NoteLife = TapNoteScoreLife[TapNoteScore]
 				
-				if TapNoteScore == "TapNoteScore_W1" or TapNoteScore == "TapNoteScore_W2" or 
-					TapNoteScore == "TapNoteScore_CheckpointHit" then
+				if TapNoteScore == "TapNoteScore_W1" or TapNoteScore == "TapNoteScore_CheckpointHit" then
 					LifeValue = LifeValue + NoteLife * FactorMultiplier / 1000
 					FactorMultiplier = FactorMultiplier + 20
-				elseif TapNoteScore == "TapNoteScore_W3" then
+				elseif TapNoteScore == "TapNoteScore_W2" then
 					LifeValue = LifeValue + NoteLife * FactorMultiplier / 1000
 					FactorMultiplier = FactorMultiplier + 16
-				elseif TapNoteScore == "TapNoteScore_W5" then
+				elseif TapNoteScore == "TapNoteScore_W4" then
 					LifeValue = LifeValue + NoteLife
 					FactorMultiplier = FactorMultiplier + FactorMiss / 2
 				elseif TapNoteScore == "TapNoteScore_Miss" or TapNoteScore == "TapNoteScore_HitMine" or 

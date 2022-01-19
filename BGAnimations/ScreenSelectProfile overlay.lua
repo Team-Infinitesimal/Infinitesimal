@@ -106,7 +106,7 @@ function LoadPlayerStuff(Player)
 		Def.BitmapText {
             Font="Montserrat semibold 40px",
 			Text="No profile!",
-			InitCommand=function(self) self:shadowlength(1):zoom(0.5) end
+			InitCommand=function(self) self:shadowlength(1) end
 		}
 	}
 

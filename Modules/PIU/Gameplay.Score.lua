@@ -1,6 +1,9 @@
 --[[
 		K-Pump scoring system by SheepyChris, created on October 17, 2019
 		For this module to work properly, you will need to zero out all metrics in [ScoreKeeperNormal].
+		
+		Temporarily set Perfects as W1 due to the default Pump timing windows,
+		this behavior will be discussed and defined later with the OutFox team
 ]]
 
 return function(Player)
@@ -17,10 +20,10 @@ return function(Player)
 	local TapNoteScorePoints = {
 		TapNoteScore_CheckpointHit = 1000,
 		TapNoteScore_W1 = 1000,
-		TapNoteScore_W2 = 1000,
-		TapNoteScore_W3 = 500,
-		TapNoteScore_W4 = 100,
-		TapNoteScore_W5 = -200,
+		TapNoteScore_W2 = 500,
+		TapNoteScore_W3 = 100,
+		TapNoteScore_W4 = -200,
+		TapNoteScore_W5 = 0,
 		TapNoteScore_Miss = -500,
 		TapNoteScore_CheckpointMiss = -300,
 		TapNoteScore_None =	0,
@@ -87,11 +90,10 @@ return function(Player)
 			local State = GAMESTATE:GetPlayerState(Player)
 			local PSS = CSS:GetPlayerStageStats(Player)
 			
-			local Superbs 	= 	PSS:GetTapNoteScores("TapNoteScore_W1")
-			local Perfects 	= 	PSS:GetTapNoteScores("TapNoteScore_W2")
-			local Greats 	= 	PSS:GetTapNoteScores("TapNoteScore_W3")
-			local Goods 	= 	PSS:GetTapNoteScores("TapNoteScore_W4")
-			local Bads 		= 	PSS:GetTapNoteScores("TapNoteScore_W5")
+			local Perfects 	= 	PSS:GetTapNoteScores("TapNoteScore_W1")
+			local Greats 	= 	PSS:GetTapNoteScores("TapNoteScore_W2")
+			local Goods 	= 	PSS:GetTapNoteScores("TapNoteScore_W3")
+			local Bads 		= 	PSS:GetTapNoteScores("TapNoteScore_W4")
 			local Misses 	= 	PSS:GetTapNoteScores("TapNoteScore_Miss") +
 								PSS:GetTapNoteScores("TapNoteScore_CheckpointMiss")
 			
