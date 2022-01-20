@@ -59,6 +59,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 					
 					if ChartLabelIndex ~= 0 then
 						self:GetChild("Label"):visible(true):setstate(ChartLabelIndex - 1)
+					else
+						self:GetChild("Label"):visible(false)
 					end
                 end
             end,

@@ -39,18 +39,18 @@ return Def.ActorFrame {
         Font="Montserrat semibold 40px",
         Name="Title",
         InitCommand=function(self)
-            self:zoom(0.9):valign(0)
-            :maxwidth(FrameW * 0.85 / self:GetZoom())
+            self:zoom(0.8):valign(0)
+            :maxwidth(FrameW * 0.9 / self:GetZoom())
             :diffuse(Color.Black)
-            :y(-34)
+            :y(-32)
         end
     },
     
     Def.BitmapText {
-        Font="Montserrat normal 40px",
+        Font="Montserrat normal 20px",
         Name="Artist",
         InitCommand=function(self)
-            self:zoom(0.65):valign(1)
+            self:zoom(1):valign(1)
             :maxwidth(FrameW * 0.5 / self:GetZoom())
             :diffuse(Color.Black)
             :y(18)

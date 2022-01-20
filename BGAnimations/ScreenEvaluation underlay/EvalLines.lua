@@ -9,7 +9,7 @@ Length = Length + 4
 
 local RowAmount = Length
 local RowH = 40
-local RowX = IsUsingWideScreen() and 150 or 100
+local RowX = IsUsingWideScreen() and 150 or 85
 local RowY = SCREEN_CENTER_Y - (RowAmount * RowH) / 2
 
 -- And a function to make even better use out of the table.

@@ -32,27 +32,21 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			InitCommand=function(self)
 				self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 130 or -130), SCREEN_CENTER_Y + 6)
 			end,
-		}
+		},
         
-        --[[ No grades for now due to engine limitations/difficulties :(
         Def.Sprite {
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 200 or -200), SCREEN_CENTER_Y)
+				local GradeX = IsUsingWideScreen() and 350 or 225
+                self:xy(pn == PLAYER_2 and SCREEN_RIGHT - GradeX or GradeX, SCREEN_CENTER_Y + 6)
                 
+				local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 local Grade = "FailF"
-                local CurPrefTiming = LoadModule("Options.ReturnCurrentTiming.lua")().Name
-                local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
-                
-                if CurPrefTiming == "Pump Normal" or CurPrefTiming == "Pump Hard" or CurPrefTiming == "Pump Very Hard" then
-                    Grade = LoadModule("PIU/Score.Grading.lua")(PlayerScore)
-                else
-                    Grade = LoadModule("PIU/Score.AccGrading.lua")(PlayerScore)
-                end
+                Grade = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
                 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. Grade))
                 :diffusealpha(0):sleep(2):easeoutexpo(0.25):zoom(0.6):diffusealpha(1)
             end
-        },]]
+        }
     }
 end
 
