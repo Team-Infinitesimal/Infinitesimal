@@ -9,11 +9,12 @@ t[#t+1] = Def.Quad {
         :zoomy(0)
         :decelerate(0.5)
         :zoomy(SCREEN_HEIGHT)
-    end
+    end,
+	OffCommand=function(self)
+		self:stoptweening():decelerate(0.5):zoomy(0)
+	end
 }
 
--- Unfortunately, it's easier to iterate through the current players
--- here to avoid having to deal with more iterating children actors
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         LoadActor("../ModIcons", pn) .. {
@@ -21,6 +22,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 160)
                 :easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
             end,
+			OffCommand=function(self)
+                self:stoptweening():easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2)
+            end
         }
     }
 end
@@ -30,6 +34,9 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y):zoom(0.5)
             :easeoutexpo(1):xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
+        end,
+		OffCommand=function(self)
+            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
         SongChosenMessageCommand=function(self)
             self:stoptweening():easeoutexpo(0.5):y(SCREEN_CENTER_Y + 95):zoom(1)
@@ -52,6 +59,9 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
             :easeoutexpo(1):xy(SCREEN_CENTER_X, SCREEN_CENTER_Y)
+        end,
+		OffCommand=function(self)
+            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
 
         SongChosenMessageCommand=function(self)

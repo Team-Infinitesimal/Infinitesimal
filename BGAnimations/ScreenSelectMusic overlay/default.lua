@@ -11,9 +11,9 @@ local t = Def.ActorFrame {
         File=THEME:GetPathS("Common", "start"),
         PlayerJoinedMessageCommand=function(self)
             self:play()
-            SOUND:DimMusic(0,65536)
-            SCREENMAN:GetTopScreen():SetPrevScreenName("ScreenSelectProfile");
-            SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToPrevScreen");
+			SOUND:DimMusic(0, 1)
+            SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectProfile")
+            SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
         end
     }
 }

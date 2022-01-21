@@ -60,7 +60,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Def.Sprite {
                 -- Texture=THEME:GetPathG("", "UI/ScoreDisplay"),
                 InitCommand=function(self)
-                    self:Load(THEME:GetPathG("", "UI/" .. (pn == PLAYER_2 and "R" or "L") .. "ScoreDisplay"))
+                    self:Load(THEME:GetPathG("", "UI/ScoreDisplay" .. ToEnumShortString(pn)))
                     self:xy(0, 0):zoom(0.75)
                 end,
             },

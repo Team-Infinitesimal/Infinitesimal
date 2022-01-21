@@ -66,7 +66,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:GetChild("Mines"):settext(THEME:GetString("PaneDisplay", "Mines") .. "\n" .. ChartRadar:GetValue('RadarCategory_Mines'))
                 self:GetChild("Rolls"):settext(THEME:GetString("PaneDisplay", "Rolls") .. "\n" .. ChartRadar:GetValue('RadarCategory_Rolls'))
             else
-                self:GetChild("ChartType"):settext("")
+                self:GetChild("ChartInfo"):settext("")
                 self:GetChild("Steps"):settext("")
                 self:GetChild("Jumps"):settext("")
                 self:GetChild("Holds"):settext("")

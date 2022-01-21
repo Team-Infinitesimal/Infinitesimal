@@ -1,27 +1,73 @@
 local t = Def.ActorFrame {
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "UI/PanelTop"),
-        InitCommand=function(self)
-            self:scaletofit(0, 0, 1280, 128)
-            :xy(SCREEN_CENTER_X, -128)
-            :halign(0.5):valign(0)
-        end,
-        OnCommand=function(self)
-            self:easeoutexpo(0.5)
-            :xy(SCREEN_CENTER_X, 0)
-        end,
-        OffCommand=function(self)
-            self:easeoutexpo(0.5)
-            :xy(SCREEN_CENTER_X, -128)
-        end,
-    },
+    Def.ActorFrame {
+		InitCommand=function(self)
+			self:xy(SCREEN_CENTER_X, -128)
+		end,
+		OnCommand=function(self)
+			self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, 0)
+		end,
+		OffCommand=function(self)
+			self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, -128)
+		end,
+		
+		Def.Sprite {
+			Texture=THEME:GetPathG("", "UI/PanelTop"),
+			InitCommand=function(self)
+				self:scaletofit(0, 0, 1280, 128):xy(0, 0):valign(0)
+			end,
+		},
+		
+		-- Screen name
+		Def.BitmapText {
+			Font="Montserrat normal 40px",
+			Text=ToUpper(Screen.String("HeaderText")),
+			InitCommand=function(self)
+				self:xy(-WideScale(200, 200), 40):halign(1):zoom(0.6):diffuse(Color.Black)
+				
+				if not IsUsingWideScreen() then
+					self:maxwidth(150 / self:GetZoom())
+					:wrapwidthpixels(150 / self:GetZoom()):vertspacing(-16)
+				end
+			end,
+		},
+		
+		-- Amount of lives left
+		Def.ActorFrame {
+			InitCommand=function(self)
+				self:xy(WideScale(200, 225), 40)
+			end,
+			
+			Def.Sprite {
+				Texture=THEME:GetPathG("", "UI/Button"),
+				InitCommand=function(self) self:zoom(0.65) end,
+			},
+			
+			--[[
+			Def.Sprite {
+				Texture=THEME:GetPathG("headerIcon", "Lives"),
+				InitCommand=function(self)
+					self:x(-20):zoom(0.6)
+				end,
+			},
+			]]
+			
+			Def.BitmapText {
+				Font="Montserrat semibold 40px",
+				InitCommand=function(self) 
+					self:x(10):zoom(0.6)
+					
+					local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
+					self:settext("x " .. Hearts)
+				end
+			},
+		}
+	},
     
     Def.Sprite {
         Texture=THEME:GetPathG("", "UI/PanelBottom"),
         InitCommand=function(self)
             self:scaletofit(0, 0, 1280, 128)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
-            :halign(0.5):valign(1)
+            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128):valign(1)
         end,
         OnCommand=function(self)
             self:easeoutexpo(0.5)
@@ -31,9 +77,10 @@ local t = Def.ActorFrame {
             self:easeoutexpo(0.5)
             :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 128)
         end,
-    }
+    },
 }
 
+-- Avatar shenanigans
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	if PROFILEMAN:GetProfile(pn) then
 		t[#t+1] = Def.ActorFrame {

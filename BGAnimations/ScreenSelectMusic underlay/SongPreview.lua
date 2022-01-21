@@ -30,7 +30,8 @@ local t = Def.ActorFrame {
             self:stoptweening():diffusealpha(0):sleep(PreviewDelay)
             Song = GAMESTATE:GetCurrentSong()
             if Song then
-				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil then
+				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil or 
+				LoadModule("Config.Load.lua")("ImagePreviewOnly", "Save/OutFoxPrefs.ini") then
       				self:queuecommand("LoadBG")
                 else
                     self:queuecommand("LoadAnimated")

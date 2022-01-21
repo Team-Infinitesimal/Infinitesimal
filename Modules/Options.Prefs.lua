@@ -119,7 +119,7 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
-    SampleMusicLoop = 
+	ImagePreviewOnly = 
     {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
