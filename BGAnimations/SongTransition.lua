@@ -11,6 +11,12 @@ local ChartLabels = {
 }
 
 local t = Def.ActorFrame {
+	Def.Quad {
+		InitCommand=function(self)
+			self:FullScreen():diffuse(Color.Black)
+		end
+	},
+
 	Def.Sprite {
 		OnCommand=function(self) self:playcommand("Refresh") end,
 		StartTransitioningCommand=function(self) self:playcommand("Refresh") end,
