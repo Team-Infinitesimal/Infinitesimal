@@ -40,7 +40,7 @@ return Def.ActorFrame {
         Name="Title",
         InitCommand=function(self)
             self:zoom(0.8):valign(0)
-            :maxwidth(FrameW * 0.9 / self:GetZoom())
+            :maxwidth(FrameW * 0.89 / self:GetZoom())
             :diffuse(Color.Black)
             :y(-32)
         end

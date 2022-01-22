@@ -57,7 +57,7 @@ local t = Def.ActorFrame {
 					self:x(10):zoom(0.6)
 					
 					local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
-					self:settext("x " .. Hearts)
+					self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
 				end
 			},
 		}

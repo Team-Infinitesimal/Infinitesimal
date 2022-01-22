@@ -17,6 +17,8 @@ local function GetJLineValue(line, pl)
     local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pl)
 	if line == "W1" then
 		return PSS:GetTapNoteScores("TapNoteScore_W1") + PSS:GetTapNoteScores("TapNoteScore_CheckpointHit")
+	elseif line == "Miss" then
+		return PSS:GetTapNoteScores("TapNoteScore_Miss") + PSS:GetTapNoteScores("TapNoteScore_CheckpointMiss")
 	elseif line == "MaxCombo" then
 		return PSS:MaxCombo()
     elseif line == "Accuracy" then
