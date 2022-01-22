@@ -12,8 +12,15 @@ local ChartLabels = {
 
 local t = Def.ActorFrame {
 	Def.Quad {
-		InitCommand=function(self)
-			self:FullScreen():diffuse(Color.Black)
+		OnCommand=function(self) self:playcommand("Refresh") end,
+		StartTransitioningCommand=function(self) self:playcommand("Refresh") end,
+		
+		RefreshCommand=function(self)
+			if SCREENMAN:GetTopScreen():GetNextScreenName() ~= "ScreenSelectProfile" then
+				self:FullScreen():diffuse(Color.Black)
+			else
+				self:visible(false)
+			end
 		end
 	},
 
