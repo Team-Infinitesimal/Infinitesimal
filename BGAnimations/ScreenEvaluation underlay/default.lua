@@ -1,14 +1,4 @@
 local t = Def.ActorFrame {
-    -- Background image
-    Def.Sprite {
-        InitCommand=function(self)
-            local Path = GAMESTATE:GetCurrentSong():GetBackgroundPath()
-            if Path and FILEMAN:DoesFileExist(Path) then
-				self:Load(Path):scale_or_crop_background():diffusealpha(0.5)
-            end
-        end
-    },
-    
     LoadActor("EvalLines"),
     
     -- TODO: Dynamically adjust the Y position relative to the amount of lines on screen?

@@ -37,7 +37,7 @@ return function(Player)
 	local CurrentCombo = 0
 	local MaxCombo = 0
 
-	local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings","Save/Scalable.ini")
+	local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings", "Save/OutFoxPrefs.ini")
 
 	return Def.Actor {
 		InitCommand=function(self)
@@ -60,7 +60,7 @@ return function(Player)
 				end
 			end
 			
-			if CurPrefTiming == "Very Hard" then
+			if CurPrefTiming == "Pump Very Hard" then
 				LevelConstant = LevelConstant * 1.2
 			end
             
