@@ -9,6 +9,4 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	}
 end
 
-t[#t+1] = LoadActor(THEME:GetPathG("", "StageCount"))
-
 return t

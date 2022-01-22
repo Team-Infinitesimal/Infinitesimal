@@ -1,4 +1,6 @@
-local t = Def.ActorFrame {}
+local t = Def.ActorFrame {
+	LoadActor("StageCount")
+}
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     local IsDouble = (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides")
@@ -10,10 +12,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     
 	t[#t+1] = Def.ActorFrame {
 		InitCommand=function(self)
-            self:xy(PosX, PosY)
-        end,
-        
-        LoadActor("LifeMeter", pn)
+			self:xy(PosX, PosY)
+		end,
+	
+		LoadActor("LifeMeter", pn)
 	}
 end
 

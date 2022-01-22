@@ -10,6 +10,7 @@ local t = Def.ActorFrame {
 			self:easeoutexpo(0.5):xy(SCREEN_CENTER_X, -128)
 		end,
 		
+		-- Top panel
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "UI/PanelTop"),
 			InitCommand=function(self)
@@ -63,6 +64,7 @@ local t = Def.ActorFrame {
 		}
 	},
     
+	-- Bottom panel
     Def.Sprite {
         Texture=THEME:GetPathG("", "UI/PanelBottom"),
         InitCommand=function(self)
@@ -80,7 +82,7 @@ local t = Def.ActorFrame {
     },
 }
 
--- Avatar shenanigans
+-- Avatar display and info on bottom panel
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	if PROFILEMAN:GetProfile(pn) then
 		t[#t+1] = Def.ActorFrame {
