@@ -42,7 +42,7 @@ return Def.ActorFrame {
             self:zoom(0.8):valign(0)
             :maxwidth(FrameW * 0.89 / self:GetZoom())
             :diffuse(Color.Black)
-            :y(-32)
+            :y(-30)
         end
     },
     
@@ -53,7 +53,7 @@ return Def.ActorFrame {
             self:zoom(1):valign(1)
             :maxwidth(FrameW * 0.5 / self:GetZoom())
             :diffuse(Color.Black)
-            :y(18)
+            :y(16)
         end
     },
 
@@ -64,7 +64,7 @@ return Def.ActorFrame {
             self:zoom(1):halign(1):valign(1)
             :maxwidth(FrameW * 0.2 / self:GetZoom())
             :diffuse(Color.Black)
-            :xy(FrameW / 2 - 36, 18)
+            :xy(FrameW / 2 - 36, 16)
         end
     }, 
 
@@ -75,7 +75,7 @@ return Def.ActorFrame {
             self:zoom(1):halign(0):valign(1)
             :maxwidth(FrameW * 0.175 / self:GetZoom())
             :diffuse(Color.Black)
-            :xy(-FrameW / 2 + 36, 18)
+            :xy(-FrameW / 2 + 36, 16)
         end
     }
 }

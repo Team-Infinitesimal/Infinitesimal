@@ -33,23 +33,59 @@ end
 
 local t = Def.ActorFrame {}
 
--- We want the row lines to stay behind the main column 
+-- We want the row lines to stay behind the main column, so we create them first
 for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
         Def.Sprite {
-            Name="RowGraphic",
             Texture=THEME:GetPathG("", "Evaluation/EvalRow"),
             InitCommand=function(self) 
-                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1))
-                :valign(0):zoom(0.8)
+                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoom(0.8)
             end
         }
     }
 end
 
+-- Step artists will also stay behind the main column, this looks a bit ugly but works
 t[#t+1] = Def.ActorFrame {
+    Def.ActorFrame {
+        InitCommand=function(self)
+            self:xy(SCREEN_CENTER_X, RowY + RowH * RowAmount + 20)
+        end,
+        
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "Evaluation/StepArtistP1"),
+            InitCommand=function(self)
+                self:x(-140):halign(1):valign(0):zoom(0.75)
+            end
+        },
+        
+        Def.BitmapText {
+            Font="Montserrat semibold 40px",
+            Text=GAMESTATE:GetCurrentSteps(PLAYER_1):GetAuthorCredit() or "Unknown",
+            InitCommand=function(self)
+                self:xy(-146, RowH + 4):halign(1):valign(0):shadowlength(1)
+                :zoom(0.6):visible(GAMESTATE:IsSideJoined(PLAYER_1))
+            end
+        },
+        
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "Evaluation/StepArtistP2"),
+            InitCommand=function(self)
+                self:x(138):halign(0):valign(0):zoom(0.75)
+            end
+        },
+        
+        Def.BitmapText {
+            Font="Montserrat semibold 40px",
+            Text=GAMESTATE:GetCurrentSteps(PLAYER_2):GetAuthorCredit() or "Unknown",
+            InitCommand=function(self)
+                self:xy(146, RowH + 4):halign(0):valign(0):shadowlength(1)
+                :zoom(0.6):visible(GAMESTATE:IsSideJoined(PLAYER_2))
+            end
+        }
+    },
+    
     Def.Sprite {
-        Name="ColumnGraphic",
         Texture=THEME:GetPathG("", "Evaluation/EvalColumn"),
         InitCommand=function(self)
             self:Center()
@@ -59,13 +95,14 @@ t[#t+1] = Def.ActorFrame {
 
 for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
-        InitCommand=function(self) self:diffusealpha(0):sleep(0.5 + i * 0.1):linear(0.1):diffusealpha(1) end,
+        InitCommand=function(self) 
+            self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24)
+            :diffusealpha(0):sleep(0.5 + i * 0.1):linear(0.1):diffusealpha(1)
+        end,
         Def.BitmapText {
-            Name="RowLabel",
             Font="Montserrat normal 40px",
             InitCommand=function(self)
-                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 15)
-                :valign(0):maxwidth(360):skewx(-0.2):zoom(0.75):visible(true)
+                self:maxwidth(360):skewx(-0.2):zoom(0.75):visible(true)
                 
                 if Name[i] == "Accuracy" or Name[i] == "Score" then
                     self:settext(ToUpper(THEME:GetString("EvaluationLabel", Name[i])))
@@ -76,22 +113,20 @@ for i = 1, RowAmount do
         },
         
         Def.BitmapText {
-            Name="RowTextP1",
             Font="Montserrat semibold 40px",
             Text=GetJLineValue(Name[i], PLAYER_1),
             InitCommand=function(self)
-                self:xy(RowX, RowY + RowH * (i - 1) + 15):shadowlength(1):zoom(0.8)
-                :halign(0):valign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_1))
+                self:x(-SCREEN_CENTER_X + RowX):shadowlength(1):zoom(0.8)
+                :halign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_1))
             end
         },
         
         Def.BitmapText {
-            Name="RowTextP2",
             Font="Montserrat semibold 40px",
             Text=GetJLineValue(Name[i], PLAYER_2),
             InitCommand=function(self)
-                self:xy(SCREEN_RIGHT - RowX, RowY + RowH * (i - 1) + 15):shadowlength(1):zoom(0.8)
-                :halign(0):valign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_2))
+                self:x(SCREEN_CENTER_X - RowX):shadowlength(1):zoom(0.8)
+                :halign(1):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_2))
             end
         }
     }

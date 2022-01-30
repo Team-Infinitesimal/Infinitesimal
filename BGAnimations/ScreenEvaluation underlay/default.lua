@@ -34,7 +34,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Grade = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
                 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. Grade))
-                :diffusealpha(0):sleep(2):easeoutexpo(0.25):zoom(0.6):diffusealpha(1)
+                :diffusealpha(0):sleep(2):easeoutexpo(0.25):zoom(IsUsingWideScreen() and 0.6 or 0.5):diffusealpha(1)
             end
         }
     }

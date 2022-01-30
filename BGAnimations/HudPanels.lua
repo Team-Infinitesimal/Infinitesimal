@@ -43,19 +43,17 @@ local t = Def.ActorFrame {
 				InitCommand=function(self) self:zoom(0.65) end,
 			},
 			
-			--[[
 			Def.Sprite {
-				Texture=THEME:GetPathG("headerIcon", "Lives"),
+				Texture=THEME:GetPathG("", "UI/Heart"),
 				InitCommand=function(self)
-					self:x(-20):zoom(0.6)
+					self:x(-20):zoom(0.3)
 				end,
 			},
-			]]
 			
 			Def.BitmapText {
 				Font="Montserrat semibold 40px",
 				InitCommand=function(self) 
-					self:x(10):zoom(0.6)
+					self:x(-5):zoom(0.6):halign(0)
 					
 					local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
 					self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
