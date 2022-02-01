@@ -10,7 +10,7 @@ This theme aims to be a spiritual successor to Pump It Up Infinity, an uncommon 
 **It is important to state that we do not condone the usage of Pay Mode or the removal of the credits on this theme. If such things are done, we will unfortunately start to block off bits of source code or give up on the project altogether.**
 
 ## Requirements
-* [Project OutFox-5.3.0-alpha.4.9.10 or newer](https://projectoutfox.com/downloads)
+* [Project OutFox-5.3.0-alpha.4.12.0 or newer](https://projectoutfox.com/downloads)
 
 Older StepMania versions such as `5.0.12`, `5.1b2` and `5.1-new` are not supported due to the lack of maintenance to `pump/piu` and the engine in general. Support the developers from Team OutFox who are currently doing the heavy lifting!
 
