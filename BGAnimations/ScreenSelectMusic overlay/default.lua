@@ -5,7 +5,7 @@ local t = Def.ActorFrame {
     
     LoadActor("OptionsList"),
     
-    LoadActor("GroupSelect", SCREEN_CENTER_X, 150),
+    LoadActor("GroupSelect", SCREEN_CENTER_X, SCREEN_CENTER_Y),
     
     Def.Sound {
         File=THEME:GetPathS("Common", "start"),

@@ -49,11 +49,11 @@ local item_mt= {
 				-- Setting self.container to point to the actor gives a convenient
 				-- handle for manipulating the actor.
 		  		self.container = subself
-                self.container:fov(90):vanishpoint(SCREEN_CENTER_X, 150):SetDrawByZPosition(true)
+                self.container:fov(90):vanishpoint(SCREEN_CENTER_X, SCREEN_CENTER_Y):SetDrawByZPosition(true)
 			end,
 			Def.Sprite {
                 Texture=THEME:GetPathG("", "MusicWheel/GradientBanner"),
-                InitCommand=function(self) self:scaletoclipped(212, 120) end
+                InitCommand=function(self) self:scaletoclipped(270, 150) end
             },
             --And probably more important, the banner for the group icons to be displayed.
 			Def.Sprite {
@@ -64,13 +64,16 @@ local item_mt= {
 				Name="Text",
 				Font="Common normal",
 				InitCommand=function(self) 
-					self:zoom(0.75):addy(50)
+					self:zoom(1):addy(64)
 					:maxwidth(200 / self:GetZoom())
                     --:maxheight(150):wrapwidthpixels(200 / self:GetZoom())
 				end
 			},
             Def.Sprite {
-				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame")
+				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
+                InitCommand=function(self) 
+					self:zoom(1.25)
+				end
 			}
 		}
 	end,
@@ -87,8 +90,9 @@ local item_mt= {
         -- This is required to prevent items flickering when looping around the wheel
         self.container:visible(math.abs(OffsetFromCenter) <= 4 and true or false)
         
-        self.container:x(OffsetFromCenter * (250 - Spacing * 100))
-        self.container:rotationy(clamp(OffsetFromCenter * 30, -85, 85))
+        self.container:x(OffsetFromCenter * (300 - Spacing * 100))
+        self.container:rotationy(clamp(OffsetFromCenter * 36, -85, 85))
+        self.container:z(-math.abs(OffsetFromCenter))
         
         self.container:zoom(clamp(1.1 - (math.abs(OffsetFromCenter) / 3), 0.8, 1.1))
     end,
@@ -100,9 +104,9 @@ local item_mt= {
 
 		local banner = SONGMAN:GetSongGroupBannerPath(info)
 		if banner ~= "" then
-  			self.container:GetChild("Banner"):Load(banner):scaletofit(-106, -59, 106, 59)
+  			self.container:GetChild("Banner"):Load(banner):scaletofit(-135, -75, 135, 75)
   		else
-			self.container:GetChild("Banner"):Load(THEME:GetPathG("Common fallback", "banner")):scaletofit(-106, -59, 106, 59)
+			self.container:GetChild("Banner"):Load(THEME:GetPathG("Common fallback", "banner")):scaletofit(-135, -75, 135, 75)
 		end
 	end
 }}
@@ -179,7 +183,7 @@ end
 local t = Def.ActorFrame{
     --Make the wheel hidden by default.
     InitCommand=function(self)
-    	self:y(-250)
+    	self:diffusealpha(0)
     end,
 
     OnCommand=function(self)
@@ -237,11 +241,11 @@ local t = Def.ActorFrame{
 	end,
     
     StartSelectingGroupMessageCommand=function(self)
-		self:stoptweening():easeoutquint(0.5):y(0)
+		self:stoptweening():easeoutquint(0.5):diffusealpha(1)
 	end,
 
 	StartSelectingSongMessageCommand=function(self)
-		self:stoptweening():easeoutquint(0.5):y(-300)
+		self:stoptweening():easeoutquint(0.25):diffusealpha(0)
 	end
 }
 

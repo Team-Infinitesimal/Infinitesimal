@@ -1,14 +1,12 @@
--- Temporarily set Perfects as W1 due to the default Pump timing windows,
--- this behavior will be discussed and defined later with the OutFox team
-
 -- Believe it or not, but this module exists due to an extra "s" in GetTapNoteScores
 -- and GetMaxCombo becoming MaxCombo when retrieving a score. Thanks StepMania devs
 
 return function(PlayerScore)
-    local Perfects 	= PlayerScore:GetTapNoteScores("TapNoteScore_W1")
-    local Greats 	= PlayerScore:GetTapNoteScores("TapNoteScore_W2")
-    local Goods 	= PlayerScore:GetTapNoteScores("TapNoteScore_W3")
-    local Bads	 	= PlayerScore:GetTapNoteScores("TapNoteScore_W4")
+    local Superbs 	= PlayerScore:GetTapNoteScores("TapNoteScore_W1")
+    local Perfects 	= PlayerScore:GetTapNoteScores("TapNoteScore_W2")
+    local Greats 	= PlayerScore:GetTapNoteScores("TapNoteScore_W3")
+    local Goods 	= PlayerScore:GetTapNoteScores("TapNoteScore_W4")
+    local Bads	 	= PlayerScore:GetTapNoteScores("TapNoteScore_W5")
     local Misses 	= PlayerScore:GetTapNoteScores("TapNoteScore_Miss") +
                       PlayerScore:GetTapNoteScores("TapNoteScore_CheckpointMiss")
     local MaxCombo	= PlayerScore:MaxCombo()  
@@ -17,7 +15,7 @@ return function(PlayerScore)
     local GradeLetter = "F"
     local GradeCondition = "Fail"
     local TotalNotes = Perfects + Greats + Goods + Bads + Misses
-    local PlayerAccuracy = (Perfects * 1.2 + Greats * 0.9 + Goods * 0.6 + Bads * -0.45 + Misses * -0.9 + MaxCombo * 0.05) / TotalNotes
+    local PlayerAccuracy = ((Superbs + Perfects) * 1.2 + Greats * 0.9 + Goods * 0.6 + Bads * -0.45 + Misses * -0.9 + MaxCombo * 0.05) / TotalNotes
             
     -- The good ol' if staircase
     if Misses == 0 and PlayerAccuracy >= 1 then

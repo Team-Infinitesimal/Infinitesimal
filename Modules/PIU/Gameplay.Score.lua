@@ -1,9 +1,6 @@
 --[[
 		K-Pump scoring system by SheepyChris, created on October 17, 2019
 		For this module to work properly, you will need to zero out all metrics in [ScoreKeeperNormal].
-		
-		Temporarily set Perfects as W1 due to the default Pump timing windows,
-		this behavior will be discussed and defined later with the OutFox team
 ]]
 
 return function(Player)
@@ -20,10 +17,10 @@ return function(Player)
 	local TapNoteScorePoints = {
 		TapNoteScore_CheckpointHit = 1000,
 		TapNoteScore_W1 = 1000,
-		TapNoteScore_W2 = 500,
-		TapNoteScore_W3 = 100,
-		TapNoteScore_W4 = -200,
-		TapNoteScore_W5 = 0,
+        TapNoteScore_W2 = 1000,
+		TapNoteScore_W3 = 500,
+		TapNoteScore_W4 = 100,
+		TapNoteScore_W5 = -200,
 		TapNoteScore_Miss = -500,
 		TapNoteScore_CheckpointMiss = -300,
 		TapNoteScore_None =	0,
@@ -79,9 +76,6 @@ return function(Player)
 			local CSS = STATSMAN:GetCurStageStats()
 			
 			if Player ~= params.Player or not TapNoteScore or params.HoldNoteScore then
-				-- Used for debugging
-				--SCREENMAN:SystemMessage("Expected player "..ToEnumShortString(Player).." but got "..ToEnumShortString(params.Player)) 
-				
 				local PSS = CSS:GetPlayerStageStats(Player)
 				PSS:SetScore(PlayerScore)
 				return
@@ -108,7 +102,7 @@ return function(Player)
 				if TapNote and TapNote:GetTapNoteType() ~= "TapNoteType_HoldTail" then
 					CurrentCombo = CurrentCombo
 				else
-					if (TapNoteScore <= "TapNoteScore_W3" and TapNoteScore >= "TapNoteScore_W1") or TapNoteScore == "TapNoteScore_CheckpointHit" then
+					if (TapNoteScore <= "TapNoteScore_W4" and TapNoteScore >= "TapNoteScore_W1") or TapNoteScore == "TapNoteScore_CheckpointHit" then
 						CurrentCombo = CurrentCombo + 1
 						MaxCombo = CurrentCombo
 					else
@@ -130,7 +124,7 @@ return function(Player)
 				local ComboScore = 0
 				local NoteScore = TapNoteScorePoints[TapNoteScore]
 				
-				if TapNoteScore <= "TapNoteScore_W3" then
+				if TapNoteScore <= "TapNoteScore_W4" then
 					-- Add bonus above 50 combo
 					if CurrentCombo > 50 then ComboScore = 1000 end
 					NoteScore = NoteScore + ComboScore
@@ -154,9 +148,13 @@ return function(Player)
 				if PlayerScore < 0 then PlayerScore = 0 end
 				
 				PlayerScore = PlayerScore - (PlayerScore % 100)
+                
 				PSS:SetScore(PlayerScore)
+                
+                MESSAGEMAN:Broadcast("UpdateScore", {Score = PlayerScore})
+                
 				-- Used for debugging
-				--SCREENMAN:SystemMessage(PlayerScore.." - "..NoteScore-ComboScore.." - "..ComboScore.." - "..CurrentCombo.." - "..LevelConstant.." - "..GradeBonus)
+				-- SCREENMAN:SystemMessage(PlayerScore .. " - " .. NoteScore - ComboScore .. " - " .. ComboScore .. " - " .. CurrentCombo .. " - " .. LevelConstant .. " - " .. GradeBonus)
 			end
 		end
 	}

@@ -142,16 +142,9 @@ local t = Def.ActorFrame {
             self:x(BarW / 2 - 10):zoom(0.8):skewx(-0.2):halign(1)
             :diffuse(Color.Yellow):shadowlength(1):playcommand("Refresh")
         end,
-        JudgmentMessageCommand=function(self) self:playcommand("Refresh") end,
-        RefreshCommand=function(self)
-            -- Let's give ourselves some time for our score module to properly calculate meanwhile
-            self:stoptweening():sleep(0.1)
-            
-            local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
-            
-            if ScoreDisplay == "Score" then
-                self:settext(PSS:GetScore())
-            elseif ScoreDisplay == "Percent" then
+        JudgmentMessageCommand=function(self)
+            if ScoreDisplay == "Percent" then
+                local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 local TotalAcc = PSS:GetCurrentPossibleDancePoints()
                 local CurrentAcc = PSS:GetActualDancePoints()
                 
@@ -160,6 +153,11 @@ local t = Def.ActorFrame {
                 else
                     self:settext("0%")
                 end
+            end
+        end,
+        UpdateScoreMessageCommand=function(self, params)
+            if ScoreDisplay == "Score" then
+                self:settext(params.Score or 0)
             end
         end
     }

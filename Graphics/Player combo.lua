@@ -10,14 +10,6 @@ local NumberMaxZoomAt = THEME:GetMetric("Combo", "NumberMaxZoomAt")
 local LabelMinZoom = THEME:GetMetric("Combo", "LabelMinZoom")
 local LabelMaxZoom = THEME:GetMetric("Combo", "LabelMaxZoom")
 
-local colours = {
-	FullComboW1 = color("#febdff"),
-	FullComboW2 = color("#81c1ff"),
-	FullComboW3 = color("#59fe5d"),
-	FullComboW4 = color("#fff46b"),
-	Miss = color("#f04030")
-}
-
 local t = Def.ActorFrame {
 
 	Def.BitmapText {
@@ -25,30 +17,18 @@ local t = Def.ActorFrame {
 		Name="Number",
 		OnCommand = THEME:GetMetric("Combo", "NumberOnCommand"),
 		ComboCommand=function(self, params)
-			self:diffuseshift():effectclock("bgm"):playcommand("Colour", params)
-		end,
-		ColourCommand=function(self, params)
-			if params.FullComboW1 then
-				self:effectcolor1(colours.FullComboW1)
-			elseif params.FullComboW2 then
-				self:effectcolor1(colours.FullComboW2)
-			elseif params.FullComboW3 then
-				self:effectcolor1(colours.FullComboW3)
-			elseif params.FullComboW4 then
-				self:effectcolor1(colours.FullComboW4)
-			elseif params.Combo then
-				self:stopeffect()
-			elseif params.Misses then
-				self:effectcolor1(colours.Miss):effectcolor2(colours.Miss)
-			end
-		end,
+            self:diffuse(params.Misses and Color.Red or Color.White)
+		end
 	},
 
 	Def.Sprite {
 		Texture="ComboLabel",
-		Name="ComboLabel";
-		OnCommand = function(self)self:vertalign(top):y(-40)end;
-	};
+		Name="ComboLabel",
+		OnCommand = function(self) self:valign(0):y(-40) end,
+        ComboCommand=function(self, params)
+            self:diffuse(params.Misses and Color.Red or Color.White)
+		end
+	},
 
 	InitCommand = function(self)
 		-- We'll have to deal with this later

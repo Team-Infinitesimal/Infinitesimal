@@ -1,5 +1,5 @@
 local CurPrefTiming = LoadModule("Options.ReturnCurrentTiming.lua")().Name
-local Name,Length = LoadModule("Options.SmartTapNoteScore.lua")()
+local Name, Length = LoadModule("Options.SmartTapNoteScore.lua")()
 table.sort(Name)
 Name[#Name+1] = "Miss"
 Name[#Name+1] = "MaxCombo"
@@ -56,6 +56,15 @@ t[#t+1] = Def.ActorFrame {
             Texture=THEME:GetPathG("", "Evaluation/StepArtistP1"),
             InitCommand=function(self)
                 self:x(-140):halign(1):valign(0):zoom(0.75)
+                :visible(GAMESTATE:IsSideJoined(PLAYER_1))
+            end
+        },
+        
+        Def.Quad {
+            InitCommand=function(self)
+                self:xy(-138, RowH):halign(1):valign(0):zoomto(192, 26)
+                :diffuse(Color.Black):diffusealpha(0.5):fadeleft(0.5)
+                :visible(GAMESTATE:IsSideJoined(PLAYER_1))
             end
         },
         
@@ -71,7 +80,16 @@ t[#t+1] = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("", "Evaluation/StepArtistP2"),
             InitCommand=function(self)
-                self:x(138):halign(0):valign(0):zoom(0.75)
+                self:x(140):halign(0):valign(0):zoom(0.75)
+                :visible(GAMESTATE:IsSideJoined(PLAYER_2))
+            end
+        },
+        
+        Def.Quad {
+            InitCommand=function(self)
+                self:xy(138, RowH):halign(0):valign(0):zoomto(192, 26)
+                :diffuse(Color.Black):diffusealpha(0.5):faderight(0.5)
+                :visible(GAMESTATE:IsSideJoined(PLAYER_2))
             end
         },
         

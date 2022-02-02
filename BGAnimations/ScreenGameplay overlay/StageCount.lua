@@ -1,9 +1,17 @@
+local pn = GAMESTATE:GetMasterPlayerNumber()
+local IsTwoPlayer = (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_TwoPlayersTwoSides")
+local IsDouble = (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides")
+local IsCenter = (IsDouble or Center1Player() or GAMESTATE:GetIsFieldCentered(pn))
+local FieldWidth = math.ceil(GAMESTATE:GetCurrentStyle():GetWidth(pn) * 0.75) + 48
+
 return Def.ActorFrame {
 	InitCommand=function(self)
-		if GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides" then
-			self:xy(GAMESTATE:IsPlayerEnabled(PLAYER_2) and 54 or SCREEN_RIGHT - 54, SCREEN_TOP+34)
+        self:y(SCREEN_TOP + 34)
+		if IsCenter and not IsTwoPlayer then
+            
+            self:x(SCREEN_CENTER_X + (GAMESTATE:IsPlayerEnabled(PLAYER_2) and -FieldWidth or FieldWidth))
 		else
-			self:xy(SCREEN_CENTER_X, SCREEN_TOP+34)
+			self:x(SCREEN_CENTER_X)
 		end
 	end,
 	

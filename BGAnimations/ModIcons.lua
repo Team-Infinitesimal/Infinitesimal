@@ -88,7 +88,7 @@ local t = Def.ActorFrame {
         end
         
         -- Translate all strings that come after speed mods and BGA filter
-        for i = 3, #PlayerModsArray do
+        for i = (BGAFilter ~= 0 and 3 or 2), #PlayerModsArray do
             local ModText = THEME:GetString("ModIcons", PlayerModsArray[i])
             -- Only override strings if translations are available
             if ModText ~= "" then PlayerModsArray[i] = ModText end
@@ -112,7 +112,7 @@ local t = Def.ActorFrame {
 -- This will be responsible for displaying the selected noteskin
 t[#t+1] = Def.ActorProxy {
     OnCommand=function(self)
-        self:y(IconH)
+        self:y(IconH - 1)
         :zoom(0.6)
         :playcommand("Refresh")
     end,
@@ -139,12 +139,13 @@ for i = 1, IconAmount do
         },
         Def.BitmapText {
             Name="Text",
-            Font="Montserrat semibold 20px",
+            Font="Montserrat semibold 40px",
             InitCommand=function(self)
-                self:y((i > 1 and IconH or 0) + IconH * (i - 1))
-                :wrapwidthpixels(IconW - 4)
-                :maxwidth(IconW - 4)
-                :maxheight(IconH - 4):vertspacing(-8)
+                self:y((i > 1 and IconH or 0) + IconH * (i - 1) - 1)
+                :zoom(0.5):vertspacing(-20)
+                :wrapwidthpixels((IconW - 4) / self:GetZoom())
+                :maxwidth((IconW - 4) / self:GetZoom())
+                :maxheight((IconH - 4) / self:GetZoom())
                 :visible(false)
             end
         }
