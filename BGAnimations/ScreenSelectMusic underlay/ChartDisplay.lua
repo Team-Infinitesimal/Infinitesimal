@@ -66,6 +66,14 @@ local t = Def.ActorFrame {
                 local ChartArrayW = ItemW * ((#ChartArray < ItemAmount and #ChartArray or ItemAmount) - 1) / 2
                 self:x(ItemTotalW - ChartArrayW)
             end
+            
+            if #ChartArray > ItemAmount then
+                self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(ChartIndex + 1 > ItemAmount)
+                self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(ChartIndex + 1 < #ChartArray)
+            else
+                self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(false)
+                self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(false)
+            end
 			
 			for i=1,ItemAmount do
 				local Chart = ChartArray[ i + ListOffset ]
@@ -182,5 +190,24 @@ for i=1,ItemAmount do
 		LoadActor(THEME:GetPathS("Common","value")) .. {}
 	}
 end
+
+t[#t+1] = Def.ActorFrame {
+    Def.Sprite {
+        Name="MoreLeft",
+        Texture=THEME:GetPathG("", "DifficultyDisplay/MoreLeft"),
+        InitCommand=function(self)
+            self:xy(FrameX - 16 - ItemW, 0):zoom(0.4):visible(false)
+            :bounce():effectmagnitude(16, 0, 0):effectclock("bgm")
+        end
+    },
+    Def.Sprite {
+        Name="MoreRight",
+        Texture=THEME:GetPathG("", "DifficultyDisplay/MoreRight"),
+        InitCommand=function(self)
+            self:xy(FrameX + 16 + ItemW * 12, 0):zoom(0.4):visible(false)
+            :bounce():effectmagnitude(-16, 0, 0):effectclock("bgm")
+        end
+    }
+}
 
 return t;
