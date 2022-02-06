@@ -19,8 +19,7 @@ return Def.ActorFrame {
 			:queuecommand("ZoomY")
 		end,
 
-		Def.Sprite {
-			Texture=THEME:GetPathG("", "Logo/Logo"),
+		LoadActor(THEME:GetPathG("", "Logo/Parts"))..{
 			InitCommand=function(self)
 				self:zoom(0.8)
 			end
@@ -29,7 +28,8 @@ return Def.ActorFrame {
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "Logo/Logo"),
 			InitCommand=function(self)
-				self:zoom(0.8)
+				self:diffusealpha(0)
+				:zoom(0.8)
 				:queuecommand("Pulse")
 			end,
 			PulseCommand=function(self)
@@ -43,7 +43,7 @@ return Def.ActorFrame {
 				:queuecommand("Pulse")
 			end,
 		},
-	
+
 		Def.Sprite {
 			Texture=THEME:GetPathG("", "Logo/BlurLogo"),
 			InitCommand=function(self)
@@ -66,16 +66,16 @@ return Def.ActorFrame {
 			end,
 		}
 	},
-	
+
 	Def.ActorFrame {
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, 20)
 		end,
-		
+
 		OffCommand=function(self)
 			self:stoptweening():easeoutexpo(1):xy(SCREEN_CENTER_X, -80)
 		end,
-		
+
 		Def.BitmapText {
 			Font="Montserrat normal 20px",
 			InitCommand=function(self)
@@ -92,7 +92,7 @@ return Def.ActorFrame {
 				self:settextf(THEME:GetString("ScreenTitleMenu", "%i Songs (%i Groups), %i Courses"), InstalledSongs, Groups, InstalledCourses)
 			end
 		},
-		
+
 		Def.BitmapText {
 			Font="Montserrat normal 20px",
 			Text=string.format("OutFox %s - %s", ProductVersion(), VersionDate()),
