@@ -2,7 +2,13 @@ return Def.ActorFrame {
 
     Def.Sprite {
         Texture="Loop",
-        Name="Loop"
+        Name="Loop",
+        InitCommand=function(self)
+            self:cropright(1)
+            :sleep(0.5)
+            :linear(0.4)
+            :cropright(0)
+        end
     },
 
     Def.Sprite {

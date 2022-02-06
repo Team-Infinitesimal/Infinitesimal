@@ -7,12 +7,12 @@ return Def.ActorFrame {
 		GainFocusCommand=function(self) self:stoptweening():easeoutexpo(0.25):zoom(MaxZoom) end,
 		LoseFocusCommand=function(self) self:stoptweening():easeoutexpo(0.25):zoom(1) end
 	},
-    
+
     Def.Sprite {
         Texture=THEME:GetPathG("", "UI/Button"),
         InitCommand=function(self)
             self:glowramp()
-            :effectclock("bgm")
+            :effectperiod(0.4286)
             :effectcolor1(1,1,1,0)
             :effectcolor2(1,1,1,0.5)
             :visible(false)
