@@ -5,7 +5,7 @@
 ## [Discord server is now available for more development insights and discussion!](https://discord.gg/ex6e4jNm6s)
 
 ## About Infinitesimal
-This theme aims to be a spiritual successor to Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilize original assets when possible and bring high performance + cross-platform support to the table with OutFox.
+This theme aims to be a spiritual successor to Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilizing original assets when possible, and bringing high performance + cross-platform support to the table with Project OutFox.
 
 **It is important to state that we do not condone the usage of Pay Mode or the removal of the credits on this theme. If such things are done, we will unfortunately start to block off bits of source code or give up on the project altogether.**
 
@@ -20,29 +20,25 @@ Since this theme is currently on a rolling release, we highly recommend download
 **If you are upgrading from a previous version by `Download ZIP`, fully delete the old folder first. Do not merge the new folder into the old.**
 
 ## Theme Features
-* USB Profiles
-* Toggle between Arcade or Pro Mode to disable/enable Superbs;
-* Infinity-style Command Window;
-* Speed Mod options (X, C, M and A);
-* Various Judgements (NJ, HJ, VJ, Infinity, PIU Pro, ITG...);
-* BGA OFF + BGA Dark with adjustable levels;
-* Deviation, score, measures and song progress display...;
-* Customize appearance options, modifiers, rush...;
-* Chart preview on the song selection screen;
-* Online(ish) multiplayer via [everyone.dance](https://everyone.dance).
+* Support for "Superb" judgments with advanced timing windows
+* Infinity-style Command Window
+* Speed Mod options (X, C, M and A)
+* Various Judgements (NJ, HJ, VJ, Infinity, ITG...)
+* BGA OFF + BGA Dark with adjustable levels
+* Deviation, score, measures and song progress display...
+* Customizable appearance options, modifiers, rush...
+* Chart preview on the song selection screen
 
-![image](https://i.imgur.com/pamOyYL.png)
-![image](https://i.imgur.com/2Ngk6am.png)
-![image](https://i.imgur.com/OWZ69pv.png)
+![image](https://i.imgur.com/5ReEFYB.png)
+![image](https://i.imgur.com/Hn5km7q.png)
+![image](https://i.imgur.com/ibWfBCy.png)
+![image](https://i.imgur.com/SWYoeXO.png)
 
 ## Languages:
 Currently, Infinitesimal supports the following languages:
 * Brazilian Portuguese
 * English
 * Polish
-
-## Custom Wallpapers
-Infinitesimal displays randomly selected wallpapers during the profile saving screen after every song. You can add your own by dropping any wallpaper inside of the `/Graphics/Wallpapers` directory. You're free to remove the existing ones or add new ones as you like!
 
 ## Additional Resources
 If you're looking for assets such as more noteskins or folder icons from StepP1, you can grab them [here](https://drive.google.com/drive/folders/1pO9rbaPUwTTDFuEo_4tX8S1BEwmfukeF?usp=sharing). Keep in mind these are independent from the theme and are only here for accessibility purposes to newcomers.
