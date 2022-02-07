@@ -117,10 +117,9 @@ for i = 1, RowAmount + 1 do
         Def.Quad {
             InitCommand=function(self)
                 self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24 - (RowH / 2))
-                :zoomto(200 + math.sin((self:GetY() - SCREEN_CENTER_Y) / math.pi) * 50, 2)
+                :zoomto(180 + math.sin(math.abs(self:GetY() - SCREEN_CENTER_Y) / SCREEN_CENTER_Y) * 60, 2)
                 :diffuse(RowAmount == 9 and color("#FFA4FF") or color("#99D3FF"))
-                -- :shadowcolor(RowAmount == 9 and color("#E357EA") or color("#5A89E5"))
-                -- :shadowlength(1)
+                :fadeleft(0.25):faderight(0.25)
             end
         }
     }
