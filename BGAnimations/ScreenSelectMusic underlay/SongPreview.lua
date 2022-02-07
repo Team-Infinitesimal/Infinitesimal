@@ -30,20 +30,23 @@ local t = Def.ActorFrame {
             self:stoptweening():diffusealpha(0):sleep(PreviewDelay)
             Song = GAMESTATE:GetCurrentSong()
             if Song then
-				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil or 
-				LoadModule("Config.Load.lua")("ImagePreviewOnly", "Save/OutFoxPrefs.ini") then
-      				self:queuecommand("LoadBG")
+        				if GAMESTATE:GetCurrentSong():GetPreviewVidPath() == nil or
+        				LoadModule("Config.Load.lua")("ImagePreviewOnly", "Save/OutFoxPrefs.ini") then
+      				      self:queuecommand("LoadBG")
                 else
                     self:queuecommand("LoadAnimated")
-      			end
-			end
+      			    end
+			      end
         end,
 
         LoadBGCommand=function(self)
             local Path = Song:GetBackgroundPath()
             if Path and FILEMAN:DoesFileExist(Path) then
-				self:Load(Path):zoomto(FrameW, FrameH)
-				:linear(PreviewDelay):diffusealpha(1)
+				        self:Load(Path):zoomto(FrameW, FrameH)
+				        :linear(PreviewDelay):diffusealpha(1)
+            else
+                self:Load(Song:GetBannerPath()):zoomto(FrameW, FrameH)
+                :linear(PreviewDelay):diffusealpha(1)
             end
         end,
 
