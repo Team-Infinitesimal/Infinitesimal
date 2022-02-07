@@ -38,7 +38,7 @@ for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("", "Evaluation/EvalRow"),
-            InitCommand=function(self) 
+            InitCommand=function(self)
                 self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24):zoom(0.8)
             end
         }
@@ -51,7 +51,7 @@ t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, RowY + RowH * RowAmount + 20)
         end,
-        
+
         Def.Sprite {
             Texture=THEME:GetPathG("", "Evaluation/StepArtistP1"),
             InitCommand=function(self)
@@ -59,7 +59,7 @@ t[#t+1] = Def.ActorFrame {
                 :visible(GAMESTATE:IsSideJoined(PLAYER_1))
             end
         },
-        
+
         Def.Quad {
             InitCommand=function(self)
                 self:xy(-138, RowH):halign(1):valign(0):zoomto(192, 26)
@@ -67,7 +67,7 @@ t[#t+1] = Def.ActorFrame {
                 :visible(GAMESTATE:IsSideJoined(PLAYER_1))
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat semibold 40px",
             Text=GAMESTATE:GetCurrentSteps(PLAYER_1):GetAuthorCredit() or "Unknown",
@@ -76,7 +76,7 @@ t[#t+1] = Def.ActorFrame {
                 :zoom(0.6):visible(GAMESTATE:IsSideJoined(PLAYER_1))
             end
         },
-        
+
         Def.Sprite {
             Texture=THEME:GetPathG("", "Evaluation/StepArtistP2"),
             InitCommand=function(self)
@@ -84,7 +84,7 @@ t[#t+1] = Def.ActorFrame {
                 :visible(GAMESTATE:IsSideJoined(PLAYER_2))
             end
         },
-        
+
         Def.Quad {
             InitCommand=function(self)
                 self:xy(138, RowH):halign(0):valign(0):zoomto(192, 26)
@@ -92,7 +92,7 @@ t[#t+1] = Def.ActorFrame {
                 :visible(GAMESTATE:IsSideJoined(PLAYER_2))
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat semibold 40px",
             Text=GAMESTATE:GetCurrentSteps(PLAYER_2):GetAuthorCredit() or "Unknown",
@@ -102,7 +102,7 @@ t[#t+1] = Def.ActorFrame {
             end
         }
     },
-    
+
     Def.Sprite {
         Texture=THEME:GetPathG("", "Evaluation/EvalColumn"),
         InitCommand=function(self)
@@ -111,9 +111,24 @@ t[#t+1] = Def.ActorFrame {
     }
 }
 
+-- Separation lines between the center column text
+for i = 1, RowAmount + 1 do
+    t[#t+1] = Def.ActorFrame {
+        Def.Quad {
+            InitCommand=function(self)
+                self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24 - (RowH / 2))
+                :zoomto(200 + math.sin((self:GetY() - SCREEN_CENTER_Y) / math.pi) * 50, 2)
+                :diffuse(RowAmount == 9 and color("#FFA4FF") or color("#99D3FF"))
+                -- :shadowcolor(RowAmount == 9 and color("#E357EA") or color("#5A89E5"))
+                -- :shadowlength(1)
+            end
+        }
+    }
+end
+
 for i = 1, RowAmount do
     t[#t+1] = Def.ActorFrame {
-        InitCommand=function(self) 
+        InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, RowY + RowH * (i - 1) + 24)
             :diffusealpha(0):sleep(0.5 + i * 0.1):linear(0.1):diffusealpha(1)
         end,
@@ -121,7 +136,7 @@ for i = 1, RowAmount do
             Font="Montserrat normal 40px",
             InitCommand=function(self)
                 self:maxwidth(360):skewx(-0.2):zoom(0.75):visible(true)
-                
+
                 if Name[i] == "Accuracy" or Name[i] == "Score" then
                     self:settext(ToUpper(THEME:GetString("EvaluationLabel", Name[i])))
                 else
@@ -129,7 +144,7 @@ for i = 1, RowAmount do
                 end
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat semibold 40px",
             Text=GetJLineValue(Name[i], PLAYER_1),
@@ -138,7 +153,7 @@ for i = 1, RowAmount do
                 :halign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_1))
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat semibold 40px",
             Text=GetJLineValue(Name[i], PLAYER_2),
