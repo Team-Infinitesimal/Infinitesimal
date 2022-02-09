@@ -2,6 +2,7 @@ local t = Def.ActorFrame {}
 
 -- Solid Background
 t[#t+1] = Def.Quad {
+	Name="Background",
 	InitCommand=function(self)
 		self:Center()
 		:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -11,6 +12,7 @@ t[#t+1] = Def.Quad {
 
 -- Gradient overlay
 t[#t+1] = Def.Sprite {
+	Name="Gradient",
 	Texture="gradient",
 	InitCommand=function(self)
 		self:Center()
@@ -20,6 +22,7 @@ t[#t+1] = Def.Sprite {
 -- Squiggly Things (with random speed!)
 for i=1,4 do
 	t[#t+1] = Def.Sprite {
+		Name="Squiggle" .. i,
 		Texture="Squiggles/" .. i,
 		InitCommand=function(self)
 			self:Center()
@@ -32,6 +35,7 @@ end
 
 -- Top/Bottom Grids
 t[#t+1] = Def.ActorFrame {
+	Name="Grids",
 	FOV=90,
 
 	Def.Sprite {
