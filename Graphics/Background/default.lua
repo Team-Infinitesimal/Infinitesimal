@@ -59,7 +59,7 @@ t[#t+1] = Def.ActorFrame {
 			self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM)
 			:zoomx(2.2)
 			:halign(0.5):valign(0)
-			:rotationx(102)
+			:rotationx(98)
 			:texcoordvelocity(0, 0.25)
 			:diffusealpha(0.5)
 			:fadebottom(1)

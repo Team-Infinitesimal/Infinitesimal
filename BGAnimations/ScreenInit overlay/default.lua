@@ -51,7 +51,7 @@ return Def.ActorFrame {
           			self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 475)
           			:zoomx(2.2)
           			:halign(0.5):valign(0)
-          			:rotationx(102)
+          			:rotationx(98)
           			:texcoordvelocity(0, 0.25)
           			:diffusealpha(0.5)
           			:fadebottom(1)
@@ -69,48 +69,43 @@ return Def.ActorFrame {
             self:settext("PLAY")
             :halign(0):valign(0)
             :xy(SCREEN_LEFT + 20, SCREEN_TOP + 20)
-        end
-    },
-
-    Def.BitmapText {
-        Font="VCR OSD Mono 40px",
-        InitCommand=function(self)
-            self:settext("PROJECT")
-            :zoom(1.75)
-            :xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 120)
-            :diffusealpha(0)
+            :queuecommand("Dot")
         end,
-        OnCommand=function(self)
-            self:sleep(0.75)
-            :easeoutquad(0.5)
-            :y(SCREEN_CENTER_Y - 100)
-            :diffusealpha(1)
+        DotCommand=function(self)
+            self:sleep(0.5)
+            text = self:GetText()
+            if text ~= "PLAY..." then
+                self:settext(text..".")
+            else
+                self:settext("PLAY")
+            end
+            self:queuecommand("Dot")
         end
     },
 
     Def.Sprite {
         Texture="OutFox",
         InitCommand=function(self)
-            self:Center():zoom(0.8)
+            self:Center()
             :cropright(1)
         end,
         OnCommand=function(self)
-            self:sleep(0.75)
-            :linear(0.5)
+            self:sleep(0.725)
+            :linear(0.55)
             :cropright(0)
         end
     },
 
     Def.Sprite {
-        Name="RizuMask",
+        Name="LogoMask",
         Texture="OutFox",
         InitCommand=function(self)
-            self:Center():zoom(0.8):MaskSource()
+            self:Center():MaskSource()
         end
     },
 
     Def.Quad {
-        Name="RizuShine",
+        Name="LogoShine",
         InitCommand=function(self)
             self:zoomto(50, 150)
             :skewx(1.5)
@@ -120,7 +115,7 @@ return Def.ActorFrame {
         OnCommand=function(self)
             self:sleep(0.75)
             :linear(0.5)
-            :x(SCREEN_CENTER_X + 460)
+            :x(SCREEN_CENTER_X + 450)
             :queuecommand("Shine2")
         end,
         Shine2Command=function(self)
