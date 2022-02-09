@@ -172,7 +172,9 @@ local function inputs(event)
 			SOUND:PlayOnce(THEME:GetPathS("MusicWheel", "change"), true);
 			MESSAGEMAN:Broadcast("NextGroup")
 		elseif button == "Back" then
-			SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToPrevScreen") --Because we've redirected input, we need to handle the back button ourselves instead of SM handling it. You can do whatever you want here though, like closing the wheel without picking a group.
+            SCREENMAN:set_input_redirected(PLAYER_1, false)
+            SCREENMAN:set_input_redirected(PLAYER_2, false)
+			SCREENMAN:GetTopScreen():Cancel() --Because we've redirected input, we need to handle the back button ourselves instead of SM handling it. You can do whatever you want here though, like closing the wheel without picking a group.
 		else
             --Inputs not working? Uncomment this to check what they are.
 			--SCREENMAN:SystemMessage(button);
@@ -207,8 +209,7 @@ local t = Def.ActorFrame{
 		isPickingDifficulty = false
 	end,
 	
-	 OffCommand=function(self)
-		--I got sick of input locking when I reloaded the screen, since the wheel isn't open when you reload the screen.
+    OffCommand=function(self)
 		SCREENMAN:set_input_redirected(PLAYER_1, false)
 		SCREENMAN:set_input_redirected(PLAYER_2, false)
 		isPickingDifficulty = false

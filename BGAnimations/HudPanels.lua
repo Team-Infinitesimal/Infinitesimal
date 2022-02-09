@@ -144,7 +144,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				Def.BitmapText {
 					Font="Montserrat semibold 20px",
 					-- This ingenious level system was made up at 4am
-					Text="Level " .. math.floor(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 10000) + 1,
+					Text="Level " .. math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1,
 					InitCommand=function(self)
 						self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 281 or -281), SCREEN_BOTTOM - 26):zoom(0.9)
 						:maxwidth(96 / self:GetZoom()):skewx(-0.2)
