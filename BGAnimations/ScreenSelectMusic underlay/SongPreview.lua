@@ -11,7 +11,7 @@ local t = Def.ActorFrame {
     end,
 
     Def.Sprite {
-        Texture=THEME:GetPathG("", "MusicWheel/PreviewFrame")
+        Texture=((_G["Secret"] == true) and THEME:GetPathG("", "MusicWheel/SecretPreviewFrame") or THEME:GetPathG("", "MusicWheel/PreviewFrame"))
     },
 
     Def.Sprite {

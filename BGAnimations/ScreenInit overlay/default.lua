@@ -1,6 +1,24 @@
 return Def.ActorFrame {
 
+    -- bro wake up it's 2008
+    CodeMessageCommand=function(self, param)
+        if param.Name == "Secret" then
+            if _G["Secret"] == true then
+                _G["Secret"] = false
+                MESSAGEMAN:Broadcast("SecretUpdated")
+                SCREENMAN:SystemMessage("returning to "..Year())
+            else
+                _G["Secret"] = true
+                MESSAGEMAN:Broadcast("SecretUpdated")
+                SCREENMAN:SystemMessage("bro wake up it's 2008")
+            end
+        end
+    end,
+
+    -- Possibly unnecessary but last time I tried this it didn't work without
+    -- it for ??? reasons so I'm not taking any risks
     Def.Quad {
+      Name="Background",
       InitCommand=function(self)
           self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
           :diffuse(Color.Black)
@@ -8,11 +26,13 @@ return Def.ActorFrame {
     },
 
     Def.Sound {
+        Name="BackgroundHum",
         File="BackgroundHum",
         OnCommand=function(self) self:play() end
     },
 
     Def.Sound {
+        Name="TVOff",
         File="TVOff",
         OnCommand=function(self)
             self:sleep(4.5)
@@ -23,47 +43,17 @@ return Def.ActorFrame {
         end
     },
 
-    Def.ActorFrame {
-      	FOV=90,
-
-      	Def.Sprite {
-        		Name="GridTop",
-        		Texture=THEME:GetPathG("", "Background/grid"),
-        		InitCommand=function(self)
-          			self:xy(SCREEN_CENTER_X, -475)
-          			:zoomx(2.2)
-          			:halign(0.5):valign(0)
-          			:rotationx(84)
-          			:texcoordvelocity(0, 0.25)
-          			:diffusealpha(0.5)
-          			:fadebottom(1)
-        		end,
-            OnCommand=function(self)
-                self:easeoutquad(1.25)
-                :y(0)
-            end
-        },
-
-      	Def.Sprite {
-        		Name="GridBottom",
-        		Texture=THEME:GetPathG("", "Background/grid"),
-        		InitCommand=function(self)
-          			self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 475)
-          			:zoomx(2.2)
-          			:halign(0.5):valign(0)
-          			:rotationx(98)
-          			:texcoordvelocity(0, 0.25)
-          			:diffusealpha(0.5)
-          			:fadebottom(1)
-        		end,
-            OnCommand=function(self)
-                self:easeoutquad(1.25)
-                :y(SCREEN_BOTTOM)
-            end
-      	}
+    LoadActor(THEME:GetPathG("", "Grid"))..{
+        InitCommand=function(self)
+            self:GetChild("GridTop"):y(-475):easeoutquad(1.25):y(0)
+            self:GetChild("GridBottom"):y(SCREEN_BOTTOM + 475):easeoutquad(1.25):y(SCREEN_BOTTOM)
+        end
     },
 
+    -- Maybe a janky hack? Idk, it works fine
+    -- Adds looping dots after the "PLAY" text
     Def.BitmapText {
+        Name="PlayText",
         Font="VCR OSD Mono 40px",
         InitCommand=function(self)
             self:settext("PLAY")
@@ -84,6 +74,7 @@ return Def.ActorFrame {
     },
 
     Def.Sprite {
+        Name="OutFoxLogo",
         Texture="OutFox",
         InitCommand=function(self)
             self:Center()
@@ -104,6 +95,8 @@ return Def.ActorFrame {
         end
     },
 
+    -- Instead of loading a separate texture, a quad with a slight skew
+    -- and an inverted mask (using ZTestMode_WriteOnFail) works very well
     Def.Quad {
         Name="LogoShine",
         InitCommand=function(self)
@@ -128,19 +121,49 @@ return Def.ActorFrame {
         end
     },
 
+    -- Same noise sprite used in the preview video above the song wheel
     Def.Sprite {
+        Name="Noise",
         Texture=THEME:GetPathG("", "Noise"),
         InitCommand=function(self)
-            self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
+            self:CropTo(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
             :diffusealpha(0.15)
             :blend("BlendMode_Add")
             :texcoordvelocity(24,16)
         end
     },
 
+    -- customtexturerect() practice, looks cool tho so I'm keeping it
+    Def.Sprite {
+      Name="Scanlines",
+      Texture="Scanline",
+        InitCommand=function(self)
+            self:customtexturerect(0,0,SCREEN_WIDTH*4/16,SCREEN_HEIGHT*4/16)
+            :zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
+            :diffusealpha(0.25)
+        end
+    },
+
+    -- Obscures the other stuff
     Def.Quad {
+        Name="ShutdownDark",
         InitCommand=function(self)
             self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
+            :diffuse(0,0,0,0)
+            :queuecommand("Shutdown")
+        end,
+        ShutdownCommand=function(self)
+            self:sleep(4.55)
+            :diffuse(0,0,0,1)
+        end
+    },
+
+    -- Flashes the screen white, then fades to black
+    Def.Quad {
+        Name="ShutdownFlash",
+        InitCommand=function(self)
+            self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
+            :valign(0.5)
             :diffuse(1,1,1,0)
             :queuecommand("Shutdown")
         end,
@@ -148,44 +171,16 @@ return Def.ActorFrame {
             self:sleep(4.4)
             :easeoutquad(0.2)
             :diffusealpha(1)
-            :linear(0)
-            :diffuse(0,0,0,1)
-        end
-    },
-
-    Def.Quad {
-        Name="OffLine_Top",
-        InitCommand=function(self)
-            self:zoomto(SCREEN_WIDTH, 10)
-            :xy(SCREEN_CENTER_X, SCREEN_TOP - 10)
-            :queuecommand("Shutdown")
-        end,
-        ShutdownCommand=function(self)
-            self:sleep(4.6)
             :linear(0.15)
-            :y(SCREEN_CENTER_Y)
+            :zoomto(SCREEN_WIDTH, 10)
             :easeoutquad(0.15)
             :zoomto(0, 10)
         end
     },
 
+    -- Transitions to the next screen after 5 seconds
     Def.Quad {
-        Name="OffLine_Bottom",
-        InitCommand=function(self)
-            self:zoomto(SCREEN_WIDTH, 10)
-            :xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 10)
-            :queuecommand("Shutdown")
-        end,
-        ShutdownCommand=function(self)
-            self:sleep(4.6)
-            :linear(0.15)
-            :y(SCREEN_CENTER_Y)
-            :easeoutquad(0.15)
-            :zoomto(0, 10)
-        end
-    },
-
-    Def.Quad {
+        Name="ScreenTransferActor",
     		InitCommand=function(self)
     			   self:diffuse(0,0,0,0):sleep(5):queuecommand("Transfer")
     		end,
