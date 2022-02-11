@@ -26,6 +26,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
         },
         -- Stub this out for the module
         Scoring = {
+            ["TapNoteScore_W1"] = 0,
             ["TapNoteScore_W2"] = 0,
 			["TapNoteScore_W3"] = 0,
 			["TapNoteScore_W4"] = 0,
@@ -72,6 +73,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
         },
         -- Stub this out for the module
         Scoring = {
+            ["TapNoteScore_W1"] = 0,
             ["TapNoteScore_W2"] = 0,
 			["TapNoteScore_W3"] = 0,
 			["TapNoteScore_W4"] = 0,
@@ -275,10 +277,111 @@ InfTimingWindow[#InfTimingWindow+1] = function()
         },
         -- Stub this out for the module
         Scoring = {
+            ["TapNoteScore_W1"] = 0,
             ["TapNoteScore_W2"] = 0,
 			["TapNoteScore_W3"] = 0,
 			["TapNoteScore_W4"] = 0,
 			["TapNoteScore_W5"] = 0,
+			["TapNoteScore_Miss"] = 0,
+			["TapNoteScore_HitMine"] = 0,
+			["TapNoteScore_CheckpointHit"] = 0,
+			["TapNoteScore_CheckpointMiss"] = 0,
+			["TapNoteScore_MaxScore"] = 0,
+        },
+    }
+end
+
+InfTimingWindow[#InfTimingWindow+1] = function()
+	return {
+		Name = "Pro",
+		Timings = {
+            ['TapNoteScore_W1']			= 0.026000,
+			['TapNoteScore_W2']			= 0.055000,
+			['TapNoteScore_W3']			= 0.100000,
+			['TapNoteScore_W4']			= 0.145000,
+			['TapNoteScore_HitMine']	= 0.070000,
+			['TapNoteScore_Attack']		= 0.135000,
+			['TapNoteScore_Hold']		= 0.320000,
+			['TapNoteScore_Roll']		= 0.350000,
+			['TapNoteScore_Checkpoint']	= 0.060000,
+		},
+		Shared = {
+            ["HoldNoteScore_Held"] = 6,
+			["TapNoteScore_W1"] = 10,
+            ["TapNoteScore_W2"] = 8,
+			["TapNoteScore_W3"] = 6,
+			["TapNoteScore_W4"] = 2,
+			["TapNoteScore_Miss"] = -2,
+			["TapNoteScore_HitMine"] = -8,
+			["TapNoteScore_CheckpointHit"] = 0,
+			["TapNoteScore_CheckpointMiss"] = 0,
+			["TapNoteScore_MaxScore"] = 10,
+		},
+        Life = {
+            ["HoldNoteScore_Held"] = 0.008,
+            ["TapNoteScore_W1"] = 0.008,
+            ["TapNoteScore_W2"] = 0.008,
+            ["TapNoteScore_W3"] = 0.004,
+            ["TapNoteScore_W4"] = 0,
+            ["TapNoteScore_Miss"] = -0.080,
+            ["TapNoteScore_HitMine"] = -0.160,
+            ["TapNoteScore_CheckpointHit"] = 0.004,
+            ["TapNoteScore_CheckpointMiss"] = -0.015,
+        },
+        -- Stub this out for the module
+        Scoring = {
+            ["TapNoteScore_W1"] = 0,
+			["TapNoteScore_W2"] = 0,
+			["TapNoteScore_W3"] = 0,
+			["TapNoteScore_W4"] = 0,
+			["TapNoteScore_Miss"] = 0,
+			["TapNoteScore_HitMine"] = 0,
+			["TapNoteScore_CheckpointHit"] = 0,
+			["TapNoteScore_CheckpointMiss"] = 0,
+			["TapNoteScore_MaxScore"] = 0,
+        },
+    }
+end
+
+InfTimingWindow[#InfTimingWindow+1] = function()
+	return {
+		Name = "Jump",
+		Timings = {
+            ['TapNoteScore_W1']			= 0.090000,
+			['TapNoteScore_W2']			= 0.160000,
+			['TapNoteScore_W3']			= 0.220000,
+			['TapNoteScore_HitMine']	= 0.070000,
+			['TapNoteScore_Attack']		= 0.135000,
+			['TapNoteScore_Hold']		= 0.320000,
+			['TapNoteScore_Roll']		= 0.350000,
+			['TapNoteScore_Checkpoint']	= 0.060000,
+		},
+		Shared = {
+            ["HoldNoteScore_Held"] = 1,
+			["TapNoteScore_W1"] = 3,
+            ["TapNoteScore_W2"] = 2,
+			["TapNoteScore_W3"] = 1,
+			["TapNoteScore_Miss"] = 0,
+			["TapNoteScore_HitMine"] = 0,
+			["TapNoteScore_CheckpointHit"] = 0,
+			["TapNoteScore_CheckpointMiss"] = 0,
+			["TapNoteScore_MaxScore"] = 3,
+		},
+        Life = {
+            ["HoldNoteScore_Held"] = 0.040,
+            ["TapNoteScore_W1"] = 0.040,
+            ["TapNoteScore_W2"] = 0.040,
+            ["TapNoteScore_W3"] = 0.040,
+            ["TapNoteScore_Miss"] = -0.080,
+            ["TapNoteScore_HitMine"] = -0.080,
+            ["TapNoteScore_CheckpointHit"] = 0.010,
+            ["TapNoteScore_CheckpointMiss"] = -0.005,
+        },
+        -- Stub this out for the module
+        Scoring = {
+            ["TapNoteScore_W1"] = 0,
+			["TapNoteScore_W2"] = 0,
+			["TapNoteScore_W3"] = 0,
 			["TapNoteScore_Miss"] = 0,
 			["TapNoteScore_HitMine"] = 0,
 			["TapNoteScore_CheckpointHit"] = 0,

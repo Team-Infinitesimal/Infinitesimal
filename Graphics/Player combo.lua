@@ -15,7 +15,7 @@ local t = Def.ActorFrame {
 	Def.BitmapText {
 		Font="Combo numbers",
 		Name="Number",
-		OnCommand = THEME:GetMetric("Combo", "NumberOnCommand"),
+		OnCommand = function(self) self:valign(0):y(-20) end,
 		ComboCommand=function(self, params)
             self:diffuse(params.Misses and Color.Red or Color.White)
 		end

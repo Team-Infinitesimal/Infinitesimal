@@ -11,12 +11,19 @@ local t = Def.ActorFrame {
 		end
 	end,
 
-	Def.Sprite{ Texture="badge", OnCommand=function(self) self:visible(PROFILEMAN:IsPersistentProfile(pn)):zoom(0.45) end },
+	Def.Sprite { 
+        Texture=THEME:GetPathG("", "UI/NameBadge"), 
+        OnCommand=function(self)
+            self:visible(PROFILEMAN:IsPersistentProfile(pn)):zoom(0.45) 
+        end
+    },
 
-	Def.BitmapText{
+	Def.BitmapText {
 		Font="Montserrat semibold 20px",
 		Name="Username",
-		OnCommand=function(self) self:visible(PROFILEMAN:IsPersistentProfile(pn)):shadowlength(1):zoom(0.75) end
+		OnCommand=function(self) 
+            self:visible(PROFILEMAN:IsPersistentProfile(pn)):shadowlength(1):zoom(0.75)
+        end
 	}
 }
 

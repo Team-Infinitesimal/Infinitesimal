@@ -25,12 +25,19 @@ return {
 		Choices = { OptionNameString('DarkPlayerScreenFilter'), OptionNameString('DarkScreenFilter'), OptionNameString('LightPlayerScreenFilter'), OptionNameString('LightScreenFilter'), OptionNameString('GrayScreenFilter') },
 		Values = {1,2,3,4,5}
     },
+    ScreenFilterSize =
+	{
+		UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('ScreenFilterFull'), OptionNameString('ScreenFilterLane') },
+        Values = { "Full", "Lane" }
+    },
     MeasureCounter =
     {
         UserPref = true,
         Default = false,
-        Choices = { OptionNameString('Off'), OptionNameString('On') },
-        Values = {false, true}
+        Choices = { OptionNameString('Off'), OptionNameString('StreamOnly'), OptionNameString('All') },
+        Values = {false, 'StreamOnly', 'All' }
     },
     MeasureCounterDivisions =
     {
@@ -38,13 +45,6 @@ return {
         Default = 12,
         Choices = { THEME:GetString('OptionNames', 'Div_4ths'), THEME:GetString('OptionNames', 'Div_8ths'), THEME:GetString('OptionNames', 'Div_12ths'), THEME:GetString('OptionNames', 'Div_16ths'), THEME:GetString('OptionNames', 'Div_24ths'), THEME:GetString('OptionNames', 'Div_32nds') },
         Values = {4, 8, 12, 16, 24, 32}
-    },
-    MeasureCounterBreaks =
-    {
-        UserPref = true,
-        Default = false,
-        Choices = { OptionNameString('Off'), OptionNameString('On') },
-        Values = {false, true}
     },
     JudgmentItems =
 	{
@@ -73,7 +73,7 @@ return {
 	{
 		SaveSelections = {"SmartJudgments", LoadModule("Options.SmartJudgeChoices.lua")},
 		GenForUserPref = true,
-		Default = InfTimingModes[1],
+		Default = InfTimingModes[3], -- Pump Normal is now our standard
 		Choices = InfTimingModes,
 		Values = InfTimingModes,
         NotifyOfSelection = function(self, pn, choice)
