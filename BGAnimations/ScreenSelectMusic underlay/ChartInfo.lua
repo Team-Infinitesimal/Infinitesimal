@@ -165,9 +165,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             InitCommand=function(self) self:diffusealpha(1):queuecommand("ShowAMV") end,
             SongChosenMessageCommand=function(self) self:stoptweening():diffusealpha(1):queuecommand("ShowAMV") end,
 
-            ["CurrentSteps".. ToEnumShortString(pn) .."ChangedMessageCommand"]=function(self)
+            ChangeStepsMessageCommand=function(self)
                 self:stoptweening():diffusealpha(0)
                 if GAMESTATE:GetCurrentSong() then
+                    SCREENMAN:SystemMessage("Updating NPS!")
                     self:sleep(PreviewDelay):queuecommand("ShowAMV")
                 end
             end,
