@@ -21,7 +21,7 @@ return {
 	ScreenFilterColor =
 	{
 		UserPref = true,
-		Default = 1,
+		Default = 2, -- Since the filter is now full screen by default, it makes more sense making it black.
 		Choices = { OptionNameString('DarkPlayerScreenFilter'), OptionNameString('DarkScreenFilter'), OptionNameString('LightPlayerScreenFilter'), OptionNameString('LightScreenFilter'), OptionNameString('GrayScreenFilter') },
 		Values = {1,2,3,4,5}
     },

@@ -36,7 +36,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self) self:queuecommand("Refresh") end,
-        ["CurrentSteps".. ToEnumShortString(pn) .."ChangedMessageCommand"]=function(self) self:playcommand("Refresh") end,
+        ChangeStepsMessageCommand=function(self) self:playcommand("Refresh") end,
+        SongChosenMessageCommand=function(self) self:playcommand("Refresh") end,
 
         RefreshCommand=function(self)
             if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(pn) then
@@ -167,7 +168,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             ["CurrentSteps".. ToEnumShortString(pn) .."ChangedMessageCommand"]=function(self)
                 self:stoptweening():diffusealpha(0)
                 if GAMESTATE:GetCurrentSong() then
-                    self:decelerate(PreviewDelay):queuecommand("ShowAMV")
+                    self:sleep(PreviewDelay):queuecommand("ShowAMV")
                 end
             end,
 

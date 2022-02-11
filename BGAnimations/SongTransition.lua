@@ -33,6 +33,8 @@ local t = Def.ActorFrame {
 				local Path = GAMESTATE:GetCurrentSong():GetBackgroundPath()
 				if Path and FILEMAN:DoesFileExist(Path) then
 					self:Load(Path):scale_or_crop_background()
+                else
+                    self:Load(THEME:GetPathG("Common", "fallback background")):scale_or_crop_background()
 				end
 			else
 				self:Load(nil)

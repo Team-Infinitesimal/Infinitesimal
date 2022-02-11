@@ -23,7 +23,6 @@ local SongProgress = LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOr
 local t = Def.ActorFrame {
 	InitCommand=function(self) self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100) end,
 	OnCommand=function(self) self:easeoutexpo(1):addy(IsReverse and -100 or 100) end,
-    OffCommand=function(self) self:easeinexpo(1):addy(IsReverse and 100 or -100) end,
     
     LifeChangedMessageCommand=function(self, params)
         if params.Player == pn then
