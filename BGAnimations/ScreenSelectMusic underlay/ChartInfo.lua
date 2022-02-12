@@ -168,7 +168,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             ChangeStepsMessageCommand=function(self)
                 self:stoptweening():diffusealpha(0)
                 if GAMESTATE:GetCurrentSong() then
-                    SCREENMAN:SystemMessage("Updating NPS!")
                     self:sleep(PreviewDelay):queuecommand("ShowAMV")
                 end
             end,
