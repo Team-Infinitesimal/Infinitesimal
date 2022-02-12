@@ -7,28 +7,6 @@
 -- Percent is your percentage that you see on the score.
 -- and Grade is what actually gets rewarded by the engine to the player.
 
-local ScoringTable = {
-    ["HoldNoteScore_Held"] = 0,
-    ["HoldNoteScore_MissedHold"] = 0,
-    ["HoldNoteScore_LetGo"] = 0,
-    ["TapNoteScore_HitMine"] = 0,
-	["TapNoteScore_AvoidMine"] = 0,
-	["TapNoteScore_CheckpointMiss"] = 0,
-	["TapNoteScore_Miss"] = 0,
-	["TapNoteScore_ProW5"] = 12,
-	["TapNoteScore_ProW4"] = 14,
-	["TapNoteScore_ProW3"] = 16,
-	["TapNoteScore_ProW2"] = 18,
-	["TapNoteScore_ProW1"] = 20,
-	["TapNoteScore_W5"] = 0,
-	["TapNoteScore_W4"] = 0,
-	["TapNoteScore_W3"] = 5,
-	["TapNoteScore_W2"] = GAMESTATE:ShowW1() and 9 or 10,
-	["TapNoteScore_W1"] = 10,
-    ["TapNoteScore_MaxScore"] = 10,--This is actually the 'max', according to ScoreKeeperNormal::AddScoreInternal
-	["TapNoteScore_CheckpointHit"] = 0
-}
-
 local PercentTable = {
     ["HoldNoteScore_Held"] = IsGame("pump") and 0 or 3,
     ["HoldNoteScore_MissedHold"] = 0,
@@ -109,15 +87,11 @@ return Def.ActorFrame{
 				-- if there is a table that will share values with multiple sets, overwrite them.
 				if( TW.Shared ) then
 					for a,b in pairs( TW.Shared ) do
-						ScoringTable[a] = b
 						PercentTable[a] = b
 						GradeTable[a] = b
 					end
 				end
                 -- We found out table, time to replace settings.
-				if( TW.Scoring ) then
-					for a,b in pairs( TW.Scoring ) do ScoringTable[a] = b end
-				end
 				if( TW.Percent ) then
 					for a,b in pairs( TW.Percent ) do PercentTable[a] = b end
 				end
@@ -134,10 +108,6 @@ return Def.ActorFrame{
             end
         end
 	end,
-	ScoringWindowMessageCommand=function(self, params)
-        params.score = ScoringTable[params.Type] or 0
-		params.ScoreLimit = ScoreLimit or 100000000
-    end,
     PercentWindowMessageCommand=function(self, params)
         params.Weight = PercentTable[params.Type] or 0
     end,
