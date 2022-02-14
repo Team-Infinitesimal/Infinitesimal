@@ -40,11 +40,11 @@ local t = Def.ActorFrame {
 	CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
     CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-	
+
 	-- These are to control the visibility of the chart highlight.
 	SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
 	SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
-	
+
 	RefreshCommand=function(self)
 		local ChartArray = nil
 		local CurrentSong = GAMESTATE:GetCurrentSong()
@@ -55,18 +55,18 @@ local t = Def.ActorFrame {
 			local ChartIndexP1 = GetCurrentChartIndex(PLAYER_1, ChartArray)
             local ChartIndexP2 = GetCurrentChartIndex(PLAYER_2, ChartArray)
             local ChartIndex = ChartIndexP1 > ChartIndexP2 and ChartIndexP1 or ChartIndexP2
-            
+
 			local ListOffset = 0
 			if ChartIndex + 1 > ItemAmount then
 				ListOffset = ChartIndex - ItemAmount + (ChartIndex == #ChartArray and 0 or 1)
 			end
-			
+
             if CenterList then
                 -- Shift the positioning of the charts if they don't take up all visible slots
                 local ChartArrayW = ItemW * ((#ChartArray < ItemAmount and #ChartArray or ItemAmount) - 1) / 2
                 self:x(ItemTotalW - ChartArrayW)
             end
-            
+
             if #ChartArray > ItemAmount then
                 self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(ChartIndex + 1 > ItemAmount)
                 self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(ChartIndex + 1 < #ChartArray)
@@ -74,15 +74,15 @@ local t = Def.ActorFrame {
                 self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(false)
                 self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(false)
             end
-			
+
 			for i=1,ItemAmount do
 				local Chart = ChartArray[ i + ListOffset ]
-				
+
 				if Chart then
 					local ChartMeter = Chart:GetMeter()
 					if ChartMeter == 99 then ChartMeter = "??" end
 					local ChartDescription = Chart:GetDescription()
-					
+
 					self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ChartTypeToColor(Chart))
                     self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
 					self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
@@ -90,17 +90,17 @@ local t = Def.ActorFrame {
                         (ChartIndexP1 == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
                     self:GetChild("")[i]:GetChild("HighlightP2"):visible(
                         (ChartIndexP2 == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_2))
-                    
+
                     --local ChartLabelString = ""
                     local ChartLabelIndex = 0
-                    
+
                     for Index, String in pairs(ChartLabels) do
 						if string.find(ToUpper(Chart:GetDescription()), String) then
 							--ChartLabelString = String
                             ChartLabelIndex = Index
 						end
 					end
-                    
+
                     if ChartLabelIndex ~= 0 then
                         self:GetChild("")[i]:GetChild("Label"):visible(true):setstate(ChartLabelIndex - 1)
                     else
@@ -142,7 +142,7 @@ for i=1,ItemAmount do
 				self:xy(FrameX + ItemW * (i - 1), 0)
 			end
 		},
-        
+
         Def.Sprite {
 			Name="IconTrim",
 			Texture=THEME:GetPathG("", "DifficultyDisplay/Trim"),
@@ -158,7 +158,7 @@ for i=1,ItemAmount do
 				self:xy(FrameX + ItemW * (i - 1), 0):zoom(0.6):maxwidth(75)
 			end
 		},
-        
+
         Def.Sprite {
 			Name="Label",
             Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
@@ -166,27 +166,29 @@ for i=1,ItemAmount do
 				self:xy(FrameX + ItemW * (i - 1), 16):animate(false)
 			end
 		},
-        
+
         Def.Sprite {
 			Name="HighlightP1",
-			Texture=THEME:GetPathG("", "DifficultyDisplay/Cursor"),
+			Texture=THEME:GetPathG("", "DifficultyDisplay/Cursor/P1"),
 			InitCommand=function(self)
-				self:xy(FrameX + ItemW * (i - 1), 0):blend('add')
-				:diffuse(Color.Red)
+				self:xy(FrameX + ItemW * (i - 1), -22)
+				:zoom(0.5)
+				:bounce():effectmagnitude(0, -5, 0):effectclock("bgm")
 				:visible(false)
 			end
 		},
-        
+
         Def.Sprite {
 			Name="HighlightP2",
-			Texture=THEME:GetPathG("", "DifficultyDisplay/Cursor"),
+			Texture=THEME:GetPathG("", "DifficultyDisplay/Cursor/P2"),
 			InitCommand=function(self)
-				self:xy(FrameX + ItemW * (i - 1), 0):blend('add')
-				:diffuse(Color.Blue):rotationx(180)
+				self:xy(FrameX + ItemW * (i - 1), 22)
+				:zoom(0.5)
+				:bounce():effectmagnitude(0, 5, 0):effectclock("bgm")
 				:visible(false)
 			end
 		},
-		
+
 		LoadActor(THEME:GetPathS("Common","value")) .. {}
 	}
 end
