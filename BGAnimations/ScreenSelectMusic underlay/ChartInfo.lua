@@ -53,7 +53,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local ChartDescriptionText = Chart:GetChartName()
                 -- if ChartDescriptionText == "" then ChartDescriptionText = ToUpper(Chart:GetDescription()) end
 
-                local ChartInfoText = ChartTypeText .. " by " .. ChartAuthorText
+                local ChartInfoText = ChartTypeText .. " " .. THEME:GetString("ChartInfo", "By") .. " " .. ChartAuthorText
                 if ChartDescriptionText ~= "" then
                     ChartInfoText = ChartInfoText .. "\n" .. ChartDescriptionText
                 end

@@ -128,7 +128,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 						:maxwidth(112 / self:GetZoom()):skewx(-0.2)
 
 						if PROFILEMAN:GetProfile(pn):GetDisplayName() == "" then
-							self:settext("No Profile")
+							self:settext(THEME:GetString("ProfileStats", "No Profile"))
 						end
 					end
 				},
@@ -144,7 +144,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				Def.BitmapText {
 					Font="Montserrat semibold 20px",
 					-- This ingenious level system was made up at 4am
-					Text="Level " .. math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1,
+					Text=THEME:GetString("ProfileStats", "Level") .. " " .. math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1,
 					InitCommand=function(self)
 						self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 281 or -281), SCREEN_BOTTOM - 26):zoom(0.9)
 						:maxwidth(96 / self:GetZoom()):skewx(-0.2)
