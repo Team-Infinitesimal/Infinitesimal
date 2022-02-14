@@ -22,6 +22,8 @@ local DoubleSet = Length*2
 
 local OffbarPos = bHideJudgment and 0 or -32
 
+local AddZoom = string.find(GetTexture(), "Infinitesimal") and 1.25 or 1
+
 -- Generate Offset Bar
 local OffBar = Def.ActorFrame{ InitCommand=function(self) self:visible(bOffsetBar) end,
 	Def.ActorFrame {
@@ -98,9 +100,9 @@ return Def.ActorFrame {
 		self:playcommand("Reset")
 
 		Judg:visible(not bHideJudgment):setstate(iFrame)
-        :stoptweening():zoom(0.85):diffusealpha(0.75):decelerate(0.15)
-        :zoom(0.70):diffusealpha(1):sleep(0.35):decelerate(0.3)
-        :diffusealpha(0):zoomy(0.4):zoomx(0.85)
+        :stoptweening():zoom(0.85 * AddZoom):diffusealpha(0.75):decelerate(0.15)
+        :zoom(0.70 * AddZoom):diffusealpha(1):sleep(0.35):decelerate(0.3)
+        :diffusealpha(0):zoomy(0.4 * AddZoom):zoomx(0.85 * AddZoom)
         
         if not (params.TapNoteScore == "TapNoteScore_CheckpointHit" or params.TapNoteScore == "TapNoteScore_CheckpointMiss") then
             -- Manage MS timing
