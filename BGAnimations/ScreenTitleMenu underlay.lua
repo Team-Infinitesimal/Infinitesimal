@@ -1,4 +1,4 @@
-return Def.ActorFrame {
+local t = Def.ActorFrame {
 	Def.ActorFrame {
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 20)
@@ -101,3 +101,19 @@ return Def.ActorFrame {
 		}
 	}
 }
+
+if not IsHome() then
+    t[#t+1] = Def.ActorFrame {
+        LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
+            InitCommand=function(self) self:xy(SCREEN_CENTER_X - SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.75) end,
+            OffCommand=function(self) self:stoptweening():easeoutexpo(0.25):zoom(2):diffusealpha(0) end,
+        },
+        
+        LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
+            InitCommand=function(self) self:xy(SCREEN_CENTER_X + SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.75) end,
+            OffCommand=function(self) self:stoptweening():easeoutexpo(0.25):zoom(2):diffusealpha(0) end,
+        }
+    }
+end
+
+return t

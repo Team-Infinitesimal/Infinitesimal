@@ -26,25 +26,23 @@ local t = Def.ActorFrame {
 				self:xy(-WideScale(200, 200), 40):halign(1):zoom(0.6):diffuse(Color.Black)
 
 				if not IsUsingWideScreen() then
-					self:maxwidth(150 / self:GetZoom())
-					:wrapwidthpixels(150 / self:GetZoom()):vertspacing(-16)
+                    local IsSelectMusic = self:GetText() == "SELECT MUSIC"
+                    if IsSelectMusic then self:x(-WideScale(170, 170)) end
+                    
+					local WidthLimit = (IsSelectMusic and 181 or 160) / self:GetZoom()
+                    self:maxwidth(WidthLimit):wrapwidthpixels(WidthLimit):vertspacing(-16)
 				end
 			end,
 		},
 
-    -- Stage count
-    Def.BitmapText {
+        -- Stage count
+        Def.BitmapText {
 			Font="Montserrat normal 40px",
 			InitCommand=function(self)
-        self:visible(Screen.String("HeaderText") == "Select Music" and true or false)
-        self:settext("STAGE "..string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1))
-				self:xy(-WideScale(200, 200), 60):halign(1):zoom(0.5):diffuse(Color.Black)
-
-				if not IsUsingWideScreen() then
-					self:maxwidth(150 / self:GetZoom())
-					:wrapwidthpixels(150 / self:GetZoom()):vertspacing(-16)
-				end
-			end,
+                self:visible(Screen.String("HeaderText") == "Select Music" and true or false)
+                self:settext("STAGE "..string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1))
+                self:xy(-WideScale(200, 200), 60):halign(1):zoom(0.5):diffuse(Color.Black)
+            end,
 		},
 
 		-- Amount of lives left
