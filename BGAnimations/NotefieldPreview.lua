@@ -27,6 +27,9 @@ end
 local t = Def.ActorFrame {}
 
 for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
+    -- To avoid crashes with player 2
+    local pnNoteField = PlayerNumber:Reverse()[pn]
+    
     t[#t+1] = Def.ActorFrame {
         Name="Player" .. ToEnumShortString(pn),
         FOV=45,
@@ -40,8 +43,8 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
 
         Def.NoteField {
             Name = "NotefieldPreview",
-            Player = pn,
-            NoteSkin = GAMESTATE:GetPlayerState(pn):GetPlayerOptions('ModsLevel_Preferred'):NoteSkin(),
+            Player = pnNoteField,
+            NoteSkin = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptions('ModsLevel_Preferred'):NoteSkin(),
             DrawDistanceAfterTargetsPixels = NotefieldRenderAfter,
             DrawDistanceBeforeTargetsPixels = NotefieldRenderBefore,
             YReverseOffsetPixels = ReceptorOffset,
@@ -50,7 +53,7 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                 self:y(NotefieldY):GetPlayerOptions("ModsLevel_Current"):StealthPastReceptors(true, true)
                 self:AutoPlay(true)
                 
-                local PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")
+                local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
                 self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
             end,
             
@@ -58,7 +61,7 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
             CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
             
             OptionsListStartMessageCommand=function(self)
-                local PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")
+                local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
                 self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
             end,
             
@@ -69,7 +72,7 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                 local Song = GAMESTATE:GetCurrentSong()
                 if Song then ChartArray = Song:GetAllSteps() else return end
                 
-                local ChartIndex = GetCurrentChartIndex(pn, ChartArray)
+                local ChartIndex = GetCurrentChartIndex(pnNoteField, ChartArray)
                 if not ChartIndex then return end
                 
                 local NoteData = Song:GetNoteData(ChartIndex)
