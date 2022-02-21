@@ -36,6 +36,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. Grade))
                 :diffusealpha(0):sleep(2):easeoutexpo(0.25):zoom(IsUsingWideScreen() and 0.6 or 0.5):diffusealpha(1)
             end
+        },
+        
+        Def.Sound {
+            File=THEME:GetPathS("", "EvalLetterHit"),
+            InitCommand=function(self) self:sleep(2):queuecommand("Play") end,
+            PlayCommand=function(self) self:play() end,
         }
     }
 end
