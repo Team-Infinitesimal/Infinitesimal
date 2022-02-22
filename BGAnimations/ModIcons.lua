@@ -40,11 +40,25 @@ local t = Def.ActorFrame {
         PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
         PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsArray("ModsLevel_Preferred")
         
-        -- Remove unneeded strings from the blacklist and Noteskin (displayed as an icon instead)
+        -- 1x is not included in the engine list by default, so we need to do... this. Ew.
+        if (PlayerMods:XMod() == 1 and 
+            PlayerMods:MMod() == nil and 
+            PlayerMods:CMod() == nil and 
+            PlayerMods:AMod() == nil) then
+            table.insert(PlayerModsArray, 1, "1x")
+        end
+        
+        -- Remove unneeded strings from the blacklist, normal speed if Auto Velocity is being used and Noteskin (displayed as an icon instead)
         for i, BlacklistedMod in ipairs(PlayerModsBlacklist) do
             if string.find(ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current")), ToLower(BlacklistedMod)) ~= nil then
                 removeFirst(PlayerModsArray, BlacklistedMod)
             end
+        end
+        
+        local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or 0
+        if AV ~= 0 then
+            table.remove(PlayerModsArray, 1)
+            table.insert(PlayerModsArray, 1, "AV " .. AV)
         end
         
         local CurNoteSkin = PlayerMods:NoteSkin()
@@ -52,14 +66,6 @@ local t = Def.ActorFrame {
         -- Hyphens will break string searching, we need to remove them and any anything else that could break
         if string.match(string.gsub(OptionsNoteskin, "%p", ""), string.gsub(CurNoteSkin, "%p", "")) ~= nil then
             removeFirst(PlayerModsArray, CurNoteSkin)
-        end
-        
-        -- 1x is not included in the engine list by default, so we need to do... this. Ew.
-        if (PlayerMods:XMod() == 1 and 
-            PlayerMods:MMod() == nil and 
-            PlayerMods:CMod() == nil and 
-            PlayerMods:AMod() == nil) then
-            table.insert(PlayerModsArray, 1, "1x")
         end
         
         -- The following are Lua mods not contained in the engine's PlayerOptions

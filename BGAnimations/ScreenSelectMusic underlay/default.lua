@@ -17,6 +17,21 @@ t[#t+1] = Def.Quad {
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
+        Def.Actor {
+            OffCommand=function(self)
+                local AV = tonumber(LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini"))
+                if AV ~= 0 then
+                    local BPM = GAMESTATE:GetCurrentSong():GetDisplayBpms()[2]
+                    if GAMESTATE:GetCurrentSong():IsDisplayBpmRandom() or BPM == 0 then 
+                        GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):MMod(AV)
+                    else
+                        AV = AV / math.ceil(BPM)
+                        GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):XMod(AV)
+                    end
+                end
+            end
+        },
+        
         LoadActor("../ModIcons", pn) .. {
             InitCommand=function(self)
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 160)
