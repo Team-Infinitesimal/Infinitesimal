@@ -3,11 +3,15 @@ local pn = ...
 local t = Def.ActorFrame {
 	OnCommand=function(self)
 		if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
-			local stepsType = GAMESTATE:GetCurrentStyle():GetStepsType()
-			local pos = ((stepsType == "StepsType_Pump_Double" or stepsType == "StepsType_Pump_Halfdouble") and SCREEN_CENTER_X
-									or THEME:GetMetric(Var "LoadingScreen","Player".. ToEnumShortString(pn) .."OnePlayerOneSideX"))
-			self:xy(pos, SCREEN_BOTTOM - 20)
-			self:GetChild("Username"):settext( PROFILEMAN:GetProfile(pn):GetDisplayName() )
+            local IsDouble = (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides")
+            local IsCenter = (IsDouble or Center1Player() or GAMESTATE:GetIsFieldCentered(pn))
+            local PosX = IsCenter and SCREEN_CENTER_X or THEME:GetMetric(Var "LoadingScreen", "Player" .. ToEnumShortString(pn) .. "OnePlayerOneSideX")
+
+            local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0
+            local PosY = IsReverse and 20 or SCREEN_BOTTOM - 20
+    
+			self:xy(PosX, PosY)
+			self:GetChild("Username"):settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
 		end
 	end,
 

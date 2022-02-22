@@ -165,11 +165,9 @@ local function inputs(event)
 			CloseWheel()
 		elseif button == "DownLeft" or button == "MenuLeft"or button == "Left" then
 			scroller:scroll_by_amount(-1)
-			SOUND:PlayOnce(THEME:GetPathS("MusicWheel", "change"), true);
 			MESSAGEMAN:Broadcast("PreviousGroup") --If you have arrows or graphics on the screen and you only want them to respond when left or right is pressed.
 		elseif button == "DownRight" or button == "MenuRight" or button == "Right" then
 			scroller:scroll_by_amount(1)
-			SOUND:PlayOnce(THEME:GetPathS("MusicWheel", "change"), true);
 			MESSAGEMAN:Broadcast("NextGroup")
 		elseif button == "Back" then
             SCREENMAN:set_input_redirected(PLAYER_1, false)
@@ -270,10 +268,18 @@ t[#t+1] = Def.Quad {
 	end
 }
 
-t[#t+1] = LoadActor(THEME:GetPathS("","Common Start"))..{
-	StartSelectingSongMessageCommand=function(self)
-		self:play()
-	end
+t[#t+1] = Def.ActorFrame {
+    Def.Sound {
+        File=THEME:GetPathS("Common", "Start"),
+        IsAction=true,
+        StartSelectingSongMessageCommand=function(self) self:play() end
+    },
+    Def.Sound {
+        File=THEME:GetPathS("MusicWheel", "change"),
+        IsAction=true,
+        PreviousGroupMessageCommand=function(self) self:play() end,
+        NextGroupMessageCommand=function(self) self:play() end
+    },
 }
 
 t[#t+1] = scroller:create_actors("foo", numWheelItems, item_mt, FrameX, FrameY)

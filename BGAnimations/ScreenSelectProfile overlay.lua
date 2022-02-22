@@ -280,16 +280,19 @@ local t = Def.ActorFrame {
 		-- Sounds!
 		Def.Sound {
             File=THEME:GetPathS("Common", "start"),
+            IsAction=true,
 			StartButtonMessageCommand=function(self) self:play() end
 		},
         
 		Def.Sound {
             File=THEME:GetPathS("Common", "cancel"),
+            IsAction=true,
 			BackButtonMessageCommand=function(self) self:play() end
 		},
         
 		Def.Sound {
             File=THEME:GetPathS("Common", "value"),
+            IsAction=true,
 			DirectionButtonMessageCommand=function(self) self:play() end
 		}
 	}
