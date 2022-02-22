@@ -22,7 +22,7 @@ Since this theme is currently on a rolling release, we highly recommend download
 ## Theme Features
 * Support for "Superb" judgments with advanced timing windows
 * Infinity-style Command Window
-* Various speed mod options (X, C, M and A)
+* Speed mods and Auto Velocity
 * Various Judgements (NJ, HJ, VJ, Infinity, ITG...)
 * BGA OFF + BGA Dark with adjustable levels
 * In-game timing deviation, score, measures and song progress display...
