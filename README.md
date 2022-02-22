@@ -1,6 +1,6 @@
 # Infinitesimal - an Infinity-inspired OutFox theme
 
-![logo](https://raw.githubusercontent.com/dj505/Infinitesimal/rewrite/Graphics/Logo/Logo%20(doubleres).png)
+![logo](https://raw.githubusercontent.com/dj505/Infinitesimal/main/Graphics/Logo/Logo%20(doubleres).png)
 
 ## [Discord server is now available for more development insights and discussion!](https://discord.gg/ex6e4jNm6s)
 
