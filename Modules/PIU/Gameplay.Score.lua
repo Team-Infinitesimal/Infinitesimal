@@ -13,14 +13,20 @@ return function(Player)
 		end
 		return count
 	end
+    
+    local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings", "Save/OutFoxPrefs.ini")
+    local PumpTiming = string.find(CurPrefTiming, "Pump")
+    local TNSGreat = "TapNoteScore_W" .. (PumpTiming and "2" or "3")
+    local TNSGood = "TapNoteScore_W" .. (PumpTiming and "3" or "4")
+    local TNSBad = "TapNoteScore_W" .. (PumpTiming and "4" or "5")
 
-	local TapNoteScorePoints = {
+	local TNSPoints = {
 		TapNoteScore_CheckpointHit = 1000,
-		TapNoteScore_W1 = 1000,
-        TapNoteScore_W2 = 1000,
-		TapNoteScore_W3 = 500,
-		TapNoteScore_W4 = 100,
-		TapNoteScore_W5 = -200,
+		TapNoteScore_W1 = PumpTiming and 1000 or 1200, -- Infinity Superb uses 1200
+        TapNoteScore_W2 = PumpTiming and 500 or 1000,
+		TapNoteScore_W3 = PumpTiming and 100 or 500,
+		TapNoteScore_W4 = PumpTiming and -200 or 100,
+		TapNoteScore_W5 = PumpTiming and 0 or -200, -- Unused in Pump timing
 		TapNoteScore_Miss = -500,
 		TapNoteScore_CheckpointMiss = -300,
 		TapNoteScore_None =	0,
@@ -33,8 +39,6 @@ return function(Player)
 	local LevelConstant = 1
 	local CurrentCombo = 0
 	local MaxCombo = 0
-
-	local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings", "Save/OutFoxPrefs.ini")
 
 	return Def.Actor {
 		InitCommand=function(self)
@@ -84,10 +88,9 @@ return function(Player)
 			local State = GAMESTATE:GetPlayerState(Player)
 			local PSS = CSS:GetPlayerStageStats(Player)
 			
-			local Perfects 	= 	PSS:GetTapNoteScores("TapNoteScore_W1")
-			local Greats 	= 	PSS:GetTapNoteScores("TapNoteScore_W2")
-			local Goods 	= 	PSS:GetTapNoteScores("TapNoteScore_W3")
-			local Bads 		= 	PSS:GetTapNoteScores("TapNoteScore_W4")
+			local Greats 	= 	PSS:GetTapNoteScores(TNSGreat)
+			local Goods 	= 	PSS:GetTapNoteScores(TNSGood)
+			local Bads 		= 	PSS:GetTapNoteScores(TNSBad)
 			local Misses 	= 	PSS:GetTapNoteScores("TapNoteScore_Miss") +
 								PSS:GetTapNoteScores("TapNoteScore_CheckpointMiss")
 			
@@ -102,10 +105,12 @@ return function(Player)
 				if TapNote and TapNote:GetTapNoteType() ~= "TapNoteType_HoldTail" then
 					CurrentCombo = CurrentCombo
 				else
-					if (TapNoteScore <= "TapNoteScore_W4" and TapNoteScore >= "TapNoteScore_W1") or TapNoteScore == "TapNoteScore_CheckpointHit" then
+					if (TapNoteScore <= TNSGreat and TapNoteScore >= "TapNoteScore_W1") or TapNoteScore == "TapNoteScore_CheckpointHit" then
 						CurrentCombo = CurrentCombo + 1
 						MaxCombo = CurrentCombo
-					else
+					elseif TapNoteScore == TNSGood then
+                        CurrentCombo = CurrentCombo
+                    else
 						CurrentCombo = 0
 					end
 				end
@@ -122,9 +127,9 @@ return function(Player)
 				end
 				
 				local ComboScore = 0
-				local NoteScore = TapNoteScorePoints[TapNoteScore]
+				local NoteScore = TNSPoints[TapNoteScore]
 				
-				if TapNoteScore <= "TapNoteScore_W4" then
+				if TapNoteScore <= TNSGreat then
 					-- Add bonus above 50 combo
 					if CurrentCombo > 50 then ComboScore = 1000 end
 					NoteScore = NoteScore + ComboScore

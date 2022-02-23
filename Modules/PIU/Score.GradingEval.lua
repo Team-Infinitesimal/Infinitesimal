@@ -2,11 +2,18 @@
 -- and GetMaxCombo becoming MaxCombo when retrieving a score. Thanks StepMania devs
 
 return function(PlayerScore)
-    local Superbs 	= PlayerScore:GetTapNoteScores("TapNoteScore_W1")
-    local Perfects 	= PlayerScore:GetTapNoteScores("TapNoteScore_W2")
-    local Greats 	= PlayerScore:GetTapNoteScores("TapNoteScore_W3")
-    local Goods 	= PlayerScore:GetTapNoteScores("TapNoteScore_W4")
-    local Bads	 	= PlayerScore:GetTapNoteScores("TapNoteScore_W5")
+    local CurPrefTiming = LoadModule("Config.Load.lua")("SmartTimings", "Save/OutFoxPrefs.ini")
+    local PumpTiming = string.find(CurPrefTiming, "Pump")
+    local TNSPerfect = "TapNoteScore_W" .. (PumpTiming and "1" or "2")
+    local TNSGreat = "TapNoteScore_W" .. (PumpTiming and "2" or "3")
+    local TNSGood = "TapNoteScore_W" .. (PumpTiming and "3" or "4")
+    local TNSBad = "TapNoteScore_W" .. (PumpTiming and "4" or "5")
+    
+    local Superbs 	= PumpTiming and 0 or PlayerScore:GetTapNoteScores("TapNoteScore_W1")
+    local Perfects 	= PlayerScore:GetTapNoteScores(TNSPerfect)
+    local Greats 	= PlayerScore:GetTapNoteScores(TNSGreat)
+    local Goods 	= PlayerScore:GetTapNoteScores(TNSGood)
+    local Bads	 	= PlayerScore:GetTapNoteScores(TNSBad)
     local Misses 	= PlayerScore:GetTapNoteScores("TapNoteScore_Miss") +
                       PlayerScore:GetTapNoteScores("TapNoteScore_CheckpointMiss")
     local MaxCombo	= PlayerScore:MaxCombo()  
