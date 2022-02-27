@@ -61,24 +61,14 @@ return {
 		Default = THEME:GetMetric("Common","DefaultJudgment"),
 		Choices = LoadModule("Options.SmartJudgeChoices.lua")(),
 		Values = LoadModule("Options.SmartJudgeChoices.lua")("Value"),
-        ReloadRowMessages = { "ReloadJudgments" },
-        Reload = function(self)
-            SCREENMAN:SystemMessage("Reloading SmartJudgments!")
-			self.Choices = LoadModule("Options.SmartJudgeChoices.lua")()
-            self.ChoiceVals = LoadModule("Options.SmartJudgeChoices.lua")("Value")
-			return "ReloadChanged_All"
-		end
 	},
 	SmartTimings =
 	{
-		SaveSelections = {"SmartJudgments", LoadModule("Options.SmartJudgeChoices.lua")},
+		GenForOther = {"SmartJudgments", LoadModule("Options.SmartJudgeChoices.lua")},
 		GenForUserPref = true,
 		Default = InfTimingModes[3], -- Pump Normal is now our standard
 		Choices = InfTimingModes,
 		Values = InfTimingModes,
-        NotifyOfSelection = function(self, pn, choice)
-            MESSAGEMAN:Broadcast("ReloadJudgments")
-        end
 	},
 	LuaNoteSkins =
 	{

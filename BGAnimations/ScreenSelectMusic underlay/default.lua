@@ -20,7 +20,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         Def.Actor {
             OffCommand=function(self)
                 local AV = tonumber(LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini"))
-                if AV ~= 0 then
+                if AV and AV ~= 0 then
                     local BPM = GAMESTATE:GetCurrentSong():GetDisplayBpms()[2]
                     if GAMESTATE:GetCurrentSong():IsDisplayBpmRandom() or BPM == 0 then 
                         GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):MMod(AV)
