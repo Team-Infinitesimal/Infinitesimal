@@ -68,6 +68,13 @@ local t = Def.ActorFrame {
             removeFirst(PlayerModsArray, CurNoteSkin)
         end
         
+        -- Translate all strings that come after speed mods
+        for i = 2, #PlayerModsArray do
+            local ModText = THEME:GetString("ModIcons", PlayerModsArray[i])
+            -- Only override strings if translations are available
+            if ModText ~= "" then PlayerModsArray[i] = ModText end
+        end
+        
         -- The following are Lua mods not contained in the engine's PlayerOptions
         -- BGA darkness
         local BGAFilter = LoadModule("Config.Load.lua")("ScreenFilter",CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or 0
@@ -91,13 +98,6 @@ local t = Def.ActorFrame {
             if RushAmount ~= 100 then
                 table.insert(PlayerModsArray, THEME:GetString("ModIcons", "Rush") .. "\n" .. RushAmount)
             end
-        end
-        
-        -- Translate all strings that come after speed mods and BGA filter
-        for i = (BGAFilter ~= 0 and 3 or 2), #PlayerModsArray do
-            local ModText = THEME:GetString("ModIcons", PlayerModsArray[i])
-            -- Only override strings if translations are available
-            if ModText ~= "" then PlayerModsArray[i] = ModText end
         end
         
         -- Populate all of the available icons
