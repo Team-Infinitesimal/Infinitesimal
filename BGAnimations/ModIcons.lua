@@ -68,27 +68,26 @@ local t = Def.ActorFrame {
             removeFirst(PlayerModsArray, CurNoteSkin)
         end
         
-        -- Translate all strings that come after speed mods
+        -- Timing mode
+        local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+        -- We don't want to display NJ!
+        if TimingMode and TimingMode ~= "Pump Normal" then
+            table.insert(PlayerModsArray, TimingMode)
+        end
+        
+        -- Translate all strings so far but speed mods
         for i = 2, #PlayerModsArray do
             local ModText = THEME:GetString("ModIcons", PlayerModsArray[i])
             -- Only override strings if translations are available
             if ModText ~= "" then PlayerModsArray[i] = ModText end
         end
         
-        -- The following are Lua mods not contained in the engine's PlayerOptions
         -- BGA darkness
         local BGAFilter = LoadModule("Config.Load.lua")("ScreenFilter",CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or 0
         -- Increase the value so that we can use it as percentage
         BGAFilter = round(BGAFilter * 100)
         if BGAFilter ~= 0 then
             table.insert(PlayerModsArray, 2, THEME:GetString("ModIcons", "Filter") .. " " .. (BGAFilter == 100 and "Off" or BGAFilter .. "%"))
-        end
-        
-        -- Timing mode
-        local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
-        -- We don't want to display NJ!
-        if TimingMode and TimingMode ~= "Pump Normal" then
-            table.insert(PlayerModsArray, TimingMode)
         end
         
         -- Music rate
