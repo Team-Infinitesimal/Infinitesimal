@@ -7,8 +7,6 @@
 ## About Infinitesimal
 This theme aims to be a spiritual successor to Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilizing original assets when possible, and bringing high performance + cross-platform support to the table with Project OutFox.
 
-**It is important to state that we do not condone the usage of Pay Mode or the removal of the credits on this theme. If such things are done, we will unfortunately start to block off bits of source code or give up on the project altogether.**
-
 ## Requirements
 * [Project OutFox-5.3.0-alpha.4.13.0 or newer](https://projectoutfox.com/downloads)
 

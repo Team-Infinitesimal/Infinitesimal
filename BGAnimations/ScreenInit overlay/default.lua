@@ -136,7 +136,7 @@ return Def.ActorFrame {
     -- customtexturerect() practice, looks cool tho so I'm keeping it
     Def.Sprite {
       Name="Scanlines",
-      Texture="Scanline",
+      Texture=THEME:GetPathG("", "Scanline"),
         InitCommand=function(self)
             self:customtexturerect(0,0,SCREEN_WIDTH*4/16,SCREEN_HEIGHT*4/16)
             :zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()

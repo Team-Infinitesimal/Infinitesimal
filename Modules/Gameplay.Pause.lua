@@ -61,12 +61,28 @@ local Selections = Def.ActorFrame{
 		-- As this process is starting, we'll already highlight the first option with the color.
 		self:GetChild(1):playcommand("GainFocus")
 	end,
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "UI/CardBackground"),
+    Def.Quad {
+				Name="Background",
         InitCommand=function(self)
-            self:zoomx(0.5):zoomy(0.3)
+            self:diffuse(0.1, 0.1, 0.1, 1)
+						:diffusetopedge(0.2, 0.2, 0.2, 1)
+						:zoomto(250, 180)
         end,
-    }
+    },
+		Def.Quad {
+				Name="Top",
+				InitCommand=function(self)
+						self:valign(1):zoomto(250, 60):y(-90)
+						self:diffuse(color("#ab78f5")):diffusebottomedge(color("#1fbcff"))
+				end
+		},
+		Def.BitmapText {
+				Font="Montserrat Extrabold 40px",
+				InitCommand=function(self)
+						self:skewx(-0.2):settext("PAUSED")
+						:y(-120)
+				end
+		}
 }
 
 local function ChangeSel(self,offset)
@@ -76,7 +92,7 @@ local function ChangeSel(self,offset)
 	CurSel = CurSel + offset
 	if CurSel < 1 then CurSel = 1 end
 	if CurSel > #Choices then CurSel = #Choices end
-	
+
 	for i = 1,#Choices do
 		self:GetChild("Selections"):GetChild(i):playcommand(i == CurSel and "GainFocus" or "LoseFocus")
 	end
@@ -97,8 +113,8 @@ for i,v in ipairs(Choices) do
             Font="Montserrat semibold 20px",
             Text=THEME:GetString("PauseMenu", v.Name),
             InitCommand=function(self) self:y(-80+(40*i)):strokecolor(Color.Black):playcommand("LoseFocus") end,
-            LoseFocusCommand=function(self) self:diffuse(Color.Black) end,
-            GainFocusCommand=function(self) self:diffuse(Color.Red) end
+            LoseFocusCommand=function(self) self:diffuse(0.8, 0.8, 0.8, 1) end,
+            GainFocusCommand=function(self) self:diffuse(Color.White) end
         }
     }
 end
@@ -106,20 +122,21 @@ end
 return Def.ActorFrame{
 	OnCommand=function(self)
 		SCREENMAN:GetTopScreen():AddInputCallback(LoadModule("Lua.InputSystem.lua")(self))
-		self:visible(false):Center()
+		self:visible(false):xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 20)
 	end,
 	NonGameBackCommand=function(self)
-		if not Paused then 
-			SCREENMAN:GetTopScreen():PauseGame(true) 
+		if not Paused then
+			SCREENMAN:GetTopScreen():PauseGame(true)
 			ChangeSel(self,0)
-			self:visible(true)
+			self:diffusealpha(0):visible(true)
+			self:easeoutquad(0.5):diffusealpha(1):y(SCREEN_CENTER_Y)
 		end
 		Paused = true
 	end,
 	StartCommand=function(self)
-		if Paused then 
+		if Paused then
 			Choices[CurSel].Action( SCREENMAN:GetTopScreen() )
-			self:visible(false) 
+			self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 20):visible(false)
 		end
 		Paused = false
 	end,
