@@ -4,9 +4,9 @@
 -- current issues will be resolved in the near future
 -- to allow more timing windows to be utilized.
 
-InfTimingWindow = {}
+TimingWindow = {}
 
-InfTimingWindow[#InfTimingWindow+1] = function()
+TimingWindow[#TimingWindow+1] = function()
 	return {
 		Name = "Original",
 		Timings = {
@@ -40,7 +40,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
 	}
 end
 
-InfTimingWindow[#InfTimingWindow+1] = function()
+TimingWindow[#TimingWindow+1] = function()
 	return {
 		Name = "ITG",
 		Timings = {
@@ -87,7 +87,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
 	}
 end
 
-InfTimingWindow[#InfTimingWindow+1] = function()
+TimingWindow[#TimingWindow+1] = function()
 	return {
 		Name = "Pump Normal",
 		Timings = {
@@ -137,7 +137,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
 	}
 end
 
-InfTimingWindow[#InfTimingWindow+1] = function()
+TimingWindow[#TimingWindow+1] = function()
 	return {
 		Name = "Pump Hard",
 		Timings = {
@@ -187,7 +187,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
 	}
 end
 
-InfTimingWindow[#InfTimingWindow+1] = function()
+TimingWindow[#TimingWindow+1] = function()
 	return {
 		Name = "Pump Very Hard",
 		Timings = {
@@ -237,7 +237,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
 	}
 end
 
-InfTimingWindow[#InfTimingWindow+1] = function()
+TimingWindow[#TimingWindow+1] = function()
 	return {
 		Name = "Infinity",
 		Timings = {
@@ -291,7 +291,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
     }
 end
 
-InfTimingWindow[#InfTimingWindow+1] = function()
+TimingWindow[#TimingWindow+1] = function()
 	return {
 		Name = "Pro",
 		Timings = {
@@ -343,7 +343,7 @@ InfTimingWindow[#InfTimingWindow+1] = function()
     }
 end
 
-InfTimingWindow[#InfTimingWindow+1] = function()
+TimingWindow[#TimingWindow+1] = function()
 	return {
 		Name = "Jump",
 		Timings = {
@@ -391,8 +391,8 @@ InfTimingWindow[#InfTimingWindow+1] = function()
     }
 end
 
-function GetWindowSeconds(InfTimingWindow, Scale, Add)
-	local fSecs = InfTimingWindow
+function GetWindowSeconds(TimingWindow, Scale, Add)
+	local fSecs = TimingWindow
 	fSecs = fSecs * (Scale or 1.0) -- Timing Window Scale
 	fSecs = fSecs + (Add or 0) --Timing Window Add
 	return fSecs
@@ -402,10 +402,10 @@ end
 -- Timing Call Definitions. -- Dont edit below this line - Jous
 ------------------------------------------------------------------------------
 
-InfTimingModes = {}
-for i,v in ipairs(InfTimingWindow) do
-	local TW = InfTimingWindow[i]()
-	table.insert(InfTimingModes,TW.Name)
+TimingModes = {}
+for i,v in ipairs(TimingWindow) do
+	local TW = TimingWindow[i]()
+	table.insert(TimingModes,TW.Name)
 end
 
 function TimingOrder(TimTab)

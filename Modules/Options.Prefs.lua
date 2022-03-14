@@ -64,11 +64,11 @@ return {
 	},
 	SmartTimings =
 	{
-		GenForOther = {"SmartJudgments", LoadModule("Options.SmartJudgeChoices.lua")},
+		--GenForOther = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
 		GenForUserPref = true,
-		Default = InfTimingModes[3], -- Pump Normal is now our standard
-		Choices = InfTimingModes,
-		Values = InfTimingModes,
+		Default = TimingModes[3],
+		Choices = TimingModes,
+		Values = TimingModes
 	},
 	LuaNoteSkins =
 	{
