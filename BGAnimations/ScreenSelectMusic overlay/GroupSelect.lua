@@ -86,6 +86,8 @@ local item_mt= {
         local OffsetFromCenter = ItemIndex - math.floor(NumItems / 2)
         local Spacing = math.abs(math.sin(OffsetFromCenter / math.pi))
 
+				self.container:zbuffer(true) -- Fix overlapping
+
         self.container:stoptweening():decelerate(.25)
         -- This is required to prevent items flickering when looping around the wheel
         self.container:visible(math.abs(OffsetFromCenter) <= 4 and true or false)
