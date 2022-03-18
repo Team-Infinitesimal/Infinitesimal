@@ -27,7 +27,7 @@ for i=1,4 do
 		InitCommand=function(self)
 			self:Center()
 			:zoom(1 + i / 8)
-			:texcoordvelocity(math.random(-3, 3) / 10, 0)
+			:texcoordvelocity((math.random(-3, 3) / 10) + 0.05, 0) -- bad hack to make sure the X velocity is 0 less often
 			:diffusealpha(0.25)
 		end
 	}

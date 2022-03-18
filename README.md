@@ -28,6 +28,7 @@ Since this theme is currently on a rolling release, we highly recommend download
 * Chart preview on the song selection screen
 * Note density graph as part of chart info
 * Arcade-accurate lifebar, timing windows, and scoring
+* Exit back to the title screen during event mode by pressing and holding either red arrow
 
 ![image](https://i.imgur.com/5ReEFYB.png)
 ![image](https://i.imgur.com/Hn5km7q.png)

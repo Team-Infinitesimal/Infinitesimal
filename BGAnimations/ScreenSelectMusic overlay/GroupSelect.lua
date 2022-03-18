@@ -63,7 +63,7 @@ local item_mt= {
 			Def.BitmapText {
 				Name="Text",
 				Font="Common normal",
-				InitCommand=function(self) 
+				InitCommand=function(self)
 					self:zoom(1):addy(64)
 					:maxwidth(200 / self:GetZoom())
                     --:maxheight(150):wrapwidthpixels(200 / self:GetZoom())
@@ -71,7 +71,7 @@ local item_mt= {
 			},
             Def.Sprite {
 				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
-                InitCommand=function(self) 
+                InitCommand=function(self)
 					self:zoom(1.25)
 				end
 			}
@@ -82,18 +82,18 @@ local item_mt= {
 	-- item_index is the index in the list, ranging from 1 to num_items.
 	-- is_focus is only useful if the disable_wrapping flag in the scroller is
 	-- set to false.
-	transform=function(self, ItemIndex, NumItems, IsFocus) 
+	transform=function(self, ItemIndex, NumItems, IsFocus)
         local OffsetFromCenter = ItemIndex - math.floor(NumItems / 2)
         local Spacing = math.abs(math.sin(OffsetFromCenter / math.pi))
-        
+
         self.container:stoptweening():decelerate(.25)
         -- This is required to prevent items flickering when looping around the wheel
         self.container:visible(math.abs(OffsetFromCenter) <= 4 and true or false)
-        
+
         self.container:x(OffsetFromCenter * (300 - Spacing * 100))
         self.container:rotationy(clamp(OffsetFromCenter * 36, -85, 85))
         self.container:z(-math.abs(OffsetFromCenter))
-        
+
         self.container:zoom(clamp(1.1 - (math.abs(OffsetFromCenter) / 3), 0.8, 1.1))
     end,
 	-- info is one entry in the info set that is passed to the scroller.
@@ -139,7 +139,7 @@ local function OpenWheel()
 	--Remember how when you close the wheel the item gets zoomed in? This zooms it back out.
 	local curItem = scroller:get_actor_item_at_focus_pos()
 	curItem.container:GetChild("Banner"):stoptweening():diffusealpha(1)
-	
+
 	--Optional. Mute the music currently playing.
 	--SOUND:DimMusic(0,65536);
 
@@ -150,17 +150,30 @@ end
 --And now, our input handler for the wheel we wrote, so we can actually move the wheel.
 local isSelectingDifficulty = false --You'll need this for later if you're using a TwoPartSelect.
 
+local count = 0 -- Used for InputEventType_Repeat
 local function inputs(event)
-    local pn= event.PlayerNumber
+  local pn= event.PlayerNumber
 	local button = event.button
-	
+
 	-- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
 	--Also we only want it to activate when they're NOT selecting the difficulty.
 	if not pn then return end
 	-- If it's a release, ignore it.
-	if event.type == "InputEventType_Release" then return end
-	
-	if SCREENMAN:get_input_redirected(pn) then 
+	if event.type == "InputEventType_Release" then count = 0 MESSAGEMAN:Broadcast("ExitTickDown") return end
+
+	if event.type == "InputEventType_Repeat" then
+		if button == "UpLeft" or button == "UpRight" then
+			count = count + 1
+			MESSAGEMAN:Broadcast("ExitTickUp")
+			if count == 15 then
+				SCREENMAN:set_input_redirected(PLAYER_1, false)
+				SCREENMAN:set_input_redirected(PLAYER_2, false)
+				SCREENMAN:GetTopScreen():Cancel()
+			end
+		end
+	end
+
+	if SCREENMAN:get_input_redirected(pn) then
 		if button == "Center" or button == "Start" then
 			CloseWheel()
 		elseif button == "DownLeft" or button == "MenuLeft"or button == "Left" then
@@ -169,6 +182,8 @@ local function inputs(event)
 		elseif button == "DownRight" or button == "MenuRight" or button == "Right" then
 			scroller:scroll_by_amount(1)
 			MESSAGEMAN:Broadcast("NextGroup")
+		elseif button == "UpRight" or button == "UpLeft" then
+			MESSAGEMAN:Broadcast("ExitPressed")
 		elseif button == "Back" then
             SCREENMAN:set_input_redirected(PLAYER_1, false)
             SCREENMAN:set_input_redirected(PLAYER_2, false)
@@ -190,7 +205,7 @@ local t = Def.ActorFrame{
 		ScreenSelectMusic = SCREENMAN:GetTopScreen()
         	--Remember when we created the array song_groups? Here we finally use it.
 		scroller:set_info_set(song_groups, 1)
-	
+
         	--Scroll the wheel to the correct song group.
 		local curGroup = GAMESTATE:GetCurrentSong():GetGroupName()
 		for key,value in pairs(song_groups) do
@@ -206,7 +221,7 @@ local t = Def.ActorFrame{
 		SCREENMAN:set_input_redirected(PLAYER_2, false)
 		isPickingDifficulty = false
 	end,
-	
+
     OffCommand=function(self)
 		SCREENMAN:set_input_redirected(PLAYER_1, false)
 		SCREENMAN:set_input_redirected(PLAYER_2, false)
@@ -217,10 +232,10 @@ local t = Def.ActorFrame{
 	SongChosenMessageCommand=function(self)
 		isPickingDifficulty = true
 	end,
-	
+
 	TwoPartConfirmCanceledMessageCommand=function(self)self:queuecommand("PickingSong")end,
 	SongUnchosenMessageCommand=function(self)self:queuecommand("PickingSong")end,
-	
+
 	PickingSongCommand=function(self)
 		isPickingDifficulty = false
 	end,
@@ -233,12 +248,12 @@ local t = Def.ActorFrame{
 			-- Open the wheel, silly
 			OpenWheel()
 		end
-    end,
-	
+  end,
+
     OpenGroupWheelMessageCommand=function(self)
 		OpenWheel()
 	end,
-    
+
     StartSelectingGroupMessageCommand=function(self)
 		self:stoptweening():easeoutquint(0.5):diffusealpha(1)
 	end,
@@ -254,13 +269,13 @@ t[#t+1] = Def.Quad {
 		:zoomto(SCREEN_WIDTH,SCREEN_HEIGHT*2)
 		:diffuse(0,0,0,0)
 	end,
-	
+
 	StartSelectingGroupMessageCommand=function(self)
 		self:stoptweening()
 		:decelerate(0.25)
 		:diffusealpha(0.75)
 	end,
-	
+
 	StartSelectingSongMessageCommand=function(self)
 		self:stoptweening()
 		:decelerate(0.25)
@@ -283,6 +298,70 @@ t[#t+1] = Def.ActorFrame {
 }
 
 t[#t+1] = scroller:create_actors("foo", numWheelItems, item_mt, FrameX, FrameY)
+
+t[#t+1] = Def.ActorFrame {
+
+	Def.BitmapText {
+		Font="Montserrat semibold 20px",
+		Name="ExitText",
+		InitCommand=function(self)
+			self:diffusealpha(0)
+			:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 125)
+			:settext("Exiting...")
+		end,
+		ExitPressedMessageCommand=function(self)
+			self:stoptweening():sleep(0.1)
+			:linear(0.25)
+			:diffusealpha(1)
+		end,
+		ExitTickDownMessageCommand=function(self)
+			self:stoptweening()
+			:easeoutexpo(0.25)
+			:diffusealpha(0)
+		end
+	},
+
+	Def.Quad {
+		Name="ExitBar",
+		InitCommand=function(self)
+			self:zoomto(200,15)
+			:cropright(1)
+			:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 100)
+			:diffuse(color("#f7931e")):diffusebottomedge(color("#ed1e79"))
+		end,
+		ExitTickUpMessageCommand=function(self)
+			self:stoptweening()
+			:linear(0.1)
+			:cropright(1 - (count + 1) / 15)
+		end,
+		ExitTickDownMessageCommand=function(self)
+			self:stoptweening()
+			:easeoutexpo(0.25)
+			:cropright(1)
+		end
+	},
+
+	Def.Quad {
+		Name="ExitBarEnd",
+		InitCommand=function(self)
+			self:zoomto(5,15)
+			:xy(SCREEN_CENTER_X - 100, SCREEN_CENTER_Y - 100)
+			:diffuse(1,1,1,0)
+		end,
+		ExitPressedMessageCommand=function(self)
+			self:sleep(0.2)
+			:diffusealpha(1)
+			:easeoutquad(0.5)
+			:x(SCREEN_CENTER_X + 100)
+		end,
+		ExitTickDownMessageCommand=function(self)
+			self:stoptweening()
+			:easeoutquad(0.25)
+			:diffusealpha(0)
+			:x(SCREEN_CENTER_X - 100)
+		end
+	}
+}
 
 --Don't forget this at the end of your lua file.
 return t
