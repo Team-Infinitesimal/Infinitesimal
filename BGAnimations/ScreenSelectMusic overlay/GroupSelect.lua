@@ -57,22 +57,23 @@ local item_mt= {
             },
             --And probably more important, the banner for the group icons to be displayed.
 			Def.Sprite {
-				Name="Banner"
+				Name="Banner",
+                InitCommand=function(self) self:z(1) end
 			},
             --A text actor for the group names to be displayed.
 			Def.BitmapText {
 				Name="Text",
 				Font="Common normal",
 				InitCommand=function(self)
-					self:zoom(1):addy(64)
-					:maxwidth(200 / self:GetZoom())
+					self:zoom(1):addy(64):z(2)
+					:maxwidth(256 / self:GetZoom())
                     --:maxheight(150):wrapwidthpixels(200 / self:GetZoom())
 				end
 			},
             Def.Sprite {
 				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
                 InitCommand=function(self)
-					self:zoom(1.25)
+					self:zoom(1.25):z(3)
 				end
 			}
 		}
@@ -86,7 +87,7 @@ local item_mt= {
         local OffsetFromCenter = ItemIndex - math.floor(NumItems / 2)
         local Spacing = math.abs(math.sin(OffsetFromCenter / math.pi))
 
-				self.container:zbuffer(true) -- Fix overlapping
+        self.container:zbuffer(true) -- Fix overlapping
 
         self.container:stoptweening():decelerate(.25)
         -- This is required to prevent items flickering when looping around the wheel
