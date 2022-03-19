@@ -154,8 +154,10 @@ local isSelectingDifficulty = false --You'll need this for later if you're using
 
 local count = 0 -- Used for InputEventType_Repeat
 local function inputs(event)
-  local pn= event.PlayerNumber
+  local pn = event.PlayerNumber
 	local button = event.button
+	local isHome = GAMESTATE:GetCoinMode() == "CoinMode_Home"
+	local isEvent = GAMESTATE:IsEventMode()
 
 	-- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
 	--Also we only want it to activate when they're NOT selecting the difficulty.
@@ -163,14 +165,16 @@ local function inputs(event)
 	-- If it's a release, ignore it.
 	if event.type == "InputEventType_Release" then count = 0 MESSAGEMAN:Broadcast("ExitTickDown") return end
 
-	if event.type == "InputEventType_Repeat" then
-		if button == "UpLeft" or button == "UpRight" then
-			count = count + 1
-			MESSAGEMAN:Broadcast("ExitTickUp")
-			if count == 15 then
-				SCREENMAN:set_input_redirected(PLAYER_1, false)
-				SCREENMAN:set_input_redirected(PLAYER_2, false)
-				SCREENMAN:GetTopScreen():Cancel()
+	if isHome or isEvent then
+		if event.type == "InputEventType_Repeat" then
+			if button == "UpLeft" or button == "UpRight" then
+				count = count + 1
+				MESSAGEMAN:Broadcast("ExitTickUp")
+				if count == 15 then
+					SCREENMAN:set_input_redirected(PLAYER_1, false)
+					SCREENMAN:set_input_redirected(PLAYER_2, false)
+					SCREENMAN:GetTopScreen():Cancel()
+				end
 			end
 		end
 	end
@@ -185,10 +189,14 @@ local function inputs(event)
 			scroller:scroll_by_amount(1)
 			MESSAGEMAN:Broadcast("NextGroup")
 		elseif button == "UpRight" or button == "UpLeft" then
-			MESSAGEMAN:Broadcast("ExitPressed")
+			if isHome or isEvent then
+				MESSAGEMAN:Broadcast("ExitPressed")
+			else
+				return
+			end
 		elseif button == "Back" then
-            SCREENMAN:set_input_redirected(PLAYER_1, false)
-            SCREENMAN:set_input_redirected(PLAYER_2, false)
+      SCREENMAN:set_input_redirected(PLAYER_1, false)
+      SCREENMAN:set_input_redirected(PLAYER_2, false)
 			SCREENMAN:GetTopScreen():Cancel() --Because we've redirected input, we need to handle the back button ourselves instead of SM handling it. You can do whatever you want here though, like closing the wheel without picking a group.
 		else
             --Inputs not working? Uncomment this to check what they are.
