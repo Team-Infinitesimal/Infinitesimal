@@ -1,4 +1,15 @@
 local t = Def.ActorFrame {
+	OnCommand=function(self)
+		local pn = GAMESTATE:GetMasterPlayerNumber()
+		GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
+		if GAMESTATE:IsCourseMode() then
+			GAMESTATE:UpdateDiscordScreenInfo("Selecting Course", "", 1)
+		else
+			local StageIndex = GAMESTATE:GetCurrentStageIndex()
+			GAMESTATE:UpdateDiscordScreenInfo("Selecting Song (Stage " .. StageIndex+1 .. ")", "", 1)
+		end
+	end,
+	
     LoadActor("../HudPanels"),
     
     LoadActor("../CornerArrows"),
@@ -19,4 +30,3 @@ local t = Def.ActorFrame {
 }
 
 return t
-

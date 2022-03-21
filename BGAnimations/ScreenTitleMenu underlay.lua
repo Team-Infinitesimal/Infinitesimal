@@ -1,4 +1,9 @@
 local t = Def.ActorFrame {
+	OnCommand=function(self)
+		GAMESTATE:UpdateDiscordGameMode(GAMESTATE:GetCurrentGame():GetName())
+		GAMESTATE:UpdateDiscordScreenInfo("Title Menu", "", 1)
+	end,
+	
 	Def.ActorFrame {
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 20)

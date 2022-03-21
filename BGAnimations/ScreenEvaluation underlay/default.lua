@@ -9,6 +9,23 @@ local t = Def.ActorFrame {
     LoadActor("../HudPanels")
 }
 
+t[#t+1] = Def.ActorFrame {
+	OnCommand=function(self)
+		local pn = GAMESTATE:GetMasterPlayerNumber()
+		local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
+		local StepOrTrails = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(pn) or GAMESTATE:GetCurrentSteps(pn)
+		if GAMESTATE:GetCurrentSong() then
+			local details = GAMESTATE:IsCourseMode() and SongOrCourse:GetTranslitFullTitle() or (PREFSMAN:GetPreference("ShowNativeLanguage") and SongOrCourse:GetDisplayMainTitle() or SongOrCourse:GetTranslitFullTitle() .. " - " .. GAMESTATE:GetCurrentSong():GetGroupName())
+			details = string.len(details) < 128 and details or string.sub(details, 1, 124) .. "..."
+			local Difficulty = ToEnumShortString(ToEnumShortString((StepOrTrails:GetStepsType()))) .. " " .. StepOrTrails:GetMeter()
+			local Percentage = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn):GetPercentDancePoints()
+			local states = Difficulty .. " (" .. string.format( "%.2f%%", Percentage*100) .. ")"
+			GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
+			GAMESTATE:UpdateDiscordScreenInfo(details, states, 1)
+		end
+	end
+}
+
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         LoadActor("../ModIcons", pn) .. {
