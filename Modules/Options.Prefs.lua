@@ -3,8 +3,8 @@ local Rates = {
 	Str = {},
 }
 for i = 0.3, 2.01, 0.01 do
-	table.insert( Rates.Val, string.format( "%.2f",i ) )	
-	table.insert( Rates.Str, string.format( "%.2fx",i ) )	
+	table.insert( Rates.Val, string.format( "%.2f",i ) )
+	table.insert( Rates.Str, string.format( "%.2fx",i ) )
 end
 --table.insert( Rates.Str, "Haste" )
 --table.insert( Rates.Val, "haste" )
@@ -94,7 +94,7 @@ return {
 			end
 		end,
 	},
-	
+
     -- Infinitesimal mods
     ScoreDisplay =
     {
@@ -122,7 +122,13 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
-	ImagePreviewOnly = 
+		ImagePreviewOnly =
+    {
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
+		UseSelToPause = 
     {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },

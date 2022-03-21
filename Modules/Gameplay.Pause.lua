@@ -124,7 +124,7 @@ return Def.ActorFrame{
 		SCREENMAN:GetTopScreen():AddInputCallback(LoadModule("Lua.InputSystem.lua")(self))
 		self:visible(false):xy(SCREEN_CENTER_X, SCREEN_CENTER_Y + 20)
 	end,
-	NonGameBackCommand=function(self)
+	ShowPauseWindowCommand=function(self)
 		if not Paused then
 			SCREENMAN:GetTopScreen():PauseGame(true)
 			ChangeSel(self,0)
@@ -132,6 +132,14 @@ return Def.ActorFrame{
 			self:easeoutquad(0.5):diffusealpha(1):y(SCREEN_CENTER_Y)
 		end
 		Paused = true
+	end,
+	NonGameBackCommand=function(self)
+		self:playcommand("ShowPauseWindow")
+	end,
+	SelectCommand=function(self)
+		if LoadModule("Config.Load.lua")("UseSelToPause", "Save/OutFoxPrefs.ini") then
+			self:playcommand("ShowPauseWindow")
+		end
 	end,
 	StartCommand=function(self)
 		if Paused then
