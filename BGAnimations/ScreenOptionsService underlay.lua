@@ -1,4 +1,8 @@
 return Def.ActorFrame {
+    OnCommand=function(self)
+		SCREENMAN:set_input_redirected(PLAYER_1, false)
+		SCREENMAN:set_input_redirected(PLAYER_2, false)
+	end,
 
     Def.BitmapText {
         Font="VCR OSD Mono 20px",
@@ -8,5 +12,4 @@ return Def.ActorFrame {
             :settext("INFINITESIMAL\n"..string.upper(string.format("OutFox %s - %s", ProductVersion(), VersionDate())))
         end
     }
-
 }
