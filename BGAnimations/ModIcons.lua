@@ -50,7 +50,7 @@ local t = Def.ActorFrame {
         
         -- Remove unneeded strings from the blacklist, normal speed if Auto Velocity is being used and Noteskin (displayed as an icon instead)
         for i, BlacklistedMod in ipairs(PlayerModsBlacklist) do
-            if string.find(ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current")), ToLower(BlacklistedMod)) ~= nil then
+            if string.find(ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")), ToLower(BlacklistedMod)) ~= nil then
                 removeFirst(PlayerModsArray, BlacklistedMod)
             end
         end
@@ -62,7 +62,7 @@ local t = Def.ActorFrame {
         end
         
         local CurNoteSkin = PlayerMods:NoteSkin()
-        local OptionsNoteskin = ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current"))
+        local OptionsNoteskin = ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred"))
         -- Hyphens will break string searching, we need to remove them and any anything else that could break
         if string.match(string.gsub(OptionsNoteskin, "%p", ""), string.gsub(CurNoteSkin, "%p", "")) ~= nil then
             removeFirst(PlayerModsArray, CurNoteSkin)
