@@ -107,7 +107,7 @@ local t = Def.ActorFrame {
 	}
 }
 
-if not IsHome() then
+if not IsHome() and GAMESTATE:EnoughCreditsToJoin() then
     t[#t+1] = Def.ActorFrame {
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
             InitCommand=function(self) self:xy(SCREEN_CENTER_X - SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.75) end,

@@ -70,7 +70,7 @@ t[#t+1] = Def.ActorFrame {
 
         Def.BitmapText {
             Font="Montserrat semibold 40px",
-            Text=GAMESTATE:GetCurrentSteps(PLAYER_1):GetAuthorCredit() or "Unknown",
+            Text=GAMESTATE:GetCurrentSteps(PLAYER_1):GetAuthorCredit() ~= "" and GAMESTATE:GetCurrentSteps(PLAYER_1):GetAuthorCredit() or "Unknown",
             InitCommand=function(self)
                 self:xy(-146, RowH + 4):halign(1):valign(0):shadowlength(1)
                 :zoom(0.6):visible(GAMESTATE:IsSideJoined(PLAYER_1))
@@ -95,7 +95,7 @@ t[#t+1] = Def.ActorFrame {
 
         Def.BitmapText {
             Font="Montserrat semibold 40px",
-            Text=GAMESTATE:GetCurrentSteps(PLAYER_2):GetAuthorCredit() or "Unknown",
+            Text=GAMESTATE:GetCurrentSteps(PLAYER_2):GetAuthorCredit() ~= "" and GAMESTATE:GetCurrentSteps(PLAYER_2):GetAuthorCredit() or "Unknown",
             InitCommand=function(self)
                 self:xy(146, RowH + 4):halign(0):valign(0):shadowlength(1)
                 :zoom(0.6):visible(GAMESTATE:IsSideJoined(PLAYER_2))

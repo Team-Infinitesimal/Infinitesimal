@@ -147,7 +147,7 @@ for i = 1, IconAmount do
             Font="Montserrat semibold 40px",
             InitCommand=function(self)
                 self:y((i > 1 and IconH or 0) + IconH * (i - 1) - 1)
-                :zoom(0.5):vertspacing(-20)
+                :zoom(0.5):vertspacing(-20):shadowlength(1)
                 :wrapwidthpixels((IconW - 4) / self:GetZoom())
                 :maxwidth((IconW - 4) / self:GetZoom())
                 :maxheight((IconH - 4) / self:GetZoom())

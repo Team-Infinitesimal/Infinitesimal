@@ -82,7 +82,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Name="ChartInfo",
             InitCommand=function(self)
                 self:maxwidth(PanelW / self:GetZoom())
-                :vertspacing(-6)
+                :vertspacing(-6):shadowlength(1)
                 :skewx(-0.2)
                 :x(-172 + (pn == PLAYER_2 and 345 or 0))
                 :y(13)
@@ -93,7 +93,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Font="Montserrat normal 20px",
             Name="Steps",
             InitCommand=function(self)
-                self:zoom(0.75)
+                self:zoom(0.75):shadowlength(1)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
                 :x(StatsXSpacing - StatsX * 6 + PlayerX)
@@ -105,7 +105,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Font="Montserrat normal 20px",
             Name="Jumps",
             InitCommand=function(self)
-                self:zoom(0.75)
+                self:zoom(0.75):shadowlength(1)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
                 :x(StatsXSpacing - StatsX * 5 + PlayerX)
@@ -117,7 +117,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Font="Montserrat normal 20px",
             Name="Holds",
             InitCommand=function(self)
-                self:zoom(0.75)
+                self:zoom(0.75):shadowlength(1)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
                 :x(StatsXSpacing - StatsX * 4 + PlayerX)
@@ -129,7 +129,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Font="Montserrat normal 20px",
             Name="Hands",
             InitCommand=function(self)
-                self:zoom(0.75)
+                self:zoom(0.75):shadowlength(1)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
                 :x(StatsXSpacing - StatsX * 3 + PlayerX)
@@ -141,7 +141,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Font="Montserrat normal 20px",
             Name="Mines",
             InitCommand=function(self)
-                self:zoom(0.75)
+                self:zoom(0.75):shadowlength(1)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
                 :x(StatsXSpacing - StatsX * 2 + PlayerX)
@@ -153,7 +153,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Font="Montserrat normal 20px",
             Name="Rolls",
             InitCommand=function(self)
-                self:zoom(0.75)
+                self:zoom(0.75):shadowlength(1)
                 :maxwidth(96 / self:GetZoom())
                 :valign(0):vertspacing(-4)
                 :x(StatsXSpacing - StatsX + PlayerX)
@@ -165,7 +165,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             InitCommand=function(self) self:diffusealpha(1):queuecommand("ShowAMV") end,
             SongChosenMessageCommand=function(self) self:stoptweening():diffusealpha(1):queuecommand("ShowAMV") end,
 
-            ChangeStepsMessageCommand=function(self)
+            ["CurrentSteps" .. ToEnumShortString(pn) .. "ChangedMessageCommand"]=function(self)
                 self:stoptweening():diffusealpha(0)
                 if GAMESTATE:GetCurrentSong() then
                     self:sleep(PreviewDelay):queuecommand("ShowAMV")

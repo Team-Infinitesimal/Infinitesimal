@@ -23,7 +23,8 @@ local t = Def.ActorFrame {
 			Font="Montserrat normal 40px",
 			Text=ToUpper(Screen.String("HeaderText")),
 			InitCommand=function(self)
-				self:xy(-WideScale(200, 200), 40):halign(1):zoom(0.6):diffuse(Color.Black)
+				self:xy(-WideScale(200, 200), 40):halign(1):zoom(0.6)
+                :diffuse(Color.Black):shadowlength(1)
 
 				if not IsUsingWideScreen() then
                     local IsSelectMusic = self:GetText() == "SELECT MUSIC"
@@ -123,7 +124,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 					Text=PROFILEMAN:GetProfile(pn):GetDisplayName(),
 					InitCommand=function(self)
 						self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 292 or -292), SCREEN_BOTTOM - 48):zoom(0.9)
-						:maxwidth(112 / self:GetZoom()):skewx(-0.2)
+						:maxwidth(112 / self:GetZoom()):skewx(-0.2):shadowlength(1)
 
 						if PROFILEMAN:GetProfile(pn):GetDisplayName() == "" then
 							self:settext(THEME:GetString("ProfileStats", "No Profile"))
@@ -145,7 +146,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 					Text=THEME:GetString("ProfileStats", "Level") .. " " .. math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1,
 					InitCommand=function(self)
 						self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 281 or -281), SCREEN_BOTTOM - 26):zoom(0.9)
-						:maxwidth(96 / self:GetZoom()):skewx(-0.2)
+						:maxwidth(96 / self:GetZoom()):skewx(-0.2):shadowlength(1)
 					end
 				},
 
