@@ -107,8 +107,17 @@ t[#t+1] = Def.ActorFrame {
 
             self:GetChild("Title"):settext(TitleText)
             self:GetChild("Artist"):settext(AuthorText)
-            self:GetChild("Length"):settext(SecondsToMMSS(Song:MusicLengthSeconds()))
             self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
+            
+            if GAMESTATE:IsEventMode() then
+                self:GetChild("Length"):visible(true):settext(SecondsToMMSS(Song:MusicLengthSeconds()))
+                self:GetChild("HeartsIcon"):visible(false)
+                self:GetChild("Hearts"):visible(false)
+            else
+                self:GetChild("Length"):visible(false)
+                self:GetChild("HeartsIcon"):visible(true)
+                self:GetChild("Hearts"):visible(true):settext("x " .. Song:GetStageCost() * GAMESTATE:GetNumPlayersEnabled())
+            end
         else
             self:GetChild("Title"):settext("")
             self:GetChild("Artist"):settext("")
@@ -143,6 +152,29 @@ t[#t+1] = Def.ActorFrame {
             :maxwidth(FrameW * 0.2 / self:GetZoom())
             :x(FrameW / 2 - 6)
             :y(-FrameH / 2 + 6)
+        end
+    },
+
+    Def.Sprite {
+        Texture=THEME:GetPathG("", "UI/Heart"),
+        Name="HeartsIcon",
+        InitCommand=function(self)
+            self:zoom(0.35):halign(1):valign(0)
+            :x(FrameW / 2 - 54)
+            :y(-FrameH / 2 + 5)
+        end,
+    },
+    
+    Def.BitmapText {
+        Font="Montserrat semibold 40px",
+        Name="Hearts",
+        InitCommand=function(self)
+            self:zoom(0.7):halign(0):valign(0)
+            :x(FrameW / 2 - 48)
+            :y(-FrameH / 2 + 6)
+
+            local Hearts = GAMESTATE:GetNumStagesLeft(PLAYER_1) + GAMESTATE:GetNumStagesLeft(PLAYER_2)
+            self:settext("x " .. (GAMESTATE:IsEventMode() and "∞" or Hearts))
         end
     },
 
