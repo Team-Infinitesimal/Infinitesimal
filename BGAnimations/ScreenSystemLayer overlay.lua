@@ -4,6 +4,17 @@ local t = Def.ActorFrame {
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 22):shadowlength(1):queuecommand('Refresh')
 		end,
+        
+        ScreenChangedMessageCommand=function(self)
+			local Screen = SCREENMAN:GetTopScreen()
+			local IsVisible = true
+			if Screen then
+				local sClass = Screen:GetName()
+				IsVisible = THEME:GetMetric(sClass, "ShowCreditDisplay")
+			end
+            
+			self:visible(IsVisible)
+		end,
 		
 		OnCommand=function(self) self:playcommand('Refresh') end,
 		RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
