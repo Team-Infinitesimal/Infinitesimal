@@ -5,7 +5,7 @@ local t = Def.ActorFrame {
 		local pn = GAMESTATE:GetMasterPlayerNumber()
 		if GAMESTATE:GetCurrentSong() then
 			local title = PREFSMAN:GetPreference("ShowNativeLanguage") and GAMESTATE:GetCurrentSong():GetDisplayMainTitle() or GAMESTATE:GetCurrentSong():GetTranslitFullTitle()
-			local songname = title .. " - " .. GAMESTATE:GetCurrentSong():GetGroupName()
+			local songname = title .. " - " .. GAMESTATE:GetCurrentSong():GetDisplayArtist()
 			local state = GAMESTATE:IsDemonstration() and "Watching Song" or "Playing Song"
 			GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
 			local stats = STATSMAN:GetCurStageStats()
