@@ -5,6 +5,9 @@ local t = Def.ActorFrame {
 }
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
+    local peak, npst, NMeasure, mcount = LoadModule("Chart.GetNPS.lua")(GAMESTATE:GetCurrentSteps(pn))
+	GAMESTATE:Env()["ChartData" .. pn] = {peak, npst, NMeasure, mcount}
+    
 	t[#t+1] = Def.ActorFrame {
         LoadModule("PIU/Gameplay.Score.lua")(pn),
         LoadActor("NameBadge", pn)

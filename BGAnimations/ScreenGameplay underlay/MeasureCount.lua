@@ -12,7 +12,7 @@ local enabled = LoadModule("Config.Load.lua")("MeasureCounter",CheckIfUserOrMach
 local HideRestCounts = LoadModule("Config.Load.lua")("MeasureCounter",CheckIfUserOrMachineProfile(string.sub(player,-1)-1).."/OutFoxPrefs.ini") == "StreamOnly"
 local TD
 local streams, prev_measure
-local current_count, stream_index, current_stream_length = 0
+local current_count, stream_index, current_stream_length
 
 local InitializeMeasureCounter = function()
 
