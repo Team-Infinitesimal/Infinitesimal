@@ -24,7 +24,7 @@ return Def.ActorFrame {
 		Font="Montserrat semibold 40px",
 		Text=string.format("%02d", GAMESTATE:GetCurrentStageIndex() + 1),
 		InitCommand=function(self)
-			self:y(9):zoom(0.6):skewx(-0.1)
+			self:y(9):zoom(0.6):skewx(-0.1):shadowlength(1)
 		end
 	}
 }
