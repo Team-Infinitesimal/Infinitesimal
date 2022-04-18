@@ -156,7 +156,7 @@ return function(Player)
                 
 				PSS:SetScore(PlayerScore)
                 
-                MESSAGEMAN:Broadcast("UpdateScore", {Score = PlayerScore})
+                MESSAGEMAN:Broadcast("UpdateScore", {Player = Player, Score = PlayerScore})
                 
 				-- Used for debugging
 				-- SCREENMAN:SystemMessage(PlayerScore .. " - " .. NoteScore - ComboScore .. " - " .. ComboScore .. " - " .. CurrentCombo .. " - " .. LevelConstant .. " - " .. GradeBonus)

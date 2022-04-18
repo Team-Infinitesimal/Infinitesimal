@@ -141,8 +141,8 @@ local t = Def.ActorFrame {
             self:x(BarW / 2 - 10):zoom(0.8):skewx(-0.2):halign(1)
             :diffuse(Color.Yellow):shadowlength(1):playcommand("Refresh")
         end,
-        JudgmentMessageCommand=function(self)
-            if ScoreDisplay == "Percent" then
+        JudgmentMessageCommand=function(self, params)
+            if pn == params.Player and ScoreDisplay == "Percent" then
                 local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 local TotalAcc = PSS:GetCurrentPossibleDancePoints()
                 local CurrentAcc = PSS:GetActualDancePoints()
@@ -155,7 +155,7 @@ local t = Def.ActorFrame {
             end
         end,
         UpdateScoreMessageCommand=function(self, params)
-            if ScoreDisplay == "Score" then
+            if pn == params.Player and ScoreDisplay == "Score" then
                 self:settext(params.Score or 0)
             end
         end
