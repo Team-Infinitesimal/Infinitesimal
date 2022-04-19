@@ -122,13 +122,19 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
-		ImagePreviewOnly =
+    ImagePreviewOnly =
     {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
-		UseSelToPause = 
+    UseSelToPause = 
+    {
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
+    UseVideoBackground = 
     {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },

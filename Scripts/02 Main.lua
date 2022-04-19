@@ -4,6 +4,9 @@ end
 
 LoadModule("Row.Prefs.lua")(LoadModule("Options.Prefs.lua"))
 
+-- To avoid accessing the save file and introducing potential lag/stutter at every screen transition, save the setting as a global
+IsVideoBackground = LoadModule("Config.Load.lua")("UseVideoBackground", "Save/OutFoxPrefs.ini")
+
 function ChartTypeToColor(Chart)
 	local ChartMeter = Chart:GetMeter()
 	local ChartDescription = Chart:GetDescription()
