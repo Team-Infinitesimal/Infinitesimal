@@ -22,7 +22,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local AV = tonumber(LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini"))
                 if AV and AV ~= 0 then
                     local BPM = GAMESTATE:GetCurrentSong():GetDisplayBpms()[2]
-                    if GAMESTATE:GetCurrentSong():IsDisplayBpmRandom() or BPM == 0 then 
+                    if GAMESTATE:GetCurrentSong():IsDisplayBpmRandom() or BPM == 0 then
                         GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):MMod(AV)
                     else
                         AV = AV / math.ceil(BPM)
@@ -31,7 +31,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 end
             end
         },
-        
+
         LoadActor("../ModIcons", pn) .. {
             InitCommand=function(self)
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 160)
@@ -41,7 +41,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:stoptweening():easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2)
             end
         },
-		
+
 		Def.ActorFrame {
 			InitCommand=function(self)
 				self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
@@ -51,7 +51,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				self:stoptweening():easeoutexpo(1)
 				:y(-SCREEN_CENTER_Y - 100)
 			end,
-			
+
 			StepsChosenMessageCommand=function(self, params)
 				if params.Player == pn then
 					self:stoptweening():easeoutexpo(0.5)
@@ -64,11 +64,11 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			SongUnchosenMessageCommand=function(self)
 				self:stoptweening():easeoutexpo(0.5):x(SCREEN_CENTER_X)
 			end,
-			
+
 			Def.Quad {
 				InitCommand=function(self)
 					self:zoomto(128, 32):diffuse(Color.Black)
-					
+
 					if pn == PLAYER_2 then
 						self:diffuserightedge(0, 0, 0, 0)
 					else
@@ -76,13 +76,13 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 					end
 				end
 			},
-			
+
 			Def.Sprite {
 				Texture=THEME:GetPathG("", "UI/Ready" .. ToEnumShortString(pn)),
 				InitCommand=function(self) self:y(1) end
 			}
 		}
-    }
+  }
 end
 
 t[#t+1] = Def.ActorFrame {
@@ -91,7 +91,7 @@ t[#t+1] = Def.ActorFrame {
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y):zoom(0.5)
             :easeoutexpo(1):y(SCREEN_CENTER_Y)
         end,
-		OffCommand=function(self)
+		    OffCommand=function(self)
             self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
         SongChosenMessageCommand=function(self)
@@ -148,6 +148,10 @@ t[#t+1] = Def.ActorFrame {
             Def.Sprite {
                 Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
                 InitCommand=function(self) self:zoom(1.2) end
+            },
+
+            LoadActor("BigPreviewBall")..{
+              Condition = (LoadModule("Config.Load.lua")("ShowBigBall", "Save/OutFoxPrefs.ini") and GetScreenAspectRatio() >= 1.5)
             },
 
             LoadActor("ChartDisplay", 12)

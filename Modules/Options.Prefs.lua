@@ -128,14 +128,26 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
-    UseSelToPause = 
+    UseSelToPause =
     {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
-    UseVideoBackground = 
+    UseVideoBackground =
     {
+        Default = true,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
+		EvalCenter3xExit =
+		{
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
+		ShowBigBall =
+		{
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
