@@ -30,6 +30,16 @@ Since this theme is currently on a rolling release, we highly recommend download
 * Arcade-accurate lifebar, timing windows, and scoring
 * Exit back to the title screen during event mode by pressing and holding either red arrow
 
+## Theme-Specific Toggles
+The following features can be configured via the Infinitesimal Options submenu of the operator menu:
+* Center Chart List - if there are fewer charts than the maximum visible number, the charts will be centered to the display. Disabling this will fill the remaining slots with empty grey icons.
+* Chart Preview - displays a live preview of the chart on the music select screen.
+* Image Preview Only - allows you to disable whether preview videos are shown during song select, which may help with performance.
+* Pause With Select Button - enables using any kep mapped to "Select" to pause the game, ideal for cab owners with a buttonboard installed to be able to pause without reaching for a keyboard.
+* Use Background Video - replaces the real-time background animation with a pre-rendered background video to boost performance on hardware with more capable video decoding functionality.
+* 3x Center to Exit Eval - allows you to exit the evaluation screen after a song by pressing the center panel/start button 3 times like in offical games, otherwise exits on 1 press if disabled.
+* Show Big Diff Icon - displays a larger difficulty icon beside the difficulty selection box to improve readability for anyone having a tough time reading the smaller text and/or icons.
+
 ![image](https://i.imgur.com/5ReEFYB.png)
 ![image](https://i.imgur.com/Hn5km7q.png)
 ![image](https://i.imgur.com/ibWfBCy.png)
