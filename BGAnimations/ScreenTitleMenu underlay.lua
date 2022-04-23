@@ -3,10 +3,10 @@ local t = Def.ActorFrame {
 		GAMESTATE:UpdateDiscordGameMode(GAMESTATE:GetCurrentGame():GetName())
 		GAMESTATE:UpdateDiscordScreenInfo("Title Menu", "", 1)
 	end,
-	
+
 	Def.ActorFrame {
-		InitCommand=function(self)
-			self:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 20)
+		OnCommand=function(self)
+			self:xy(SCREEN_CENTER_X, SCREENMAN:GetTopScreen():GetName() == "ScreenLogo" and SCREEN_CENTER_Y or SCREEN_CENTER_Y - 20)
 			:queuecommand("ZoomY")
 		end,
 
@@ -109,11 +109,15 @@ local t = Def.ActorFrame {
 
 if not IsHome() and GAMESTATE:EnoughCreditsToJoin() then
     t[#t+1] = Def.ActorFrame {
+				OnCommand=function(self)
+						-- Hide "Press Center Step" icons if we're on ScreenLogo
+						self:visible(SCREENMAN:GetTopScreen():GetName() ~= "ScreenLogo" and true or false)
+				end,
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
             InitCommand=function(self) self:xy(SCREEN_CENTER_X - SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.75) end,
             OffCommand=function(self) self:stoptweening():easeoutexpo(0.25):zoom(2):diffusealpha(0) end,
         },
-        
+
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
             InitCommand=function(self) self:xy(SCREEN_CENTER_X + SCREEN_WIDTH * 0.3, SCREEN_HEIGHT * 0.75) end,
             OffCommand=function(self) self:stoptweening():easeoutexpo(0.25):zoom(2):diffusealpha(0) end,

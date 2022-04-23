@@ -38,7 +38,7 @@ local ChartLabels = {
 local t = Def.ActorFrame {
 	InitCommand=function(self) self:playcommand("Refresh") end,
 	CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-    CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+  CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 
 	-- These are to control the visibility of the chart highlight.
@@ -53,27 +53,27 @@ local t = Def.ActorFrame {
 		if ChartArray then
 			-- Generate the index of charts to choose from.
 			local ChartIndexP1 = GetCurrentChartIndex(PLAYER_1, ChartArray)
-            local ChartIndexP2 = GetCurrentChartIndex(PLAYER_2, ChartArray)
-            local ChartIndex = ChartIndexP1 > ChartIndexP2 and ChartIndexP1 or ChartIndexP2
+      local ChartIndexP2 = GetCurrentChartIndex(PLAYER_2, ChartArray)
+      local ChartIndex = ChartIndexP1 > ChartIndexP2 and ChartIndexP1 or ChartIndexP2
 
 			local ListOffset = 0
 			if ChartIndex + 1 > ItemAmount then
-				ListOffset = ChartIndex - ItemAmount + (ChartIndex == #ChartArray and 0 or 1)
+					ListOffset = ChartIndex - ItemAmount + (ChartIndex == #ChartArray and 0 or 1)
 			end
 
-            if CenterList then
-                -- Shift the positioning of the charts if they don't take up all visible slots
-                local ChartArrayW = ItemW * ((#ChartArray < ItemAmount and #ChartArray or ItemAmount) - 1) / 2
-                self:x(ItemTotalW - ChartArrayW)
-            end
+	    if CenterList then
+	        -- Shift the positioning of the charts if they don't take up all visible slots
+	        local ChartArrayW = ItemW * ((#ChartArray < ItemAmount and #ChartArray or ItemAmount) - 1) / 2
+	        self:x(ItemTotalW - ChartArrayW)
+	    end
 
-            if #ChartArray > ItemAmount then
-                self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(ChartIndex + 1 > ItemAmount)
-                self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(ChartIndex + 1 < #ChartArray)
-            else
-                self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(false)
-                self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(false)
-            end
+	    if #ChartArray > ItemAmount then
+	        self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(ChartIndex + 1 > ItemAmount)
+	        self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(ChartIndex + 1 < #ChartArray)
+	    else
+	        self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(false)
+	        self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(false)
+	    end
 
 			for i=1,ItemAmount do
 				local Chart = ChartArray[ i + ListOffset ]

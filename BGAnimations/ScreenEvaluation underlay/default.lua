@@ -1,5 +1,8 @@
 local CenterPressCount = 0
 local CenterPress3xEnabled = LoadModule("Config.Load.lua")("EvalCenter3xExit", "Save/OutFoxPrefs.ini")
+local AdvScoresShown = false
+
+local GradeZoom = IsUsingWideScreen() and 0.6 or 0.5
 
 local function InputHandler(event)
     local pn = event.PlayerNumber
@@ -10,6 +13,8 @@ local function InputHandler(event)
 
 		if button == "Center" or button == "Start" then
         if CenterPressCount == (CenterPress3xEnabled and 2 or 0) then
+            SCREENMAN:set_input_redirected(PLAYER_1, false)
+            SCREENMAN:set_input_redirected(PLAYER_2, false)
             SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
         else
             CenterPressCount = CenterPressCount + 1
@@ -71,16 +76,16 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
         Def.Sprite {
             InitCommand=function(self)
-				local GradeX = IsUsingWideScreen() and 350 or 225
+				        local GradeX = IsUsingWideScreen() and 350 or 225
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT - GradeX or GradeX, SCREEN_CENTER_Y + 6)
 
-				local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+				        local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 local Grade = "FailF"
                 Grade = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. Grade))
-                :diffusealpha(0):sleep(2):easeoutexpo(0.25):zoom(IsUsingWideScreen() and 0.6 or 0.5):diffusealpha(1)
-            end
+                :diffusealpha(0):sleep(2):easeoutexpo(0.25):zoom(GradeZoom):diffusealpha(1)
+            end,
         },
 
         Def.Sound {
