@@ -1,10 +1,13 @@
 return Def.ActorFrame {
 
-    Def.Sprite {
-        Texture="Loop",
+    LoadActor("AnimatedLoop")..{
         Name="Loop",
         InitCommand=function(self)
-            self:cropright(1)
+            self:GetChild("PlainLoop"):cropright(1)
+            :sleep(0.5)
+            :linear(0.4)
+            :cropright(0)
+            self:GetChild("ArrowPattern"):cropright(1)
             :sleep(0.5)
             :linear(0.4)
             :cropright(0)
@@ -23,7 +26,7 @@ return Def.ActorFrame {
         Name="Loop_Shine",
         InitCommand=function(self)
             self:zoomto(80, 400)
-            :diffuse(1,1,1,0):blend("BlendMode_Add")
+            :diffuse(1,1,1,0):blend("BlendMode_WeightedMultiply")
             :skewx(-1)
             :x(-415)
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
@@ -33,7 +36,7 @@ return Def.ActorFrame {
             self:diffusealpha(0)
             :x(-415)
             :sleep(6.3576)
-            :diffusealpha(0.25)
+            :diffusealpha(0.5)
             :linear(0.5)
             :x(415)
             :queuecommand("Shine")
