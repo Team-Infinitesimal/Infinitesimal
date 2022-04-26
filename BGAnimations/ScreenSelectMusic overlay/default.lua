@@ -9,7 +9,21 @@ local t = Def.ActorFrame {
 			GAMESTATE:UpdateDiscordScreenInfo("Selecting Song (Stage " .. StageIndex+1 .. ")", "", 1)
 		end
 	end,
-	
+}
+
+if GAMESTATE:GetNumSidesJoined() < 2 then
+    t[#t+1] = Def.ActorFrame {
+        LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
+            InitCommand=function(self)
+                local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.35 or -0.35)
+                self:xy(PosX, SCREEN_HEIGHT * 0.4)
+            end,
+            OffCommand=function(self) self:stoptweening():easeoutexpo(0.25):zoom(2):diffusealpha(0) end,
+        }
+    }
+end
+
+t[#t+1] = Def.ActorFrame {
     LoadActor("../HudPanels"),
     
     LoadActor("../CornerArrows"),

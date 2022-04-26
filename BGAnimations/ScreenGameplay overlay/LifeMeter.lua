@@ -22,13 +22,14 @@ local SongProgress = LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOr
 
 local t = Def.ActorFrame {
 	InitCommand=function(self) self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100) end,
-	OnCommand=function(self) self:easeoutexpo(1):addy(IsReverse and -100 or 100) end,
+	OnCommand=function(self) self:easeoutexpo(1):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
+    UpdateLifeMessageCommand=function(self, params) self:playcommand("Refresh", params) end,
     
-    LifeChangedMessageCommand=function(self, params)
+    RefreshMessageCommand=function(self, params)
         if params.Player == pn then
-            local LifeAmount = params.LifeMeter:GetLife()
-            self:GetChild("Meter"):stoptweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
-            self:GetChild("Pulse"):stoptweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
+            local LifeAmount = params.Life or 0.5
+            self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
+            self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
 
             if LifeAmount <= 0.33 and not MeterDanger then
                 self:GetChild("BarBody"):diffusebottomedge(Color.Red)

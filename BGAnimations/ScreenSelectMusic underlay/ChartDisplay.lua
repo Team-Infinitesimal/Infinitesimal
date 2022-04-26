@@ -38,7 +38,7 @@ local ChartLabels = {
 local t = Def.ActorFrame {
 	InitCommand=function(self) self:playcommand("Refresh") end,
 	CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-  CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+    CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 
 	-- These are to control the visibility of the chart highlight.

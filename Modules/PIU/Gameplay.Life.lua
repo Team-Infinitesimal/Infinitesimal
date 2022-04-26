@@ -80,10 +80,14 @@ return function(pn)
 				local LifeOutput = LifeValue / 1000
 				if LifeOutput > 1 then LifeOutput = 1 end
 				-- SCREENMAN:SystemMessage(LifeOutput)
+                
+                MESSAGEMAN:Broadcast("UpdateLife", {Player = pn, Life = LifeOutput})
 				
-				-- I will forever thank Inori and tertu for this bit of lua
-				local PlayerChild = SCREENMAN:GetTopScreen():GetChild("Player"..ToEnumShortString(pn))
-				PlayerChild:SetLife(LifeOutput)
+                if State:GetHealthState() ~= "HealthState_Dead" then
+                    -- I will forever thank Inori and tertu for this bit of lua
+                    local PlayerChild = SCREENMAN:GetTopScreen():GetChild("Player"..ToEnumShortString(pn))
+                    PlayerChild:SetLife(LifeOutput)
+                end
 			end
 		end
 	}
