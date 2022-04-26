@@ -40,9 +40,9 @@ local t = Def.ActorFrame {
 
 t[#t+1] = Def.ActorFrame {
 	OnCommand=function(self)
-    SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
-    SCREENMAN:set_input_redirected(PLAYER_1, true)
-  	SCREENMAN:set_input_redirected(PLAYER_2, true)
+        SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
+        SCREENMAN:set_input_redirected(PLAYER_1, true)
+        SCREENMAN:set_input_redirected(PLAYER_2, true)
 		local pn = GAMESTATE:GetMasterPlayerNumber()
 		local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
 		local StepOrTrails = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(pn) or GAMESTATE:GetCurrentSteps(pn)

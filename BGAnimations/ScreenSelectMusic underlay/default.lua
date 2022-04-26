@@ -18,9 +18,19 @@ t[#t+1] = Def.Quad {
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         Def.Actor {
+            OnCommand=function(self)
+                local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+                if not AV then
+                    LoadModule("Config.Save.lua")("AutoVelocity", tostring(200), CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+                end
+            end,
+            
             OffCommand=function(self)
                 local AV = tonumber(LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini"))
-                if AV and AV ~= 0 then
+                local AVType = LoadModule("Config.Load.lua")("AutoVelocityType", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini") or false
+                if not AVType then
+                    GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):XMod(AV / 100)
+                elseif AVType == "Auto" then
                     local BPM = GAMESTATE:GetCurrentSong():GetDisplayBpms()[2]
                     if GAMESTATE:GetCurrentSong():IsDisplayBpmRandom() or BPM == 0 then
                         GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):MMod(AV)
@@ -28,6 +38,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                         AV = AV / math.ceil(BPM)
                         GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):XMod(AV)
                     end
+                else
+                    GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):CMod(AV)
                 end
             end
         },

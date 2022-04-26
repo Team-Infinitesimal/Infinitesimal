@@ -11,6 +11,13 @@ end
 
 
 return {
+    AutoVelocityType =
+	{
+		UserPref = true,
+		Default = false,
+		Choices = { OptionNameString('Multiply'), OptionNameString('Automatic'), OptionNameString('Constant') },
+		Values = { false, "Auto", "Constant" }
+	},
 	ScreenFilter =
 	{
 		UserPref = true,
@@ -52,7 +59,7 @@ return {
 		SelectMultiple = true,
 		Default = false,
 		Choices = { OptionNameString('OffsetBar'), OptionNameString('ProTiming'), OptionNameString('HideJudgment') },
-		Values = { "OffsetBar", "ProTiming", "HideJudgment" },
+		Values = { "OffsetBar", "ProTiming", "HideJudgment" }
 	},
 	SmartJudgments =
 	{

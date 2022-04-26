@@ -55,10 +55,17 @@ local t = Def.ActorFrame {
             end
         end
         
-        local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or 0
-        if AV ~= 0 then
+        -- Even though we added 1x above, we'll need it to consistently remove the engine speed so that we can apply our own auto velocity
+        local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or false
+        local AVType = LoadModule("Config.Load.lua")("AutoVelocityType", CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or false
+        
+        if AV then
             table.remove(PlayerModsArray, 1)
-            table.insert(PlayerModsArray, 1, "AV " .. AV)
+            if not AVType then
+                table.insert(PlayerModsArray, 1, (AV / 100) .. "X")
+            else
+                table.insert(PlayerModsArray, 1, (AVType == "Auto" and "AV " or "C") .. AV)
+            end
         end
         
         local CurNoteSkin = PlayerMods:NoteSkin()

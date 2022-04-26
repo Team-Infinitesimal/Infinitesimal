@@ -13,7 +13,7 @@ return Def.ActorFrame {
             :cropright(0)
         end
     },
-
+    
     Def.Sprite {
         Texture="Loop",
         Name="Loop_Mask",
@@ -57,7 +57,7 @@ return Def.ActorFrame {
             :glow(1,1,1,0)
         end
     },
-
+    
     Def.Sprite {
         Texture="Text",
         Name="Text_Mask",
