@@ -17,10 +17,10 @@ local t = Def.ActorFrame {
 		end,
 		
 		OnCommand=function(self) self:playcommand('Refresh') end,
-		RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
 		CoinInsertedMessageCommand=function(self) self:playcommand('Refresh') end,
-		CoinModeChangedMessageCommand=function(self) self:playcommand('Refresh') end,
 		PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
+        ScreenChangedMessageCommand=function(self) self:playcommand('Refresh') end,
+		RefreshCreditTextMessageCommand=function(self) self:playcommand('Refresh') end,
 
 		RefreshCommand=function(self)
 			local CoinMode = GAMESTATE:GetCoinMode()
