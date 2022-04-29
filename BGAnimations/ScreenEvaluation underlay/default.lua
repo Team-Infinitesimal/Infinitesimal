@@ -6,12 +6,16 @@ local GradeZoom = IsUsingWideScreen() and 0.6 or 0.5
 
 local function InputHandler(event)
     local pn = event.PlayerNumber
-    local button = event.button
-
     if not pn then return end
+    
+    -- To avoid control from a player that has not joined, filter the inputs out
+    if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
+    if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
+    
     if event.type == "InputEventType_Repeat" or event.type == "InputEventType_Release" then return end
-
-		if button == "Center" or button == "Start" then
+    
+    local button = event.button
+    if button == "Center" or button == "Start" then
         if CenterPressCount == (CenterPress3xEnabled and 2 or 0) then
             SCREENMAN:set_input_redirected(PLAYER_1, false)
             SCREENMAN:set_input_redirected(PLAYER_2, false)
