@@ -87,10 +87,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
         Def.Sprite {
             InitCommand=function(self)
-				        local GradeX = IsUsingWideScreen() and 350 or 225
+                local GradeX = SCREEN_WIDTH * (IsUsingWideScreen() and 0.265 or 0.225)
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT - GradeX or GradeX, SCREEN_CENTER_Y + 6)
 
-				        local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+                local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 local Grade = "FailF"
                 Grade = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
