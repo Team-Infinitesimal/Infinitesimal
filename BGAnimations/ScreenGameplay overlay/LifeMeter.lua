@@ -1,4 +1,5 @@
 local pn = ...
+local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 
 local BarW = math.ceil(GAMESTATE:GetCurrentStyle():GetWidth(pn) * 1.5)
 local BarH = 30
@@ -23,7 +24,18 @@ local SongProgress = LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOr
 local t = Def.ActorFrame {
 	InitCommand=function(self) self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100) end,
 	OnCommand=function(self) self:easeoutexpo(1):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
+    
+    -- This message command is only used if the Gameplay.Life module is active. Due to it being able to
+    -- manipulate the player's health, it can restore life and break certain fail conditions, so the visible
+    -- health has been decoupled from the engine one.
     UpdateLifeMessageCommand=function(self, params) self:playcommand("Refresh", params) end,
+    
+    -- This is required only if a Pump timing mode is not being used. 
+    LifeChangedMessageCommand=function(self, params) 
+        if not string.find(TimingMode, "Pump") then 
+            self:playcommand("Refresh", { Player = params.Player, Life = params.LifeMeter:GetLife() }) 
+        end
+    end,
     
     RefreshMessageCommand=function(self, params)
         if params.Player == pn then
