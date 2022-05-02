@@ -34,6 +34,7 @@ t[#t+1] = Def.ActorFrame {
     
     Def.Sound {
         File=THEME:GetPathS("Common", "start"),
+        IsAction=true,
         PlayerJoinedMessageCommand=function(self)
             self:play()
 			SOUND:DimMusic(0, 1)

@@ -22,8 +22,11 @@ CustomBranch = {
 		end
 		if PROFILEMAN:GetNumLocalProfiles() > 0 then
 			return "ScreenSelectProfile"
-		else
-			return "ScreenSelectMusic"
+        -- Memory card support
+		elseif PROFILEMAN:IsPersistentProfile(GAMESTATE:GetMasterPlayerNumber()) then
+            return "ScreenSelectMusic"
+        else
+			return "ScreenSelectMusicBasic"
 		end
 	end,
 	AfterProfileSave = function()

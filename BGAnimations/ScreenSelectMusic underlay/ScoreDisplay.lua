@@ -27,11 +27,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     if ProfileScores[1] ~= nil then
                         local ProfileScore = ProfileScores[1]:GetScore()
                         local ProfileDP = round(ProfileScores[1]:GetPercentDP() * 100, 2) .. "%"
-                        local ProfileName = ProfileScores[1]:GetName()
 
                         self:GetChild("PersonalGrade"):Load(THEME:GetPathG("", "LetterGrades/" ..
                             LoadModule("PIU/Score.Grading.lua")(ProfileScores[1])))
-                        self:GetChild("PersonalScore"):settext(ProfileName .. "\n" .. ProfileDP .. "\n" .. ProfileScore)
+                        self:GetChild("PersonalScore"):settext(ProfileDP .. "\n" .. ProfileScore)
                     else
                         self:GetChild("PersonalGrade"):Load(nil)
                         self:GetChild("PersonalScore"):settext("")
