@@ -23,12 +23,48 @@ local function GetJLineValue(line, pl)
 		return PSS:MaxCombo()
     elseif line == "Accuracy" then
 		return round(PSS:GetPercentDancePoints() * 100, 2) .. "%"
-    elseif line == "Score" then
-		return PSS:GetScore()
+    elseif line == "Score" then -- jank
+        local PSS_Score = PSS:GetScore()
+        local PrevHighScore = nil
+
+        ProfileScores = PROFILEMAN:GetProfile(pl):GetHighScoreList(GAMESTATE:GetCurrentSong(), GAMESTATE:GetCurrentSteps(pl)):GetHighScores()
+        if ProfileScores[2] ~= nil then
+            PrevHighScore = ProfileScores[2]:GetScore()
+        end
+
+        if PROFILEMAN:GetProfile(pl) and PrevHighScore and PSS_Score > PrevHighScore then
+            local ScoreUp = string.format("[+%s]", PSS_Score - PrevHighScore)
+            return string.format("%d %s", PSS_Score, ScoreUp)
+        end
+        return PSS_Score
 	else
 		return PSS:GetTapNoteScores("TapNoteScore_" .. line)
 	end
 	return "???"
+end
+
+-- Used for displying the additional score on a new personal best in another colour
+local function ColourHighScoreCount(child)
+    local str = child:GetText()
+    local charindex = 0
+    local ColoringProcess = {}
+
+    for k in string.gmatch(str, "(%g+)") do
+        for m in string.gmatch(k, "%[(.-)%]") do
+            ColoringProcess[#ColoringProcess+1] = {
+                Start = charindex > 1 and charindex + 1 or 0,
+                Attr = {
+                    Diffuse = color("#1fbcff"),
+                    Length = m:len()
+                }
+            }
+        end
+        charindex = charindex + k:len()
+    end
+    child:settext(str:gsub("%[",""):gsub("%]",""))
+    for k,v in pairs(ColoringProcess) do
+        child:AddAttribute(v.Start, v.Attr)
+    end
 end
 
 local t = Def.ActorFrame {}
@@ -150,6 +186,9 @@ for i = 1, RowAmount do
             InitCommand=function(self)
                 self:x(-SCREEN_CENTER_X + RowX):shadowlength(1):zoom(0.8)
                 :halign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_1))
+                if Name[i] == "Score" then
+                    ColourHighScoreCount(self)
+                end
             end
         },
 
@@ -159,6 +198,9 @@ for i = 1, RowAmount do
             InitCommand=function(self)
                 self:x(SCREEN_CENTER_X - RowX):shadowlength(1):zoom(0.8)
                 :halign(1):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_2))
+                if Name[i] == "Score" then
+                    ColourHighScoreCount(self)
+                end
             end
         }
     }
