@@ -2,6 +2,15 @@ function OptionNameString(str)
 	return THEME:GetString('OptionNames',str)
 end
 
+function GameArrowSpacing()
+    if IsGame("pump") or IsGame("piu") then
+        return 60
+    else
+        -- Dunno what other modes might use but this is default
+        return 64
+    end
+end
+
 LoadModule("Row.Prefs.lua")(LoadModule("Options.Prefs.lua"))
 
 -- To avoid accessing the save file and introducing potential lag/stutter at every screen transition, save the setting as a global
