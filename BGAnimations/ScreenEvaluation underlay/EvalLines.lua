@@ -28,8 +28,8 @@ local function GetJLineValue(line, pl)
         local PrevHighScore = nil
 
         ProfileScores = PROFILEMAN:GetProfile(pl):GetHighScoreList(GAMESTATE:GetCurrentSong(), GAMESTATE:GetCurrentSteps(pl)):GetHighScores()
-        if ProfileScores[2] ~= nil then
-            PrevHighScore = ProfileScores[2]:GetScore()
+        if ProfileScores[1] ~= nil then
+            PrevHighScore = ProfileScores[1]:GetScore()
         end
 
         if PROFILEMAN:GetProfile(pl) and PrevHighScore and PSS_Score > PrevHighScore then
