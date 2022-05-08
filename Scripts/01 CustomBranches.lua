@@ -26,7 +26,8 @@ CustomBranch = {
 		elseif PROFILEMAN:IsPersistentProfile(GAMESTATE:GetMasterPlayerNumber()) then
             return "ScreenSelectMusic"
         else
-			return "ScreenSelectMusicBasic"
+			-- Will be basic mode soon
+			return "ScreenSelectMusic"
 		end
 	end,
 	AfterProfileSave = function()
