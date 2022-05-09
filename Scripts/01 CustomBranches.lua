@@ -22,9 +22,6 @@ CustomBranch = {
 		end
 		if PROFILEMAN:GetNumLocalProfiles() > 0 then
 			return "ScreenSelectProfile"
-        -- Memory card support
-		elseif PROFILEMAN:IsPersistentProfile(GAMESTATE:GetMasterPlayerNumber()) then
-            return "ScreenSelectMusic"
         else
 			-- Will be basic mode soon
 			return "ScreenSelectMusic"
