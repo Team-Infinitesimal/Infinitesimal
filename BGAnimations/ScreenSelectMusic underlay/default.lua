@@ -1,4 +1,9 @@
-local t = Def.ActorFrame {}
+local t = Def.ActorFrame {
+    OnCommand=function(self)
+        -- Always change sort back to groups, since Basic mode can leave it stuck in Preferred
+        SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Group")
+    end
+}
 
 -- The column thing
 t[#t+1] = Def.Quad {
@@ -103,7 +108,7 @@ t[#t+1] = Def.ActorFrame {
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y):zoom(0.5)
             :easeoutexpo(1):y(SCREEN_CENTER_Y)
         end,
-		    OffCommand=function(self)
+        OffCommand=function(self)
             self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
         SongChosenMessageCommand=function(self)

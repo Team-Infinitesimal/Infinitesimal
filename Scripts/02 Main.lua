@@ -79,3 +79,82 @@ function ChartStyleToIndex(Chart)
 		return 0
 	end
 end
+
+-- Thank you, DDR SN3 team!
+-- These functions are a port of https://github.com/Inorizushi/DDR-X3/blob/master/Scripts/Starter.lua, please credit them if you want to put it in your theme
+
+function GetOrCreateChild(tab, field, kind)
+    kind = kind or 'table'
+    local out
+    if not tab[field] then
+        if kind == 'table' then
+            out = {}
+        elseif kind == 'number' then
+            out = 0
+        elseif kind == 'boolean_df' or kind == 'boolean' then
+            out = false
+        elseif kind == 'boolean_dt' then
+            out = true
+        else
+            error("GetOrCreateChild: I don't know a default value for type "..kind)
+        end
+        tab[field] = out
+    else out = tab[field] end
+    return out
+end
+
+local outputPath = "/Themes/"..THEME:GetCurThemeName().."/Other/SongManager BasicMode.txt";
+local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last forward slash unless there is a terminator"
+local combineFormat = "%s/%s"
+
+function AssembleBasicMode()
+	if not (SONGMAN and GAMESTATE) then return end
+	local set = {}
+    
+	-- Populate the groups
+	for _, song in pairs(SONGMAN:GetAllSongs()) do
+		local steps = song:GetStepsByStepsType('StepsType_Pump_Single');
+		local doublesSteps = song:GetStepsByStepsType('StepsType_Pump_Double');
+		if #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
+			if steps[1]:GetMeter() < 9 and steps[2]:GetMeter() < 9 and steps[3]:GetMeter() < 9 and doublesSteps[1]:GetMeter() < 9 then
+				local shortSongDir = string.match(song:GetSongDir(),isolatePattern)
+				local groupName = song:GetGroupName()
+				local groupTbl = GetOrCreateChild(set, groupName)
+				table.insert(groupTbl,
+					string.format(combineFormat, groupName, shortSongDir))
+			end
+		end
+	end
+    
+	-- Sort all the groups and collect their names, then sort that too
+	local groupNames = {}
+	for groupName, group in pairs(set) do
+		if next(group) == nil then
+			set[groupName] = nil
+		else
+			table.sort(group)
+			table.insert(groupNames, groupName)
+		end
+	end
+	table.sort(groupNames)
+    
+	-- Then, let's make a representation of our eventual file in memory.
+	local outputLines = {}
+	for _, groupName in ipairs(groupNames) do
+		--table.insert(outputLines, "---"..groupName)
+		for _, path in ipairs(set[groupName]) do
+			table.insert(outputLines, 1, path)
+		end
+	end
+    
+	-- Now, slam it all out to disk.
+	local fHandle = RageFileUtil.CreateRageFile()
+	-- The mode is Write+FlushToDiskOnClose
+	fHandle:Open(outputPath, 10)
+	fHandle:Write(table.concat(outputLines,'\n'))
+	fHandle:Close()
+	fHandle:destroy()
+end
+
+-- And run!
+AssembleBasicMode()

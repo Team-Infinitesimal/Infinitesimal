@@ -24,7 +24,7 @@ CustomBranch = {
 			return "ScreenSelectProfile"
         else
 			-- Will be basic mode soon
-			return "ScreenSelectMusic"
+			return "ScreenSelectMusicBasic"
 		end
 	end,
 	AfterProfileSave = function()
