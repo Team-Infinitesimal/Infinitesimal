@@ -5,6 +5,10 @@
 return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
 
     return Def.ActorFrame {
+        Name="MessageBox",
+        OffCommand=function(self)
+            self:finishtweening()
+        end,
 
         Def.Quad {
             Name="BackgroundMask",
@@ -13,7 +17,7 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
                 :xy(PosX, PosY):MaskSource()
             end,
             OnCommand=function(self)
-                self:zoomto(BoxWidth + 5, self:GetParent():GetChild("BodyText"):GetHeight()*0.75+10)
+                self:zoomto(BoxWidth + 10, self:GetParent():GetChild("BodyText"):GetHeight()*0.75+20)
             end
         },
 
@@ -21,13 +25,15 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
             Name="BodyBackground",
             InitCommand=function(self)
                 self:diffuse(0,0,0,0.75):halign(0):valign(0)
-                :xy(PosX, PosY):zoomtowidth(BoxWidth + 5)
+                :xy(PosX, PosY):zoomtowidth(BoxWidth + 10)
             end,
             OnCommand=function(self)
                 self:easeoutexpo(0.5)
-                :zoomtoheight(self:GetParent():GetChild("BodyText"):GetHeight()*0.75+10)
-                :sleep(DisplayTime)
-                :easeoutexpo(0.5)
+                :zoomtoheight(self:GetParent():GetChild("BodyText"):GetHeight()*0.75+20)
+                :sleep(DisplayTime):queuecommand("Off")
+            end,
+            OffCommand=function(self)
+                self:easeoutexpo(0.5)
                 :zoomtoheight(0)
             end
         },
@@ -47,8 +53,10 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
                 self:zoomto(TargetWidth, TitleText:GetHeight() * 0.75)
                 :easeoutexpo(0.5)
                 :y(PosY - TitleText:GetHeight() * 0.75)
-                :sleep(DisplayTime)
-                :easeoutexpo(0.5)
+                :sleep(DisplayTime):queuecommand("Off")
+            end,
+            OffCommand=function(self)
+                self:easeoutexpo(0.5)
                 :y(PosY)
             end
         },
@@ -66,8 +74,10 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
             OnCommand=function(self)
                 self:easeoutexpo(0.5)
                 :y(PosY - 18)
-                :sleep(DisplayTime)
-                :easeoutexpo(0.5)
+                :sleep(DisplayTime):queuecommand("Off")
+            end,
+            OffCommand=function(self)
+                self:easeoutexpo(0.5)
                 :y(PosY + 5)
             end
         },
@@ -78,15 +88,17 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
             InitCommand=function(self)
                 self:zoom(0.75):halign(0):valign(0)
                 :wrapwidthpixels((BoxWidth/0.75) - 5)
-                :xy(-BoxWidth - 5, PosY + 5)
+                :xy(-BoxWidth - 10, PosY + 10)
                 :settext(Body)
                 :MaskDest():ztestmode("ZTestMode_WriteOnFail")
             end,
             OnCommand=function(self)
                 self:easeoutexpo(0.5)
                 :x(PosX + 5)
-                :sleep(DisplayTime)
-                :easeoutexpo(0.5)
+                :sleep(DisplayTime):queuecommand("Off")
+            end,
+            OffCommand=function(self)
+                self:easeoutexpo(0.5)
                 :x(-BoxWidth - 5)
             end
         }

@@ -47,6 +47,24 @@ t[#t+1] = Def.ActorFrame {
     }
 }
 
+for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
+    local spacing = (IsUsingWideScreen() and 80 or 15)
+    local width = (IsUsingWideScreen() and 200 or 175)
+    local posx = (pn == PLAYER_1 and SCREEN_LEFT + spacing or SCREEN_RIGHT - (spacing + width + 10) )
+    local title = "How To Play"
+    local body = "Use &DOWNLEFT; &DOWNRIGHT; to scroll through songs.\n" ..
+                 "When you find a song you want to play, select it with "..
+                 "&CENTER;, then pick a difficulty.\n"..
+                 "If you change your mind, use &UPLEFT; or &UPRIGHT; "..
+                 "to back out and pick another song."
+
+    t[#t+1] = Def.ActorFrame {
+        Name="TutorialMessage"..pn,
+        LoadModule("UI.MessageBox.lua")(posx, SCREEN_CENTER_Y - 125, width, 15, title, body)
+    }
+
+end
+
 t[#t+1] = Def.ActorFrame {
 
     LoadActor("FullModeAnim"),

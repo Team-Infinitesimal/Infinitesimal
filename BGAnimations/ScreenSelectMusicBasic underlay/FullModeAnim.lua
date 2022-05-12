@@ -24,11 +24,11 @@ return Def.ActorFrame {
         Name="Full",
         Texture="Full Mode/Full",
         InitCommand=function(self)
-            self:xy(SCREEN_LEFT - 150, SCREEN_CENTER_Y - 40):shadowlength(5)
+            self:xy(SCREEN_LEFT - 150, SCREEN_CENTER_Y):shadowlength(5):halign(1):zoom(1.25)
         end,
         AnimateCommand=function(self)
             self:easeoutexpo(0.5)
-            :x(SCREEN_CENTER_X)
+            :x(SCREEN_CENTER_X - 10)
         end,
         OffCommand=function(self)
             self:easeinexpo(0.25)
@@ -40,11 +40,11 @@ return Def.ActorFrame {
         Name="Mode",
         Texture="Full Mode/Mode",
         InitCommand=function(self)
-            self:xy(SCREEN_RIGHT + 150, SCREEN_CENTER_Y + 40):shadowlength(5)
+            self:xy(SCREEN_RIGHT + 150, SCREEN_CENTER_Y):shadowlength(5):halign(0):zoom(1.25)
         end,
         AnimateCommand=function(self)
             self:easeoutexpo(0.5)
-            :x(SCREEN_CENTER_X)
+            :x(SCREEN_CENTER_X + 10)
         end,
         OffCommand=function(self)
             self:easeinexpo(0.25)
