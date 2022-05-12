@@ -61,27 +61,6 @@ local t = Def.ActorFrame {
     }
 }
 
--- Chart preview WIP, use at your own risk!
-if LoadModule("Config.Load.lua")("ChartPreview", "Save/OutFoxPrefs.ini") then
-    t[#t+1] = Def.ActorFrame {
-        InitCommand=function(self)
-            self:y(75):zoom(0.75)
-        end,
-        OnCommand=function(self)
-            if GAMESTATE:GetCurrentSong() then
-                self:AddChildFromPath(THEME:GetPathB("", "NotefieldPreview"))
-            end
-        end,
-        Def.Quad {
-            InitCommand=function(self)
-                self:y(-100):zoomto(854, 480):diffuse(Color.Black):diffusealpha(0.5):visible(false)
-            end,
-            SongChosenMessageCommand=function(self) self:visible(true) end,
-            SongUnchosenMessageCommand=function(self) self:visible(false) end,
-        }
-    }
-end
-
 -- Portion dedicated to song stats
 t[#t+1] = Def.ActorFrame {
     InitCommand=function(self) self:playcommand("Refresh") end,
@@ -107,7 +86,7 @@ t[#t+1] = Def.ActorFrame {
             self:GetChild("Title"):settext(TitleText)
             self:GetChild("Artist"):settext(AuthorText)
             self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
-            
+
             if GAMESTATE:IsEventMode() then
                 self:GetChild("Length"):visible(true):settext(SecondsToMMSS(Song:MusicLengthSeconds()))
                 self:GetChild("HeartsIcon"):visible(false)
@@ -163,7 +142,7 @@ t[#t+1] = Def.ActorFrame {
             :y(-FrameH / 2 + 5)
         end,
     },
-    
+
     Def.BitmapText {
         Font="Montserrat semibold 40px",
         Name="Hearts",

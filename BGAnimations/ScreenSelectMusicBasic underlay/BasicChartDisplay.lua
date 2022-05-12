@@ -23,6 +23,15 @@ local function GetCurrentChartIndex(pn, ChartArray)
 	return -1
 end
 
+local function ColourSteps(meter, type)
+    if type == "Double" then return {Color.Green, "DOUBLE"} end
+    if meter <= 2 then return {Color.Blue, "EASY"} end
+    if meter <= 4 then return {Color.Yellow, "NORMAL"} end
+    if meter <= 7 then return {Color.Red, "HARD"} end
+    if meter <= 12 then return {Color.Purple, "VERY HARD"} end
+    return {Color.White, "idk lol"} -- failsafe to prevent errors, should never be displayed anyway
+end
+
 local t = Def.ActorFrame {
 	InitCommand=function(self) self:playcommand("Refresh") end,
 	CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
@@ -36,7 +45,7 @@ local t = Def.ActorFrame {
 	RefreshCommand=function(self)
 		local ChartArray = nil
 		local CurrentSong = GAMESTATE:GetCurrentSong()
-		if CurrentSong then 
+		if CurrentSong then
             SingleCharts = CurrentSong:GetStepsByStepsType('StepsType_Pump_Single')
             DoubleCharts = CurrentSong:GetStepsByStepsType('StepsType_Pump_Double')
             ChartArray = { SingleCharts[1], SingleCharts[2], SingleCharts[3], DoubleCharts[1] }
@@ -59,25 +68,20 @@ local t = Def.ActorFrame {
 	        self:x(ItemTotalW - ChartArrayW)
 	    end
 
-	    if #ChartArray > ItemAmount then
-	        self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(ChartIndex + 1 > ItemAmount)
-	        self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(ChartIndex + 1 < #ChartArray)
-	    else
-	        self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(false)
-	        self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(false)
-	    end
-
 			for i=1,ItemAmount do
 				local Chart = ChartArray[ i + ListOffset ]
 
 				if Chart then
 					local ChartMeter = Chart:GetMeter()
+                    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
 					if ChartMeter == 99 then ChartMeter = "??" end
 					local ChartDescription = Chart:GetDescription()
+                    local StepData = ColourSteps(ChartMeter, ChartType)
 
-					self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ChartTypeToColor(Chart))
+					self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(StepData[1])
                     self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
 					self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
+                    self:GetChild("")[i]:GetChild("Difficulty"):visible(true):settext(StepData[2])
 					self:GetChild("")[i]:GetChild("HighlightP1"):visible(
                         (ChartIndexP1 == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
                     self:GetChild("")[i]:GetChild("HighlightP2"):visible(
@@ -133,6 +137,14 @@ for i=1,ItemAmount do
 			end
 		},
 
+        Def.BitmapText {
+			Font="Montserrat extrabold 20px",
+			Name="Difficulty",
+			InitCommand=function(self)
+				self:xy(FrameX + ItemW * (i - 1), -15):zoom(0.5):maxwidth(85):shadowlength(2):skewx(-0.1)
+			end
+		},
+
         Def.Sprite {
 			Name="HighlightP1",
 			Texture=THEME:GetPathG("", "DifficultyDisplay/Cursor/P1"),
@@ -158,24 +170,5 @@ for i=1,ItemAmount do
 		LoadActor(THEME:GetPathS("Common","value")) .. {}
 	}
 end
-
-t[#t+1] = Def.ActorFrame {
-    Def.Sprite {
-        Name="MoreLeft",
-        Texture=THEME:GetPathG("", "DifficultyDisplay/MoreLeft"),
-        InitCommand=function(self)
-            self:xy(FrameX - 16 - ItemW, 0):zoom(0.4):visible(false)
-            :bounce():effectmagnitude(16, 0, 0):effectclock("bgm")
-        end
-    },
-    Def.Sprite {
-        Name="MoreRight",
-        Texture=THEME:GetPathG("", "DifficultyDisplay/MoreRight"),
-        InitCommand=function(self)
-            self:xy(FrameX + 16 + ItemW * 12, 0):zoom(0.4):visible(false)
-            :bounce():effectmagnitude(-16, 0, 0):effectclock("bgm")
-        end
-    }
-}
 
 return t;

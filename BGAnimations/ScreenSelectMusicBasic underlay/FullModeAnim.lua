@@ -7,7 +7,7 @@ return Def.ActorFrame {
         Name="Background",
         InitCommand=function(self)
             self:zoomto(SCREEN_WIDTH, 0)
-            :diffuse(0,0,0,0.5)
+            :diffuse(0,0,0,0.65)
             :fadetop(0.25):fadebottom(0.25)
             :Center(0)
         end,
