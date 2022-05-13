@@ -24,11 +24,11 @@ local function GetCurrentChartIndex(pn, ChartArray)
 end
 
 local function ColourSteps(meter, type)
-    if type == "Double" then return {Color.Green, "DOUBLE"} end
-    if meter <= 2 then return {Color.Blue, "EASY"} end
-    if meter <= 4 then return {Color.Yellow, "NORMAL"} end
-    if meter <= 7 then return {Color.Red, "HARD"} end
-    if meter <= 12 then return {Color.Purple, "VERY HARD"} end
+    if type == "Double" then return {color("#21db30"), "DOUBLE"} end
+    if meter <= 2 then return {color("#209be3"), "EASY"} end
+    if meter <= 4 then return {color("#fff700"), "NORMAL"} end
+    if meter <= 7 then return {color("#ff3636"), "HARD"} end
+    if meter <= 12 then return {color("#d317e8"), "VERY HARD"} end
     return {Color.White, "idk lol"} -- failsafe to prevent errors, should never be displayed anyway
 end
 

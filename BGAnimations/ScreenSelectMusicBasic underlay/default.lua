@@ -78,6 +78,7 @@ t[#t+1] = Def.ActorFrame {
     end,
 
     FullModeTransitionCommand=function()
+        setenv("IsBasicMode", false)
         SCREENMAN:GetTopScreen():GetMusicWheel():Move(0)
         SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusic")
         SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")

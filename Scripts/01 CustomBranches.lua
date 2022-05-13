@@ -21,9 +21,11 @@ CustomBranch = {
 			return "ScreenHowToInstallSongs"
 		end
 		if PROFILEMAN:GetNumLocalProfiles() > 0 then
+            setenv("IsBasicMode", false)
 			return "ScreenSelectProfile"
         else
 			-- Will be basic mode soon
+            setenv("IsBasicMode", true)
 			return "ScreenSelectMusicBasic"
 		end
 	end,
@@ -37,5 +39,5 @@ CustomBranch = {
 			return SelectMusicOrCourse()
 		end
 	end,
-    
+
 }

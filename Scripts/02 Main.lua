@@ -20,12 +20,12 @@ function ChartTypeToColor(Chart)
 	local ChartMeter = Chart:GetMeter()
 	local ChartDescription = Chart:GetDescription()
 	local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
-	
+
 	if ChartType == "Single" then
 		if string.find(ChartDescription, "SP") then
 			return Color.HoloDarkPurple
 		else
-			return Color.HoloDarkOrange
+			return color("#ff871f")
 		end
 	elseif ChartType == "Halfdouble" then
 		return Color.HoloDarkRed
@@ -39,7 +39,7 @@ function ChartTypeToColor(Chart)
 				return Color.HoloDarkBlue
 			end
 		else
-			return Color.HoloDarkGreen
+			return color("#21db30")
 		end
 	elseif ChartType == "Couple" then
 		return Color.HoloDarkBlue
@@ -54,7 +54,7 @@ function ChartStyleToIndex(Chart)
 	local ChartMeter = Chart:GetMeter()
 	local ChartDescription = Chart:GetDescription()
 	local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
-	
+
 	if ChartType == "Single" then
 		return 0
 	elseif ChartType == "Halfdouble" then
@@ -110,7 +110,7 @@ local combineFormat = "%s/%s"
 function AssembleBasicMode()
 	if not (SONGMAN and GAMESTATE) then return end
 	local set = {}
-    
+
 	-- Populate the groups
 	for _, song in pairs(SONGMAN:GetAllSongs()) do
 		local steps = song:GetStepsByStepsType('StepsType_Pump_Single');
@@ -125,7 +125,7 @@ function AssembleBasicMode()
 			end
 		end
 	end
-    
+
 	-- Sort all the groups and collect their names, then sort that too
 	local groupNames = {}
 	for groupName, group in pairs(set) do
@@ -137,7 +137,7 @@ function AssembleBasicMode()
 		end
 	end
 	table.sort(groupNames)
-    
+
 	-- Then, let's make a representation of our eventual file in memory.
 	local outputLines = {}
 	for _, groupName in ipairs(groupNames) do
@@ -146,7 +146,7 @@ function AssembleBasicMode()
 			table.insert(outputLines, 1, path)
 		end
 	end
-    
+
 	-- Now, slam it all out to disk.
 	local fHandle = RageFileUtil.CreateRageFile()
 	-- The mode is Write+FlushToDiskOnClose
