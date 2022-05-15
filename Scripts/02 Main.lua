@@ -2,6 +2,7 @@ function OptionNameString(str)
 	return THEME:GetString('OptionNames',str)
 end
 
+-- Ensure that speed mods are accurate
 function GameArrowSpacing()
     if IsGame("pump") or IsGame("piu") then
         return 60
@@ -9,6 +10,32 @@ function GameArrowSpacing()
         -- Dunno what other modes might use but this is default
         return 64
     end
+end
+
+-- Lua Timing currently does not change these parameters, so the best we can do is 
+-- look at the current mode on boot up and change to the proper values
+local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+
+function ComboContinue()
+	local Continue = {
+		dance = GAMESTATE:GetPlayMode() == "PlayMode_Oni" and "TapNoteScore_W2" or "TapNoteScore_W3",
+		pump = string.find(TimingMode, "Pump") and "TapNoteScore_W2" or "TapNoteScore_W3",
+		['be-mu'] = "TapNoteScore_W3",
+		kb7 = "TapNoteScore_W3",
+		para = "TapNoteScore_W4"
+	}
+  return Continue[GAMESTATE:GetCurrentGame():GetName()] or "TapNoteScore_W3"
+end
+
+function ComboMaintain()
+	local Maintain = {
+		dance = "TapNoteScore_W3",
+		pump = string.find(TimingMode, "Pump") and "TapNoteScore_W3" or "TapNoteScore_W4",
+		['be-mu'] = "TapNoteScore_W3",
+		kb7 = "TapNoteScore_W3",
+		para = "TapNoteScore_W4"
+	}
+  return Maintain[GAMESTATE:GetCurrentGame():GetName()] or "TapNoteScore_W3"
 end
 
 LoadModule("Row.Prefs.lua")(LoadModule("Options.Prefs.lua"))
@@ -80,8 +107,8 @@ function ChartStyleToIndex(Chart)
 	end
 end
 
--- Thank you, DDR SN3 team!
--- These functions are a port of https://github.com/Inorizushi/DDR-X3/blob/master/Scripts/Starter.lua, please credit them if you want to put it in your theme
+-- Thank you, Accelerator and DDR SN3 team!
+-- These functions are a port of Delta NEX Rebirth and https://github.com/Inorizushi/DDR-X3/blob/master/Scripts/Starter.lua, please credit them if you want to put it in your theme
 
 function GetOrCreateChild(tab, field, kind)
     kind = kind or 'table'
