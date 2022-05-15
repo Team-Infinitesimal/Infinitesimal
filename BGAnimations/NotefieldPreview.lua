@@ -53,17 +53,14 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                 self:y(NotefieldY):GetPlayerOptions("ModsLevel_Current"):StealthPastReceptors(true, true)
                 self:AutoPlay(true)
                 
+				LoadModule("Player.SetSpeed.lua")(pn)
                 local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
                 self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
             end,
             
             CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
             CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-            
-            OptionsListStartMessageCommand=function(self)
-                local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
-                self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
-            end,
+            OptionsListStartMessageCommand=function(self) self:playcommand("Refresh") end,
             
             RefreshCommand=function(self)
                 self:AutoPlay(false)
@@ -71,7 +68,11 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                 
                 local Song = GAMESTATE:GetCurrentSong()
                 if Song then ChartArray = Song:GetAllSteps() else return end
-                
+				
+				LoadModule("Player.SetSpeed.lua")(pn)
+                local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
+                self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+				
                 local ChartIndex = GetCurrentChartIndex(pnNoteField, ChartArray)
                 if not ChartIndex then return end
                 

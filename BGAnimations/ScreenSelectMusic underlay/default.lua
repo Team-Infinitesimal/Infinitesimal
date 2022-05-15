@@ -23,29 +23,18 @@ t[#t+1] = Def.Quad {
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     t[#t+1] = Def.ActorFrame {
         Def.Actor {
+			-- If no AV is defined, do it before it causes any issues
             OnCommand=function(self)
                 local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
                 if not AV then
                     LoadModule("Config.Save.lua")("AutoVelocity", tostring(200), CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
                 end
+				LoadModule("Player.SetSpeed.lua")(pn)
             end,
             
+			-- Make sure the speed is set relative to the selected song when going to gameplay
             OffCommand=function(self)
-                local AV = tonumber(LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini"))
-                local AVType = LoadModule("Config.Load.lua")("AutoVelocityType", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini") or false
-                if not AVType then
-                    GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):XMod(AV / 100)
-                elseif AVType == "Auto" then
-                    local BPM = GAMESTATE:GetCurrentSong():GetDisplayBpms()[2]
-                    if GAMESTATE:GetCurrentSong():IsDisplayBpmRandom() or BPM == 0 then
-                        GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):MMod(AV)
-                    else
-                        AV = AV / math.ceil(BPM)
-                        GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):XMod(AV)
-                    end
-                else
-                    GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):CMod(AV)
-                end
+                LoadModule("Player.SetSpeed.lua")(pn)
             end
         },
 
