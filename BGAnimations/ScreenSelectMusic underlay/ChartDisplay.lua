@@ -5,22 +5,19 @@ local ItemTotalW = ItemW * ((ItemAmount - 1) / 2)
 
 local FrameX = -ItemTotalW
 
+local ChartIndexP1 = 1
+local ChartIndexP2 = 1
+local ChartArray = nil
 local SongIsChosen = false
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 local CenterList = LoadModule("Config.Load.lua")("CenterChartList", "Save/OutFoxPrefs.ini")
 
-local function GetCurrentChartIndex(pn, ChartArray)
-	local PlayerSteps = GAMESTATE:GetCurrentSteps(pn)
-	-- Not sure how the previous checks fails at times, so here it is once again
-	if ChartArray then
-		for i=1,#ChartArray do
-			if PlayerSteps == ChartArray[i] then
-				return i
-			end
-		end
-	end
-	-- If it reaches this point, the selected steps doesn't equal anything
-	return -1
+function SortCharts(a, b)
+    if a:GetStepsType() == b:GetStepsType() then
+        return a:GetMeter() < b:GetMeter()
+    else
+        return a:GetStepsType() > b:GetStepsType()
+    end
 end
 
 local ChartLabels = {
@@ -35,10 +32,50 @@ local ChartLabels = {
 	"JUMP",
 }
 
+local function InputHandler(event)
+	if SongIsChosen then
+		local pn = event.PlayerNumber
+		if not pn then return end
+		
+		-- To avoid control from a player that has not joined, filter the inputs out
+		if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
+		if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
+		
+		-- Filter out everything but button presses
+		if event.type == "InputEventType_Repeat" or event.type == "InputEventType_Release" then return end
+		
+		local button = event.button
+		if button == "MenuLeft" or button == "DownLeft" then
+			if pn == PLAYER_1 then
+				if ChartIndexP1 == 1 then return else
+				ChartIndexP1 = ChartIndexP1 - 1 end
+			else
+				if ChartIndexP2 == 1 then return else
+				ChartIndexP2 = ChartIndexP2 - 1 end
+			end
+			MESSAGEMAN:Broadcast("CurrentChartChanged")
+		elseif button == "MenuRight" or button == "DownRight" then
+			if pn == PLAYER_1 then
+				if ChartIndexP1 == #ChartArray then return else
+				ChartIndexP1 = ChartIndexP1 + 1 end
+			else
+				if ChartIndexP2 == #ChartArray then return else
+				ChartIndexP2 = ChartIndexP2 + 1 end
+			end
+			MESSAGEMAN:Broadcast("CurrentChartChanged")
+		end
+	end
+    return
+end
+
 local t = Def.ActorFrame {
-	InitCommand=function(self) self:playcommand("Refresh") end,
-	CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-    CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+	OnCommand=function(self) 
+		SCREENMAN:GetTopScreen():AddInputCallback(InputHandler) 
+		self:playcommand("Refresh")
+	end,
+	
+	-- Update chart list
+	CurrentChartChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 
 	-- These are to control the visibility of the chart highlight.
@@ -46,34 +83,49 @@ local t = Def.ActorFrame {
 	SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
 
 	RefreshCommand=function(self)
-		local ChartArray = nil
+		ChartArray = nil
 		local CurrentSong = GAMESTATE:GetCurrentSong()
-		if CurrentSong then ChartArray = SongUtil.GetPlayableSteps(CurrentSong) end
+		if CurrentSong then 
+			ChartArray = SongUtil.GetPlayableSteps(CurrentSong)
+			table.sort(ChartArray, SortCharts)
+		end
 
 		if ChartArray then
-			-- Generate the index of charts to choose from.
-			local ChartIndexP1 = GetCurrentChartIndex(PLAYER_1, ChartArray)
-      local ChartIndexP2 = GetCurrentChartIndex(PLAYER_2, ChartArray)
-      local ChartIndex = ChartIndexP1 > ChartIndexP2 and ChartIndexP1 or ChartIndexP2
+			-- Correct player chart indexes to ensure they're not off limits
+			if ChartIndexP1 < 1 then ChartIndexP1 = 1 elseif ChartIndexP1 > #ChartArray then ChartIndexP1 = #ChartArray end
+			if ChartIndexP2 < 1 then ChartIndexP2 = 1 elseif ChartIndexP2 > #ChartArray then ChartIndexP2 = #ChartArray end
+			
+			-- Set the selected charts and broadcast a new message to avoid possible
+			-- race conditions trying to obtain the currently selected chart.
+			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then 
+				GAMESTATE:SetCurrentSteps(PLAYER_1, ChartArray[ChartIndexP1]) 
+				MESSAGEMAN:Broadcast("ChangeChart")
+			end
+			if GAMESTATE:IsPlayerEnabled(PLAYER_2) then 
+				GAMESTATE:SetCurrentSteps(PLAYER_2, ChartArray[ChartIndexP2])
+				MESSAGEMAN:Broadcast("ChangeChart")				
+			end
+			
+			local ChartIndex = ChartIndexP1 > ChartIndexP2 and ChartIndexP1 or ChartIndexP2
 
 			local ListOffset = 0
 			if ChartIndex + 1 > ItemAmount then
 					ListOffset = ChartIndex - ItemAmount + (ChartIndex == #ChartArray and 0 or 1)
 			end
 
-	    if CenterList then
-	        -- Shift the positioning of the charts if they don't take up all visible slots
-	        local ChartArrayW = ItemW * ((#ChartArray < ItemAmount and #ChartArray or ItemAmount) - 1) / 2
-	        self:x(ItemTotalW - ChartArrayW)
-	    end
+			if CenterList then
+				-- Shift the positioning of the charts if they don't take up all visible slots
+				local ChartArrayW = ItemW * ((#ChartArray < ItemAmount and #ChartArray or ItemAmount) - 1) / 2
+				self:x(ItemTotalW - ChartArrayW)
+			end
 
-	    if #ChartArray > ItemAmount then
-	        self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(ChartIndex + 1 > ItemAmount)
-	        self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(ChartIndex + 1 < #ChartArray)
-	    else
-	        self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(false)
-	        self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(false)
-	    end
+			if #ChartArray > ItemAmount then
+				self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(ChartIndex + 1 > ItemAmount)
+				self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(ChartIndex + 1 < #ChartArray)
+			else
+				self:GetChild("")[ItemAmount+1]:GetChild("MoreLeft"):visible(false)
+				self:GetChild("")[ItemAmount+1]:GetChild("MoreRight"):visible(false)
+			end
 
 			for i=1,ItemAmount do
 				local Chart = ChartArray[ i + ListOffset ]
@@ -209,7 +261,12 @@ t[#t+1] = Def.ActorFrame {
             self:xy(FrameX + 16 + ItemW * 12, 0):zoom(0.4):visible(false)
             :bounce():effectmagnitude(-16, 0, 0):effectclock("bgm")
         end
-    }
+    },
+	Def.Sound {
+		File=THEME:GetPathS("Common", "value"),
+		IsAction=true,
+		CurrentChartChangedMessageCommand=function(self) self:play() end
+	}
 }
 
 return t;

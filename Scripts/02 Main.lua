@@ -110,7 +110,7 @@ end
 -- Thank you, Accelerator and DDR SN3 team!
 -- These functions are a port of Delta NEX Rebirth and https://github.com/Inorizushi/DDR-X3/blob/master/Scripts/Starter.lua, please credit them if you want to put it in your theme
 
-function GetOrCreateChild(tab, field, kind)
+local function GetOrCreateChild(tab, field, kind)
     kind = kind or 'table'
     local out
     if not tab[field] then
@@ -130,20 +130,39 @@ function GetOrCreateChild(tab, field, kind)
     return out
 end
 
-local outputPath = "/Themes/"..THEME:GetCurThemeName().."/Other/SongManager BasicMode.txt";
+local function SortCharts(a, b)
+    if a:GetStepsType() == b:GetStepsType() then
+        return a:GetMeter() < b:GetMeter()
+    else
+        return a:GetStepsType() > b:GetStepsType()
+    end
+end
+
+local function ChartRange(chart, a, b)
+	if chart:GetMeter() >= a and chart:GetMeter() <= b then
+		return true
+	end
+	return false
+end
+
+local outputPath = THEME:GetCurrentThemeDirectory() .. "/Other/SongManager BasicMode.txt"
 local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last forward slash unless there is a terminator"
 local combineFormat = "%s/%s"
 
-function AssembleBasicMode()
+local function AssembleBasicMode()
 	if not (SONGMAN and GAMESTATE) then return end
 	local set = {}
 
 	-- Populate the groups
-	for _, song in pairs(SONGMAN:GetAllSongs()) do
-		local steps = song:GetStepsByStepsType('StepsType_Pump_Single');
-		local doublesSteps = song:GetStepsByStepsType('StepsType_Pump_Double');
-		if #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
-			if steps[1]:GetMeter() < 9 and steps[2]:GetMeter() < 9 and steps[3]:GetMeter() < 9 and doublesSteps[1]:GetMeter() < 9 then
+	for i, song in pairs(SONGMAN:GetAllSongs()) do
+		local steps = song:GetStepsByStepsType('StepsType_Pump_Single')
+		table.sort(steps, SortCharts)
+		local doublesSteps = song:GetStepsByStepsType('StepsType_Pump_Double')
+		table.sort(doublesSteps, SortCharts)
+		if i > 1 and #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
+			if (ChartRange(steps[1], 1, 2) and ChartRange(steps[2], 3, 4) and ChartRange(steps[3], 5, 7) or
+				(ChartRange(steps[1], 3, 4) and ChartRange(steps[2], 5, 7) and ChartRange(steps[3], 8, 9))) 
+				and ChartRange(doublesSteps[1], 1, 9) then
 				local shortSongDir = string.match(song:GetSongDir(),isolatePattern)
 				local groupName = song:GetGroupName()
 				local groupTbl = GetOrCreateChild(set, groupName)

@@ -3,6 +3,25 @@ local CardItemH = 64
 
 function GetLocalProfiles()
 	local t = {}
+	
+	local NoProfileCard = Def.ActorFrame {
+		Def.Sprite {
+			Texture=THEME:GetPathG("UserProfile", "generic icon"),
+			InitCommand=function(self)
+				self:scaletofit(0, 0, 64, 64):xy(-CardItemW / 2 + 32, -3):ztest(true)
+			end
+		},
+		
+		Def.BitmapText {
+			Font="Montserrat semibold 40px",
+			Text="Guest",
+			InitCommand=function(self) 
+				self:shadowlength(1):xy(CardItemW / 2 - 8, -3)
+				:zoom(0.75):halign(1):maxwidth(250):ztest(true)
+			end,
+		}
+	}
+	t[#t+1] = NoProfileCard
 
 	function GetSongsPlayedString(NumSongs)
 		return NumSongs == 1 and Screen.String("SingularSongPlayed") or Screen.String("SeveralSongsPlayed")
@@ -160,11 +179,11 @@ function UpdateInternal3(self, Player)
 			guesttext:visible(false)
 			local ind = SCREENMAN:GetTopScreen():GetProfileIndex(Player)
 			if ind > 0 then
-				scroller:SetDestinationItem(ind-1)
+				scroller:SetDestinationItem(ind)
 			else
-				if SCREENMAN:GetTopScreen():SetProfileIndex(Player, 1) then
+				if SCREENMAN:GetTopScreen():SetProfileIndex(Player, 0) then
 					scroller:SetDestinationItem(0)
-					self:queuecommand("UpdateInternal2")
+					--self:queuecommand("UpdateInternal2")
 				else
 					joinframe:visible(false)
 					smallframe:visible(false)
@@ -204,13 +223,17 @@ local t = Def.ActorFrame {
 			if not GAMESTATE:IsHumanPlayer(params.PlayerNumber) then
 				SCREENMAN:GetTopScreen():SetProfileIndex(params.PlayerNumber, -1)
 			else
-				SCREENMAN:GetTopScreen():Finish()
+				if SCREENMAN:GetTopScreen():GetProfileIndex(params.PlayerNumber) == 0 then
+					SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
+				else
+					SCREENMAN:GetTopScreen():Finish()
+				end
 			end
 		end
 		if params.Name == "Up" or params.Name == "MenuUp" or params.Name == "DownLeft" then
 			if GAMESTATE:IsHumanPlayer(params.PlayerNumber) then
 				local ind = SCREENMAN:GetTopScreen():GetProfileIndex(params.PlayerNumber)
-				if ind > 1 then
+				if ind >= 1 then
 					if SCREENMAN:GetTopScreen():SetProfileIndex(params.PlayerNumber, ind - 1) then
 						MESSAGEMAN:Broadcast("DirectionButton")
 						self:queuecommand("UpdateInternal2")
@@ -221,7 +244,7 @@ local t = Def.ActorFrame {
 		if params.Name == "Down" or params.Name == "MenuDown" or params.Name == "DownRight" then
 			if GAMESTATE:IsHumanPlayer(params.PlayerNumber) then
 				local ind = SCREENMAN:GetTopScreen():GetProfileIndex(params.PlayerNumber)
-				if ind > 0 then
+				if ind >= 0 then
 					if SCREENMAN:GetTopScreen():SetProfileIndex(params.PlayerNumber, ind + 1) then
 						MESSAGEMAN:Broadcast("DirectionButton")
 						self:queuecommand("UpdateInternal2")

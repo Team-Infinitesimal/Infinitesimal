@@ -1,6 +1,7 @@
 local CenterPressCount = 0
 local CenterPress3xEnabled = LoadModule("Config.Load.lua")("EvalCenter3xExit", "Save/OutFoxPrefs.ini")
 local AdvScoresShown = false
+local BasicMode = getenv("IsBasicMode")
 
 local GradeZoom = IsUsingWideScreen() and 0.6 or 0.5
 
@@ -45,8 +46,8 @@ local t = Def.ActorFrame {
     LoadActor("EvalSongInfo") .. {
         InitCommand=function(self) self:xy(SCREEN_CENTER_X, 140) end,
     },
-
-    LoadActor("../HudPanels")
+	
+	LoadActor("../HudPanels")
 }
 
 t[#t+1] = Def.ActorFrame {
@@ -76,6 +77,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             InitCommand=function(self)
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 160)
                 :easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
+				:visible(not BasicMode)
             end,
         },
 

@@ -15,19 +15,35 @@ Branch.TitleMenu = function()
     end
 end
 
+function SelectMusicOrCourse()
+	if GAMESTATE:IsCourseMode() then
+		return "ScreenSelectCourse"
+	elseif getenv("IsBasicMode") then
+		return "ScreenSelectMusicBasic"
+	else
+		return "ScreenSelectMusic"
+	end
+end
+
 CustomBranch = {
 	StartGame = function()
 		if SONGMAN:GetNumSongs() == 0 and SONGMAN:GetNumAdditionalSongs() == 0 then
 			return "ScreenHowToInstallSongs"
 		end
 		if PROFILEMAN:GetNumLocalProfiles() > 0 then
-            setenv("IsBasicMode", false)
 			return "ScreenSelectProfile"
         else
-			-- Will be basic mode soon
             setenv("IsBasicMode", true)
 			return "ScreenSelectMusicBasic"
 		end
+	end,
+	AfterSelectProfile = function()
+		if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) then
+			setenv("IsBasicMode", false)
+		else
+			setenv("IsBasicMode", true)
+		end
+		return SelectMusicOrCourse()
 	end,
 	AfterProfileSave = function()
 		if GAMESTATE:IsEventMode() then

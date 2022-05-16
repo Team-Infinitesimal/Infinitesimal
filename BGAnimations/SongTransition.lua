@@ -1,3 +1,5 @@
+local BasicMode = getenv("IsBasicMode")
+
 local ChartLabels = {
 	"NEW",
 	"ANOTHER",
@@ -9,6 +11,15 @@ local ChartLabels = {
 	"INFINITY",
 	"JUMP",
 }
+
+local function ColourSteps(meter, type)
+    if type == "Double" then return {color("#21db30"), "DOUBLE"} end
+    if meter <= 2 then return {color("#209be3"), "EASY"} end
+    if meter <= 4 then return {color("#fff700"), "NORMAL"} end
+    if meter <= 7 then return {color("#ff3636"), "HARD"} end
+    if meter <= 12 then return {color("#d317e8"), "VERY HARD"} end
+    return {Color.White, "idk lol"} -- failsafe to prevent errors, should never be displayed anyway
+end
 
 local t = Def.ActorFrame {
 	Def.Quad {
@@ -61,16 +72,20 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
 					local Song = GAMESTATE:GetCurrentSong()
 					local Chart = GAMESTATE:GetCurrentSteps(pn)
+					local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
 
 					local ChartMeter = Chart:GetMeter()
 					if ChartMeter == 99 then ChartMeter = "??" end
 
 					local ChartAuthor = Chart:GetAuthorCredit()
 					if ChartAuthor == "" then ChartAuthor = "Unknown" end
+					
+					local StepData = ColourSteps(ChartMeter, ChartType)
 
-					self:GetChild("Ball"):diffuse(ChartTypeToColor(Chart))
+					self:GetChild("Ball"):diffuse(BasicMode and StepData[1] or ChartTypeToColor(Chart))
 					self:GetChild("Meter"):settext(ChartMeter)
 					self:GetChild("Credit"):settext(ChartAuthor)
+					self:GetChild("Difficulty"):visible(BasicMode):settext(StepData[2])
 
 					local ChartLabelIndex = 0
 					for Index, String in pairs(ChartLabels) do
@@ -80,7 +95,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 					end
 
 					if ChartLabelIndex ~= 0 then
-						self:GetChild("Label"):visible(true):setstate(ChartLabelIndex - 1)
+						self:GetChild("Label"):visible(not BasicMode):setstate(ChartLabelIndex - 1)
 					else
 						self:GetChild("Label"):visible(false)
 					end
@@ -123,6 +138,14 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 				Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
 				InitCommand=function(self)
 					self:xy(79.25 * PlayerDirection, 22.25):visible(false):animate(false)
+				end
+			},
+			
+			Def.BitmapText {
+				Font="Montserrat extrabold 20px",
+				Name="Difficulty",
+				InitCommand=function(self)
+					self:xy(79.25 * PlayerDirection, -22.25):visible(false):zoom(0.8):maxwidth(82):shadowlength(2):skewx(-0.1)
 				end
 			},
 

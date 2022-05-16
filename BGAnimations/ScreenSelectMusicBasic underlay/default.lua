@@ -2,8 +2,13 @@ local t = Def.ActorFrame {
     Name="Base",
     OnCommand=function(self)
         -- Change default sort to Basic Mode songs only
+		SONGMAN:SetPreferredSongs("BasicMode")
         SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
-        SONGMAN:SetPreferredSongs("BasicMode")
+		-- Also change the default song to start on... 
+		-- If the game doesn't pick up the first song of the first folder available.
+		local Songs = SONGMAN:GetPreferredSortSongs()
+		SCREENMAN:GetTopScreen():GetMusicWheel():SelectSong(Songs[10])
+		MESSAGEMAN:Broadcast("CurrentSongChanged")
     end,
 
     Def.Sound {
@@ -52,7 +57,7 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
     local width = (IsUsingWideScreen() and 200 or 175)
     local posx = (pn == PLAYER_1 and SCREEN_LEFT + spacing or SCREEN_RIGHT - (spacing + width + 10) )
     local title = "How To Play"
-    local body = "Use &DOWNLEFT; &DOWNRIGHT; to scroll through songs.\n" ..
+    local body = "Use &DOWNLEFT; and &DOWNRIGHT; to scroll through songs.\n" ..
                  "When you find a song you want to play, select it with "..
                  "&CENTER;, then pick a difficulty.\n"..
                  "If you change your mind, use &UPLEFT; or &UPRIGHT; "..
@@ -62,7 +67,6 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
         Name="TutorialMessage"..pn,
         LoadModule("UI.MessageBox.lua")(posx, SCREEN_CENTER_Y - 125, width, 15, title, body)
     }
-
 end
 
 t[#t+1] = Def.ActorFrame {

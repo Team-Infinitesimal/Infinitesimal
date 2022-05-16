@@ -36,10 +36,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self) self:queuecommand("Refresh") end,
-        ChangeStepsMessageCommand=function(self) self:playcommand("Refresh") end,
+        ChangeChartMessageCommand=function(self) self:playcommand("Refresh") end,
         SongChosenMessageCommand=function(self) self:playcommand("Refresh") end,
 
-        RefreshCommand=function(self)
+        RefreshCommand=function(self, params)
             if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(pn) then
                 local Song = GAMESTATE:GetCurrentSong()
                 local Chart = GAMESTATE:GetCurrentSteps(pn)
