@@ -145,12 +145,15 @@ local function ChartRange(chart, a, b)
 	return false
 end
 
-local outputPath = THEME:GetCurrentThemeDirectory() .. "/Other/SongManager BasicMode.txt"
+local outputPath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager BasicMode.txt"
 local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last forward slash unless there is a terminator"
 local combineFormat = "%s/%s"
 
-local function AssembleBasicMode()
-	if not (SONGMAN and GAMESTATE) then return end
+function AssembleBasicMode()
+	if not (SONGMAN and GAMESTATE) then
+		Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
+		return 
+	end
 	local set = {}
 
 	-- Populate the groups
@@ -183,6 +186,7 @@ local function AssembleBasicMode()
 		end
 	end
 	table.sort(groupNames)
+	Trace("Group names sorted")
 
 	-- Then, let's make a representation of our eventual file in memory.
 	local outputLines = {}
@@ -192,15 +196,20 @@ local function AssembleBasicMode()
 			table.insert(outputLines, 1, path)
 		end
 	end
+	Trace("Output lines populated")
 
 	-- Now, slam it all out to disk.
 	local fHandle = RageFileUtil.CreateRageFile()
 	-- The mode is Write+FlushToDiskOnClose
+	Trace("Opening list file at: " .. outputPath)
 	fHandle:Open(outputPath, 10)
+	Trace("Writing to file...")
 	fHandle:Write(table.concat(outputLines,'\n'))
+	Trace("Closing file...")
 	fHandle:Close()
 	fHandle:destroy()
+	Trace("Done!")
 end
 
--- And run!
+Trace("Creating Basic Mode song list...")
 AssembleBasicMode()

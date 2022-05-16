@@ -1,5 +1,4 @@
 return Def.ActorFrame {
-
     -- bro wake up it's 2008
     CodeMessageCommand=function(self, param)
         if param.Name == "Secret" then

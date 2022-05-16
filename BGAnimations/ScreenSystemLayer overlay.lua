@@ -1,4 +1,9 @@
 local t = Def.ActorFrame {
+	InitCommand=function(self)
+		Trace("Creating Basic Mode song list...")
+		AssembleBasicMode()
+	end,
+	
     Def.BitmapText {
         Font="Common normal",
 		InitCommand=function(self)
