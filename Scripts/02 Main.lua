@@ -159,7 +159,7 @@ local function AssembleBasicMode()
 		table.sort(steps, SortCharts)
 		local doublesSteps = song:GetStepsByStepsType('StepsType_Pump_Double')
 		table.sort(doublesSteps, SortCharts)
-		if i > 1 and #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
+		if #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
 			if (ChartRange(steps[1], 1, 2) and ChartRange(steps[2], 3, 4) and ChartRange(steps[3], 5, 7) or
 				(ChartRange(steps[1], 3, 4) and ChartRange(steps[2], 5, 7) and ChartRange(steps[3], 8, 9))) 
 				and ChartRange(doublesSteps[1], 1, 9) then
