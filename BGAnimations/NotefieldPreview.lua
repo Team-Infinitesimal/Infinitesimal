@@ -49,7 +49,7 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
             DrawDistanceBeforeTargetsPixels = NotefieldRenderBefore,
             YReverseOffsetPixels = ReceptorOffset,
             FieldID=1,
-            InitCommand=function(self)
+            OnCommand=function(self)
                 self:y(NotefieldY):GetPlayerOptions("ModsLevel_Current"):StealthPastReceptors(true, true)
                 self:AutoPlay(true)
                 
