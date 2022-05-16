@@ -12,7 +12,7 @@ function GameArrowSpacing()
     end
 end
 
--- Lua Timing currently does not change these parameters, so the best we can do is 
+-- Lua Timing currently does not change these parameters, so the best we can do is
 -- look at the current mode on boot up and change to the proper values
 local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 
@@ -145,14 +145,15 @@ local function ChartRange(chart, a, b)
 	return false
 end
 
-local outputPath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager BasicMode.txt"
+local outputBasicModePath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager BasicMode.txt"
+local outputAllTunesPath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager AllTunes.txt"
 local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last forward slash unless there is a terminator"
 local combineFormat = "%s/%s"
 
 function AssembleBasicMode()
 	if not (SONGMAN and GAMESTATE) then
 		Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
-		return 
+		return
 	end
 	local set = {}
 
@@ -164,7 +165,7 @@ function AssembleBasicMode()
 		table.sort(doublesSteps, SortCharts)
 		if #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
 			if (ChartRange(steps[1], 1, 2) and ChartRange(steps[2], 3, 4) and ChartRange(steps[3], 5, 7) or
-				(ChartRange(steps[1], 3, 4) and ChartRange(steps[2], 5, 7) and ChartRange(steps[3], 8, 9))) 
+				(ChartRange(steps[1], 3, 4) and ChartRange(steps[2], 5, 7) and ChartRange(steps[3], 8, 9)))
 				and ChartRange(doublesSteps[1], 1, 9) then
 				local shortSongDir = string.match(song:GetSongDir(),isolatePattern)
 				local groupName = song:GetGroupName()
@@ -201,8 +202,60 @@ function AssembleBasicMode()
 	-- Now, slam it all out to disk.
 	local fHandle = RageFileUtil.CreateRageFile()
 	-- The mode is Write+FlushToDiskOnClose
-	Trace("Opening list file at: " .. outputPath)
-	fHandle:Open(outputPath, 10)
+	Trace("Opening list file at: " .. outputBasicModePath)
+	fHandle:Open(outputBasicModePath, 10)
+	Trace("Writing to file...")
+	fHandle:Write(table.concat(outputLines,'\n'))
+	Trace("Closing file...")
+	fHandle:Close()
+	fHandle:destroy()
+	Trace("Done!")
+end
+
+function AssembleAllTunes()
+	if not (SONGMAN and GAMESTATE) then
+		Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
+		return
+	end
+	local set = {}
+
+	-- Populate the groups
+	for i, song in pairs(SONGMAN:GetAllSongs()) do
+    	local shortSongDir = string.match(song:GetSongDir(),isolatePattern)
+    	local groupName = song:GetGroupName()
+    	local groupTbl = GetOrCreateChild(set, groupName)
+    	table.insert(groupTbl,
+    		string.format(combineFormat, groupName, shortSongDir))
+	end
+
+	-- Sort all the groups and collect their names, then sort that too
+	local groupNames = {}
+	for groupName, group in pairs(set) do
+		if next(group) == nil then
+			set[groupName] = nil
+		else
+			table.sort(group)
+			table.insert(groupNames, groupName)
+		end
+	end
+	table.sort(groupNames)
+	Trace("Group names sorted")
+
+	-- Then, let's make a representation of our eventual file in memory.
+	local outputLines = {}
+	for _, groupName in ipairs(groupNames) do
+		--table.insert(outputLines, "---"..groupName)
+		for _, path in ipairs(set[groupName]) do
+			table.insert(outputLines, 1, path)
+		end
+	end
+	Trace("Output lines populated")
+
+	-- Now, slam it all out to disk.
+	local fHandle = RageFileUtil.CreateRageFile()
+	-- The mode is Write+FlushToDiskOnClose
+	Trace("Opening list file at: " .. outputAllTunesPath)
+	fHandle:Open(outputAllTunesPath, 10)
 	Trace("Writing to file...")
 	fHandle:Write(table.concat(outputLines,'\n'))
 	Trace("Closing file...")
@@ -213,3 +266,5 @@ end
 
 Trace("Creating Basic Mode song list...")
 AssembleBasicMode()
+Trace("Creating All Tunes song list...")
+AssembleAllTunes()

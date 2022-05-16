@@ -31,6 +31,23 @@ for v in ivalues( SONGMAN:GetSongGroupNames() ) do
 	end
 end
 
+-- Add custom channels to the group wheel
+CustomChannels = {
+    "AllTunes"
+}
+
+for k,v in ipairs(CustomChannels) do
+    song_groups[#song_groups+1] = v
+end
+
+-- Handle banners for custom channels
+local function GetCustomBannerPath(channel)
+    for k,v in ipairs(CustomChannels) do
+        if channel == v then return THEME:GetPathG("", "Channels/"..channel) end
+    end
+    return nil
+end
+
 -- Next up, we create our wheel.
 
 -- This spawns an item scroller class.
@@ -52,6 +69,7 @@ local item_mt= {
                 self.container:fov(90):vanishpoint(SCREEN_CENTER_X, SCREEN_CENTER_Y):SetDrawByZPosition(true)
 			end,
 			Def.Sprite {
+                Name="Background",
                 Texture=THEME:GetPathG("", "MusicWheel/GradientBanner"),
                 InitCommand=function(self) self:scaletoclipped(270, 150) end
             },
@@ -71,6 +89,7 @@ local item_mt= {
 				end
 			},
             Def.Sprite {
+                Name="Frame",
 				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
                 InitCommand=function(self)
 					self:zoom(1.25):z(3)
@@ -108,8 +127,22 @@ local item_mt= {
 		local banner = SONGMAN:GetSongGroupBannerPath(info)
 		if banner ~= "" then
   			self.container:GetChild("Banner"):Load(banner):scaletofit(-135, -75, 135, 75)
+            self.container:GetChild("Background"):visible(true)
+            self.container:GetChild("Text"):visible(true)
+            self.container:GetChild("Frame"):visible(true)
   		else
+            CustomBanner = GetCustomBannerPath(info)
+            if CustomBanner then
+                self.container:GetChild("Banner"):Load(CustomBanner):scaletofit(-180, -120, 180, 120)
+                self.container:GetChild("Background"):visible(false)
+                self.container:GetChild("Text"):visible(false)
+                self.container:GetChild("Frame"):visible(false)
+                return
+            end
 			self.container:GetChild("Banner"):Load(THEME:GetPathG("Common fallback", "banner")):scaletofit(-135, -75, 135, 75)
+            self.container:GetChild("Background"):visible(true)
+            self.container:GetChild("Text"):visible(true)
+            self.container:GetChild("Frame"):visible(true)
 		end
 	end
 }}
@@ -125,7 +158,13 @@ local function CloseWheel()
 	curItem.container:GetChild("Banner"):decelerate(0.25):diffusealpha(0)
 	WheelActive = false
         --Since this is for a group wheel, this sets the new group.
-	ScreenSelectMusic:GetChild('MusicWheel'):SetOpenSection(currentGroup)
+    if not SONGMAN:DoesSongGroupExist(currentGroup) then
+        SONGMAN:SetPreferredSongs(currentGroup)
+        SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
+    else
+        SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Group")
+        ScreenSelectMusic:GetChild('MusicWheel'):SetOpenSection(currentGroup)
+    end
         --The built in wheel needs to be told the group has been changed, for whatever reason. This function does it.
 	SCREENMAN:GetTopScreen():PostScreenMessage( 'SM_SongChanged', 0 )
 	SCREENMAN:set_input_redirected(PLAYER_1, false)
