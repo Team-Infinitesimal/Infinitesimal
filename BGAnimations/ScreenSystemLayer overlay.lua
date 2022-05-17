@@ -2,16 +2,14 @@ local t = Def.ActorFrame {
 	InitCommand=function(self)
 		Trace("Creating Basic Mode song list...")
 		AssembleBasicMode()
-        Trace("Creating All Tunes song list...")
-        AssembleAllTunes()
 	end,
-
+	
     Def.BitmapText {
         Font="Common normal",
 		InitCommand=function(self)
 			self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM - 22):shadowlength(1):queuecommand('Refresh')
 		end,
-
+        
         ScreenChangedMessageCommand=function(self)
 			local Screen = SCREENMAN:GetTopScreen()
 			local IsVisible = true
@@ -19,10 +17,10 @@ local t = Def.ActorFrame {
 				local sClass = Screen:GetName()
 				IsVisible = THEME:GetMetric(sClass, "ShowCreditDisplay")
 			end
-
+            
 			self:visible(IsVisible)
 		end,
-
+		
 		OnCommand=function(self) self:playcommand('Refresh') end,
 		CoinInsertedMessageCommand=function(self) self:playcommand('Refresh') end,
 		PlayerJoinedMessageCommand=function(self) self:playcommand('Refresh') end,
@@ -32,7 +30,7 @@ local t = Def.ActorFrame {
 		RefreshCommand=function(self)
 			local CoinMode = GAMESTATE:GetCoinMode()
 			local EventMode = GAMESTATE:IsEventMode()
-
+			
 			-- no one wants screen burn-in at home!
 			if CoinMode == "CoinMode_Home" then
 				self:visible(false)
@@ -61,7 +59,7 @@ t[#t+1] = Def.ActorFrame {
 			self:sleep(3):linear(0.5):diffusealpha(0)
 		end
 	},
-
+    
 	Def.BitmapText{
 		Font="Common Normal",
 		Name="Text",
@@ -75,7 +73,7 @@ t[#t+1] = Def.ActorFrame {
 			self:sleep(3):linear(0.5):diffusealpha(0)
 		end
 	},
-
+    
 	SystemMessageMessageCommand = function(self, params)
 		self:GetChild("Text"):settext(params.Message)
 		self:playcommand("On")
@@ -84,7 +82,7 @@ t[#t+1] = Def.ActorFrame {
 		end
 		self:playcommand("Off")
 	end,
-
+    
 	HideSystemMessageMessageCommand = function (self)
 		self:finishtweening()
 	end
