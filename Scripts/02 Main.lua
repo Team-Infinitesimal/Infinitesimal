@@ -12,7 +12,7 @@ function GameArrowSpacing()
     end
 end
 
--- Lua Timing currently does not change these parameters, so the best we can do is 
+-- Lua Timing currently does not change these parameters, so the best we can do is
 -- look at the current mode on boot up and change to the proper values
 local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 
@@ -107,6 +107,11 @@ function ChartStyleToIndex(Chart)
 	end
 end
 
+function IsAnniversary()
+    if MonthOfYear() == 4 and DayOfMonth() == 19 then return true end
+    return false
+end
+
 -- Thank you, Accelerator and DDR SN3 team!
 -- These functions are a port of Delta NEX Rebirth and https://github.com/Inorizushi/DDR-X3/blob/master/Scripts/Starter.lua, please credit them if you want to put it in your theme
 
@@ -152,7 +157,7 @@ local combineFormat = "%s/%s"
 function AssembleBasicMode()
 	if not (SONGMAN and GAMESTATE) then
 		Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
-		return 
+		return
 	end
 	local set = {}
 
@@ -164,7 +169,7 @@ function AssembleBasicMode()
 		table.sort(doublesSteps, SortCharts)
 		if #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
 			if (ChartRange(steps[1], 1, 2) and ChartRange(steps[2], 3, 4) and ChartRange(steps[3], 5, 7) or
-				(ChartRange(steps[1], 3, 4) and ChartRange(steps[2], 5, 7) and ChartRange(steps[3], 8, 9))) 
+				(ChartRange(steps[1], 3, 4) and ChartRange(steps[2], 5, 7) and ChartRange(steps[3], 8, 9)))
 				and ChartRange(doublesSteps[1], 1, 9) then
 				local shortSongDir = string.match(song:GetSongDir(),isolatePattern)
 				local groupName = song:GetGroupName()

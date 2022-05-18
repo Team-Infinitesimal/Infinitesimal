@@ -73,4 +73,8 @@ t[#t+1] = Def.Sprite {
 	end
 }
 
+t[#t+1] = LoadActor("confetti")..{
+    Condition=IsAnniversary()
+}
+
 return t
