@@ -96,7 +96,7 @@ local t = Def.ActorFrame {
 
 -- Avatar display and info on bottom panel
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
-	if PROFILEMAN:GetProfile(pn) then
+	if PROFILEMAN:GetProfile(pn) and PROFILEMAN:IsPersistentProfile(pn) then
 		t[#t+1] = Def.ActorFrame {
 			Def.ActorFrame {
 				InitCommand=function(self) self:y(128) end,
