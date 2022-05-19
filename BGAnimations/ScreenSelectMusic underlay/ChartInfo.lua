@@ -36,7 +36,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self) self:queuecommand("Refresh") end,
-        ChangeChartMessageCommand=function(self) self:playcommand("Refresh") end,
+        CurrentChartChangedMessageCommand=function(self, params) if params.Player == pn then self:playcommand("Refresh") end end,
         SongChosenMessageCommand=function(self) self:playcommand("Refresh") end,
 
         RefreshCommand=function(self, params)
@@ -165,10 +165,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             InitCommand=function(self) self:diffusealpha(1):queuecommand("ShowAMV") end,
             SongChosenMessageCommand=function(self) self:stoptweening():diffusealpha(1):queuecommand("ShowAMV") end,
 
-            ["CurrentSteps" .. ToEnumShortString(pn) .. "ChangedMessageCommand"]=function(self)
-                self:stoptweening():diffusealpha(0)
-                if GAMESTATE:GetCurrentSong() then
-                    self:sleep(PreviewDelay):queuecommand("ShowAMV")
+            CurrentChartChangedMessageCommand=function(self, params) 
+                if params.Player == pn then
+                    self:stoptweening():diffusealpha(0)
+                    if GAMESTATE:GetCurrentSong() then
+                        self:sleep(PreviewDelay):queuecommand("ShowAMV")
+                    end
                 end
             end,
 

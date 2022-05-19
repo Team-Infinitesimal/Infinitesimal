@@ -5,8 +5,9 @@ local ItemTotalW = ItemW * ((ItemAmount - 1) / 2)
 
 local FrameX = -ItemTotalW
 
-local ChartIndexP1 = 1
-local ChartIndexP2 = 1
+local PlayerChartIndex = { PlayerNumber_P1 = 1, PlayerNumber_P2 = 1 }
+local PlayerCanMove = { PlayerNumber_P1 = true, PlayerNumber_P2 = true }
+
 local ChartArray = nil
 local SongIsChosen = false
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
@@ -33,36 +34,26 @@ local ChartLabels = {
 }
 
 local function InputHandler(event)
-	if SongIsChosen then
-		local pn = event.PlayerNumber
-		if not pn then return end
-		
-		-- To avoid control from a player that has not joined, filter the inputs out
-		if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
-		if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
-		
+    local pn = event.PlayerNumber
+    if not pn then return end
+    
+    -- To avoid control from a player that has not joined, filter the inputs out
+    if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
+    if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
+    
+	if SongIsChosen and PlayerCanMove[pn] then
 		-- Filter out everything but button presses
 		if event.type == "InputEventType_Repeat" or event.type == "InputEventType_Release" then return end
 		
 		local button = event.button
 		if button == "MenuLeft" or button == "DownLeft" then
-			if pn == PLAYER_1 then
-				if ChartIndexP1 == 1 then return else
-				ChartIndexP1 = ChartIndexP1 - 1 end
-			else
-				if ChartIndexP2 == 1 then return else
-				ChartIndexP2 = ChartIndexP2 - 1 end
-			end
-			MESSAGEMAN:Broadcast("CurrentChartChanged")
+            if PlayerChartIndex[pn] == 1 then return else
+            PlayerChartIndex[pn] = PlayerChartIndex[pn] - 1 end
+			MESSAGEMAN:Broadcast("CurrentChartChanged", { Player = pn })
 		elseif button == "MenuRight" or button == "DownRight" then
-			if pn == PLAYER_1 then
-				if ChartIndexP1 == #ChartArray then return else
-				ChartIndexP1 = ChartIndexP1 + 1 end
-			else
-				if ChartIndexP2 == #ChartArray then return else
-				ChartIndexP2 = ChartIndexP2 + 1 end
-			end
-			MESSAGEMAN:Broadcast("CurrentChartChanged")
+            if PlayerChartIndex[pn] == #ChartArray then return else
+            PlayerChartIndex[pn] = PlayerChartIndex[pn] + 1 end
+			MESSAGEMAN:Broadcast("CurrentChartChanged", { Player = pn })
 		end
 	end
     return
@@ -73,14 +64,21 @@ local t = Def.ActorFrame {
 		SCREENMAN:GetTopScreen():AddInputCallback(InputHandler) 
 		self:playcommand("Refresh")
 	end,
+    
+    -- Prevent the chart list from moving when transitioning
+    OffCommand=function(self)
+        SongIsChosen = false
+    end,
 	
 	-- Update chart list
 	CurrentChartChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 	CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 
-	-- These are to control the visibility of the chart highlight.
+	-- These are to control input and chart highlights appearing.
 	SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
 	SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
+    OptionsListOpenedMessageCommand=function(self, params) PlayerCanMove[params.Player] = false end,
+    OptionsListClosedMessageCommand=function(self, params) PlayerCanMove[params.Player] = true end,
 
 	RefreshCommand=function(self)
 		ChartArray = nil
@@ -92,25 +90,26 @@ local t = Def.ActorFrame {
 
 		if ChartArray then
 			-- Correct player chart indexes to ensure they're not off limits
-			if ChartIndexP1 < 1 then ChartIndexP1 = 1 elseif ChartIndexP1 > #ChartArray then ChartIndexP1 = #ChartArray end
-			if ChartIndexP2 < 1 then ChartIndexP2 = 1 elseif ChartIndexP2 > #ChartArray then ChartIndexP2 = #ChartArray end
+			if PlayerChartIndex[PLAYER_1] < 1 then PlayerChartIndex[PLAYER_1] = 1
+            elseif PlayerChartIndex[PLAYER_1] > #ChartArray then PlayerChartIndex[PLAYER_1] = #ChartArray end
+            
+			if PlayerChartIndex[PLAYER_2] < 1 then PlayerChartIndex[PLAYER_2] = 1
+            elseif PlayerChartIndex[PLAYER_2] > #ChartArray then PlayerChartIndex[PLAYER_2] = #ChartArray end
 			
 			-- Set the selected charts and broadcast a new message to avoid possible
 			-- race conditions trying to obtain the currently selected chart.
 			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then 
-				GAMESTATE:SetCurrentSteps(PLAYER_1, ChartArray[ChartIndexP1]) 
-				MESSAGEMAN:Broadcast("ChangeChart")
+				GAMESTATE:SetCurrentSteps(PLAYER_1, ChartArray[PlayerChartIndex[PLAYER_1]]) 
 			end
 			if GAMESTATE:IsPlayerEnabled(PLAYER_2) then 
-				GAMESTATE:SetCurrentSteps(PLAYER_2, ChartArray[ChartIndexP2])
-				MESSAGEMAN:Broadcast("ChangeChart")				
+				GAMESTATE:SetCurrentSteps(PLAYER_2, ChartArray[PlayerChartIndex[PLAYER_2]])
 			end
 			
-			local ChartIndex = ChartIndexP1 > ChartIndexP2 and ChartIndexP1 or ChartIndexP2
+			local ChartIndex = PlayerChartIndex[PLAYER_1] > PlayerChartIndex[PLAYER_2] and PlayerChartIndex[PLAYER_1] or PlayerChartIndex[PLAYER_2]
 
 			local ListOffset = 0
 			if ChartIndex + 1 > ItemAmount then
-					ListOffset = ChartIndex - ItemAmount + (ChartIndex == #ChartArray and 0 or 1)
+                ListOffset = ChartIndex - ItemAmount + (ChartIndex == #ChartArray and 0 or 1)
 			end
 
 			if CenterList then
@@ -139,9 +138,9 @@ local t = Def.ActorFrame {
                     self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
 					self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
 					self:GetChild("")[i]:GetChild("HighlightP1"):visible(
-                        (ChartIndexP1 == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
+                        (PlayerChartIndex[PLAYER_1] == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
                     self:GetChild("")[i]:GetChild("HighlightP2"):visible(
-                        (ChartIndexP2 == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_2))
+                        (PlayerChartIndex[PLAYER_2] == i + ListOffset) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_2))
 
                     --local ChartLabelString = ""
                     local ChartLabelIndex = 0
