@@ -5,45 +5,46 @@
 ## [Discord server is now available for more development insights and discussion!](https://discord.gg/ex6e4jNm6s)
 
 ## About Infinitesimal
-This theme aims to be a spiritual successor to Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilizing original assets when possible, and bringing high performance + cross-platform support to the table with Project OutFox.
+This theme is inspired by Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilizing original assets when possible, bringing high performance + cross-platform support to the table with Project OutFox and widening the idea and accessibility of custom Pump It Up content.
 
 ## Requirements
-* [Project OutFox-5.3.0-alpha.4.13.0 or newer](https://projectoutfox.com/downloads)
+* [Project OutFox Alpha 0.4.14.1 or newer](https://projectoutfox.com/downloads)
 
 Older StepMania versions such as `5.0.12`, `5.1b2` and `5.1-new` are not supported due to the lack of maintenance to `pump/piu` and the engine in general. Support the developers from Team OutFox who are currently doing the heavy lifting!
 
 ## Installing
-Since this theme is currently on a rolling release, we highly recommend downloading the theme through GitHub Desktop (or `git` for Linux users) and pull subsequent updates that are pushed to the repository. If you're unable to do so, you can also download from the `Code > Download ZIP` button on the main page and extract the .zip file to your OutFox Themes folder (by default in `Appearance/Themes`).
+Since this theme is currently on a rolling release, we highly recommend downloading the theme through GitHub Desktop (or `git` for Linux users) and pull subsequent updates that are pushed to the repository. If you're unable to do so, you can also download from the `Code > Download ZIP` button on the main page and extract the .zip file to your OutFox [Themes](https://outfox.wiki/user-guide/config/folders/#themes) folder.
 
 **If you are upgrading from a previous version by `Download ZIP`, fully delete the old folder first. Do not merge the new folder into the old.**
 
 ## Theme Features
-* Support for "Superb" judgments with advanced timing windows
-* Infinity-style Command Window
-* Speed mods and Auto Velocity
-* Various Judgements (NJ, HJ, VJ, Infinity, ITG...)
-* BGA OFF + BGA Dark with adjustable levels
-* In-game timing deviation, score, measures and song progress display...
-* Customizable appearance options, modifiers, rush...
-* Chart preview on the song selection screen
-* Note density graph as part of chart info
-* Arcade-accurate lifebar, timing windows, and scoring
-* Exit back to the title screen during event mode by pressing and holding either red arrow
+* Accurate timing windows scoring and lifebar mechanics to K-Pump
+* Additional timing windows available (StepMania, ITG, Infinity, Pro, Jump)
+* Multiply, Automatic and Constant scroll speeds
+* Fully customizable background filters, choose to filter playfield only or the entire screen
+* Measures and song progress display
+* Customizable appearance options and modifiers such as arrow size and rush
+* Visualize chart information while selecting a song, previews are currently WIP
+* Exit to title screen in home/event mode (hold down any red arrow while selecting a folder)
 
 ## Theme-Specific Toggles
 The following features can be configured via the Infinitesimal Options submenu of the operator menu:
-* Center Chart List - if there are fewer charts than the maximum visible number, the charts will be centered to the display. Disabling this will fill the remaining slots with empty grey icons.
-* Chart Preview - displays a live preview of the chart on the music select screen.
-* Image Preview Only - allows you to disable whether preview videos are shown during song select, which may help with performance.
-* Pause With Select Button - enables using any kep mapped to "Select" to pause the game, ideal for cab owners with a buttonboard installed to be able to pause without reaching for a keyboard.
-* Use Background Video - replaces the real-time background animation with a pre-rendered background video to boost performance on hardware with more capable video decoding functionality.
-* 3x Center to Exit Eval - allows you to exit the evaluation screen after a song by pressing the center panel/start button 3 times like in offical games, otherwise exits on 1 press if disabled.
-* Show Big Diff Icon - displays a larger difficulty icon beside the difficulty selection box to improve readability for anyone having a tough time reading the smaller text and/or icons.
+* Center Chart List: If there are less charts than the maximum visible number, the charts will be centered to the display. Disabling this will fill the remaining slots with empty grey icons.
+* Chart Preview: Preview the selected chart on the select music screen (WIP).
+* Image Preview Only: Videos will not be displayed while selecting a song, helps with performance on low-end hardware and/or memory usage.
+* Pause With Select Button - Use the button mapped to "Select" to open the pause menu during gameplay. (Recommended for private machine owners with a buttonboard installed)
+* Use Video Background - Use a pre-rendered video for the animated theme background, requires restart. (Recommended for newer hardware with good H.264 decoding)
+* 3x Center to Exit Eval - Press the center panel 3 times to exit the results screen like in official games, otherwise exit on one press.
+* Show Big Diff Icon - Display a larger icon while selecting a difficulty, aspect ratios higher than 4:3 only. (Recommended if the existing difficulty display is too far away and/or difficult to see)
 
-![image](https://i.imgur.com/5ReEFYB.png)
-![image](https://i.imgur.com/Hn5km7q.png)
-![image](https://i.imgur.com/ibWfBCy.png)
-![image](https://i.imgur.com/SWYoeXO.png)
+## Screenshots
+![title](https://user-images.githubusercontent.com/12992355/169429472-57019244-4eea-4a37-ba9a-fa2c030f27b5.png)
+![profiles](https://user-images.githubusercontent.com/12992355/169429484-610a360b-d40e-4034-a2db-efdd5c1ef1a0.png)
+![basicmode](https://user-images.githubusercontent.com/12992355/169429494-9ae882f1-dc13-41e3-aa86-1762e84031f8.png)
+![fullmode](https://user-images.githubusercontent.com/12992355/169429499-c3ebf0d7-a25c-4edc-bd0d-519e2dc1cc4d.png)
+![fullmode2](https://user-images.githubusercontent.com/12992355/169429505-6e4d3226-2454-46ed-9db8-c35039873f75.png)
+![gameplay](https://user-images.githubusercontent.com/12992355/169429514-003c23fd-c01e-4762-aef6-75a5764c5131.png)
+![score](https://user-images.githubusercontent.com/12992355/169429518-7daabf3f-b38b-40e6-9ac9-efa512d932b8.png)
 
 ## Languages:
 Currently, Infinitesimal supports the following languages:
@@ -55,13 +56,13 @@ If you're looking for assets such as more noteskins or folder icons from StepF2/
 
 ## Current Limitations and Issues
 The theme currently has a few limitations that are beyond our reach. Here is a list of known limitations and issues:
-* Difficulty balls are out of order due to the lack of level sorting;
-* Holds might be extremely hard or easy to hit due to how the tickcount is currently handled;
-* Hold heads currently counts as tap notes, you don't need to step on them but they will count in your accuracy;
+* Holds might be hard or easy to hit due to how checkpoint holds are currently handled by the engine;
+* Hold heads will count towards your accuracy and can count as a Great/Good/Bad;
 * Some chart effects will be missing or broken from incomplete parsing;
-* Chart previews are very experimental - some styles might not load/show properly and your game might crash on edge cases.
+* Chart previews are very experimental - some styles might not load/show properly and your game might crash on edge cases;
+* Switching timing modes does not update the list of judgement graphics, reloading scripts (Ctrl+F2) or restarting the game will regenerate the list.
 
-Hopefully all of these should be gone soon with future Project OutFox developments and improvements by Team OutFox!
+Hopefully all of these should be gone soon with future Project OutFox developments and improvements!
 
 ## Special thanks
 This theme wouldn't be here if it weren't for the help of the following people:
