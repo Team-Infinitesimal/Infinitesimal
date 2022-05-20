@@ -33,6 +33,6 @@ if IsGame("pump") or IsGame("piu") then
 else
     return LoadActor("ButtonPress 5x2") .. {
         Frames=Sprite.LinearFrames(10, .4286),
-        InitCommand=function(self) self:y(20):zoom(0.5) end
+        InitCommand=function(self) self:y(20) end
     }
 end
