@@ -47,11 +47,11 @@ local function InputHandler(event)
         if event.type == "InputEventType_Repeat" or event.type == "InputEventType_Release" then return end
         
         local button = event.button
-        if button == "MenuLeft" or button == "DownLeft" then
+        if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
             if ChartIndex[pn] == 1 then return else
             ChartIndex[pn] = ChartIndex[pn] - 1 end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
-        elseif button == "MenuRight" or button == "DownRight" then
+        elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
             if ChartIndex[pn] == #ChartArray then return else
             ChartIndex[pn] = ChartIndex[pn] + 1 end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
