@@ -106,7 +106,7 @@ local t = Def.ActorFrame {
             end
             if GAMESTATE:IsPlayerEnabled(PLAYER_2) then 
                 GAMESTATE:SetCurrentSteps(PLAYER_2, ChartArray[ChartIndex[PLAYER_2]])
-                 if ChartIndex[PLAYER_2] ~= PrevChartIndex[PLAYER_2] then
+                if ChartIndex[PLAYER_2] ~= PrevChartIndex[PLAYER_2] then
                 MESSAGEMAN:Broadcast("CurrentChartChanged", { Player = PLAYER_2 }) end
             end
             
