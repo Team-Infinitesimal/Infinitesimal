@@ -1,20 +1,20 @@
 return Def.ActorFrame {
     Def.Sound {
-    	File=THEME:GetPathS("", "Pewwwww"),
-    	OnCommand=function(self)
-    		self:queuecommand("Play")
-    	end,
-    	PlayCommand=function(self) self:play() end
-  	},
+        File=THEME:GetPathS("", "Pewwwww"),
+        OnCommand=function(self)
+            self:queuecommand("Play")
+        end,
+        PlayCommand=function(self) self:play() end
+    },
 
     Def.Sound {
-		File=THEME:GetPathS("", "Boom"),
-		OnCommand=function(self)
-			self:sleep(1.5)
-			:queuecommand("Play")
-		end,
-		PlayCommand=function(self) self:play() end
-  	},
+        File=THEME:GetPathS("", "Boom"),
+        OnCommand=function(self)
+            self:sleep(1.5)
+            :queuecommand("Play")
+        end,
+        PlayCommand=function(self) self:play() end
+    },
 
     Def.Sprite{
         Texture=THEME:GetPathG("", "ParticlesAndEffects/Circle"),
@@ -118,11 +118,11 @@ return Def.ActorFrame {
             :diffusealpha(0)
         end
     },
-	
-	Def.Quad {
+    
+    Def.Quad {
         InitCommand=function(self)
             self:FullScreen():diffuse(Color.Black)
-			:diffusealpha(0):sleep(2.5):easeoutexpo(0.5):diffusealpha(1)
+            :diffusealpha(0):sleep(2.5):easeoutexpo(0.5):diffusealpha(1)
             :queuecommand("Transition")
         end,
         TransitionMessageCommand=function(self)

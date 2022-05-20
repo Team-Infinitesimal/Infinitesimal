@@ -15,12 +15,12 @@ local t = Def.ActorFrame {
     },
 
     Def.Sprite {
-		Texture=THEME:GetPathG("", "Noise"),
-		InitCommand=function(self)
+        Texture=THEME:GetPathG("", "Noise"),
+        InitCommand=function(self)
             self:zoomto(FrameW, FrameH)
             :texcoordvelocity(24,16)
         end
-	},
+    },
 
     Def.Sprite {
         InitCommand=function(self) self:Load(nil):queuecommand("Refresh") end,
@@ -52,10 +52,10 @@ local t = Def.ActorFrame {
         LoadAnimatedCommand=function(self)
             local Path = Song:GetPreviewVidPath()
             if Path and FILEMAN:DoesFileExist(Path) then
-				self:Load(Path):zoomto(FrameW, FrameH)
-				:linear(PreviewDelay):diffusealpha(1)
-			else
-				self:queuecommand("LoadBG")
+                self:Load(Path):zoomto(FrameW, FrameH)
+                :linear(PreviewDelay):diffusealpha(1)
+            else
+                self:queuecommand("LoadBG")
             end
         end
     }

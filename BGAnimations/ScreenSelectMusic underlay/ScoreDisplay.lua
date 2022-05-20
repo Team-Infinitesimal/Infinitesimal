@@ -7,6 +7,9 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     
     t[#t+1] = Def.ActorFrame {
         Def.ActorFrame {
+            OnCommand=function(self) self:playcommand("Refresh") end,
+            CurrentChartChangedMessageCommand=function(self, params) if params.Player == pn then self:playcommand("Refresh") end end,
+            
             SongChosenMessageCommand=function(self)
                 self:stoptweening():easeoutexpo(0.5)
                 :x(358 * (pn == PLAYER_2 and 1 or -1))
@@ -15,7 +18,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:stoptweening():easeoutexpo(0.5):x(0)
             end,
 
-            ["CurrentSteps" .. ToEnumShortString(pn) .. "ChangedMessageCommand"]=function(self) self:playcommand("Refresh") end,
             RefreshCommand=function(self)
                 Song = GAMESTATE:GetCurrentSong()
                 Chart = GAMESTATE:GetCurrentSteps(pn)

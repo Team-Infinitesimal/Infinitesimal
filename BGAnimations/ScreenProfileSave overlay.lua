@@ -18,10 +18,10 @@ return Def.ActorFrame {
     },
 
     Def.Actor {
-    	BeginCommand=function(self)
-    		if SCREENMAN:GetTopScreen():HaveProfileToSave() then self:sleep(1) end
-    		self:queuecommand("Load")
-    	end,
-    	LoadCommand=function() SCREENMAN:GetTopScreen():Continue() end
+        BeginCommand=function(self)
+            if SCREENMAN:GetTopScreen():HaveProfileToSave() then self:sleep(1) end
+            self:queuecommand("Load")
+        end,
+        LoadCommand=function() SCREENMAN:GetTopScreen():Continue() end
     }
 }

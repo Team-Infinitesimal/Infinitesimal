@@ -1,8 +1,8 @@
 return Def.ActorFrame {
     OnCommand=function(self)
-		SCREENMAN:set_input_redirected(PLAYER_1, false)
-		SCREENMAN:set_input_redirected(PLAYER_2, false)
-	end,
+        SCREENMAN:set_input_redirected(PLAYER_1, false)
+        SCREENMAN:set_input_redirected(PLAYER_2, false)
+    end,
 
     Def.BitmapText {
         Font="VCR OSD Mono 20px",

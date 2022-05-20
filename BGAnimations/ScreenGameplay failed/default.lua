@@ -1,6 +1,6 @@
 local t = Def.ActorFrame{
 
-	Def.Sprite {
+    Def.Sprite {
         Texture=THEME:GetPathG("", "Gradient background"),
         InitCommand=function(self)
             self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
@@ -101,7 +101,7 @@ local t = Def.ActorFrame{
             :diffusealpha(0)
             :shadowlength(3)
             :shadowcolor(0,0,0,0.25)
-			:zoom(2)
+            :zoom(2)
             :sleep(0.5 + 0.85)
             :accelerate(0.25)
             :diffusealpha(1)
@@ -110,32 +110,32 @@ local t = Def.ActorFrame{
     },
 
     Def.Sound {
-		File=THEME:GetPathS("", "Pewwwww"),
-		OnCommand=function(self)
-			self:queuecommand("Play")
-		end,
-		PlayCommand=function(self) self:play() end
-  	},
+        File=THEME:GetPathS("", "Pewwwww"),
+        OnCommand=function(self)
+            self:queuecommand("Play")
+        end,
+        PlayCommand=function(self) self:play() end
+    },
 
-  	Def.Sound {
-		File="Voice",
-		OnCommand=function(self)
-			self:sleep(0.9)
-			:queuecommand("Play")
-		end,
-		PlayCommand=function(self) self:play() end
-  	},
+    Def.Sound {
+        File="Voice",
+        OnCommand=function(self)
+            self:sleep(0.9)
+            :queuecommand("Play")
+        end,
+        PlayCommand=function(self) self:play() end
+    },
 
-  	Def.Sound {
-		File=THEME:GetPathS("", "Boom"),
-		OnCommand=function(self)
-			self:sleep(1.8)
-			:queuecommand("Play")
-		end,
-		PlayCommand=function(self) self:play() end
-  	},
-  	
-  	Def.Quad {
+    Def.Sound {
+        File=THEME:GetPathS("", "Boom"),
+        OnCommand=function(self)
+            self:sleep(1.8)
+            :queuecommand("Play")
+        end,
+        PlayCommand=function(self) self:play() end
+    },
+    
+    Def.Quad {
         InitCommand=function(self)
             self:zoomto(SCREEN_WIDTH, SCREEN_HEIGHT)
             :Center():diffuse(1,1,1,1)
@@ -144,7 +144,7 @@ local t = Def.ActorFrame{
         OnCommand=function(self)
             self:accelerate(1)
             :diffusealpha(0)
-		end
+        end
     },
     
     Def.Quad {
@@ -157,7 +157,7 @@ local t = Def.ActorFrame{
             self:sleep(4)
             :decelerate(1)
             :diffusealpha(1)
-		end
+        end
     }
 }
 

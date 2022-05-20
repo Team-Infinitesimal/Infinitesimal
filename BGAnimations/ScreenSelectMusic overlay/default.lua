@@ -1,14 +1,14 @@
 local t = Def.ActorFrame {
-	OnCommand=function(self)
-		local pn = GAMESTATE:GetMasterPlayerNumber()
-		GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
-		if GAMESTATE:IsCourseMode() then
-			GAMESTATE:UpdateDiscordScreenInfo("Selecting Course", "", 1)
-		else
-			local StageIndex = GAMESTATE:GetCurrentStageIndex()
-			GAMESTATE:UpdateDiscordScreenInfo("Selecting Song (Stage " .. StageIndex+1 .. ")", "", 1)
-		end
-	end,
+    OnCommand=function(self)
+        local pn = GAMESTATE:GetMasterPlayerNumber()
+        GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
+        if GAMESTATE:IsCourseMode() then
+            GAMESTATE:UpdateDiscordScreenInfo("Selecting Course", "", 1)
+        else
+            local StageIndex = GAMESTATE:GetCurrentStageIndex()
+            GAMESTATE:UpdateDiscordScreenInfo("Selecting Song (Stage " .. StageIndex+1 .. ")", "", 1)
+        end
+    end,
 }
 
 if GAMESTATE:GetNumSidesJoined() < 2 then
@@ -37,7 +37,7 @@ t[#t+1] = Def.ActorFrame {
         IsAction=true,
         PlayerJoinedMessageCommand=function(self)
             self:play()
-			SOUND:DimMusic(0, 1)
+            SOUND:DimMusic(0, 1)
             SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectProfile")
             SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
         end

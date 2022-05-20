@@ -46,29 +46,29 @@ local t = Def.ActorFrame {
     LoadActor("EvalSongInfo") .. {
         InitCommand=function(self) self:xy(SCREEN_CENTER_X, 140) end,
     },
-	
-	LoadActor("../HudPanels")
+    
+    LoadActor("../HudPanels")
 }
 
 t[#t+1] = Def.ActorFrame {
-	OnCommand=function(self)
+    OnCommand=function(self)
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
         SCREENMAN:set_input_redirected(PLAYER_1, true)
         SCREENMAN:set_input_redirected(PLAYER_2, true)
-		local pn = GAMESTATE:GetMasterPlayerNumber()
-		local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
-		local StepOrTrails = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(pn) or GAMESTATE:GetCurrentSteps(pn)
-		if GAMESTATE:GetCurrentSong() then
+        local pn = GAMESTATE:GetMasterPlayerNumber()
+        local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
+        local StepOrTrails = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(pn) or GAMESTATE:GetCurrentSteps(pn)
+        if GAMESTATE:GetCurrentSong() then
             local title = PREFSMAN:GetPreference("ShowNativeLanguage") and GAMESTATE:GetCurrentSong():GetDisplayMainTitle() or GAMESTATE:GetCurrentSong():GetTranslitFullTitle()
-			local details = not GAMESTATE:IsCourseMode() and title .. " - " .. SongOrCourse:GetDisplayArtist() or title
-			details = string.len(details) < 128 and details or string.sub(details, 1, 124) .. "..."
-			local Difficulty = ToEnumShortString(ToEnumShortString((StepOrTrails:GetStepsType()))) .. " " .. StepOrTrails:GetMeter()
-			local Percentage = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn):GetPercentDancePoints()
-			local states = Difficulty .. " (" .. string.format( "%.2f%%", Percentage*100) .. ")"
-			GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
-			GAMESTATE:UpdateDiscordScreenInfo(details, states, 1)
-		end
-	end
+            local details = not GAMESTATE:IsCourseMode() and title .. " - " .. SongOrCourse:GetDisplayArtist() or title
+            details = string.len(details) < 128 and details or string.sub(details, 1, 124) .. "..."
+            local Difficulty = ToEnumShortString(ToEnumShortString((StepOrTrails:GetStepsType()))) .. " " .. StepOrTrails:GetMeter()
+            local Percentage = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn):GetPercentDancePoints()
+            local states = Difficulty .. " (" .. string.format( "%.2f%%", Percentage*100) .. ")"
+            GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
+            GAMESTATE:UpdateDiscordScreenInfo(details, states, 1)
+        end
+    end
 }
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
@@ -77,15 +77,15 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             InitCommand=function(self)
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT + 40 * 2 or -40 * 2, 160)
                 :easeoutexpo(1):x(pn == PLAYER_2 and SCREEN_RIGHT - 40 or 40)
-				:visible(not BasicMode)
+                :visible(not BasicMode)
             end,
         },
 
-		LoadActor("EvalBall", pn) .. {
-			InitCommand=function(self)
-				self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 130 or -130), SCREEN_CENTER_Y + 6)
-			end,
-		},
+        LoadActor("EvalBall", pn) .. {
+            InitCommand=function(self)
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 130 or -130), SCREEN_CENTER_Y + 6)
+            end,
+        },
 
         Def.Sprite {
             InitCommand=function(self)

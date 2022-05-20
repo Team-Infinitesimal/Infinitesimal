@@ -1,5 +1,5 @@
 function OptionNameString(str)
-	return THEME:GetString('OptionNames',str)
+    return THEME:GetString('OptionNames',str)
 end
 
 -- Ensure that speed mods are accurate
@@ -17,24 +17,24 @@ end
 local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 
 function ComboContinue()
-	local Continue = {
-		dance = GAMESTATE:GetPlayMode() == "PlayMode_Oni" and "TapNoteScore_W2" or "TapNoteScore_W3",
-		pump = string.find(TimingMode, "Pump") and "TapNoteScore_W2" or "TapNoteScore_W3",
-		['be-mu'] = "TapNoteScore_W3",
-		kb7 = "TapNoteScore_W3",
-		para = "TapNoteScore_W4"
-	}
+    local Continue = {
+        dance = GAMESTATE:GetPlayMode() == "PlayMode_Oni" and "TapNoteScore_W2" or "TapNoteScore_W3",
+        pump = string.find(TimingMode, "Pump") and "TapNoteScore_W2" or "TapNoteScore_W3",
+        ['be-mu'] = "TapNoteScore_W3",
+        kb7 = "TapNoteScore_W3",
+        para = "TapNoteScore_W4"
+    }
   return Continue[GAMESTATE:GetCurrentGame():GetName()] or "TapNoteScore_W3"
 end
 
 function ComboMaintain()
-	local Maintain = {
-		dance = "TapNoteScore_W3",
-		pump = string.find(TimingMode, "Pump") and "TapNoteScore_W3" or "TapNoteScore_W4",
-		['be-mu'] = "TapNoteScore_W3",
-		kb7 = "TapNoteScore_W3",
-		para = "TapNoteScore_W4"
-	}
+    local Maintain = {
+        dance = "TapNoteScore_W3",
+        pump = string.find(TimingMode, "Pump") and "TapNoteScore_W3" or "TapNoteScore_W4",
+        ['be-mu'] = "TapNoteScore_W3",
+        kb7 = "TapNoteScore_W3",
+        para = "TapNoteScore_W4"
+    }
   return Maintain[GAMESTATE:GetCurrentGame():GetName()] or "TapNoteScore_W3"
 end
 
@@ -44,67 +44,67 @@ LoadModule("Row.Prefs.lua")(LoadModule("Options.Prefs.lua"))
 IsVideoBackground = LoadModule("Config.Load.lua")("UseVideoBackground", "Save/OutFoxPrefs.ini")
 
 function ChartTypeToColor(Chart)
-	local ChartMeter = Chart:GetMeter()
-	local ChartDescription = Chart:GetDescription()
-	local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
+    local ChartMeter = Chart:GetMeter()
+    local ChartDescription = Chart:GetDescription()
+    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
 
-	if ChartType == "Single" then
-		if string.find(ChartDescription, "SP") then
-			return Color.HoloDarkPurple
-		else
-			return color("#ff871f")
-		end
-	elseif ChartType == "Halfdouble" then
-		return Color.HoloDarkRed
-	elseif ChartType == "Double" then
-		ChartDescription:gsub("[%p%c%s]", "")
-		if string.find(string.upper(ChartDescription), "DP") or
-		string.find(string.upper(ChartDescription), "COOP") then
-			if ChartMeter == 99 then
-				return Color.Yellow
-			else
-				return Color.HoloDarkBlue
-			end
-		else
-			return color("#21db30")
-		end
-	elseif ChartType == "Couple" then
-		return Color.HoloDarkBlue
-	elseif ChartType == "Routine" then
-		return Color.Yellow
-	else
-		return color("#9199D4")
-	end
+    if ChartType == "Single" then
+        if string.find(ChartDescription, "SP") then
+            return Color.HoloDarkPurple
+        else
+            return color("#ff871f")
+        end
+    elseif ChartType == "Halfdouble" then
+        return Color.HoloDarkRed
+    elseif ChartType == "Double" then
+        ChartDescription:gsub("[%p%c%s]", "")
+        if string.find(string.upper(ChartDescription), "DP") or
+        string.find(string.upper(ChartDescription), "COOP") then
+            if ChartMeter == 99 then
+                return Color.Yellow
+            else
+                return Color.HoloDarkBlue
+            end
+        else
+            return color("#21db30")
+        end
+    elseif ChartType == "Couple" then
+        return Color.HoloDarkBlue
+    elseif ChartType == "Routine" then
+        return Color.Yellow
+    else
+        return color("#9199D4")
+    end
 end
 
 function ChartStyleToIndex(Chart)
-	local ChartMeter = Chart:GetMeter()
-	local ChartDescription = Chart:GetDescription()
-	local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
+    local ChartMeter = Chart:GetMeter()
+    local ChartDescription = Chart:GetDescription()
+    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
 
-	if ChartType == "Single" then
-		return 0
-	elseif ChartType == "Halfdouble" then
-		return 1
-	elseif ChartType == "Double" then
-		ChartDescription:gsub("[%p%c%s]", "")
-		if string.find(string.upper(ChartDescription), "DP") or
-		string.find(string.upper(ChartDescription), "COOP") then
-			if ChartMeter == 99 then
-				return 3
-			else
-				return 2
-			end
-		else
-			return 2
-		end
-	elseif ChartType == "Couple" then
-		return 3
-	elseif ChartType == "Routine" then
-		return 2
-	else
-		return 0
-	end
+    if ChartType == "Single" then
+        return 0
+    elseif ChartType == "Halfdouble" then
+        return 1
+    elseif ChartType == "Double" then
+        ChartDescription:gsub("[%p%c%s]", "")
+        if string.find(string.upper(ChartDescription), "DP") or
+        string.find(string.upper(ChartDescription), "COOP") then
+            if ChartMeter == 99 then
+                return 3
+            else
+                return 2
+            end
+        else
+            return 2
+        end
+    elseif ChartType == "Couple" then
+        return 3
+    elseif ChartType == "Routine" then
+        return 2
+    else
+        return 0
+    end
 end
 
 function IsAnniversary()
@@ -144,10 +144,10 @@ local function SortCharts(a, b)
 end
 
 local function ChartRange(chart, a, b)
-	if chart:GetMeter() >= a and chart:GetMeter() <= b then
-		return true
-	end
-	return false
+    if chart:GetMeter() >= a and chart:GetMeter() <= b then
+        return true
+    end
+    return false
 end
 
 local outputPath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager BasicMode.txt"
@@ -155,65 +155,65 @@ local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last f
 local combineFormat = "%s/%s"
 
 function AssembleBasicMode()
-	if not (SONGMAN and GAMESTATE) then
-		Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
-		return
-	end
-	local set = {}
+    if not (SONGMAN and GAMESTATE) then
+        Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
+        return
+    end
+    local set = {}
 
-	-- Populate the groups
-	for i, song in pairs(SONGMAN:GetAllSongs()) do
-		local steps = song:GetStepsByStepsType('StepsType_Pump_Single')
-		table.sort(steps, SortCharts)
-		local doublesSteps = song:GetStepsByStepsType('StepsType_Pump_Double')
-		table.sort(doublesSteps, SortCharts)
-		if #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
-			if (ChartRange(steps[1], 1, 2) and ChartRange(steps[2], 3, 4) and ChartRange(steps[3], 5, 7) or
-				(ChartRange(steps[1], 3, 4) and ChartRange(steps[2], 5, 7) and ChartRange(steps[3], 8, 9)))
-				and ChartRange(doublesSteps[1], 1, 9) then
-				local shortSongDir = string.match(song:GetSongDir(),isolatePattern)
-				local groupName = song:GetGroupName()
-				local groupTbl = GetOrCreateChild(set, groupName)
-				table.insert(groupTbl,
-					string.format(combineFormat, groupName, shortSongDir))
-			end
-		end
-	end
+    -- Populate the groups
+    for i, song in pairs(SONGMAN:GetAllSongs()) do
+        local steps = song:GetStepsByStepsType('StepsType_Pump_Single')
+        table.sort(steps, SortCharts)
+        local doublesSteps = song:GetStepsByStepsType('StepsType_Pump_Double')
+        table.sort(doublesSteps, SortCharts)
+        if #steps >= 3 and #doublesSteps >= 1 then --Somehow doublesSteps can be non nil despite having no doubles steps.
+            if (ChartRange(steps[1], 1, 2) and ChartRange(steps[2], 3, 4) and ChartRange(steps[3], 5, 7) or
+                (ChartRange(steps[1], 3, 4) and ChartRange(steps[2], 5, 7) and ChartRange(steps[3], 8, 9)))
+                and ChartRange(doublesSteps[1], 1, 9) then
+                local shortSongDir = string.match(song:GetSongDir(),isolatePattern)
+                local groupName = song:GetGroupName()
+                local groupTbl = GetOrCreateChild(set, groupName)
+                table.insert(groupTbl,
+                    string.format(combineFormat, groupName, shortSongDir))
+            end
+        end
+    end
 
-	-- Sort all the groups and collect their names, then sort that too
-	local groupNames = {}
-	for groupName, group in pairs(set) do
-		if next(group) == nil then
-			set[groupName] = nil
-		else
-			table.sort(group)
-			table.insert(groupNames, groupName)
-		end
-	end
-	table.sort(groupNames)
-	Trace("Group names sorted")
+    -- Sort all the groups and collect their names, then sort that too
+    local groupNames = {}
+    for groupName, group in pairs(set) do
+        if next(group) == nil then
+            set[groupName] = nil
+        else
+            table.sort(group)
+            table.insert(groupNames, groupName)
+        end
+    end
+    table.sort(groupNames)
+    Trace("Group names sorted")
 
-	-- Then, let's make a representation of our eventual file in memory.
-	local outputLines = {}
-	for _, groupName in ipairs(groupNames) do
-		--table.insert(outputLines, "---"..groupName)
-		for _, path in ipairs(set[groupName]) do
-			table.insert(outputLines, 1, path)
-		end
-	end
-	Trace("Output lines populated")
+    -- Then, let's make a representation of our eventual file in memory.
+    local outputLines = {}
+    for _, groupName in ipairs(groupNames) do
+        --table.insert(outputLines, "---"..groupName)
+        for _, path in ipairs(set[groupName]) do
+            table.insert(outputLines, 1, path)
+        end
+    end
+    Trace("Output lines populated")
 
-	-- Now, slam it all out to disk.
-	local fHandle = RageFileUtil.CreateRageFile()
-	-- The mode is Write+FlushToDiskOnClose
-	Trace("Opening list file at: " .. outputPath)
-	fHandle:Open(outputPath, 10)
-	Trace("Writing to file...")
-	fHandle:Write(table.concat(outputLines,'\n'))
-	Trace("Closing file...")
-	fHandle:Close()
-	fHandle:destroy()
-	Trace("Done!")
+    -- Now, slam it all out to disk.
+    local fHandle = RageFileUtil.CreateRageFile()
+    -- The mode is Write+FlushToDiskOnClose
+    Trace("Opening list file at: " .. outputPath)
+    fHandle:Open(outputPath, 10)
+    Trace("Writing to file...")
+    fHandle:Write(table.concat(outputLines,'\n'))
+    Trace("Closing file...")
+    fHandle:Close()
+    fHandle:destroy()
+    Trace("Done!")
 end
 
 Trace("Creating Basic Mode song list...")

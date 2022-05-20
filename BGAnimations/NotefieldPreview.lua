@@ -11,17 +11,17 @@ local PlayerPos = GAMESTATE:GetNumPlayersEnabled() == 1 and "OnePlayerTwoSides" 
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 
 local function GetCurrentChartIndex(pn, ChartArray)
-	local PlayerSteps = GAMESTATE:GetCurrentSteps(pn)
-	-- Not sure how the previous checks fails at times, so here it is once again
-	if ChartArray then
-		for i=1,#ChartArray do
-			if PlayerSteps == ChartArray[i] then
-				return i
-			end
-		end
-	end
-	-- If it reaches this point, the selected steps doesn't equal anything
-	return nil
+    local PlayerSteps = GAMESTATE:GetCurrentSteps(pn)
+    -- Not sure how the previous checks fails at times, so here it is once again
+    if ChartArray then
+        for i=1,#ChartArray do
+            if PlayerSteps == ChartArray[i] then
+                return i
+            end
+        end
+    end
+    -- If it reaches this point, the selected steps doesn't equal anything
+    return nil
 end
 
 local t = Def.ActorFrame {}
@@ -53,7 +53,7 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                 self:y(NotefieldY):GetPlayerOptions("ModsLevel_Current"):StealthPastReceptors(true, true)
                 self:AutoPlay(true)
                 
-				LoadModule("Player.SetSpeed.lua")(pn)
+                LoadModule("Player.SetSpeed.lua")(pn)
                 local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
                 self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
             end,
@@ -68,11 +68,11 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                 
                 local Song = GAMESTATE:GetCurrentSong()
                 if Song then ChartArray = Song:GetAllSteps() else return end
-				
-				LoadModule("Player.SetSpeed.lua")(pn)
+                
+                LoadModule("Player.SetSpeed.lua")(pn)
                 local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
                 self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
-				
+                
                 local ChartIndex = GetCurrentChartIndex(pnNoteField, ChartArray)
                 if not ChartIndex then return end
                 

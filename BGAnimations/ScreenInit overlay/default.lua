@@ -180,12 +180,12 @@ return Def.ActorFrame {
     -- Transitions to the next screen after 5 seconds
     Def.Quad {
         Name="ScreenTransferActor",
-    		InitCommand=function(self)
-    			   self:diffuse(0,0,0,0):sleep(5):queuecommand("Transfer")
-    		end,
-    		TransferCommand=function(self)
-    			   SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
-    		end
-  	}
+            InitCommand=function(self)
+                   self:diffuse(0,0,0,0):sleep(5):queuecommand("Transfer")
+            end,
+            TransferCommand=function(self)
+                   SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
+            end
+    }
 
 }

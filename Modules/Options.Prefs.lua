@@ -1,10 +1,10 @@
 local Rates = {
-	Val = {},
-	Str = {},
+    Val = {},
+    Str = {},
 }
 for i = 0.3, 2.01, 0.01 do
-	table.insert( Rates.Val, string.format( "%.2f",i ) )
-	table.insert( Rates.Str, string.format( "%.2fx",i ) )
+    table.insert( Rates.Val, string.format( "%.2f",i ) )
+    table.insert( Rates.Str, string.format( "%.2fx",i ) )
 end
 --table.insert( Rates.Str, "Haste" )
 --table.insert( Rates.Val, "haste" )
@@ -12,29 +12,29 @@ end
 
 return {
     AutoVelocityType =
-	{
-		UserPref = true,
-		Default = false,
-		Choices = { OptionNameString('Multiply'), OptionNameString('Automatic'), OptionNameString('Constant') },
-		Values = { false, "Auto", "Constant" }
-	},
-	ScreenFilter =
-	{
-		UserPref = true,
-		Default = 0,
-		Choices = { THEME:GetString('OptionNames','Off'), '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0' },
-		Values = { 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 }
+    {
+        UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('Multiply'), OptionNameString('Automatic'), OptionNameString('Constant') },
+        Values = { false, "Auto", "Constant" }
     },
-	ScreenFilterColor =
-	{
-		UserPref = true,
-		Default = 2, -- Since the filter is now full screen by default, it makes more sense making it black.
-		Choices = { OptionNameString('DarkPlayerScreenFilter'), OptionNameString('DarkScreenFilter'), OptionNameString('LightPlayerScreenFilter'), OptionNameString('LightScreenFilter'), OptionNameString('GrayScreenFilter') },
-		Values = {1,2,3,4,5}
+    ScreenFilter =
+    {
+        UserPref = true,
+        Default = 0,
+        Choices = { THEME:GetString('OptionNames','Off'), '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1.0' },
+        Values = { 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 }
+    },
+    ScreenFilterColor =
+    {
+        UserPref = true,
+        Default = 2, -- Since the filter is now full screen by default, it makes more sense making it black.
+        Choices = { OptionNameString('DarkPlayerScreenFilter'), OptionNameString('DarkScreenFilter'), OptionNameString('LightPlayerScreenFilter'), OptionNameString('LightScreenFilter'), OptionNameString('GrayScreenFilter') },
+        Values = {1,2,3,4,5}
     },
     ScreenFilterSize =
-	{
-		UserPref = true,
+    {
+        UserPref = true,
         Default = false,
         Choices = { OptionNameString('ScreenFilterFull'), OptionNameString('ScreenFilterLane') },
         Values = { "Full", "Lane" }
@@ -54,53 +54,53 @@ return {
         Values = {4, 8, 12, 16, 24, 32}
     },
     JudgmentItems =
-	{
-		UserPref = true,
-		SelectMultiple = true,
-		Default = false,
-		Choices = { OptionNameString('OffsetBar'), OptionNameString('ProTiming'), OptionNameString('HideJudgment') },
-		Values = { "OffsetBar", "ProTiming", "HideJudgment" }
-	},
-	SmartJudgments =
-	{
-		UserPref = true,
-		OneInRow = true,
-		Default = THEME:GetMetric("Common","DefaultJudgment"),
-		Choices = LoadModule("Options.SmartJudgeChoices.lua")(),
-		Values = LoadModule("Options.SmartJudgeChoices.lua")("Value"),
-	},
-	SmartTimings =
-	{
-		--GenForOther = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
-		GenForUserPref = true,
-		Default = TimingModes[3],
-		Choices = TimingModes,
-		Values = TimingModes
-	},
-	LuaNoteSkins =
-	{
-		Default = "default",
-		UserPref = true,
-		OneInRow = true,
-		Choices = NOTESKIN:GetNoteSkinNames(),
-		Values = NOTESKIN:GetNoteSkinNames(),
-		LoadFunction = function(self,list,pn)
-			local CurNoteSkin = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin()
-			for i,v2 in ipairs(self.Choices) do
-				if string.lower(tostring(v2)) == string.lower(tostring(CurNoteSkin)) then
-					list[i] = true return
-				end
-			end
-			list[1] = true
-		end,
-		SaveFunction = function(self,list,pn)
-			for i,v2 in ipairs(self.Choices) do
-				if list[i] then
-					GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin(v2)
-				end
-			end
-		end,
-	},
+    {
+        UserPref = true,
+        SelectMultiple = true,
+        Default = false,
+        Choices = { OptionNameString('OffsetBar'), OptionNameString('ProTiming'), OptionNameString('HideJudgment') },
+        Values = { "OffsetBar", "ProTiming", "HideJudgment" }
+    },
+    SmartJudgments =
+    {
+        UserPref = true,
+        OneInRow = true,
+        Default = THEME:GetMetric("Common","DefaultJudgment"),
+        Choices = LoadModule("Options.SmartJudgeChoices.lua")(),
+        Values = LoadModule("Options.SmartJudgeChoices.lua")("Value"),
+    },
+    SmartTimings =
+    {
+        --GenForOther = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
+        GenForUserPref = true,
+        Default = TimingModes[3],
+        Choices = TimingModes,
+        Values = TimingModes
+    },
+    LuaNoteSkins =
+    {
+        Default = "default",
+        UserPref = true,
+        OneInRow = true,
+        Choices = NOTESKIN:GetNoteSkinNames(),
+        Values = NOTESKIN:GetNoteSkinNames(),
+        LoadFunction = function(self,list,pn)
+            local CurNoteSkin = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin()
+            for i,v2 in ipairs(self.Choices) do
+                if string.lower(tostring(v2)) == string.lower(tostring(CurNoteSkin)) then
+                    list[i] = true return
+                end
+            end
+            list[1] = true
+        end,
+        SaveFunction = function(self,list,pn)
+            for i,v2 in ipairs(self.Choices) do
+                if list[i] then
+                    GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin(v2)
+                end
+            end
+        end,
+    },
 
     -- Infinitesimal mods
     ScoreDisplay =
@@ -147,14 +147,14 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
-	EvalCenter3xExit =
-	{
+    EvalCenter3xExit =
+    {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
-	ShowBigBall =
-	{
+    ShowBigBall =
+    {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}

@@ -35,7 +35,7 @@ local t = Def.ActorFrame {
 
 -- Special thanks to RhythmLunatic/Accelerator and ROAD24
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
-	-- This will allow us to determine the position of the list
+    -- This will allow us to determine the position of the list
     local OptionsListActor, OptionsListMenu
     
     t[#t+1] = Def.ActorFrame {

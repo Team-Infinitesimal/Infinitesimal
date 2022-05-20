@@ -2,13 +2,13 @@ local t = Def.ActorFrame {
     Name="Base",
     OnCommand=function(self)
         -- Change default sort to Basic Mode songs only
-		SONGMAN:SetPreferredSongs("BasicMode")
+        SONGMAN:SetPreferredSongs("BasicMode")
         SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
-		-- Also change the default song to start on... 
-		-- If the game doesn't pick up the first song of the first folder available.
-		local Songs = SONGMAN:GetPreferredSortSongs()
-		SCREENMAN:GetTopScreen():GetMusicWheel():SelectSong(Songs[10])
-		MESSAGEMAN:Broadcast("CurrentSongChanged")
+        -- Also change the default song to start on... 
+        -- If the game doesn't pick up the first song of the first folder available.
+        local Songs = SONGMAN:GetPreferredSortSongs()
+        SCREENMAN:GetTopScreen():GetMusicWheel():SelectSong(Songs[10])
+        MESSAGEMAN:Broadcast("CurrentSongChanged")
     end,
 
     Def.Sound {
@@ -24,7 +24,7 @@ t[#t+1] = Def.ActorFrame {
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
             :easeoutexpo(1):y(SCREEN_CENTER_Y)
         end,
-		OffCommand=function(self)
+        OffCommand=function(self)
             self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
 

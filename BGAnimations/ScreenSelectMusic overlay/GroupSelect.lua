@@ -21,14 +21,14 @@ local song_groups = {}
 -- Iterate through the song groups and check if they have AT LEAST one song with valid charts.
 -- If so, add them to the group.
 for v in ivalues( SONGMAN:GetSongGroupNames() ) do
-	for s in ivalues( SONGMAN:GetSongsInGroup(v) ) do
-		local st = SongUtil.GetPlayableSteps(s)
-		-- lua.ReportScriptError(#st)
-		if #st > 0 then
-			song_groups[#song_groups+1] = v
-			break
-		end
-	end
+    for s in ivalues( SONGMAN:GetSongsInGroup(v) ) do
+        local st = SongUtil.GetPlayableSteps(s)
+        -- lua.ReportScriptError(#st)
+        if #st > 0 then
+            song_groups[#song_groups+1] = v
+            break
+        end
+    end
 end
 
 -- Next up, we create our wheel.
@@ -40,50 +40,50 @@ local numWheelItems = 15 --Number of rotating items to have in the wheel. This d
 -- And here is our massive wheel frame.
 local item_mt= {
   __index= {
-	-- create_actors must return an actor.  The name field is a convenience.
-		create_actors= function(self, params)
-		self.name= params.name
+    -- create_actors must return an actor.  The name field is a convenience.
+        create_actors= function(self, params)
+        self.name= params.name
                 --This is the equivalent to Graphics/MusicWheelItem SectionExpanded NormalPart (or MusicWheelItem Song NormalPart if you're making a song wheel)
-		return Def.ActorFrame {
-			InitCommand=function(subself)
-				-- Setting self.container to point to the actor gives a convenient
-				-- handle for manipulating the actor.
-		  		self.container = subself
+        return Def.ActorFrame {
+            InitCommand=function(subself)
+                -- Setting self.container to point to the actor gives a convenient
+                -- handle for manipulating the actor.
+                self.container = subself
                 self.container:fov(90):vanishpoint(SCREEN_CENTER_X, SCREEN_CENTER_Y):SetDrawByZPosition(true)
-			end,
-			Def.Sprite {
+            end,
+            Def.Sprite {
                 Texture=THEME:GetPathG("", "MusicWheel/GradientBanner"),
                 InitCommand=function(self) self:scaletoclipped(270, 150) end
             },
             --And probably more important, the banner for the group icons to be displayed.
-			Def.Sprite {
-				Name="Banner",
-                InitCommand=function(self) self:z(1) end
-			},
-            --A text actor for the group names to be displayed.
-			Def.BitmapText {
-				Name="Text",
-				Font="Common normal",
-				InitCommand=function(self)
-					self:zoom(1):addy(64):z(2)
-					:maxwidth(256 / self:GetZoom())
-                    --:maxheight(150):wrapwidthpixels(200 / self:GetZoom())
-				end
-			},
             Def.Sprite {
-				Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
+                Name="Banner",
+                InitCommand=function(self) self:z(1) end
+            },
+            --A text actor for the group names to be displayed.
+            Def.BitmapText {
+                Name="Text",
+                Font="Common normal",
                 InitCommand=function(self)
-					self:zoom(1.25):z(3)
-				end
-			}
-		}
-	end,
+                    self:zoom(1):addy(64):z(2)
+                    :maxwidth(256 / self:GetZoom())
+                    --:maxheight(150):wrapwidthpixels(200 / self:GetZoom())
+                end
+            },
+            Def.Sprite {
+                Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
+                InitCommand=function(self)
+                    self:zoom(1.25):z(3)
+                end
+            }
+        }
+    end,
         -- This is the equivalent to your ItemTransformFunction, but unlike ItemTransformFunction which updates per frame this one uses tweens.
         -- This particular example function acts like a cover flow wheel.
-	-- item_index is the index in the list, ranging from 1 to num_items.
-	-- is_focus is only useful if the disable_wrapping flag in the scroller is
-	-- set to false.
-	transform=function(self, ItemIndex, NumItems, IsFocus)
+    -- item_index is the index in the list, ranging from 1 to num_items.
+    -- is_focus is only useful if the disable_wrapping flag in the scroller is
+    -- set to false.
+    transform=function(self, ItemIndex, NumItems, IsFocus)
         local OffsetFromCenter = ItemIndex - math.floor(NumItems / 2)
         local Spacing = math.abs(math.sin(OffsetFromCenter / math.pi))
 
@@ -99,55 +99,55 @@ local item_mt= {
 
         self.container:zoom(clamp(1.1 - (math.abs(OffsetFromCenter) / 3), 0.8, 1.1))
     end,
-	-- info is one entry in the info set that is passed to the scroller.
+    -- info is one entry in the info set that is passed to the scroller.
         -- So in this example, something from "song_groups" is being passed in as the 'info' argument.
         -- Remember SetMessageCommand when used in Song NormalPart? This is that.
-	set= function(self, info)
+    set= function(self, info)
         self.container:GetChild("Text"):settext(info)
 
-		local banner = SONGMAN:GetSongGroupBannerPath(info)
-		if banner ~= "" then
-  			self.container:GetChild("Banner"):Load(banner):scaletofit(-135, -75, 135, 75)
-  		else
-			self.container:GetChild("Banner"):Load(THEME:GetPathG("Common fallback", "banner")):scaletofit(-135, -75, 135, 75)
-		end
-	end
+        local banner = SONGMAN:GetSongGroupBannerPath(info)
+        if banner ~= "" then
+            self.container:GetChild("Banner"):Load(banner):scaletofit(-135, -75, 135, 75)
+        else
+            self.container:GetChild("Banner"):Load(THEME:GetPathG("Common fallback", "banner")):scaletofit(-135, -75, 135, 75)
+        end
+    end
 }}
 
 --This function runs when you press start and changes the current song group. Since this is a group wheel.
 --We'll define it here because I said so.
 local function CloseWheel()
         --Get the current selected group. get_info_at_focus_pos() gets the current highlighted item in the set, if you couldn't already tell. In this case it's the name of the current group being highlighted.
-	local currentGroup = scroller:get_info_at_focus_pos()
+    local currentGroup = scroller:get_info_at_focus_pos()
         --One of the benefits of a custom wheel is being able to transform a single item in the wheel instead of all of them. This gets the current highlighted item in the wheel.
-	local curItem = scroller:get_actor_item_at_focus_pos()
+    local curItem = scroller:get_actor_item_at_focus_pos()
         --This transform function zooms in the item.
-	curItem.container:GetChild("Banner"):decelerate(0.25):diffusealpha(0)
-	WheelActive = false
+    curItem.container:GetChild("Banner"):decelerate(0.25):diffusealpha(0)
+    WheelActive = false
         --Since this is for a group wheel, this sets the new group.
-	ScreenSelectMusic:GetChild('MusicWheel'):SetOpenSection(currentGroup)
+    ScreenSelectMusic:GetChild('MusicWheel'):SetOpenSection(currentGroup)
         --The built in wheel needs to be told the group has been changed, for whatever reason. This function does it.
-	SCREENMAN:GetTopScreen():PostScreenMessage( 'SM_SongChanged', 0 )
-	SCREENMAN:set_input_redirected(PLAYER_1, false)
-	SCREENMAN:set_input_redirected(PLAYER_2, false)
-	MESSAGEMAN:Broadcast("StartSelectingSong")
+    SCREENMAN:GetTopScreen():PostScreenMessage( 'SM_SongChanged', 0 )
+    SCREENMAN:set_input_redirected(PLAYER_1, false)
+    SCREENMAN:set_input_redirected(PLAYER_2, false)
+    MESSAGEMAN:Broadcast("StartSelectingSong")
 end
 
 local function OpenWheel()
-	MESSAGEMAN:Broadcast("StartSelectingGroup")
-	WheelActive = true
-	--No need to check if both players are present.
-	SCREENMAN:set_input_redirected(PLAYER_1, true)
-	SCREENMAN:set_input_redirected(PLAYER_2, true)
-	--Remember how when you close the wheel the item gets zoomed in? This zooms it back out.
-	local curItem = scroller:get_actor_item_at_focus_pos()
-	curItem.container:GetChild("Banner"):stoptweening():diffusealpha(1)
+    MESSAGEMAN:Broadcast("StartSelectingGroup")
+    WheelActive = true
+    --No need to check if both players are present.
+    SCREENMAN:set_input_redirected(PLAYER_1, true)
+    SCREENMAN:set_input_redirected(PLAYER_2, true)
+    --Remember how when you close the wheel the item gets zoomed in? This zooms it back out.
+    local curItem = scroller:get_actor_item_at_focus_pos()
+    curItem.container:GetChild("Banner"):stoptweening():diffusealpha(1)
 
-	--Optional. Mute the music currently playing.
-	--SOUND:DimMusic(0,65536);
+    --Optional. Mute the music currently playing.
+    --SOUND:DimMusic(0,65536);
 
-	local musicwheel = SCREENMAN:GetTopScreen():GetChild('MusicWheel')
-	musicwheel:Move(0); --Work around a StepMania bug. If the input is redirected while scrolling through the built in music wheel, it will continue to scroll.
+    local musicwheel = SCREENMAN:GetTopScreen():GetChild('MusicWheel')
+    musicwheel:Move(0); --Work around a StepMania bug. If the input is redirected while scrolling through the built in music wheel, it will continue to scroll.
 end
 
 --And now, our input handler for the wheel we wrote, so we can actually move the wheel.
@@ -156,142 +156,142 @@ local isSelectingDifficulty = false --You'll need this for later if you're using
 local count = 0 -- Used for InputEventType_Repeat
 local function inputs(event)
   local pn = event.PlayerNumber
-	local button = event.button
-	local isHome = GAMESTATE:GetCoinMode() == "CoinMode_Home"
-	local isEvent = GAMESTATE:IsEventMode()
+    local button = event.button
+    local isHome = GAMESTATE:GetCoinMode() == "CoinMode_Home"
+    local isEvent = GAMESTATE:IsEventMode()
 
-	-- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
-	--Also we only want it to activate when they're NOT selecting the difficulty.
-	if not pn then return end
-	-- If it's a release, ignore it.
-	if event.type == "InputEventType_Release" then count = 0 MESSAGEMAN:Broadcast("ExitTickDown") return end
+    -- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
+    --Also we only want it to activate when they're NOT selecting the difficulty.
+    if not pn then return end
+    -- If it's a release, ignore it.
+    if event.type == "InputEventType_Release" then count = 0 MESSAGEMAN:Broadcast("ExitTickDown") return end
 
-	if isHome or isEvent then
-		if event.type == "InputEventType_Repeat" then
-			if button == "UpLeft" or button == "UpRight" then
-				count = count + 1
-				MESSAGEMAN:Broadcast("ExitTickUp")
-				if count == 15 then
-					SCREENMAN:set_input_redirected(PLAYER_1, false)
-					SCREENMAN:set_input_redirected(PLAYER_2, false)
-					SCREENMAN:GetTopScreen():Cancel()
-				end
-			end
-		end
-	end
+    if isHome or isEvent then
+        if event.type == "InputEventType_Repeat" then
+            if button == "UpLeft" or button == "UpRight" then
+                count = count + 1
+                MESSAGEMAN:Broadcast("ExitTickUp")
+                if count == 15 then
+                    SCREENMAN:set_input_redirected(PLAYER_1, false)
+                    SCREENMAN:set_input_redirected(PLAYER_2, false)
+                    SCREENMAN:GetTopScreen():Cancel()
+                end
+            end
+        end
+    end
 
-	if SCREENMAN:get_input_redirected(pn) then
-		if button == "Center" or button == "Start" then
-			CloseWheel()
-		elseif button == "DownLeft" or button == "MenuLeft"or button == "Left" then
-			scroller:scroll_by_amount(-1)
-			MESSAGEMAN:Broadcast("PreviousGroup") --If you have arrows or graphics on the screen and you only want them to respond when left or right is pressed.
-		elseif button == "DownRight" or button == "MenuRight" or button == "Right" then
-			scroller:scroll_by_amount(1)
-			MESSAGEMAN:Broadcast("NextGroup")
-		elseif button == "UpRight" or button == "UpLeft" then
-			if isHome or isEvent then
-				MESSAGEMAN:Broadcast("ExitPressed")
-			else
-				return
-			end
-		elseif button == "Back" then
+    if SCREENMAN:get_input_redirected(pn) then
+        if button == "Center" or button == "Start" then
+            CloseWheel()
+        elseif button == "DownLeft" or button == "MenuLeft"or button == "Left" then
+            scroller:scroll_by_amount(-1)
+            MESSAGEMAN:Broadcast("PreviousGroup") --If you have arrows or graphics on the screen and you only want them to respond when left or right is pressed.
+        elseif button == "DownRight" or button == "MenuRight" or button == "Right" then
+            scroller:scroll_by_amount(1)
+            MESSAGEMAN:Broadcast("NextGroup")
+        elseif button == "UpRight" or button == "UpLeft" then
+            if isHome or isEvent then
+                MESSAGEMAN:Broadcast("ExitPressed")
+            else
+                return
+            end
+        elseif button == "Back" then
       SCREENMAN:set_input_redirected(PLAYER_1, false)
       SCREENMAN:set_input_redirected(PLAYER_2, false)
-			SCREENMAN:GetTopScreen():Cancel() --Because we've redirected input, we need to handle the back button ourselves instead of SM handling it. You can do whatever you want here though, like closing the wheel without picking a group.
-		else
+            SCREENMAN:GetTopScreen():Cancel() --Because we've redirected input, we need to handle the back button ourselves instead of SM handling it. You can do whatever you want here though, like closing the wheel without picking a group.
+        else
             --Inputs not working? Uncomment this to check what they are.
-			--SCREENMAN:SystemMessage(button);
-		end
-	end
+            --SCREENMAN:SystemMessage(button);
+        end
+    end
 end
 
 local t = Def.ActorFrame{
     --Make the wheel hidden by default.
     InitCommand=function(self)
-    	self:diffusealpha(0)
+        self:diffusealpha(0)
     end,
 
     OnCommand=function(self)
-		ScreenSelectMusic = SCREENMAN:GetTopScreen()
-        	--Remember when we created the array song_groups? Here we finally use it.
-		scroller:set_info_set(song_groups, 1)
+        ScreenSelectMusic = SCREENMAN:GetTopScreen()
+            --Remember when we created the array song_groups? Here we finally use it.
+        scroller:set_info_set(song_groups, 1)
 
-        	--Scroll the wheel to the correct song group.
-		local curGroup = GAMESTATE:GetCurrentSong():GetGroupName()
-		for key,value in pairs(song_groups) do
-	    	if curGroup == value then
-				scroller:scroll_by_amount(key-1)
-			end
-		end
+            --Scroll the wheel to the correct song group.
+        local curGroup = GAMESTATE:GetCurrentSong():GetGroupName()
+        for key,value in pairs(song_groups) do
+            if curGroup == value then
+                scroller:scroll_by_amount(key-1)
+            end
+        end
         --Add the input callback so our custom inputs() function works.
         SCREENMAN:GetTopScreen():AddInputCallback(inputs)
 
-		--I got sick of input locking when I reloaded the screen, since the wheel isn't open when you reload the screen.
-		SCREENMAN:set_input_redirected(PLAYER_1, false)
-		SCREENMAN:set_input_redirected(PLAYER_2, false)
-		isPickingDifficulty = false
-	end,
+        --I got sick of input locking when I reloaded the screen, since the wheel isn't open when you reload the screen.
+        SCREENMAN:set_input_redirected(PLAYER_1, false)
+        SCREENMAN:set_input_redirected(PLAYER_2, false)
+        isPickingDifficulty = false
+    end,
 
     OffCommand=function(self)
-		SCREENMAN:set_input_redirected(PLAYER_1, false)
-		SCREENMAN:set_input_redirected(PLAYER_2, false)
-		isPickingDifficulty = false
-	end,
+        SCREENMAN:set_input_redirected(PLAYER_1, false)
+        SCREENMAN:set_input_redirected(PLAYER_2, false)
+        isPickingDifficulty = false
+    end,
 
-	--TwoPartSelect handlers.
-	SongChosenMessageCommand=function(self)
-		isPickingDifficulty = true
-	end,
+    --TwoPartSelect handlers.
+    SongChosenMessageCommand=function(self)
+        isPickingDifficulty = true
+    end,
 
-	TwoPartConfirmCanceledMessageCommand=function(self)self:queuecommand("PickingSong")end,
-	SongUnchosenMessageCommand=function(self)self:queuecommand("PickingSong")end,
+    TwoPartConfirmCanceledMessageCommand=function(self)self:queuecommand("PickingSong")end,
+    SongUnchosenMessageCommand=function(self)self:queuecommand("PickingSong")end,
 
-	PickingSongCommand=function(self)
-		isPickingDifficulty = false
-	end,
+    PickingSongCommand=function(self)
+        isPickingDifficulty = false
+    end,
 
-	--And now, handle opening the wheel.
-	CodeMessageCommand=function(self,param)
-		local codeName = param.Name -- code name, matches the one in metrics
-		if codeName == "GroupSelectPad1" or codeName == "GroupSelectPad2" or codeName == "GroupSelectButton1" or codeName == "GroupSelectButton2" then
-			if isPickingDifficulty then return end --Don't want to open the group select if they're picking the difficulty.
-			-- Open the wheel, silly
-			OpenWheel()
-		end
+    --And now, handle opening the wheel.
+    CodeMessageCommand=function(self,param)
+        local codeName = param.Name -- code name, matches the one in metrics
+        if codeName == "GroupSelectPad1" or codeName == "GroupSelectPad2" or codeName == "GroupSelectButton1" or codeName == "GroupSelectButton2" then
+            if isPickingDifficulty then return end --Don't want to open the group select if they're picking the difficulty.
+            -- Open the wheel, silly
+            OpenWheel()
+        end
   end,
 
     OpenGroupWheelMessageCommand=function(self)
-		OpenWheel()
-	end,
+        OpenWheel()
+    end,
 
     StartSelectingGroupMessageCommand=function(self)
-		self:stoptweening():easeoutquint(0.5):diffusealpha(1)
-	end,
+        self:stoptweening():easeoutquint(0.5):diffusealpha(1)
+    end,
 
-	StartSelectingSongMessageCommand=function(self)
-		self:stoptweening():easeoutquint(0.25):diffusealpha(0)
-	end
+    StartSelectingSongMessageCommand=function(self)
+        self:stoptweening():easeoutquint(0.25):diffusealpha(0)
+    end
 }
 
 t[#t+1] = Def.Quad {
-	InitCommand=function(self)
-		self:Center()
-		:zoomto(SCREEN_WIDTH,SCREEN_HEIGHT*2)
-		:diffuse(0,0,0,0)
-	end,
+    InitCommand=function(self)
+        self:Center()
+        :zoomto(SCREEN_WIDTH,SCREEN_HEIGHT*2)
+        :diffuse(0,0,0,0)
+    end,
 
-	StartSelectingGroupMessageCommand=function(self)
-		self:stoptweening()
-		:decelerate(0.25)
-		:diffusealpha(0.75)
-	end,
+    StartSelectingGroupMessageCommand=function(self)
+        self:stoptweening()
+        :decelerate(0.25)
+        :diffusealpha(0.75)
+    end,
 
-	StartSelectingSongMessageCommand=function(self)
-		self:stoptweening()
-		:decelerate(0.25)
-		:diffusealpha(0)
-	end
+    StartSelectingSongMessageCommand=function(self)
+        self:stoptweening()
+        :decelerate(0.25)
+        :diffusealpha(0)
+    end
 }
 
 t[#t+1] = Def.ActorFrame {
@@ -312,66 +312,66 @@ t[#t+1] = scroller:create_actors("foo", numWheelItems, item_mt, FrameX, FrameY)
 
 t[#t+1] = Def.ActorFrame {
 
-	Def.BitmapText {
-		Font="Montserrat semibold 20px",
-		Name="ExitText",
-		InitCommand=function(self)
-			self:diffusealpha(0)
-			:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 125)
-			:settext("Exiting...")
-		end,
-		ExitPressedMessageCommand=function(self)
-			self:stoptweening():sleep(0.1)
-			:linear(0.25)
-			:diffusealpha(1)
-		end,
-		ExitTickDownMessageCommand=function(self)
-			self:stoptweening()
-			:easeoutexpo(0.25)
-			:diffusealpha(0)
-		end
-	},
+    Def.BitmapText {
+        Font="Montserrat semibold 20px",
+        Name="ExitText",
+        InitCommand=function(self)
+            self:diffusealpha(0)
+            :xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 125)
+            :settext("Exiting...")
+        end,
+        ExitPressedMessageCommand=function(self)
+            self:stoptweening():sleep(0.1)
+            :linear(0.25)
+            :diffusealpha(1)
+        end,
+        ExitTickDownMessageCommand=function(self)
+            self:stoptweening()
+            :easeoutexpo(0.25)
+            :diffusealpha(0)
+        end
+    },
 
-	Def.Quad {
-		Name="ExitBar",
-		InitCommand=function(self)
-			self:zoomto(200,15)
-			:cropright(1)
-			:xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 100)
-			:diffuse(color("#f7931e")):diffusebottomedge(color("#ed1e79"))
-		end,
-		ExitTickUpMessageCommand=function(self)
-			self:stoptweening()
-			:linear(0.1)
-			:cropright(1 - (count + 1) / 15)
-		end,
-		ExitTickDownMessageCommand=function(self)
-			self:stoptweening()
-			:easeoutexpo(0.25)
-			:cropright(1)
-		end
-	},
+    Def.Quad {
+        Name="ExitBar",
+        InitCommand=function(self)
+            self:zoomto(200,15)
+            :cropright(1)
+            :xy(SCREEN_CENTER_X, SCREEN_CENTER_Y - 100)
+            :diffuse(color("#f7931e")):diffusebottomedge(color("#ed1e79"))
+        end,
+        ExitTickUpMessageCommand=function(self)
+            self:stoptweening()
+            :linear(0.1)
+            :cropright(1 - (count + 1) / 15)
+        end,
+        ExitTickDownMessageCommand=function(self)
+            self:stoptweening()
+            :easeoutexpo(0.25)
+            :cropright(1)
+        end
+    },
 
-	Def.Quad {
-		Name="ExitBarEnd",
-		InitCommand=function(self)
-			self:zoomto(5,15)
-			:xy(SCREEN_CENTER_X - 100, SCREEN_CENTER_Y - 100)
-			:diffuse(1,1,1,0)
-		end,
-		ExitPressedMessageCommand=function(self)
-			self:sleep(0.2)
-			:diffusealpha(1)
-			:easeoutquad(0.5)
-			:x(SCREEN_CENTER_X + 100)
-		end,
-		ExitTickDownMessageCommand=function(self)
-			self:stoptweening()
-			:easeoutquad(0.25)
-			:diffusealpha(0)
-			:x(SCREEN_CENTER_X - 100)
-		end
-	}
+    Def.Quad {
+        Name="ExitBarEnd",
+        InitCommand=function(self)
+            self:zoomto(5,15)
+            :xy(SCREEN_CENTER_X - 100, SCREEN_CENTER_Y - 100)
+            :diffuse(1,1,1,0)
+        end,
+        ExitPressedMessageCommand=function(self)
+            self:sleep(0.2)
+            :diffusealpha(1)
+            :easeoutquad(0.5)
+            :x(SCREEN_CENTER_X + 100)
+        end,
+        ExitTickDownMessageCommand=function(self)
+            self:stoptweening()
+            :easeoutquad(0.25)
+            :diffusealpha(0)
+            :x(SCREEN_CENTER_X - 100)
+        end
+    }
 }
 
 --Don't forget this at the end of your lua file.

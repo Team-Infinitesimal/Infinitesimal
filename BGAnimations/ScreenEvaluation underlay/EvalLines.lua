@@ -15,14 +15,14 @@ local RowY = SCREEN_CENTER_Y - (RowAmount * RowH) / 2
 -- And a function to make even better use out of the table.
 local function GetJLineValue(line, pl)
     local PSS = STATSMAN:GetCurStageStats():GetPlayerStageStats(pl)
-	if line == "W1" then
-		return PSS:GetTapNoteScores("TapNoteScore_W1") + PSS:GetTapNoteScores("TapNoteScore_CheckpointHit")
-	elseif line == "Miss" then
-		return PSS:GetTapNoteScores("TapNoteScore_Miss") + PSS:GetTapNoteScores("TapNoteScore_CheckpointMiss")
-	elseif line == "MaxCombo" then
-		return PSS:MaxCombo()
+    if line == "W1" then
+        return PSS:GetTapNoteScores("TapNoteScore_W1") + PSS:GetTapNoteScores("TapNoteScore_CheckpointHit")
+    elseif line == "Miss" then
+        return PSS:GetTapNoteScores("TapNoteScore_Miss") + PSS:GetTapNoteScores("TapNoteScore_CheckpointMiss")
+    elseif line == "MaxCombo" then
+        return PSS:MaxCombo()
     elseif line == "Accuracy" then
-		return round(PSS:GetPercentDancePoints() * 100, 2) .. "%"
+        return round(PSS:GetPercentDancePoints() * 100, 2) .. "%"
     elseif line == "Score" then -- jank
         local PSS_Score = PSS:GetScore()
         local PrevHighScore = nil
@@ -37,10 +37,10 @@ local function GetJLineValue(line, pl)
             return string.format("%d %s", PSS_Score, ScoreUp)
         end
         return PSS_Score
-	else
-		return PSS:GetTapNoteScores("TapNoteScore_" .. line)
-	end
-	return "???"
+    else
+        return PSS:GetTapNoteScores("TapNoteScore_" .. line)
+    end
+    return "???"
 end
 
 -- Used for displying the additional score on a new personal best in another colour

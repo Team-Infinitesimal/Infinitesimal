@@ -11,10 +11,10 @@ local MeterFail = false
 local SongPos = GAMESTATE:GetPlayerState(pn):GetSongPosition()
 local MeterActor
 local MeterUpdate = function(self)
-	if not MeterActor then return end
-	local MeterVelocity = -(SongPos:GetCurBPS() * 0.5)
-	if SongPos:GetFreeze() or SongPos:GetDelay() then MeterVelocity = 0 end
-	MeterActor:texcoordvelocity(MeterVelocity, 0)
+    if not MeterActor then return end
+    local MeterVelocity = -(SongPos:GetCurBPS() * 0.5)
+    if SongPos:GetFreeze() or SongPos:GetDelay() then MeterVelocity = 0 end
+    MeterActor:texcoordvelocity(MeterVelocity, 0)
 end
 
 local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0
@@ -22,8 +22,8 @@ local ScoreDisplay = LoadModule("Config.Load.lua")("ScoreDisplay", CheckIfUserOr
 local SongProgress = LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini")
 
 local t = Def.ActorFrame {
-	InitCommand=function(self) self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100) end,
-	OnCommand=function(self) self:easeoutexpo(1):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
+    InitCommand=function(self) self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100) end,
+    OnCommand=function(self) self:easeoutexpo(1):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
     
     -- This message command is only used if the Gameplay.Life module is active. Due to it being able to
     -- manipulate the player's health, it can restore life and break certain fail conditions, so the visible
@@ -76,77 +76,77 @@ local t = Def.ActorFrame {
 
     Def.Sprite {
         Name="Avatar",
-		Texture=LoadModule("Options.GetProfileData.lua")(pn)["Image"],
-		InitCommand=function(self)
-			self:scaletofit(0, 0, 30, 30)
-			:xy(pn == PLAYER_1 and -BarW / 2 - 15 or BarW / 2 + 15, 0)
-		end
-	},
+        Texture=LoadModule("Options.GetProfileData.lua")(pn)["Image"],
+        InitCommand=function(self)
+            self:scaletofit(0, 0, 30, 30)
+            :xy(pn == PLAYER_1 and -BarW / 2 - 15 or BarW / 2 + 15, 0)
+        end
+    },
 
-	Def.Sprite {
-		Name="BarBody",
+    Def.Sprite {
+        Name="BarBody",
         Texture=THEME:GetPathG("", "UI/BarBody"),
-		InitCommand=function(self)
-			self:setsize(BarW - 12, BarH)
-		end
-	},
+        InitCommand=function(self)
+            self:setsize(BarW - 12, BarH)
+        end
+    },
     
     Def.Sprite {
-		Name="BarEdgeL",
+        Name="BarEdgeL",
         Texture=THEME:GetPathG("", "UI/BarEdge"),
-		InitCommand=function(self)
-			self:x(-BarW / 2):halign(0)
-		end
-	},
+        InitCommand=function(self)
+            self:x(-BarW / 2):halign(0)
+        end
+    },
     
     Def.Sprite {
-		Name="BarEdgeR",
+        Name="BarEdgeR",
         Texture=THEME:GetPathG("", "UI/BarEdge"),
-		InitCommand=function(self)
-			self:x(BarW / 2):halign(0):rotationz(180)
-		end
-	},
+        InitCommand=function(self)
+            self:x(BarW / 2):halign(0):rotationz(180)
+        end
+    },
     
     Def.Quad {
-		Name="Mask",
-		InitCommand=function(self)
-			self:zoomto(BarW - 12, BarH - 12)
-			:diffuse(color(1,1,1,1))
-			:MaskSource()
-		end
-	},
+        Name="Mask",
+        InitCommand=function(self)
+            self:zoomto(BarW - 12, BarH - 12)
+            :diffuse(color(1,1,1,1))
+            :MaskSource()
+        end
+    },
 
-	Def.Quad {
-		Name="Meter",
-		InitCommand=function(self)
-			self:zoomto(BarW - 12, BarH - 12):x(-20):cropright(0.5)
+    Def.Quad {
+        Name="Meter",
+        InitCommand=function(self)
+            self:zoomto(BarW - 12, BarH - 12):x(-20):cropright(0.5)
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(pn == PLAYER_1 and color("#ed1e79") or color("#1fbcff"))
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
-		end
-	},
+        end
+    },
 
-	Def.Quad {
-		Name="Pulse",
-		InitCommand=function(self)
-			self:zoomto(20, BarH - 12):halign(0)
+    Def.Quad {
+        Name="Pulse",
+        InitCommand=function(self)
+            self:zoomto(20, BarH - 12):halign(0)
             :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
             :diffusebottomedge(pn == PLAYER_1 and color("#ed1e79") or color("#1fbcff"))
             
-			self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
-			:MaskDest():ztestmode("ZTestMode_WriteOnFail")
-		end
-	},
+            self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
+            :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+        end
+    },
 
-	Def.Sprite {
-		Name="RainbowMeter",
+    Def.Sprite {
+        Name="RainbowMeter",
         Texture=THEME:GetPathG("", "UI/RainbowBar"),
-		InitCommand=function(self)
-			self:zoomto(BarW - 12, BarH - 12)
-			:texcoordvelocity(-0.5, 0)
+        InitCommand=function(self)
+            self:zoomto(BarW - 12, BarH - 12)
+            :texcoordvelocity(-0.5, 0)
             :diffusealpha(0)
-		end
-	},
+        end
+    },
     
     Def.BitmapText{
         Font="Montserrat semibold 20px",

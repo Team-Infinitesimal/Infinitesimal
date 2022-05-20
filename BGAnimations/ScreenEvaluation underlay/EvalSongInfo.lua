@@ -32,7 +32,7 @@ return Def.ActorFrame {
     
     Def.Sprite {
         Texture=THEME:GetPathG("", "Evaluation/EvalSongInfo"),
-		InitCommand=function(self) self:zoom(1.25) end
+        InitCommand=function(self) self:zoom(1.25) end
     },
     
     Def.BitmapText {

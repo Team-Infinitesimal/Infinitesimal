@@ -4,9 +4,9 @@ local isSelectingDifficulty = false
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
-	-- Larger stationary difficulty icons
-	t[#t+1] = Def.ActorFrame {
-		Name="BigPreviewBallContainer",
+    -- Larger stationary difficulty icons
+    t[#t+1] = Def.ActorFrame {
+        Name="BigPreviewBallContainer",
 
     CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
     CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
@@ -49,10 +49,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         :x(pn == PLAYER_1 and -350 or 350)
       end,
 
-  		Def.Sprite {
-  			Texture=THEME:GetPathG("", "DifficultyDisplay/Ball"),
-  			Name="BigPreviewBall"
-  		},
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "DifficultyDisplay/Ball"),
+            Name="BigPreviewBall"
+        },
 
       Def.Sprite {
         Texture=THEME:GetPathG("", "DifficultyDisplay/Trim"),
@@ -67,7 +67,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         end
       }
     }
-	}
+    }
 
 end
 
