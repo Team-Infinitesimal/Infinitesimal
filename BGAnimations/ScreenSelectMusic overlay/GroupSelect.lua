@@ -65,9 +65,9 @@ local item_mt= {
                 Name="Text",
                 Font="Common normal",
                 InitCommand=function(self)
-                    self:zoom(1):addy(64):z(2)
-                    :maxwidth(256 / self:GetZoom())
-                    --:maxheight(150):wrapwidthpixels(200 / self:GetZoom())
+                    self:valign(1):addy(70):z(2)
+                    :maxheight(40):vertspacing(-8)
+                    :wrapwidthpixels(256 / self:GetZoom())
                 end
             },
             Def.Sprite {
@@ -103,7 +103,7 @@ local item_mt= {
         -- So in this example, something from "song_groups" is being passed in as the 'info' argument.
         -- Remember SetMessageCommand when used in Song NormalPart? This is that.
     set= function(self, info)
-        self.container:GetChild("Text"):settext(info)
+        self.container:GetChild("Text"):settext(string.gsub(info,"^%d%d? ?%- ?", ""))
 
         local banner = SONGMAN:GetSongGroupBannerPath(info)
         if banner ~= "" then
