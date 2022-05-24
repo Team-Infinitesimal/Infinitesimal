@@ -1,24 +1,4 @@
 local t = Def.ActorFrame {
-    Name="Base",
-    OnCommand=function(self)
-        -- Change default sort to Basic Mode songs only
-        SONGMAN:SetPreferredSongs("BasicMode")
-        SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
-        -- Also change the default song to start on... 
-        -- If the game doesn't pick up the first song of the first folder available.
-        local Songs = SONGMAN:GetPreferredSortSongs()
-        SCREENMAN:GetTopScreen():GetMusicWheel():SelectSong(Songs[10])
-        MESSAGEMAN:Broadcast("CurrentSongChanged")
-    end,
-
-    Def.Sound {
-        Name="FullModeSound",
-        File=THEME:GetPathS("", "FullMode"),
-        IsAction=true
-    }
-}
-
-t[#t+1] = Def.ActorFrame {
     Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
@@ -70,12 +50,11 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
 end
 
 t[#t+1] = Def.ActorFrame {
-
     LoadActor("FullModeAnim"),
 
     CodeCommand=function(self, params)
         if params.Name == "FullMode" then
-            self:GetParent():GetChild("FullModeSound"):play()
+            self:GetChild("FullModeSound"):play()
             self:GetChild("FullModeAnim"):playcommand("Animate")
             self:sleep(1):queuecommand("FullModeTransition")
         end
@@ -86,7 +65,13 @@ t[#t+1] = Def.ActorFrame {
         SCREENMAN:GetTopScreen():GetMusicWheel():Move(0)
         SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusic")
         SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
-    end
+    end,
+    
+    Def.Sound {
+        Name="FullModeSound",
+        File=THEME:GetPathS("", "FullMode"),
+        IsAction=true
+    }
 }
 
 return t

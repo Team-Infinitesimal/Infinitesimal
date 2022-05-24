@@ -150,7 +150,7 @@ local function ChartRange(chart, a, b)
     return false
 end
 
-local outputPath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager BasicMode.txt"
+local outputPath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager PreferredSongs.txt"
 local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last forward slash unless there is a terminator"
 local combineFormat = "%s/%s"
 

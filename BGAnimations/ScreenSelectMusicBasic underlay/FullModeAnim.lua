@@ -22,7 +22,7 @@ return Def.ActorFrame {
 
     Def.Sprite {
         Name="Full",
-        Texture="Full Mode/Full",
+        Texture=THEME:GetPathG("", "FullMode/Full"),
         InitCommand=function(self)
             self:xy(SCREEN_LEFT - 150, SCREEN_CENTER_Y):shadowlength(5):halign(1):zoom(1.25)
         end,
@@ -38,7 +38,7 @@ return Def.ActorFrame {
 
     Def.Sprite {
         Name="Mode",
-        Texture="Full Mode/Mode",
+        Texture=THEME:GetPathG("", "FullMode/Mode"),
         InitCommand=function(self)
             self:xy(SCREEN_RIGHT + 150, SCREEN_CENTER_Y):shadowlength(5):halign(0):zoom(1.25)
         end,
