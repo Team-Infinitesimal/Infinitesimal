@@ -1,4 +1,5 @@
 return Def.ActorFrame {
+
     Def.Quad {
         InitCommand=function(self)
             self:draworder(200)
@@ -13,7 +14,9 @@ return Def.ActorFrame {
             :MaskDest()
         end
     },
+
     Def.Quad {
+        Name="BottomLine",
         InitCommand=function(self)
             self:draworder(200)
             :diffuseshift()
@@ -21,6 +24,7 @@ return Def.ActorFrame {
             :effectcolor2(color("#505050"))
             :effectperiod(0.75)
             :zoomto(150,2)
+            :valign(0)
             :fadeleft(0.75)
             :faderight(0.75)
             :y(10)
@@ -28,7 +32,9 @@ return Def.ActorFrame {
             :MaskDest()
         end
     },
+
     Def.Quad {
+        Name="TopLine",
         InitCommand=function(self)
             self:draworder(200)
             :diffuseshift()
@@ -36,6 +42,7 @@ return Def.ActorFrame {
             :effectcolor2(color("#505050"))
             :effectperiod(0.75)
             :zoomto(150,2)
+            :valign(1)
             :fadeleft(0.75)
             :faderight(0.75)
             :y(-10)
@@ -43,4 +50,5 @@ return Def.ActorFrame {
             :MaskDest()
         end
     }
+
 }
