@@ -3,13 +3,44 @@ return Def.ActorFrame {
         InitCommand=function(self)
             self:draworder(200)
             :diffuseshift()
-            :effectcolor1(color("#9334BD"))
-            :effectcolor2(color("#4E25A2"))
-            :zoomto(100,3)
+            :effectcolor1(color("#606060"))
+            :effectcolor2(color("#303030"))
+            :effectperiod(0.75)
+            :zoomto(150,24)
             :fadeleft(0.75)
             :faderight(0.75)
             :blend(Blend.Add)
-            :y(6):MaskDest()
+            :MaskDest()
+        end
+    },
+    Def.Quad {
+        InitCommand=function(self)
+            self:draworder(200)
+            :diffuseshift()
+            :effectcolor1(color("#808080"))
+            :effectcolor2(color("#505050"))
+            :effectperiod(0.75)
+            :zoomto(150,2)
+            :fadeleft(0.75)
+            :faderight(0.75)
+            :y(10)
+            :blend(Blend.Add)
+            :MaskDest()
+        end
+    },
+    Def.Quad {
+        InitCommand=function(self)
+            self:draworder(200)
+            :diffuseshift()
+            :effectcolor1(color("#808080"))
+            :effectcolor2(color("#505050"))
+            :effectperiod(0.75)
+            :zoomto(150,2)
+            :fadeleft(0.75)
+            :faderight(0.75)
+            :y(-10)
+            :blend(Blend.Add)
+            :MaskDest()
         end
     }
 }
