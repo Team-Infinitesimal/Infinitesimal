@@ -134,8 +134,8 @@ return Def.ActorFrame {
 
     -- customtexturerect() practice, looks cool tho so I'm keeping it
     Def.Sprite {
-      Name="Scanlines",
-      Texture=THEME:GetPathG("", "Scanline"),
+        Name="Scanlines",
+        Texture=THEME:GetPathG("", "Scanline"),
         InitCommand=function(self)
             self:customtexturerect(0,0,SCREEN_WIDTH*4/16,SCREEN_HEIGHT*4/16)
             :zoomto(SCREEN_WIDTH, SCREEN_HEIGHT):Center()
@@ -180,12 +180,12 @@ return Def.ActorFrame {
     -- Transitions to the next screen after 5 seconds
     Def.Quad {
         Name="ScreenTransferActor",
-            InitCommand=function(self)
-                   self:diffuse(0,0,0,0):sleep(5):queuecommand("Transfer")
-            end,
-            TransferCommand=function(self)
-                   SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
-            end
+        InitCommand=function(self)
+               self:diffuse(0,0,0,0):sleep(5):queuecommand("Transfer")
+        end,
+        TransferCommand=function(self)
+               SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
+        end
     }
 
 }

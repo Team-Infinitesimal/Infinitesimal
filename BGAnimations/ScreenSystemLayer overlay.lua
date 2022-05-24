@@ -1,7 +1,11 @@
 local t = Def.ActorFrame {
     InitCommand=function(self)
-        Trace("Creating Basic Mode song list...")
-        AssembleBasicMode()
+        if LoadModule("Config.Load.lua")("AutogenBasicMode", "Save/OutFoxPrefs.ini") == true then
+            Trace("Creating Basic Mode song list...")
+            AssembleBasicMode()
+        else
+            Trace("No Basic Mode song list needed!")
+        end
     end,
     
     Def.BitmapText {

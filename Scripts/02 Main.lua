@@ -215,6 +215,3 @@ function AssembleBasicMode()
     fHandle:destroy()
     Trace("Done!")
 end
-
-Trace("Creating Basic Mode song list...")
-AssembleBasicMode()
