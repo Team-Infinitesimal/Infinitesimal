@@ -123,6 +123,14 @@ local t = Def.ActorFrame {
                 end
             end
             
+            -- Couple and Routine crashes the game :(
+            for i = #ChartArray, 1, -1 do
+                if string.find(ToUpper(ChartArray[i]:GetStepsType()), "ROUTINE") or 
+                    string.find(ToUpper(ChartArray[i]:GetStepsType()), "COUPLE") then
+                    table.remove(ChartArray, i)
+                end
+            end
+            
             -- If no charts are left, load all of them again to avoid crashes!
             if #ChartArray == 0 then ChartArray = SongUtil.GetPlayableSteps(CurrentSong) end
             table.sort(ChartArray, SortCharts)
