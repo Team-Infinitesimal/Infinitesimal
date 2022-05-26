@@ -3,7 +3,7 @@ local CardItemH = 64
 
 function GetLocalProfiles()
     local t = {}
-    
+
     local NoProfileCard = Def.ActorFrame {
         Def.Sprite {
             Texture=THEME:GetPathG("UserProfile", "generic icon"),
@@ -11,11 +11,11 @@ function GetLocalProfiles()
                 self:scaletofit(0, 0, 64, 64):xy(-CardItemW / 2 + 32, -3):ztest(true)
             end
         },
-        
+
         Def.BitmapText {
             Font="Montserrat semibold 40px",
             Text="Guest",
-            InitCommand=function(self) 
+            InitCommand=function(self)
                 self:shadowlength(1):xy(CardItemW / 2 - 8, -3)
                 :zoom(0.75):halign(1):maxwidth(250):ztest(true)
             end,
@@ -35,15 +35,15 @@ function GetLocalProfiles()
                 InitCommand=function(self)
                     local CustomAvatar = LoadModule("Config.Load.lua")("AvatarImage", "/Save/LocalProfiles/" .. PROFILEMAN:GetLocalProfileIDFromIndex(p) .. "/OutFoxPrefs.ini")
                     if CustomAvatar then self:Load(CustomAvatar) end
-                    
+
                     self:scaletofit(0, 0, 64, 64):xy(-CardItemW / 2 + 32, -3):ztest(true)
                 end
             },
-            
+
             Def.BitmapText {
                 Font="Montserrat semibold 40px",
                 Text=Profile:GetDisplayName(),
-                InitCommand=function(self) 
+                InitCommand=function(self)
                     self:shadowlength(1):xy(CardItemW / 2 - 8, -14)
                     :zoom(0.75):halign(1):maxwidth(250):ztest(true)
                 end,
@@ -79,7 +79,7 @@ function LoadCard(cColor)
             InitCommand=function(self) self:y(-15):zoom(0.75) end,
         }
     }
-    
+
     return t
 end
 
@@ -91,29 +91,42 @@ function LoadPlayerStuff(Player)
     t[#t+1] = Def.ActorFrame {
         Name = "JoinFrame",
         LoadCard(Color("Black")),
-        
-        LoadActor(THEME:GetPathG("", "PressCenterStep"))
+
+        LoadActor(THEME:GetPathG("", "PressCenterStep"))..{
+            InitCommand=function(self) self:queuecommand("Refresh") end,
+            StorageDevicesChangedMessageCommand=function(self)self:queuecommand("Refresh")end,
+            RefreshCommand=function(self)
+    			CardState = MEMCARDMAN:GetCardState(Player)
+    			if CardState == "MemoryCardState_none" then
+    				self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/Press"))
+    			elseif CardState == "MemoryCardState_ready" then
+    				self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/USB"))
+    			elseif CardState == "MemoryCardState_error" then
+    				self:GetChild("Press"):Load(THEME:GetPathG("", "PressCenterStep/Error"))
+    			end
+    		end
+        }
     }
 
     t[#t+1] = Def.ActorFrame {
         Name = "BigFrame",
         LoadCard(Color("Black"))
     }
-    
+
     t[#t+1] = Def.ActorFrame {
         Name = "SmallFrame",
         InitCommand=function(self) self:y(27) end,
-        
+
         Def.Quad {
             InitCommand=function(self) self:zoomto(CardItemW, CardItemH) end,
             OnCommand=function(self) self:diffuse(Color("Black")):diffusealpha(0.5) end
         },
-        
+
         Def.Quad {
             InitCommand=function(self) self:zoomto(CardItemW, CardItemH) end,
             OnCommand=function(self) self:diffuse(Color("Black")):fadeleft(0.25):faderight(0.25):glow(color("1,1,1,0.25")) end
         },
-        
+
         Def.Quad {
             InitCommand=function(self) self:zoomto(CardItemW, CardItemH):y(-40 / 2 + 20) end,
             OnCommand=function(self) self:diffuse(Color("Black")):fadebottom(1):diffusealpha(0.35) end
@@ -142,13 +155,13 @@ function LoadPlayerStuff(Player)
     t[#t+1] = Def.ActorFrame {
         Name="EffectFrame",
         Def.Quad {
-            InitCommand=function(self) 
+            InitCommand=function(self)
                 self:zoomto(CardItemW, CardItemH):y(27)
-                :diffuse(Color("White")):diffusealpha(0) 
+                :diffuse(Color("White")):diffusealpha(0)
             end,
-            OffCommand=function(self) 
+            OffCommand=function(self)
                 self:diffusealpha(1):easeoutexpo(0.5)
-                :zoomto(CardItemW * 2, CardItemH * 2):diffusealpha(0) 
+                :zoomto(CardItemW * 2, CardItemH * 2):diffusealpha(0)
             end
         },
     }
@@ -287,7 +300,7 @@ local t = Def.ActorFrame {
             end,
             children=LoadPlayerStuff(PLAYER_1)
         },
-        
+
         Def.ActorFrame {
             Name="P2Frame",
             InitCommand=function(self) self:x(SCREEN_CENTER_X+200):y(SCREEN_CENTER_Y):zoom(0):easeoutexpo(1):zoom(1) end,
@@ -299,20 +312,20 @@ local t = Def.ActorFrame {
             end,
             children=LoadPlayerStuff(PLAYER_2)
         },
-        
+
         -- Sounds!
         Def.Sound {
             File=THEME:GetPathS("Common", "start"),
             IsAction=true,
             StartButtonMessageCommand=function(self) self:play() end
         },
-        
+
         Def.Sound {
             File=THEME:GetPathS("Common", "cancel"),
             IsAction=true,
             BackButtonMessageCommand=function(self) self:play() end
         },
-        
+
         Def.Sound {
             File=THEME:GetPathS("Common", "value"),
             IsAction=true,

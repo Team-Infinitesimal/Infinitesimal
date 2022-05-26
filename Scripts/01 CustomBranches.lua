@@ -38,7 +38,7 @@ CustomBranch = {
         end
     end,
     AfterSelectProfile = function()
-        if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) then
+        if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) or GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() then
             setenv("IsBasicMode", false)
         else
             setenv("IsBasicMode", true)

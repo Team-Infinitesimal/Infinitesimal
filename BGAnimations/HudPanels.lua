@@ -20,6 +20,7 @@ local t = Def.ActorFrame {
 
         -- Screen name
         Def.BitmapText {
+            Name="ScreenName",
             Font="Montserrat normal 40px",
             Text=ToUpper(Screen.String("HeaderText")),
             InitCommand=function(self)
@@ -29,7 +30,7 @@ local t = Def.ActorFrame {
                 if not IsUsingWideScreen() then
                     local IsSelectMusic = self:GetText() == "SELECT MUSIC"
                     if IsSelectMusic then self:x(-WideScale(170, 170)) end
-                    
+
                     local WidthLimit = (IsSelectMusic and 181 or 160) / self:GetZoom()
                     self:maxwidth(WidthLimit):wrapwidthpixels(WidthLimit):vertspacing(-16)
                 end
@@ -96,7 +97,8 @@ local t = Def.ActorFrame {
 
 -- Avatar display and info on bottom panel
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
-    if PROFILEMAN:GetProfile(pn) and PROFILEMAN:IsPersistentProfile(pn) then
+    if PROFILEMAN:GetProfile(pn) and (PROFILEMAN:IsPersistentProfile(pn) or PROFILEMAN:ProfileWasLoadedFromMemoryCard(pn)) then
+        SCREENMAN:SystemMessage(PROFILEMAN:LocalProfileIDToDir(pn))
         t[#t+1] = Def.ActorFrame {
             Def.ActorFrame {
                 InitCommand=function(self) self:y(128) end,
@@ -174,7 +176,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                         :xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 172 or -172), SCREEN_BOTTOM - 39)
                         :MaskDest():ztestmode("ZTestMode_WriteOnFail")
                     end
-                },
+                }
             }
         }
     end

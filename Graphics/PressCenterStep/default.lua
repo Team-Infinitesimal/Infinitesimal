@@ -21,6 +21,7 @@ if IsGame("pump") or IsGame("piu") then
         },
 
         Def.Sprite {
+            Name="Press",
             Texture="Press",
             InitCommand=function(self) self:zoom(0.8) end,
             OnCommand=function(self)
