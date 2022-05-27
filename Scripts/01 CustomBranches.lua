@@ -25,6 +25,14 @@ function SelectMusicOrCourse()
     end
 end
 
+function ToLoadOrNotToLoad()
+    if GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() then
+        return "ScreenProfileLoad"
+    else
+        return SelectMusicOrCourse()
+    end
+end
+
 CustomBranch = {
     StartGame = function()
         if SONGMAN:GetNumSongs() == 0 and SONGMAN:GetNumAdditionalSongs() == 0 then
@@ -43,7 +51,7 @@ CustomBranch = {
         else
             setenv("IsBasicMode", true)
         end
-        return SelectMusicOrCourse()
+        return ToLoadOrNotToLoad()
     end,
     AfterProfileSave = function()
         if GAMESTATE:IsEventMode() then
