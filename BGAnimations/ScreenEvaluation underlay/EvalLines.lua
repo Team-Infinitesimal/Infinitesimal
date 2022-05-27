@@ -206,4 +206,18 @@ for i = 1, RowAmount do
     }
 end
 
+for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
+    if STATSMAN:GetCurStageStats():GetPlayerStageStats(pn):IsDisqualified() then
+        t[#t+1] = Def.BitmapText {
+            Font="Montserrat semibold 20px",
+            Text="Disqualified",
+            InitCommand=function(self)
+                self:diffuse(1,1,1,1):valign(1)
+                :xy((pn == PLAYER_1 and (SCREEN_LEFT + 10) or (SCREEN_RIGHT - 10)), SCREEN_BOTTOM - 90)
+                :halign((pn == PLAYER_1 and 0 or 1))
+            end
+        }
+    end
+end
+
 return t

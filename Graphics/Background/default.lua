@@ -7,6 +7,11 @@ t[#t+1] = Def.Quad {
         self:Center()
         :zoomto(SCREEN_WIDTH, SCREEN_HEIGHT)
         :diffuse(color("#150F34"))
+        :queuecommand("Refresh")
+    end,
+    ScreenChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
+    RefreshCommand=function(self)
+        self:linear(1):diffuse(getenv("IsBasicMode") == true and color("#0f2634") or color("#150F34"))
     end
 }
 
@@ -15,7 +20,12 @@ t[#t+1] = Def.Sprite {
     Name="Gradient",
     Texture="gradient",
     InitCommand=function(self)
-        self:Center()
+        self:Center():diffuse(color("#6028bb"))
+        :queuecommand("Refresh")
+    end,
+    ScreenChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
+    RefreshCommand=function(self)
+        self:linear(1):diffuse(getenv("IsBasicMode") == true and color("#285ebb") or color("#6028bb"))
     end
 }
 
