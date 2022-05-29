@@ -31,7 +31,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 end
                 LoadModule("Player.SetSpeed.lua")(pn)
             end,
-            
+
             -- Make sure the speed is set relative to the selected song when going to gameplay
             OffCommand=function(self)
                 LoadModule("Player.SetSpeed.lua")(pn)
@@ -150,6 +150,8 @@ t[#t+1] = Def.ActorFrame {
             SongUnchosenMessageCommand=function(self)
                 self:stoptweening():easeoutexpo(0.5):y(85):zoom(1)
             end,
+
+            LoadActor("PadIcons"),
 
             Def.Sprite {
                 Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),
