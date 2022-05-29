@@ -86,9 +86,17 @@ local t = Def.ActorFrame {
 
     -- These are to control input and chart highlights appearing.
     SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
-    SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
+    SongUnchosenMessageCommand=function(self) 
+        SongIsChosen = false 
+        PlayerCanMove[PLAYER_1] = true 
+        PlayerCanMove[PLAYER_2] = true 
+        self:playcommand("Refresh") 
+    end,
+    
     OptionsListOpenedMessageCommand=function(self, params) PlayerCanMove[params.Player] = false end,
     OptionsListClosedMessageCommand=function(self, params) PlayerCanMove[params.Player] = true end,
+    StepsChosenMessageCommand=function(self, params) PlayerCanMove[params.Player] = false end,
+    StepsUnchosenMessageCommand=function(self, params) PlayerCanMove[params.Player] = true end,
 
     RefreshCommand=function(self)
         ChartArray = nil

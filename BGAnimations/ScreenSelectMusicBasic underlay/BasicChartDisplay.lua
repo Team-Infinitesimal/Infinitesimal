@@ -5,12 +5,13 @@ local ItemTotalW = ItemW * ((ItemAmount - 1) / 2)
 
 local FrameX = -ItemTotalW
 
-local ChartIndexP1 = 1
-local ChartIndexP2 = 1
+local ChartIndex = { PlayerNumber_P1 = 1, PlayerNumber_P2 = 1 }
+local PrevChartIndex = { PlayerNumber_P1 = 1, PlayerNumber_P2 = 1 }
+local PlayerCanMove = { PlayerNumber_P1 = true, PlayerNumber_P2 = true }
+
 local ChartArray = nil
 local SongIsChosen = false
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
-local CenterList = LoadModule("Config.Load.lua")("CenterChartList", "Save/OutFoxPrefs.ini")
 
 function SortCharts(a, b)
     if a:GetStepsType() == b:GetStepsType() then
@@ -30,36 +31,26 @@ local function ColourSteps(meter, type)
 end
 
 local function InputHandler(event)
-    if SongIsChosen then
-        local pn = event.PlayerNumber
-        if not pn then return end
-        
-        -- To avoid control from a player that has not joined, filter the inputs out
-        if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
-        if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
-        
+    local pn = event.PlayerNumber
+    if not pn then return end
+    
+    -- To avoid control from a player that has not joined, filter the inputs out
+    if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
+    if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
+    
+    if SongIsChosen and PlayerCanMove[pn] then
         -- Filter out everything but button presses
         if event.type == "InputEventType_Repeat" or event.type == "InputEventType_Release" then return end
         
         local button = event.button
-        if button == "MenuLeft" or button == "DownLeft" then
-            if pn == PLAYER_1 then
-                if ChartIndexP1 == 1 then return else
-                ChartIndexP1 = ChartIndexP1 - 1 end
-            else
-                if ChartIndexP2 == 1 then return else
-                ChartIndexP2 = ChartIndexP2 - 1 end
-            end
-            MESSAGEMAN:Broadcast("CurrentChartChanged")
-        elseif button == "MenuRight" or button == "DownRight" then
-            if pn == PLAYER_1 then
-                if ChartIndexP1 == #ChartArray then return else
-                ChartIndexP1 = ChartIndexP1 + 1 end
-            else
-                if ChartIndexP2 == #ChartArray then return else
-                ChartIndexP2 = ChartIndexP2 + 1 end
-            end
-            MESSAGEMAN:Broadcast("CurrentChartChanged")
+        if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
+            if ChartIndex[pn] == 1 then return else
+            ChartIndex[pn] = ChartIndex[pn] - 1 end
+            MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
+        elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
+            if ChartIndex[pn] == #ChartArray then return else
+            ChartIndex[pn] = ChartIndex[pn] + 1 end
+            MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
         end
     end
     return
@@ -71,13 +62,26 @@ local t = Def.ActorFrame {
         self:playcommand("Refresh")
     end,
     
+    -- Prevent the chart list from moving when transitioning
+    OffCommand=function(self)
+        SongIsChosen = false
+    end,
+    
     -- Update chart list
-    CurrentChartChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+    UpdateChartDisplayMessageCommand=function(self) self:playcommand("Refresh") end,
     CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
     
     -- These are to control the visibility of the chart highlight.
     SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
-    SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
+    SongUnchosenMessageCommand=function(self) 
+        SongIsChosen = false 
+        PlayerCanMove[PLAYER_1] = true 
+        PlayerCanMove[PLAYER_2] = true 
+        self:playcommand("Refresh") 
+    end,
+    
+    StepsChosenMessageCommand=function(self, params) PlayerCanMove[params.Player] = false end,
+    StepsUnchosenMessageCommand=function(self, params) PlayerCanMove[params.Player] = true end,
 
     RefreshCommand=function(self)
         ChartArray = nil
@@ -98,18 +102,23 @@ local t = Def.ActorFrame {
 
         if ChartArray then
             -- Correct player chart indexes to ensure they're not off limits
-            if ChartIndexP1 < 1 then ChartIndexP1 = 1 elseif ChartIndexP1 > #ChartArray then ChartIndexP1 = #ChartArray end
-            if ChartIndexP2 < 1 then ChartIndexP2 = 1 elseif ChartIndexP2 > #ChartArray then ChartIndexP2 = #ChartArray end
+            if ChartIndex[PLAYER_1] < 1 then ChartIndex[PLAYER_1] = 1
+            elseif ChartIndex[PLAYER_1] > #ChartArray then ChartIndex[PLAYER_1] = #ChartArray end
+            
+            if ChartIndex[PLAYER_2] < 1 then ChartIndex[PLAYER_2] = 1
+            elseif ChartIndex[PLAYER_2] > #ChartArray then ChartIndex[PLAYER_2] = #ChartArray end
             
             -- Set the selected charts and broadcast a new message to avoid possible
             -- race conditions trying to obtain the currently selected chart.
             if GAMESTATE:IsPlayerEnabled(PLAYER_1) then 
-                GAMESTATE:SetCurrentSteps(PLAYER_1, ChartArray[ChartIndexP1]) 
-                MESSAGEMAN:Broadcast("ChangeChart")
+                GAMESTATE:SetCurrentSteps(PLAYER_1, ChartArray[ChartIndex[PLAYER_1]])
+                if ChartIndex[PLAYER_1] ~= PrevChartIndex[PLAYER_1] then
+                MESSAGEMAN:Broadcast("CurrentChartChanged", { Player = PLAYER_1 }) end
             end
             if GAMESTATE:IsPlayerEnabled(PLAYER_2) then 
-                GAMESTATE:SetCurrentSteps(PLAYER_2, ChartArray[ChartIndexP2])
-                MESSAGEMAN:Broadcast("ChangeChart")				
+                GAMESTATE:SetCurrentSteps(PLAYER_2, ChartArray[ChartIndex[PLAYER_2]])
+                if ChartIndex[PLAYER_2] ~= PrevChartIndex[PLAYER_2] then
+                MESSAGEMAN:Broadcast("CurrentChartChanged", { Player = PLAYER_2 }) end
             end
             
             -- Shift the positioning of the charts if they don't take up all visible slots
@@ -132,17 +141,12 @@ local t = Def.ActorFrame {
                     self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
                     self:GetChild("")[i]:GetChild("Difficulty"):visible(true):settext(StepData[2])
                     self:GetChild("")[i]:GetChild("HighlightP1"):visible(
-                        (ChartIndexP1 == i) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
+                        (ChartIndex[PLAYER_1] == i) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
                     self:GetChild("")[i]:GetChild("HighlightP2"):visible(
-                        (ChartIndexP2 == i) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_2))
+                        (ChartIndex[PLAYER_2] == i) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_2))
                 else
-                    if not CenterList then
-                        self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(Color.White):diffusealpha(0.25)
-                        self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
-                    else
-                        self:GetChild("")[i]:GetChild("Icon"):visible(false)
-                        self:GetChild("")[i]:GetChild("IconTrim"):visible(false)
-                    end
+                    self:GetChild("")[i]:GetChild("Icon"):visible(false)
+                    self:GetChild("")[i]:GetChild("IconTrim"):visible(false)
                     self:GetChild("")[i]:GetChild("Level"):visible(false)
                     self:GetChild("")[i]:GetChild("HighlightP1"):visible(false)
                     self:GetChild("")[i]:GetChild("HighlightP2"):visible(false)
@@ -223,7 +227,7 @@ end
 t[#t+1] = Def.Sound {
     File=THEME:GetPathS("Common", "value"),
     IsAction=true,
-    CurrentChartChangedMessageCommand=function(self) self:play() end
+    UpdateChartDisplayMessageCommand=function(self) self:play() end
 }
 
 return t
