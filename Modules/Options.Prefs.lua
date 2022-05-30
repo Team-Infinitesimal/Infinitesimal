@@ -35,7 +35,7 @@ return {
     ScreenFilterSize =
     {
         UserPref = true,
-        Default = false,
+        Default = "Full",
         Choices = { OptionNameString('ScreenFilterFull'), OptionNameString('ScreenFilterLane') },
         Values = { "Full", "Lane" }
     },

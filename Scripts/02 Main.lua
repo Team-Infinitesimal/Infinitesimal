@@ -2,6 +2,22 @@ function OptionNameString(str)
     return THEME:GetString('OptionNames',str)
 end
 
+-- Unfortunately, some settings persist with the machine profile even after a credit,
+-- so we will reset all custom mods we have to avoid any weird situations
+function ResetLuaMods(pn)
+    local ProfileDir = "Save/MachineProfile/OutFoxPrefsForPlayerp" .. string.sub(pn,-1) .. "/OutFoxPrefs.ini"
+    LoadModule("Config.Save.lua")("AutoVelocity", tostring(200), ProfileDir)
+    LoadModule("Config.Save.lua")("AutoVelocityType", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("ScreenFilter", 0, ProfileDir)
+    LoadModule("Config.Save.lua")("ScreenFilterColor", 2, ProfileDir)
+    LoadModule("Config.Save.lua")("ScreenFilterSize", "Full", ProfileDir)
+    LoadModule("Config.Save.lua")("MeasureCounter", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("MeasureCounterDivisions", 12, ProfileDir)
+    LoadModule("Config.Save.lua")("JudgmentItems", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("ScoreDisplay", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("SongProgress", tostring(false), ProfileDir)
+end
+
 -- Ensure that speed mods are accurate
 function GameArrowSpacing()
     if IsGame("pump") or IsGame("piu") then

@@ -85,7 +85,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     self:GetChild("Ball"):diffuse(BasicMode and StepData[1] or ChartTypeToColor(Chart))
                     self:GetChild("Meter"):settext(ChartMeter)
                     self:GetChild("Credit"):settext(ChartAuthor)
-                    self:GetChild("Difficulty"):visible(BasicMode):settext(StepData[2])
+                    self:GetChild("Difficulty"):visible(BasicMode or false):settext(StepData[2])
 
                     local ChartLabelIndex = 0
                     for Index, String in pairs(ChartLabels) do
