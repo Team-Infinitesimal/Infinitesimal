@@ -13,12 +13,6 @@ return Def.ActorFrame {
             end
         end
     end,
-    
-    -- Reset machine profile mods
-    OnCommand=function(self)
-        ResetLuaMods(PLAYER_1)
-        ResetLuaMods(PLAYER_2)
-    end,
 
     -- Possibly unnecessary but last time I tried this it didn't work without
     -- it for ??? reasons so I'm not taking any risks

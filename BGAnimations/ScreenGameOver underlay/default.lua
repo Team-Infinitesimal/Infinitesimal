@@ -1,4 +1,10 @@
 return Def.ActorFrame {
+    -- Reset machine profile mods
+    OnCommand=function(self)
+        ResetLuaMods(PLAYER_1)
+        ResetLuaMods(PLAYER_2)
+    end,
+    
     Def.Sound {
         File=THEME:GetPathS("", "Pewwwww"),
         OnCommand=function(self)
