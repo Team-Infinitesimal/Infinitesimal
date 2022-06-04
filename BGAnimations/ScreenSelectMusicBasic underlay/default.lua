@@ -1,4 +1,10 @@
 local t = Def.ActorFrame {
+    OnCommand=function(self)
+        -- Change default sort to Basic Mode songs only
+        SONGMAN:SetPreferredSongs("PreferredSongs")
+        SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
+    end,
+    
     Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
