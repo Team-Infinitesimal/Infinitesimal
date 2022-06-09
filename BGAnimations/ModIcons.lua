@@ -100,7 +100,7 @@ local t = Def.ActorFrame {
         -- Music rate
         local RushAmount = GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate()
         if RushAmount ~= nil then
-            RushAmount = math.floor(RushAmount * 100)
+            RushAmount = math.round(RushAmount * 100)
             if RushAmount ~= 100 then
                 table.insert(PlayerModsArray, THEME:GetString("ModIcons", "Rush") .. "\n" .. RushAmount)
             end
