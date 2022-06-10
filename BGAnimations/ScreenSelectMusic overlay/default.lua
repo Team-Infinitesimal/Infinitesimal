@@ -16,7 +16,7 @@ if GAMESTATE:GetNumSidesJoined() < 2 then
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
             InitCommand=function(self)
                 local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.35 or -0.35)
-                self:xy(PosX, SCREEN_HEIGHT * 0.4)
+                self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), (IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35))
             end,
             OffCommand=function(self) self:stoptweening():easeoutexpo(0.25):zoom(2):diffusealpha(0) end,
         }
@@ -25,13 +25,13 @@ end
 
 t[#t+1] = Def.ActorFrame {
     LoadActor("../HudPanels"),
-    
+
     LoadActor("../CornerArrows"),
-    
+
     LoadActor("OptionsList"),
-    
+
     LoadActor("GroupSelect", SCREEN_CENTER_X, SCREEN_CENTER_Y),
-    
+
     Def.Sound {
         File=THEME:GetPathS("Common", "start"),
         IsAction=true,

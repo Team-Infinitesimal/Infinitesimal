@@ -13,6 +13,7 @@ local ChartArray = nil
 local SongIsChosen = false
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 local CenterList = LoadModule("Config.Load.lua")("CenterChartList", "Save/OutFoxPrefs.ini")
+local CanWrap = LoadModule("Config.Load.lua")("WrapChartScroll", "Save/OutFoxPrefs.ini")
 
 -- https://stackoverflow.com/a/32806646
 local function removeFirst(tbl, val)
@@ -46,23 +47,33 @@ local ChartLabels = {
 local function InputHandler(event)
     local pn = event.PlayerNumber
     if not pn then return end
-    
+
     -- To avoid control from a player that has not joined, filter the inputs out
     if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
     if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
-    
+
     if SongIsChosen and PlayerCanMove[pn] then
         -- Filter out everything but button presses
         if event.type == "InputEventType_Repeat" or event.type == "InputEventType_Release" then return end
-        
+
         local button = event.button
         if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
-            if ChartIndex[pn] == 1 then return else
-            ChartIndex[pn] = ChartIndex[pn] - 1 end
+            if ChartIndex[pn] == 1 then
+                if CanWrap then
+                    ChartIndex[pn] = #ChartArray
+                else return end
+            else
+                ChartIndex[pn] = ChartIndex[pn] - 1
+            end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
-            if ChartIndex[pn] == #ChartArray then return else
-            ChartIndex[pn] = ChartIndex[pn] + 1 end
+            if ChartIndex[pn] == #ChartArray then
+                if CanWrap then
+                    ChartIndex[pn] = 1
+                else return end
+            else
+                ChartIndex[pn] = ChartIndex[pn] + 1
+            end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
         end
     end
@@ -70,29 +81,29 @@ local function InputHandler(event)
 end
 
 local t = Def.ActorFrame {
-    OnCommand=function(self) 
-        SCREENMAN:GetTopScreen():AddInputCallback(InputHandler) 
+    OnCommand=function(self)
+        SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
         self:playcommand("Refresh")
     end,
-    
+
     -- Prevent the chart list from moving when transitioning
     OffCommand=function(self)
         SongIsChosen = false
     end,
-    
+
     -- Update chart list
     UpdateChartDisplayMessageCommand=function(self) self:playcommand("Refresh") end,
     CurrentSongChangedMessageCommand=function(self) self:playcommand("Refresh") end,
 
     -- These are to control input and chart highlights appearing.
     SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
-    SongUnchosenMessageCommand=function(self) 
-        SongIsChosen = false 
-        PlayerCanMove[PLAYER_1] = true 
-        PlayerCanMove[PLAYER_2] = true 
-        self:playcommand("Refresh") 
+    SongUnchosenMessageCommand=function(self)
+        SongIsChosen = false
+        PlayerCanMove[PLAYER_1] = true
+        PlayerCanMove[PLAYER_2] = true
+        self:playcommand("Refresh")
     end,
-    
+
     OptionsListOpenedMessageCommand=function(self, params) PlayerCanMove[params.Player] = false end,
     OptionsListClosedMessageCommand=function(self, params) PlayerCanMove[params.Player] = true end,
     StepsChosenMessageCommand=function(self, params) PlayerCanMove[params.Player] = false end,
@@ -101,9 +112,9 @@ local t = Def.ActorFrame {
     RefreshCommand=function(self)
         ChartArray = nil
         local CurrentSong = GAMESTATE:GetCurrentSong()
-        if CurrentSong then 
+        if CurrentSong then
             ChartArray = SongUtil.GetPlayableSteps(CurrentSong)
-            
+
             -- UCS Filter
             if LoadModule("Config.Load.lua")("ShowUCSCharts", "Save/OutFoxPrefs.ini") == false then
                 for i = #ChartArray, 1, -1 do
@@ -112,7 +123,7 @@ local t = Def.ActorFrame {
                     end
                 end
             end
-            
+
             -- Quest Filter
             if LoadModule("Config.Load.lua")("ShowQuestCharts", "Save/OutFoxPrefs.ini") == false then
                 for i = #ChartArray, 1, -1 do
@@ -121,7 +132,7 @@ local t = Def.ActorFrame {
                     end
                 end
             end
-            
+
             -- Hidden Filter
             if LoadModule("Config.Load.lua")("ShowHiddenCharts", "Save/OutFoxPrefs.ini") == false then
                 for i = #ChartArray, 1, -1 do
@@ -130,15 +141,15 @@ local t = Def.ActorFrame {
                     end
                 end
             end
-            
+
             -- Couple and Routine crashes the game :(
             for i = #ChartArray, 1, -1 do
-                if string.find(ToUpper(ChartArray[i]:GetStepsType()), "ROUTINE") or 
+                if string.find(ToUpper(ChartArray[i]:GetStepsType()), "ROUTINE") or
                     string.find(ToUpper(ChartArray[i]:GetStepsType()), "COUPLE") then
                     table.remove(ChartArray, i)
                 end
             end
-            
+
             -- If no charts are left, load all of them again to avoid crashes!
             if #ChartArray == 0 then ChartArray = SongUtil.GetPlayableSteps(CurrentSong) end
             table.sort(ChartArray, SortCharts)
@@ -148,27 +159,27 @@ local t = Def.ActorFrame {
             -- Correct player chart indexes to ensure they're not off limits
             if ChartIndex[PLAYER_1] < 1 then ChartIndex[PLAYER_1] = 1
             elseif ChartIndex[PLAYER_1] > #ChartArray then ChartIndex[PLAYER_1] = #ChartArray end
-            
+
             if ChartIndex[PLAYER_2] < 1 then ChartIndex[PLAYER_2] = 1
             elseif ChartIndex[PLAYER_2] > #ChartArray then ChartIndex[PLAYER_2] = #ChartArray end
-            
+
             -- Set the selected charts and broadcast a new message to avoid possible
             -- race conditions trying to obtain the currently selected chart.
-            if GAMESTATE:IsPlayerEnabled(PLAYER_1) then 
+            if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
                 GAMESTATE:SetCurrentSteps(PLAYER_1, ChartArray[ChartIndex[PLAYER_1]])
                 if ChartIndex[PLAYER_1] ~= PrevChartIndex[PLAYER_1] then
                 MESSAGEMAN:Broadcast("CurrentChartChanged", { Player = PLAYER_1 }) end
             end
-            if GAMESTATE:IsPlayerEnabled(PLAYER_2) then 
+            if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
                 GAMESTATE:SetCurrentSteps(PLAYER_2, ChartArray[ChartIndex[PLAYER_2]])
                 if ChartIndex[PLAYER_2] ~= PrevChartIndex[PLAYER_2] then
                 MESSAGEMAN:Broadcast("CurrentChartChanged", { Player = PLAYER_2 }) end
             end
-            
+
             -- After we use the previous chart index, we update it in advance for the next refresh
             PrevChartIndex[PLAYER_1] = ChartIndex[PLAYER_1]
             PrevChartIndex[PLAYER_2] = ChartIndex[PLAYER_2]
-            
+
             local MainChartIndex = ChartIndex[PLAYER_1] > ChartIndex[PLAYER_2] and ChartIndex[PLAYER_1] or ChartIndex[PLAYER_2]
 
             local ListOffset = 0
