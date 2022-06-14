@@ -1,5 +1,9 @@
 local t = Def.ActorFrame {
     OnCommand=function(self)
+        -- Reset machine profile mods
+        ResetLuaMods(PLAYER_1)
+        ResetLuaMods(PLAYER_2)
+        
         GAMESTATE:UpdateDiscordGameMode(GAMESTATE:GetCurrentGame():GetName())
         GAMESTATE:UpdateDiscordScreenInfo("Title Menu", "", 1)
     end,
