@@ -4,7 +4,7 @@ local t = Def.ActorFrame {
         SONGMAN:SetPreferredSongs("PreferredSongs")
         SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
     end,
-    
+
     Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
@@ -42,12 +42,8 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
     local spacing = (IsUsingWideScreen() and 80 or 15)
     local width = (IsUsingWideScreen() and 200 or 175)
     local posx = (pn == PLAYER_1 and SCREEN_LEFT + spacing or SCREEN_RIGHT - (spacing + width + 10) )
-    local title = "How To Play"
-    local body = "Use &DOWNLEFT; and &DOWNRIGHT; to scroll through songs.\n" ..
-                 "When you find a song you want to play, select it with "..
-                 "&CENTER;, then pick a difficulty.\n"..
-                 "If you change your mind, use &UPLEFT; or &UPRIGHT; "..
-                 "to back out and pick another song."
+    local title = THEME:GetString("MessageBoxes", "TutorialTitle")
+    local body = THEME:GetString("MessageBoxes", "TutorialBody")
 
     t[#t+1] = Def.ActorFrame {
         Name="TutorialMessage"..pn,
@@ -72,7 +68,7 @@ t[#t+1] = Def.ActorFrame {
         SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusic")
         SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
     end,
-    
+
     Def.Sound {
         Name="FullModeSound",
         File=THEME:GetPathS("", "FullMode"),
