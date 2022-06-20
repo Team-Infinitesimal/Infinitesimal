@@ -8,7 +8,7 @@
 This theme is inspired by Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilizing original assets when possible, bringing high performance + cross-platform support to the table with Project OutFox and widening the idea and accessibility of custom Pump It Up content.
 
 ## Requirements
-* [Project OutFox Alpha 0.4.14.1 or newer](https://projectoutfox.com/downloads)
+* [Project OutFox Alpha 0.4.15.1 or newer](https://projectoutfox.com/downloads)
 
 Older StepMania versions such as `5.0.12`, `5.1b2` and `5.1-new` are not supported due to the lack of maintenance to `pump/piu` and the engine in general. Support the developers from Team OutFox who are currently doing the heavy lifting!
 
@@ -20,22 +20,28 @@ Since this theme is currently on a rolling release, we highly recommend download
 ## Theme Features
 * Accurate timing windows scoring and lifebar mechanics to K-Pump
 * Additional timing windows available (StepMania, ITG, Infinity, Pro, Jump)
-* Multiply, Automatic and Constant scroll speeds
+* Basic Mode can be accessed by starting a game with no profiles present, or by using the "Guest" profile
+* Customizable appearance options and modifiers such as arrow size and rush
+* Exit to title screen in home/event mode (hold down any red arrow while selecting a folder)
 * Fully customizable background filters, choose to filter playfield only or the entire screen
 * Measures and song progress display
-* Customizable appearance options and modifiers such as arrow size and rush
+* Multiply, Automatic and Constant scroll speeds
 * Visualize chart information while selecting a song, previews are currently WIP
-* Exit to title screen in home/event mode (hold down any red arrow while selecting a folder)
 
 ## Theme-Specific Toggles
 The following features can be configured via the Infinitesimal Options submenu of the operator menu:
-* Center Chart List: If there are less charts than the maximum visible number, the charts will be centered to the display. Disabling this will fill the remaining slots with empty grey icons.
-* Chart Preview: Preview the selected chart on the select music screen (WIP).
-* Image Preview Only: Videos will not be displayed while selecting a song, helps with performance on low-end hardware and/or memory usage.
-* Pause With Select Button - Use the button mapped to "Select" to open the pause menu during gameplay. (Recommended for private machine owners with a buttonboard installed)
-* Use Video Background - Use a pre-rendered video for the animated theme background, requires restart. (Recommended for newer hardware with good H.264 decoding)
-* 3x Center to Exit Eval - Press the center panel 3 times to exit the results screen like in official games, otherwise exit on one press.
-* Show Big Diff Icon - Display a larger icon while selecting a difficulty, aspect ratios higher than 4:3 only. (Recommended if the existing difficulty display is too far away and/or difficult to see)
+* Center Chart List: if there are less charts than the maximum visible number, the charts will be centered to the display.
+* Chart Preview: preview the selected chart on the select music screen.
+* Image Preview Only: videos will not be displayed while selecting a song, helps with performance on low-end hardware and/or memory usage.
+* Pause With Select Button: use the button mapped to "Select" to open the pause menu during gameplay.
+* Use Video Background: use a pre-rendered video for the animated theme background, requires restart.
+* 3x Center to Exit Evaluation: press the center panel 3 times to exit the results screen like in official games, otherwise exit on one press.
+* Show Big Difficulty Icon: display a larger icon while selecting a difficulty, aspect ratios higher than 4:3 only.
+* Show UCS Charts: allow UCS charts to be selected, if a song has no standard charts disabling might not be effective to it.
+* Show Quest Charts: allow Quest charts to be selected, if a song has no standard charts disabling might not be effective to it.
+* Show Hidden Charts: allow Hidden charts to be selected, if a song has no standard charts disabling might not be effective to it.
+* Autogen Basic Mode: allow the game to auto generate the list of songs for Basic Mode, disable this if you plan to use a handpicked list.
+* Wrap Chart List Scrolling: when scrolling past the beginning or end of the chart list, wrap the current selection to the opposite end.
 
 ## Screenshots
 ![title](https://user-images.githubusercontent.com/12992355/169429472-57019244-4eea-4a37-ba9a-fa2c030f27b5.png)
@@ -56,8 +62,6 @@ If you're looking for assets such as more noteskins or folder icons from StepF2/
 
 ## Current Limitations and Issues
 The theme currently has a few limitations that are beyond our reach. Here is a list of known limitations and issues:
-* Holds might be hard or easy to hit due to how checkpoint holds are currently handled by the engine;
-* Hold heads will count towards your accuracy and can count as a Great/Good/Bad;
 * Some chart effects will be missing or broken from incomplete parsing;
 * Chart previews are very experimental - some styles might not load/show properly and your game might crash on edge cases;
 * Switching timing modes does not update the list of judgement graphics, reloading scripts (Ctrl+F2) or restarting the game will regenerate the list.
