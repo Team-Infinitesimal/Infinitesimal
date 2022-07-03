@@ -4,7 +4,7 @@ local t = Def.ActorFrame {
     OnCommand=function(self)
         if SCREENMAN:GetTopScreen() and SCREENMAN:GetTopScreen():GetChild("PlayerP"..string.sub(pn,-1)) then
             local IsDouble = (GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides")
-            local IsCenter = (IsDouble or Center1Player() or GAMESTATE:GetIsFieldCentered(pn))
+            local IsCenter = (IsDouble or Center1Player() or GAMESTATE:GetIsFieldCentered(pn)) and GAMESTATE:GetCoinMode() == "CoinMode_Home"
             local PosX = IsCenter and SCREEN_CENTER_X or THEME:GetMetric(Var "LoadingScreen", "Player" .. ToEnumShortString(pn) .. "OnePlayerOneSideX")
 
             local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0
