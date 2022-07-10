@@ -9,7 +9,7 @@ Length = Length + 4
 
 local RowAmount = Length
 local RowH = 40
-local RowX = IsUsingWideScreen() and 170 or 85
+local RowX = IsUsingWideScreen() and 490 or 400
 local RowY = SCREEN_CENTER_Y - (RowAmount * RowH) / 2
 
 -- And a function to make even better use out of the table.
@@ -184,7 +184,7 @@ for i = 1, RowAmount do
             Font="Montserrat semibold 40px",
             Text=GetJLineValue(Name[i], PLAYER_1),
             InitCommand=function(self)
-                self:x(-SCREEN_CENTER_X + RowX):shadowlength(1):zoom(0.8)
+                self:x(-RowX):shadowlength(1):zoom(0.8)
                 :halign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_1))
                 if Name[i] == "Score" then
                     ColourHighScoreCount(self)
@@ -196,7 +196,7 @@ for i = 1, RowAmount do
             Font="Montserrat semibold 40px",
             Text=GetJLineValue(Name[i], PLAYER_2),
             InitCommand=function(self)
-                self:x(SCREEN_CENTER_X - RowX):shadowlength(1):zoom(0.8)
+                self:x(RowX):shadowlength(1):zoom(0.8)
                 :halign(1):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_2))
                 if Name[i] == "Score" then
                     ColourHighScoreCount(self)

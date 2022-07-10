@@ -6,6 +6,7 @@ return function(PlayerScore)
     local TNSGood = "TapNoteScore_W" .. (PumpTiming and "3" or "4")
     local TNSBad = "TapNoteScore_W" .. (PumpTiming and "4" or "5")
     
+    local Checkpoints = PlayerScore:GetTapNoteScore("TapNoteScore_CheckpointHit")
     local Superbs 	= PumpTiming and 0 or PlayerScore:GetTapNoteScore("TapNoteScore_W1")
     local Perfects 	= PlayerScore:GetTapNoteScore(TNSPerfect)
     local Greats 	= PlayerScore:GetTapNoteScore(TNSGreat)
@@ -19,7 +20,7 @@ return function(PlayerScore)
     local GradeLetter = "F"
     local GradeCondition = "Fail"
     local TotalNotes = Perfects + Greats + Goods + Bads + Misses
-    local PlayerAccuracy = ((Superbs + Perfects) * 1.2 + Greats * 0.9 + Goods * 0.6 + Bads * -0.45 + Misses * -0.9 + MaxCombo * 0.05) / TotalNotes
+    local PlayerAccuracy = ((Superbs + Perfects) * 1.2 + Greats * 0.9 + Goods * 0.6 + Bads * -0.45 + Misses * -0.9 + Checkpoints * -0.2 + MaxCombo * 0.05) / TotalNotes
             
     -- The good ol' if staircase
     if Misses == 0 and PlayerAccuracy >= 1 then

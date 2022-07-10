@@ -89,7 +89,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
         Def.Sprite {
             InitCommand=function(self)
-                local GradeX = SCREEN_WIDTH * (IsUsingWideScreen() and 0.265 or 0.225)
+                local GradeX = IsUsingWideScreen() and 270 or 220
                 self:xy(pn == PLAYER_2 and SCREEN_RIGHT - GradeX or GradeX, SCREEN_CENTER_Y + 6)
 
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
