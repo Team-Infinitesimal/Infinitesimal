@@ -89,8 +89,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
         Def.Sprite {
             InitCommand=function(self)
-                local GradeX = IsUsingWideScreen() and 270 or 220
-                self:xy(pn == PLAYER_2 and SCREEN_RIGHT - GradeX or GradeX, SCREEN_CENTER_Y + 6)
+                local GradeX = IsUsingWideScreen() and 300 or 260
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
 
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 local Grade = "FailF"

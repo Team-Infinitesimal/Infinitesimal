@@ -51,7 +51,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         Def.ActorFrame {
             InitCommand=function(self)
                 self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
-                :easeoutexpo(1):y(SCREEN_CENTER_Y - 10)
+                :easeoutexpo(1):y(SCREEN_CENTER_Y - 11)
             end,
             OffCommand=function(self)
                 self:stoptweening():easeoutexpo(1)
@@ -61,7 +61,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             StepsChosenMessageCommand=function(self, params)
                 if params.Player == pn then
                     self:stoptweening():easeoutexpo(0.5)
-                    :x(SCREEN_CENTER_X + (pn == PLAYER_2 and 300 or -300))
+                    :x(SCREEN_CENTER_X + (pn == PLAYER_2 and 380 or -380))
                 end
             end,
             StepsUnchosenMessageCommand=function(self)
@@ -73,12 +73,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
             Def.Quad {
                 InitCommand=function(self)
-                    self:zoomto(128, 32):diffuse(Color.Black)
+                    self:zoomto(128, 32):diffuse(Color.White)
 
                     if pn == PLAYER_2 then
-                        self:diffuserightedge(0, 0, 0, 0)
+                        self:diffuserightedge(Color.Invisible)
                     else
-                        self:diffuseleftedge(0, 0, 0, 0)
+                        self:diffuseleftedge(Color.Invisible)
                     end
                 end
             },
@@ -136,11 +136,15 @@ t[#t+1] = Def.ActorFrame {
         LoadActor("ScoreDisplay") .. {
             InitCommand=function(self) self:y(-100) end
         },
+        
+        LoadActor("PadIcons") .. {
+            InitCommand=function(self) self:y(24) end
+        },
 
         LoadActor("SongPreview") .. {
             InitCommand=function(self) self:y(-100) end
         },
-
+        
         Def.ActorFrame {
             InitCommand=function(self) self:y(85) end,
 
@@ -149,9 +153,7 @@ t[#t+1] = Def.ActorFrame {
             end,
             SongUnchosenMessageCommand=function(self)
                 self:stoptweening():easeoutexpo(0.5):y(85):zoom(1)
-            end,
-
-            LoadActor("PadIcons"),
+            end,            
 
             Def.Sprite {
                 Texture=THEME:GetPathG("", "DifficultyDisplay/Bar"),

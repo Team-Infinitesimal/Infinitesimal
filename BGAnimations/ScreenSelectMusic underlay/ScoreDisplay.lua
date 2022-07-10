@@ -1,3 +1,5 @@
+local SongIsChosen = false
+
 local t = Def.ActorFrame {}
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
@@ -7,15 +9,16 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     
     t[#t+1] = Def.ActorFrame {
         Def.ActorFrame {
-            OnCommand=function(self) self:playcommand("Refresh") end,
-            CurrentChartChangedMessageCommand=function(self, params) if params.Player == pn then self:playcommand("Refresh") end end,
+            CurrentChartChangedMessageCommand=function(self, params) if SongIsChosen and params.Player == pn then self:playcommand("Refresh") end end,
             
             SongChosenMessageCommand=function(self)
+                SongIsChosen = true
                 self:stoptweening():easeoutexpo(0.5)
                 :x(358 * (pn == PLAYER_2 and 1 or -1))
                 self:playcommand("Refresh")
             end,
             SongUnchosenMessageCommand=function(self)
+                SongIsChosen = false
                 self:stoptweening():easeoutexpo(0.5):x(0)
             end,
 

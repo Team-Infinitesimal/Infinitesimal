@@ -8,7 +8,7 @@ return function(PlayerScore)
     
     local Checkpoints = PlayerScore:GetTapNoteScore("TapNoteScore_CheckpointHit")
     local Superbs 	= PumpTiming and 0 or PlayerScore:GetTapNoteScore("TapNoteScore_W1")
-    local Perfects 	= PlayerScore:GetTapNoteScore(TNSPerfect)
+    local Perfects 	= PlayerScore:GetTapNoteScore(TNSPerfect) + Checkpoints
     local Greats 	= PlayerScore:GetTapNoteScore(TNSGreat)
     local Goods 	= PlayerScore:GetTapNoteScore(TNSGood)
     local Bads	 	= PlayerScore:GetTapNoteScore(TNSBad)
