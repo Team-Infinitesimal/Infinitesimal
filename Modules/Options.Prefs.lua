@@ -71,7 +71,7 @@ return {
     },
     SmartTimings =
     {
-        --GenForOther = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
+        GenForOther = {"SmartJudgments", LoadModule("Options.SmartJudgeChoices.lua")},
         GenForUserPref = true,
         Default = TimingModes[3],
         Choices = TimingModes,
