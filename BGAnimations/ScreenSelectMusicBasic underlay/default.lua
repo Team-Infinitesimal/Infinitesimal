@@ -3,8 +3,25 @@ local t = Def.ActorFrame {
         -- Change default sort to Basic Mode songs only
         SONGMAN:SetPreferredSongs("PreferredSongs")
         SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
-    end,
+    end
+}
 
+-- The column thing
+t[#t+1] = Def.Quad {
+    InitCommand=function(self)
+        self:xy(SCREEN_CENTER_X,SCREEN_CENTER_Y):valign(0.5)
+        :zoomx(255)
+        :diffuse(0,0,0,0.75)
+        :zoomy(0)
+        :decelerate(0.5)
+        :zoomy(SCREEN_HEIGHT)
+    end,
+    OffCommand=function(self)
+        self:stoptweening():decelerate(0.5):zoomy(0)
+    end
+}
+
+t[#t+1] = Def.ActorFrame {
     Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)

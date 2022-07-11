@@ -127,17 +127,18 @@ local t = Def.ActorFrame {
             local PrevChartArray
             
             for i = 1, 3 do
-                PrevChartArray = ShallowCopy(ChartArray)
-                
                 if LoadModule("Config.Load.lua")(ShowFilters[i], "Save/OutFoxPrefs.ini") == false then
+                    -- Only make a copy of the array if an attempt at removal will happen
+                    PrevChartArray = ShallowCopy(ChartArray)
+                    
                     for j = #ChartArray, 1, -1 do
                         if string.find(ToUpper(ChartArray[j]:GetDescription()), ChartFilters[i]) then
                             table.remove(ChartArray, j)
                         end
                     end
+                    
+                    if #ChartArray == 0 then ChartArray = ShallowCopy(PrevChartArray) end
                 end
-                
-                if #ChartArray == 0 then ChartArray = ShallowCopy(PrevChartArray) end
             end
 
             -- Couple and Routine crashes the game :(
