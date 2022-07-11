@@ -194,5 +194,11 @@ return {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
+    },
+    LifePositionBelow =
+    {
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
     }
 }

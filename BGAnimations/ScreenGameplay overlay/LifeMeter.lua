@@ -1,5 +1,6 @@
 local pn = ...
 local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+local ShouldReverse = LoadModule("Config.Load.lua")("LifePositionBelow","Save/OutFoxPrefs.ini")
 
 local BarW = math.ceil(GAMESTATE:GetCurrentStyle():GetWidth(pn) * 1.5)
 local BarH = 30
@@ -17,7 +18,7 @@ local MeterUpdate = function(self)
     MeterActor:texcoordvelocity(MeterVelocity, 0)
 end
 
-local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0
+local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0 and ShouldReverse
 local ScoreDisplay = LoadModule("Config.Load.lua")("ScoreDisplay", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini")
 local SongProgress = LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini")
 

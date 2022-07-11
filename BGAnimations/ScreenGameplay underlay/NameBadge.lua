@@ -1,4 +1,5 @@
 local pn = ...
+local ShouldReverse = LoadModule("Config.Load.lua")("LifePositionBelow","Save/OutFoxPrefs.ini")
 
 local t = Def.ActorFrame {
     OnCommand=function(self)
@@ -7,7 +8,7 @@ local t = Def.ActorFrame {
             local IsCenter = (IsDouble or Center1Player() or GAMESTATE:GetIsFieldCentered(pn)) and GAMESTATE:GetCoinMode() == "CoinMode_Home"
             local PosX = IsCenter and SCREEN_CENTER_X or THEME:GetMetric(Var "LoadingScreen", "Player" .. ToEnumShortString(pn) .. "OnePlayerOneSideX")
 
-            local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0
+            local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0 and ShouldReverse
             local PosY = IsReverse and 20 or SCREEN_BOTTOM - 20
     
             self:xy(PosX, PosY)
