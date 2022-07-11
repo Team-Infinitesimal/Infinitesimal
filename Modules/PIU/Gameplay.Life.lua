@@ -3,7 +3,10 @@
         For this module to work properly, you will need to zero out all metrics in [LifeMeterBar].
 ]]
 
-return function(pn)    
+return function(pn)
+    local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+    local HardMode = string.find(TimingMode, "Hard")
+    
     local TapNoteScoreLife = {
         TapNoteScore_CheckpointHit = 12,	-- HOLD PERFECT
         TapNoteScore_W1 = 12,				-- PERFECT
@@ -22,10 +25,10 @@ return function(pn)
     local LifeMin = 0
     local LifeMax = 1000
 
-    local FactorMin = 0
-    local FactorMax = 800
+    local FactorMin = Hard and 100 or 0
+    local FactorMax = Hard and 900 or 800
     local FactorMiss = -700
-    local FactorMultiplier = 100
+    local FactorMultiplier = Hard and 300 or 100
 
     local LevelConstant = 1
 
