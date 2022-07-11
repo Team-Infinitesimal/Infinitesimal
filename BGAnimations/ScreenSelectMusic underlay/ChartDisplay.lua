@@ -15,13 +15,19 @@ local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 local CenterList = LoadModule("Config.Load.lua")("CenterChartList", "Save/OutFoxPrefs.ini")
 local CanWrap = LoadModule("Config.Load.lua")("WrapChartScroll", "Save/OutFoxPrefs.ini")
 
--- https://stackoverflow.com/a/32806646
-local function removeFirst(tbl, val)
-    for i, v in ipairs(tbl) do
-        if v == val then
-            return table.remove(tbl, i)
+-- http://lua-users.org/wiki/CopyTable
+function ShallowCopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in pairs(orig) do
+            copy[orig_key] = orig_value
         end
+    else -- number, string, boolean, etc
+        copy = orig
     end
+    return copy
 end
 
 function SortCharts(a, b)
@@ -114,32 +120,24 @@ local t = Def.ActorFrame {
         local CurrentSong = GAMESTATE:GetCurrentSong()
         if CurrentSong then
             ChartArray = SongUtil.GetPlayableSteps(CurrentSong)
-
-            -- UCS Filter
-            if LoadModule("Config.Load.lua")("ShowUCSCharts", "Save/OutFoxPrefs.ini") == false then
-                for i = #ChartArray, 1, -1 do
-                    if string.find(ToUpper(ChartArray[i]:GetDescription()), "UCS") then
-                        table.remove(ChartArray, i)
+            
+            -- Filter out unwanted charts recursively
+            local ShowFilters = {"ShowUCSCharts", "ShowQuestCharts", "ShowHiddenCharts" }
+            local ChartFilters = {"UCS", "QUEST", "HIDDEN" }
+            local PrevChartArray
+            
+            for i = 1, 3 do
+                PrevChartArray = ShallowCopy(ChartArray)
+                
+                if LoadModule("Config.Load.lua")(ShowFilters[i], "Save/OutFoxPrefs.ini") == false then
+                    for j = #ChartArray, 1, -1 do
+                        if string.find(ToUpper(ChartArray[j]:GetDescription()), ChartFilters[i]) then
+                            table.remove(ChartArray, j)
+                        end
                     end
                 end
-            end
-
-            -- Quest Filter
-            if LoadModule("Config.Load.lua")("ShowQuestCharts", "Save/OutFoxPrefs.ini") == false then
-                for i = #ChartArray, 1, -1 do
-                    if string.find(ToUpper(ChartArray[i]:GetDescription()), "QUEST") then
-                        table.remove(ChartArray, i)
-                    end
-                end
-            end
-
-            -- Hidden Filter
-            if LoadModule("Config.Load.lua")("ShowHiddenCharts", "Save/OutFoxPrefs.ini") == false then
-                for i = #ChartArray, 1, -1 do
-                    if string.find(ToUpper(ChartArray[i]:GetDescription()), "HIDDEN") then
-                        table.remove(ChartArray, i)
-                    end
-                end
+                
+                if #ChartArray == 0 then ChartArray = ShallowCopy(PrevChartArray) end
             end
 
             -- Couple and Routine crashes the game :(
@@ -150,7 +148,7 @@ local t = Def.ActorFrame {
                 end
             end
 
-            -- If no charts are left, load all of them again to avoid crashes!
+            -- If no charts are left, load all of them again in an attempt to avoid other crashes
             if #ChartArray == 0 then ChartArray = SongUtil.GetPlayableSteps(CurrentSong) end
             table.sort(ChartArray, SortCharts)
         end
