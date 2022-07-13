@@ -89,6 +89,56 @@ end
 
 TimingWindow[#TimingWindow+1] = function()
     return {
+        Name = "Pump Easy",
+        Timings = {
+            ['TapNoteScore_W1']			= 0.079166,
+            ['TapNoteScore_W2']			= 0.120833,
+            ['TapNoteScore_W3']			= 0.162500,
+            ['TapNoteScore_W4']			= 0.204166,
+            ['TapNoteScore_HitMine']	= 0.162500,
+            ['TapNoteScore_Attack']		= 0.120833,
+            ['TapNoteScore_Hold']		= 0.120833,
+            ['TapNoteScore_Roll']		= 0.350000,
+            ['TapNoteScore_Checkpoint']	= 0.120833,
+        },
+        Shared = {
+            ["TapNoteScore_W1"] = 6,
+            ["TapNoteScore_W2"] = 4,
+            ["TapNoteScore_W3"] = 2,
+            ["TapNoteScore_W4"] = 0,
+            ["TapNoteScore_Miss"] = -3,
+            ["TapNoteScore_HitMine"] = 0,
+            ["TapNoteScore_CheckpointHit"] = 0,
+            ["TapNoteScore_CheckpointMiss"] = -1,
+            ["TapNoteScore_MaxScore"] = 6,
+        },
+        -- Stub these out for the modules
+        Scoring = {
+            ["TapNoteScore_W1"] = 0,
+            ["TapNoteScore_W2"] = 0,
+            ["TapNoteScore_W3"] = 0,
+            ["TapNoteScore_W4"] = 0,
+            ["TapNoteScore_Miss"] = 0,
+            ["TapNoteScore_HitMine"] = 0,
+            ["TapNoteScore_CheckpointHit"] = 0,
+            ["TapNoteScore_CheckpointMiss"] = 0,
+            ["TapNoteScore_MaxScore"] = 0,
+        },
+        Life = {
+            ["TapNoteScore_W1"] = 0,
+            ["TapNoteScore_W2"] = 0,
+            ["TapNoteScore_W3"] = 0,
+            ["TapNoteScore_W4"] = 0,
+            ["TapNoteScore_Miss"] = 0,
+            ["TapNoteScore_HitMine"] = 0,
+            ["TapNoteScore_CheckpointHit"] = 0,
+            ["TapNoteScore_CheckpointMiss"] = 0,
+        }
+    }
+end
+
+TimingWindow[#TimingWindow+1] = function()
+    return {
         Name = "Pump Normal",
         Timings = {
             ['TapNoteScore_W1']			= 0.062500,
@@ -97,9 +147,9 @@ TimingWindow[#TimingWindow+1] = function()
             ['TapNoteScore_W4']			= 0.187500,
             ['TapNoteScore_HitMine']	= 0.145833,
             ['TapNoteScore_Attack']		= 0.104166,
-            ['TapNoteScore_Hold']		= 0.098333,
+            ['TapNoteScore_Hold']		= 0.104166,
             ['TapNoteScore_Roll']		= 0.350000,
-            ['TapNoteScore_Checkpoint']	= 0.098333,
+            ['TapNoteScore_Checkpoint']	= 0.104166,
         },
         Shared = {
             ["TapNoteScore_W1"] = 6,
@@ -146,10 +196,10 @@ TimingWindow[#TimingWindow+1] = function()
             ['TapNoteScore_W3']			= 0.129166,
             ['TapNoteScore_W4']			= 0.170833,
             ['TapNoteScore_HitMine']	= 0.145833,
-            ['TapNoteScore_Attack']		= 0.104166,
-            ['TapNoteScore_Hold']		= 0.098333,
+            ['TapNoteScore_Attack']		= 0.087500,
+            ['TapNoteScore_Hold']		= 0.087500,
             ['TapNoteScore_Roll']		= 0.350000,
-            ['TapNoteScore_Checkpoint']	= 0.098333,
+            ['TapNoteScore_Checkpoint']	= 0.087500,
         },
         Shared = {
             ["TapNoteScore_W1"] = 6,
@@ -197,9 +247,9 @@ TimingWindow[#TimingWindow+1] = function()
             ['TapNoteScore_W4']			= 0.129166,
             ['TapNoteScore_HitMine']	= 0.095833,
             ['TapNoteScore_Attack']		= 0.062500,
-            ['TapNoteScore_Hold']		= 0.062000,
+            ['TapNoteScore_Hold']		= 0.062500,
             ['TapNoteScore_Roll']		= 0.350000,
-            ['TapNoteScore_Checkpoint']	= 0.062000,
+            ['TapNoteScore_Checkpoint']	= 0.062500,
         },
         Shared = {
             ["TapNoteScore_W1"] = 6,

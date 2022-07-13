@@ -3,6 +3,8 @@ local t = Def.ActorFrame {
         -- Change default sort to Basic Mode songs only
         SONGMAN:SetPreferredSongs("PreferredSongs")
         SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
+        -- Change timing window to Easy
+        LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Easy"),"Save/OutFoxPrefs.ini")
     end
 }
 
@@ -73,6 +75,7 @@ t[#t+1] = Def.ActorFrame {
 
     CodeCommand=function(self, params)
         if params.Name == "FullMode" then
+            LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
             self:GetChild("FullModeSound"):play()
             self:GetChild("FullModeAnim"):playcommand("Animate")
             self:sleep(1):queuecommand("FullModeTransition")

@@ -96,6 +96,24 @@ local t = Def.ActorFrame {
     OffCommand=function(self)
         SongIsChosen = false
     end,
+    
+    -- This is done to workaround the loss of input when doing the command window pad code
+    CodeMessageCommand=function(self, params)
+        if params.Name == "OpenOpList" then
+            local pn = params.PlayerNumber
+            
+            if SongIsChosen and PlayerCanMove[pn] then
+                if ChartIndex[pn] == #ChartArray then
+                    if CanWrap then
+                        ChartIndex[pn] = 1
+                    else return end
+                else
+                    ChartIndex[pn] = ChartIndex[pn] + 1
+                end
+                MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
+            end
+        end
+    end,
 
     -- Update chart list
     UpdateChartDisplayMessageCommand=function(self) self:playcommand("Refresh") end,

@@ -9,8 +9,7 @@ return function(PlayerScore)
     local TNSGood = "TapNoteScore_W" .. (PumpTiming and "3" or "4")
     local TNSBad = "TapNoteScore_W" .. (PumpTiming and "4" or "5")
     
-    local Checkpoints = PlayerScore:GetTapNoteScores("TapNoteScore_CheckpointHit") +
-                      PlayerScore:GetTapNoteScores("TapNoteScore_CheckpointMiss")
+    local Checkpoints = PlayerScore:GetTapNoteScores("TapNoteScore_CheckpointHit")
     local Superbs 	= PumpTiming and 0 or PlayerScore:GetTapNoteScores("TapNoteScore_W1")
     local Perfects 	= PlayerScore:GetTapNoteScores(TNSPerfect) + Checkpoints
     local Greats 	= PlayerScore:GetTapNoteScores(TNSGreat)

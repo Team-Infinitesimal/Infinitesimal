@@ -5,6 +5,7 @@
 
 return function(pn)
     local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+    local EasyMode = string.find(TimingMode, "Easy")
     local HardMode = string.find(TimingMode, "Hard")
     
     local TapNoteScoreLife = {
@@ -25,10 +26,10 @@ return function(pn)
     local LifeMin = 0
     local LifeMax = 1000
 
-    local FactorMin = Hard and 100 or 0
-    local FactorMax = Hard and 900 or 800
+    local FactorMin = HardMode and 100 or (EasyMode and 200 or 0)
+    local FactorMax = HardMode and 900 or (EasyMode and 1000 or 800)
     local FactorMiss = -700
-    local FactorMultiplier = Hard and 300 or 100
+    local FactorMultiplier = Hard and 300 or Easy and 500 or 100
 
     local LevelConstant = 1
 
@@ -82,7 +83,7 @@ return function(pn)
                 
                 local LifeOutput = LifeValue / 1000
                 if LifeOutput > 1 then LifeOutput = 1 end
-                -- SCREENMAN:SystemMessage(LifeOutput)
+                SCREENMAN:SystemMessage(LifeValue / 1000 .. " / " .. FactorMultiplier)
                 
                 MESSAGEMAN:Broadcast("UpdateLife", {Player = pn, Life = LifeOutput})
                 
