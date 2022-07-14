@@ -83,7 +83,7 @@ return function(pn)
                 
                 local LifeOutput = LifeValue / 1000
                 if LifeOutput > 1 then LifeOutput = 1 end
-                SCREENMAN:SystemMessage(LifeValue / 1000 .. " / " .. FactorMultiplier)
+                --SCREENMAN:SystemMessage(LifeValue / 1000 .. " / " .. FactorMultiplier)
                 
                 MESSAGEMAN:Broadcast("UpdateLife", {Player = pn, Life = LifeOutput})
                 
