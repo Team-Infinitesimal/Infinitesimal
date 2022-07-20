@@ -28,11 +28,10 @@ return Def.ActorFrame {
             local Song = GAMESTATE:GetCurrentSong()
             local Chart = GAMESTATE:GetCurrentSteps(pn)
             local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
-            
             local ChartMeter = Chart:GetMeter()
-            if ChartMeter == 99 then ChartMeter = "??" end
-            
             local StepData = ColourSteps(ChartMeter, ChartType)
+            
+            if ChartMeter == 99 then ChartMeter = "??" end
             
             self:GetChild("Ball"):diffuse(BasicMode and StepData[1] or ChartTypeToColor(Chart))
             self:GetChild("Meter"):settext(ChartMeter)

@@ -73,14 +73,13 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     local Song = GAMESTATE:GetCurrentSong()
                     local Chart = GAMESTATE:GetCurrentSteps(pn)
                     local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
-
                     local ChartMeter = Chart:GetMeter()
+                    local StepData = ColourSteps(ChartMeter, ChartType)
+                    
                     if ChartMeter == 99 then ChartMeter = "??" end
 
                     local ChartAuthor = Chart:GetAuthorCredit()
                     if ChartAuthor == "" then ChartAuthor = "Unknown" end
-                    
-                    local StepData = ColourSteps(ChartMeter, ChartType)
 
                     self:GetChild("Ball"):diffuse(BasicMode and StepData[1] or ChartTypeToColor(Chart))
                     self:GetChild("Meter"):settext(ChartMeter)

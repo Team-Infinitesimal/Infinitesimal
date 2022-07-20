@@ -52,9 +52,21 @@ local t = Def.ActorFrame {
 
 t[#t+1] = Def.ActorFrame {
     OnCommand=function(self)
+        -- Save profile names as score names
+        if PROFILEMAN:IsPersistentProfile(PLAYER_1) then
+            GAMESTATE:StoreRankingName(PLAYER_1, PROFILEMAN:GetProfile(PLAYER_1):GetDisplayName())
+        end
+        -- Yes, having to do this twice sucks
+        if PROFILEMAN:IsPersistentProfile(PLAYER_2) then
+            GAMESTATE:StoreRankingName(PLAYER_2, PROFILEMAN:GetProfile(PLAYER_2):GetDisplayName())
+        end
+        
+        -- Used for our custom input
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
         SCREENMAN:set_input_redirected(PLAYER_1, true)
         SCREENMAN:set_input_redirected(PLAYER_2, true)
+        
+        -- Discord RPC
         local pn = GAMESTATE:GetMasterPlayerNumber()
         local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
         local StepOrTrails = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(pn) or GAMESTATE:GetCurrentSteps(pn)
