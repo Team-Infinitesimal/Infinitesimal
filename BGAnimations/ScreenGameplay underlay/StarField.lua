@@ -18,51 +18,55 @@ end
 
 local function UpdateStars(self)
     Time = self:GetSecsIntoEffect()
-    if Time - OldTime > 1/60 and not SCREENMAN:GetTopScreen():IsPaused() then
+    if not PREFSMAN:GetPreference("Vsync") and Time - OldTime < 1/60 then
+        return
+    else
         OldTime = Time
         
-        -- Randomize the origin of the stars
-        if math.random(2) == 2 then
+        if not SCREENMAN:GetTopScreen():IsPaused() then
+            -- Randomize the origin of the stars
             if math.random(2) == 2 then
-                CenterX = CenterX + 1
-            else CenterX = CenterX - 1 end
-            if math.random(2) == 2 then
-                CenterY = CenterY + 1
-            else CenterY = CenterY - 1 end
-        end
-        
-        -- Skip 1 because it is the black background
-        for i=2, StarCount do
-            -- Move things around
-            Star[i][1]["CurZ"] = Star[i][1]["CurZ"] - 5
-            Scale = (-PosZMin * 100) / (Star[i][1]["CurZ"] - PosZMin)
-            NewX = CenterX + Star[i][1]["PosX"] * Scale / 100
-            NewY = CenterY + Star[i][1]["PosY"] * Scale / 100
-            
-            -- If the star has gone past the screen, flag it as too far ahead
-            if NewX < 0 and NewX > SCREEN_WIDTH and NewY < 0 and NewY > SCREEN_WIDTH then
-                Star[i][1]["CurZ"] = -20 
+                if math.random(2) == 2 then
+                    CenterX = CenterX + 1
+                else CenterX = CenterX - 1 end
+                if math.random(2) == 2 then
+                    CenterY = CenterY + 1
+                else CenterY = CenterY - 1 end
             end
-        
-            -- If the star is too far ahead, regenerate it
-            if Star[i][1]["CurZ"] < -10 then
-                Star[i] = { 
-                    {
-                        ["PosX"] = math.random(SCREEN_WIDTH * 1.25) - SCREEN_WIDTH * 0.625, 
-                        ["PosY"] = math.random(SCREEN_HEIGHT * 1.25) - SCREEN_HEIGHT * 0.625, 
-                        ["CurZ"] = 100 + math.random(PosZMax - 100), 
-                        ["Type"] = math.random(5), 
-                        ["Color"] = color(math.random() .. "," .. math.random() .. "," .. math.random() .. ",1")
+            
+            -- Skip 1 because it is the black background
+            for i=2, StarCount do
+                -- Move things around
+                Star[i][1]["CurZ"] = Star[i][1]["CurZ"] - 5
+                Scale = (-PosZMin * 100) / (Star[i][1]["CurZ"] - PosZMin)
+                NewX = CenterX + Star[i][1]["PosX"] * Scale / 100
+                NewY = CenterY + Star[i][1]["PosY"] * Scale / 100
+                
+                -- If the star has gone past the screen, flag it as too far ahead
+                if NewX < 0 and NewX > SCREEN_WIDTH and NewY < 0 and NewY > SCREEN_WIDTH then
+                    Star[i][1]["CurZ"] = -20 
+                end
+            
+                -- If the star is too far ahead, regenerate it
+                if Star[i][1]["CurZ"] < -10 then
+                    Star[i] = { 
+                        {
+                            ["PosX"] = math.random(SCREEN_WIDTH * 1.25) - SCREEN_WIDTH * 0.625, 
+                            ["PosY"] = math.random(SCREEN_HEIGHT * 1.25) - SCREEN_HEIGHT * 0.625, 
+                            ["CurZ"] = 100 + math.random(PosZMax - 100), 
+                            ["Type"] = math.random(5), 
+                            ["Color"] = color(math.random() .. "," .. math.random() .. "," .. math.random() .. ",1")
+                        }
                     }
-                }
-            end
-            
-            -- Update the position and color of the star
-            if Star[i][1]["CurZ"] > -10 then
-                self:GetChild("")[i]:xy(NewX, NewY)
-                :diffuse(color(math.random() .. "," .. math.random() .. "," .. math.random() .. ",1"))
-                -- Experimental size increase on approximation
-                --:zoom(((900 - Star[i][1]["CurZ"]) / 400) * Size)
+                end
+                
+                -- Update the position and color of the star
+                if Star[i][1]["CurZ"] > -10 then
+                    self:GetChild("")[i]:xy(NewX, NewY)
+                    :diffuse(color(math.random() .. "," .. math.random() .. "," .. math.random() .. ",1"))
+                    -- Experimental size increase on approximation
+                    --:zoom(((900 - Star[i][1]["CurZ"]) / 400) * Size)
+                end
             end
         end
     end
@@ -71,7 +75,7 @@ end
 local t = Def.ActorFrame {
     InitCommand=function(self)
         self:effectperiod(math.huge)
-        self:SetUpdateFunction(UpdateStars)
+        :SetUpdateFunction(UpdateStars)
     end,
     
     Def.Quad {
