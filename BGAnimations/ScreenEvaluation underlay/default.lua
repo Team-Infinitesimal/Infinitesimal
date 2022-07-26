@@ -5,7 +5,7 @@ local BasicMode = getenv("IsBasicMode")
 
 local GradeZoom = IsUsingWideScreen() and 0.6 or 0.5
 
-local Grades = { "FailF", "FailF" }
+local Grades = { PlayerNumber_P1 = "FailF", PlayerNumber_P2 = "FailF" }
 local GradePriority = {
     Pass3S = 1, Fail3S = 2,
     Pass2S = 3, Fail2S = 4,
@@ -145,7 +145,7 @@ t[#t+1] = Def.ActorFrame {
         else
             Grade = Grades[PLAYER_2]
         end
-        SCREENMAN:SystemMessage(Grade)
+        -- SCREENMAN:SystemMessage(Grade)
         
         SOUND:PlayAnnouncer(Grade)
     end
