@@ -110,11 +110,15 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. Grade))
                 :diffusealpha(0):sleep(2):easeoutexpo(0.25)
-                :zoom(GradeZoom):diffusealpha(1):queuecommand("Announcer", { Grade = Grade })
+                :zoom(GradeZoom):diffusealpha(1):queuecommand("Announcer")
             end,
             
-            AnnouncerCommand=function(self, params) 
-                SOUND:PlayAnnouncer(params.Grade)
+            AnnouncerCommand=function(self) 
+                local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+                local Grade = "FailF"
+                Grade = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
+                
+                SOUND:PlayAnnouncer(Grade)
             end,					   										
 		},
 
