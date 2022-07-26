@@ -5,6 +5,18 @@ local BasicMode = getenv("IsBasicMode")
 
 local GradeZoom = IsUsingWideScreen() and 0.6 or 0.5
 
+local Grades = { "FailF", "FailF" }
+local GradePriority = {
+    Pass3S = 1, Fail3S = 2,
+    Pass2S = 3, Fail2S = 4,
+    Pass1S = 5, Fail1S = 6,
+    PassA = 7, FailA = 8,
+    PassB = 9, FailB = 10,
+    PassC = 11, FailC = 12,
+    PassD = 13, FailD = 14,
+    PassF = 15, FailF = 16
+}
+
 local function InputHandler(event)
     local pn = event.PlayerNumber
     if not pn then return end
@@ -105,21 +117,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
 
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
-                local Grade = "FailF"
-                Grade = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
+                Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
                 
-                self:Load(THEME:GetPathG("", "LetterGrades/" .. Grade))
+                self:Load(THEME:GetPathG("", "LetterGrades/" .. Grades[pn]))
                 :diffusealpha(0):sleep(2):easeoutexpo(0.25)
-                :zoom(GradeZoom):diffusealpha(1):queuecommand("Announcer")
-            end,
-            
-            AnnouncerCommand=function(self) 
-                local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
-                local Grade = "FailF"
-                Grade = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
-                
-                SOUND:PlayAnnouncer(Grade)
-            end,					   										
+                :zoom(GradeZoom):diffusealpha(1)
+            end
 		},
 
         Def.Sound {
@@ -129,5 +132,23 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         }
     }
 end
+
+t[#t+1] = Def.ActorFrame {
+    OnCommand=function(self)
+        self:sleep(2):queuecommand("Announcer")
+    end,
+    
+    AnnouncerCommand=function(self) 
+        local Grade = "FailF"
+        if GradePriority[Grades[PLAYER_1]] < GradePriority[Grades[PLAYER_2]] then
+            Grade = Grades[PLAYER_1]
+        else
+            Grade = Grades[PLAYER_2]
+        end
+        SCREENMAN:SystemMessage(Grade)
+        
+        SOUND:PlayAnnouncer(Grade)
+    end
+}
 
 return t
