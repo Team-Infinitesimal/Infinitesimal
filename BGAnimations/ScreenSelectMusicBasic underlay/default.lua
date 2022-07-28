@@ -133,6 +133,7 @@ t[#t+1] = Def.ActorFrame {
 
     FullModeTransitionCommand=function()
         setenv("IsBasicMode", false)
+        LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
         SCREENMAN:GetTopScreen():GetMusicWheel():Move(0)
         SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusic")
         SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")

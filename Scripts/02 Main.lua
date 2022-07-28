@@ -16,7 +16,9 @@ function ResetLuaMods(pn)
     LoadModule("Config.Save.lua")("JudgmentItems", tostring(false), ProfileDir)
     LoadModule("Config.Save.lua")("ScoreDisplay", tostring(false), ProfileDir)
     LoadModule("Config.Save.lua")("SongProgress", tostring(false), ProfileDir)
-    LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
+    if IsArcade() then
+        LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
+    end
 end
 
 -- Ensure that speed mods are accurate
