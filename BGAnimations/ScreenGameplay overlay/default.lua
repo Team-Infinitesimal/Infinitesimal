@@ -42,8 +42,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             self:xy(PosX, PosY)
         end,
         
-        LoadActor("ColumnSpacing", pn),
-        
         LoadActor("LifeMeter", pn)
     }
 end
