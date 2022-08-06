@@ -163,4 +163,5 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     }
 end
 
-return t
+-- If the screen is transitioning in attract mode, we don't need to show all of this
+return (GAMESTATE:IsDemonstration() and Def.Actor{} or t)

@@ -32,7 +32,7 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
 
     t[#t+1] = Def.ActorFrame {
         Name="TutorialMessage"..pn,
-        LoadModule("UI.MessageBox.lua")(posx, SCREEN_CENTER_Y - 125, width, 15, title, body)
+        LoadModule("UI.MessageBox.lua")(posx, SCREEN_CENTER_Y - 125, width, 0, 15, title, body)
     }
     
     t[#t+1] = Def.ActorFrame {

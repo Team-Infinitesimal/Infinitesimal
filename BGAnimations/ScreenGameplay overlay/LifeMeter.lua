@@ -41,8 +41,6 @@ local t = Def.ActorFrame {
     RefreshMessageCommand=function(self, params)
         if params.Player == pn then
             local LifeAmount = params.Life or 0.5
-            self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
-            self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
 
             if LifeAmount <= 0.33 and not MeterDanger then
                 self:GetChild("BarBody"):diffusebottomedge(Color.Red)
@@ -66,12 +64,13 @@ local t = Def.ActorFrame {
             
             local PlayerOptions = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
             if LifeAmount <= 0 and not MeterFail then
-                self:GetChild("Pulse"):visible(false)
                 MeterFail = true
             elseif LifeAmount > 0 and MeterFail and (PlayerOptions:FailSetting() == "FailType_Off") then
-                self:GetChild("Pulse"):visible(true)
                 MeterFail = false
             end
+            
+            self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
+            self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
         end
     end,
 

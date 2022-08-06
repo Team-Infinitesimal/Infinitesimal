@@ -2,7 +2,7 @@
 -- Call with arguments X position , Y position, maximum width,
 -- length of time to display in seconds, title text, and body text.
 
-return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
+return function(PosX, PosY, BoxWidth, DelayTime, DisplayTime, Title, Body)
 
     return Def.ActorFrame {
         Name="MessageBox",
@@ -17,7 +17,7 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
                 :xy(PosX, PosY):MaskSource()
             end,
             OnCommand=function(self)
-                self:zoomto(BoxWidth + 10, self:GetParent():GetChild("BodyText"):GetHeight()*0.75+20)
+                self:sleep(DelayTime):zoomto(BoxWidth + 10, self:GetParent():GetChild("BodyText"):GetHeight()*0.75+20)
             end
         },
 
@@ -28,7 +28,7 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
                 :xy(PosX, PosY):zoomtowidth(BoxWidth + 10)
             end,
             OnCommand=function(self)
-                self:easeoutexpo(0.5)
+                self:sleep(DelayTime):easeoutexpo(0.5)
                 :zoomtoheight(self:GetParent():GetChild("BodyText"):GetHeight()*0.75+20)
                 :sleep(DisplayTime):queuecommand("Off")
             end,
@@ -50,7 +50,8 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
                 TitleText = self:GetParent():GetChild("TitleText")
                 TargetWidth = TitleText:GetWidth() * 0.5 + 11
                 if TargetWidth > (BoxWidth) then TargetWidth = BoxWidth + 5 end
-                self:zoomto(TargetWidth, TitleText:GetHeight() * 0.75)
+                self:sleep(DelayTime)
+                :zoomto(TargetWidth, TitleText:GetHeight() * 0.75)
                 :easeoutexpo(0.5)
                 :y(PosY - TitleText:GetHeight() * 0.75)
                 :sleep(DisplayTime):queuecommand("Off")
@@ -72,7 +73,8 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
                 :MaskDest()
             end,
             OnCommand=function(self)
-                self:easeoutexpo(0.5)
+                self:sleep(DelayTime)
+                :easeoutexpo(0.5)
                 :y(PosY - 18)
                 :sleep(DisplayTime):queuecommand("Off")
             end,
@@ -93,7 +95,8 @@ return function(PosX, PosY, BoxWidth, DisplayTime, Title, Body)
                 :MaskDest():ztestmode("ZTestMode_WriteOnFail")
             end,
             OnCommand=function(self)
-                self:easeoutexpo(0.5)
+                self:sleep(DelayTime)
+                :easeoutexpo(0.5)
                 :x(PosX + 5)
                 :sleep(DisplayTime):queuecommand("Off")
             end,
