@@ -3,7 +3,7 @@ local t = Def.ActorFrame {
         -- Reset machine profile mods
         ResetLuaMods(PLAYER_1)
         ResetLuaMods(PLAYER_2)
-        
+
         GAMESTATE:UpdateDiscordGameMode(GAMESTATE:GetCurrentGame():GetName())
         GAMESTATE:UpdateDiscordScreenInfo("Title Menu", "", 1)
     end,
@@ -36,7 +36,7 @@ local t = Def.ActorFrame {
 
         Def.Sprite {
             Texture=THEME:GetPathG("", "Logo/Logo"),
-            InitCommand=function(self)
+            OnCommand=function(self)
                 self:diffusealpha(0)
                 :zoom(0.8)
                 :queuecommand("Pulse")
@@ -55,7 +55,7 @@ local t = Def.ActorFrame {
 
         Def.Sprite {
             Texture=THEME:GetPathG("", "Logo/BlurLogo"),
-            InitCommand=function(self)
+            OnCommand=function(self)
                 self:zoom(0.83)
                 :diffusealpha(0)
                 :queuecommand("Flash")
