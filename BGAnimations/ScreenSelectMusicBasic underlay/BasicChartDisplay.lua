@@ -47,10 +47,17 @@ local function InputHandler(event)
             if ChartIndex[pn] == 1 then return else
             ChartIndex[pn] = ChartIndex[pn] - 1 end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
+            
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
             if ChartIndex[pn] == #ChartArray then return else
             ChartIndex[pn] = ChartIndex[pn] + 1 end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
+            
+        elseif button == "UpLeft" or button == "UpRight" or button == "Up" then
+            MESSAGEMAN:Broadcast("SongUnchosen")
+            
+        elseif button == "Start" or button == "MenuStart" or button == "Center" then
+            SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
         end
     end
     return
