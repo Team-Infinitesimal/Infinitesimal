@@ -20,38 +20,38 @@ local SongIsChosen = false
 local function InputHandler(event)
 	local pn = event.PlayerNumber
     if not pn then return end
-    
+
     -- To avoid control from a player that has not joined, filter the inputs out
     if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
     if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
-    
+
     if not SongIsChosen then
         -- Don't want to move when releasing the button
         if event.type == "InputEventType_Release" then return end
-        
+
         local button = event.button
         if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
             PrevIndex = CurrentIndex
             CurrentIndex = CurrentIndex - 1
             if CurrentIndex < 1 then CurrentIndex = #Songs end
             GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
-            MESSAGEMAN:Broadcast("Scroll", { Direction = -1 }) 
-            
+            MESSAGEMAN:Broadcast("Scroll", { Direction = -1 })
+
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
             PrevIndex = CurrentIndex
             CurrentIndex = CurrentIndex + 1
             if CurrentIndex > #Songs then CurrentIndex = 1 end
             GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
-            MESSAGEMAN:Broadcast("Scroll", { Direction = 1 }) 
-            
+            MESSAGEMAN:Broadcast("Scroll", { Direction = 1 })
+
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
             MESSAGEMAN:Broadcast("MusicWheelStart")
-            
+
         elseif button == "Back" then
             SCREENMAN:GetTopScreen():Cancel()
         end
     end
-	
+
 	MESSAGEMAN:Broadcast("UpdateMusic")
 end
 
@@ -61,39 +61,43 @@ local t = Def.ActorFrame {
         :vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM-150)
         UpdateItemTargets(CurrentIndex)
     end,
-    
+
     OnCommand=function(self)
         GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
-        
+
         self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 - 150)
-    end,
-    
-    -- Prevent the song list from moving when transitioning
-    OffCommand=function(self)
-        SongIsChosen = true
-    end,
-    
-    -- Update song list
-    CurrentSongChangedMessageCommand=function(self) 
-        self:stoptweening()
-        UpdateItemTargets(CurrentIndex)
-        
+
         -- Play song preview
         SOUND:StopMusic()
         self:sleep(0.25):queuecommand("PlayMusic")
     end,
-    
+
+    -- Prevent the song list from moving when transitioning
+    OffCommand=function(self)
+        SongIsChosen = true
+    end,
+
+    -- Update song list
+    CurrentSongChangedMessageCommand=function(self)
+        self:stoptweening()
+        UpdateItemTargets(CurrentIndex)
+
+        -- Play song preview
+        SOUND:StopMusic()
+        self:sleep(0.25):queuecommand("PlayMusic")
+    end,
+
     -- Race condition workaround (yuck)
     MusicWheelStartMessageCommand=function(self) self:sleep(0.01):queuecommand("Confirm") end,
     ConfirmCommand=function(self) MESSAGEMAN:Broadcast("SongChosen") end,
-    
+
     -- These are to control the functionality of the music wheel
     SongChosenMessageCommand=function(self)
         self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 + 150)
         SongIsChosen = true
     end,
-    SongUnchosenMessageCommand=function(self) 
+    SongUnchosenMessageCommand=function(self)
         self:stoptweening():easeoutexpo(0.5):y(SCREEN_HEIGHT / 2 - 150)
         SongIsChosen = false
     end,
@@ -105,13 +109,13 @@ local t = Def.ActorFrame {
             SOUND:PlayMusicPart(Song:GetMusicPath(), Song:GetSampleStart(), Song:GetSampleLength(), 0, 1, false, false, false, Song:GetTimingData())
         end
     end,
-    
+
     Def.Sound {
         File=THEME:GetPathS("MusicWheel", "change"),
         IsAction=true,
         CurrentSongChangedMessageCommand=function(self) if CurrentIndex ~= PrevIndex then self:play() end end
     },
-    
+
     Def.Sound {
         File=THEME:GetPathS("Common", "Start"),
         IsAction=true,
@@ -129,22 +133,22 @@ function UpdateItemTargets(val)
     end
 end
 
--- manages banner on sprite 
+-- manages banner on sprite
 function UpdateBanner(self, Song)
     self:LoadFromSongBanner(Song):scaletoclipped(WheelItem.Width, WheelItem.Height)
 end
 
 -- item wheel
-for i = 1, WheelSize do 
+for i = 1, WheelSize do
 
     t[#t+1] = Def.ActorFrame{
         OnCommand=function(self)
             -- load banner
-            UpdateBanner( self:GetChild("Banner"), Songs[Targets[i]] )
+            UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
 
             -- set initial position
             -- Direction = 0 means it won't tween
-            self:playcommand("Scroll", { Direction = 0 }) 
+            self:playcommand("Scroll", {Direction = 0})
         end,
 
         ScrollMessageCommand=function(self,param)
@@ -157,12 +161,12 @@ for i = 1, WheelSize do
             local displace = -param.Direction * WheelSpacing
 
             -- only tween if a Direction was specified
-            local tween = param and param.Direction and math.abs( param.Direction ) > 0
+            local tween = param and param.Direction and math.abs(param.Direction) > 0
 
             -- if it's an edge item, load a new banner
             -- edge items should never tween
             if i == 1 or i == WheelSize then
-                UpdateBanner( self:GetChild("Banner"), Songs[Targets[i]] )
+                UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
             elseif tween then
                 self:easeoutexpo(0.25)
             end
@@ -173,15 +177,16 @@ for i = 1, WheelSize do
             while i < 1 do i = i + WheelSize end
 
             -- animate
-            self:xy( xpos + displace, SCREEN_CENTER_Y )
-            self:rotationy( (SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
+            self:xy(xpos + displace, SCREEN_CENTER_Y)
+            self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
+            self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
             self:GetChild(""):GetChild("Index"):playcommand("Refresh")
         end,
-        
+
         Def.Sprite {
             Name="Banner",
         },
-        
+
         Def.Sprite {
             Texture=THEME:GetPathG("", "MusicWheel/SongFrame"),
         },
