@@ -1,4 +1,11 @@
+local WheelSize = 13
+local WheelCenter = math.ceil( WheelSize * 0.5 )
+local WheelItem = { Width = 212, Height = 120 }
+local WheelSpacing = 250
+local WheelRotation = 0.1
+
 local Songs = {}
+local Targets = {}
 
 for Song in ivalues(SONGMAN:GetPreferredSortSongs()) do
 	if SongUtil.GetPlayableSteps(Song) then
@@ -28,14 +35,14 @@ local function InputHandler(event)
             CurrentIndex = CurrentIndex - 1
             if CurrentIndex < 1 then CurrentIndex = #Songs end
             GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
-            MESSAGEMAN:Broadcast("MusicWheelLeft")
+            MESSAGEMAN:Broadcast("Scroll", { Direction = -1 }) 
             
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
             PrevIndex = CurrentIndex
             CurrentIndex = CurrentIndex + 1
             if CurrentIndex > #Songs then CurrentIndex = 1 end
             GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
-            MESSAGEMAN:Broadcast("MusicWheelRight")
+            MESSAGEMAN:Broadcast("Scroll", { Direction = 1 }) 
             
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
             MESSAGEMAN:Broadcast("MusicWheelStart")
@@ -49,10 +56,18 @@ local function InputHandler(event)
 end
 
 local t = Def.ActorFrame {
+    InitCommand=function(self)
+        self:y(SCREEN_HEIGHT / 2 + 150):fov(90):SetDrawByZPosition(true)
+        :vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM-150)
+        UpdateItemTargets(CurrentIndex)
+    end,
+    
     OnCommand=function(self)
         GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
-        SCREENMAN:GetTopScreen():AddInputCallback(InputHandler) 
-        self:playcommand("Refresh")
+        SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
+        
+        self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 - 150)
+        :playcommand("Refresh")
     end,
     
     -- Prevent the song list from moving when transitioning
@@ -62,7 +77,8 @@ local t = Def.ActorFrame {
     
     -- Update song list
     CurrentSongChangedMessageCommand=function(self) 
-        self:playcommand("Refresh"):stoptweening()
+        self:stoptweening()
+        UpdateItemTargets(CurrentIndex)
         
         -- Play song preview
         SOUND:StopMusic()
@@ -74,8 +90,16 @@ local t = Def.ActorFrame {
     ConfirmCommand=function(self) MESSAGEMAN:Broadcast("SongChosen") end,
     
     -- These are to control the functionality of the music wheel
-    SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
-    SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
+    SongChosenMessageCommand=function(self)
+        self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 + 150)
+        SongIsChosen = true 
+        self:playcommand("Refresh") 
+    end,
+    SongUnchosenMessageCommand=function(self) 
+        self:stoptweening():easeoutexpo(0.5):y(SCREEN_HEIGHT / 2 - 150)
+        SongIsChosen = false 
+        self:playcommand("Refresh") 
+    end,
 
     -- Play song preview (thanks Luizsan)
     PlayMusicCommand=function(self)
@@ -98,47 +122,70 @@ local t = Def.ActorFrame {
     },
 }
 
-local Scroller = Def.ActorScroller {
-    NumItemsToDraw=9,
-    SecondsPerItem=0.1,
-    LoopScroller=true,
-    WrapScroller=true,
-    TransformFunction=function(self, OffsetFromCenter, ItemIndex, NumItems) 
-        local Spacing = math.abs(math.sin(OffsetFromCenter / math.pi))
-        self:x(OffsetFromCenter * (250 - Spacing * 100))
-        self:rotationy(clamp(OffsetFromCenter * 36, -85, 85))
-        self:z(-math.abs(OffsetFromCenter))
-        
-        self:zoom(clamp(1.1 - (math.abs(OffsetFromCenter) / 3), 0.8, 1.1))
-    end,
-    
-    InitCommand=function(self) 
-        self:xy(SCREEN_CENTER_X, SCREEN_BOTTOM + 150):fov(90)
-        :vanishpoint(SCREEN_CENTER_X,SCREEN_BOTTOM-150):SetDrawByZPosition(true)
-    end,
-    
-    OnCommand=function(self)
-        self:stoptweening():easeoutexpo(1):y(SCREEN_BOTTOM-150)
-        :SetCurrentAndDestinationItem(CurrentIndex - 1)
-    end,
-    OffCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(SCREEN_BOTTOM-150) end,
-    
-    CurrentSongChangedMessageCommand=function(self) 
-        self:SetDestinationItem(CurrentIndex - 1)
-    end,
-    
-    SongChosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(SCREEN_BOTTOM+150) end,
-    SongUnchosenMessageCommand=function(self) self:stoptweening():easeoutexpo(0.5):y(SCREEN_BOTTOM-150) end,
-}
+-- update Songs item Targets
+function UpdateItemTargets(val)
+    for i = 1, WheelSize do
+        Targets[i] = val + i - WheelCenter
+        -- wrap to fit to Songs list size
+        while Targets[i] > #Songs do Targets[i] = Targets[i] - #Songs end
+        while Targets[i] < 1 do Targets[i] = Targets[i] + #Songs end
+    end
+end
 
-for i,v in ipairs(Songs) do
-    Scroller[#Scroller+1] = Def.ActorFrame {
-        Def.Banner {
-            InitCommand=function(self)
-                self:LoadFromSongBanner(Songs[i]):scaletoclipped(212, 120)
+-- manages banner on sprite 
+function UpdateBanner(self, Song)
+    self:LoadFromSongBanner(Song):scaletoclipped(WheelItem.Width, WheelItem.Height)
+end
+
+-- item wheel
+for i = 1, WheelSize do 
+
+    t[#t+1] = Def.ActorFrame{
+        OnCommand=function(self)
+            -- load banner
+            UpdateBanner( self:GetChild("Banner"), Songs[Targets[i]] )
+
+            -- set initial position
+            -- Direction = 0 means it won't tween
+            self:playcommand("Scroll", { Direction = 0 }) 
+        end,
+
+        ScrollMessageCommand=function(self,param)
+            self:finishtweening()
+
+            -- calculate position
+            local xpos = SCREEN_CENTER_X + (i - WheelCenter) * WheelSpacing
+
+            -- calculate displacement based on input
+            local displace = -param.Direction * WheelSpacing
+
+            -- only tween if a Direction was specified
+            local tween = param and param.Direction and math.abs( param.Direction ) > 0
+
+            -- if it's an edge item, load a new banner
+            -- edge items should never tween
+            if i == 1 or i == WheelSize then
+                UpdateBanner( self:GetChild("Banner"), Songs[Targets[i]] )
+            elseif tween then
+                self:easeoutexpo(0.25)
             end
-        },
 
+            -- adjust and wrap actor index
+            i = i - param.Direction
+            while i > WheelSize do i = i - WheelSize end
+            while i < 1 do i = i + WheelSize end
+
+            -- animate
+            self:xy( xpos + displace, SCREEN_CENTER_Y )
+            self:rotationy( (SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
+            self:GetChild("RealIndex"):playcommand("Refresh")
+            self:GetChild("Selection"):playcommand("Refresh")
+        end,
+        
+        Def.Sprite{
+            Name = "Banner",
+        },
+        
         Def.Sprite {
             Texture=THEME:GetPathG("", "MusicWheel/SongFrame"),
         },
@@ -146,20 +193,21 @@ for i,v in ipairs(Songs) do
         Def.ActorFrame {
             Def.Quad {
                 InitCommand=function(self)
-                    self:zoomto(60, 18):addy(-50):diffuse(0,0,0,0.6):fadeleft(0.3):faderight(0.3)
+                    self:zoomto(60, 18):addy(-50)
+                    :diffuse(0,0,0,0.6)
+                    :fadeleft(0.3):faderight(0.3)
                 end
             },
 
             Def.BitmapText {
                 Font="Montserrat semibold 40px",
                 InitCommand=function(self)
-                    self:addy(-50):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5):settext(i)
-                end
+                    self:addy(-50):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+                end,
+                RefreshCommand=function(self,param) self:settext(Targets[i]) end
             }
         }
     }
 end
-
-t[#t+1] = Scroller
 
 return t
