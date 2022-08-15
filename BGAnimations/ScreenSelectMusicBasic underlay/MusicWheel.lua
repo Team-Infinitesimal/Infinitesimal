@@ -1,4 +1,4 @@
-local WheelSize = 13
+local WheelSize = 5
 local WheelCenter = math.ceil( WheelSize * 0.5 )
 local WheelItem = { Width = 212, Height = 120 }
 local WheelSpacing = 250
@@ -166,7 +166,14 @@ for i = 1, WheelSize do
             -- if it's an edge item, load a new banner
             -- edge items should never tween
             if i == 1 or i == WheelSize then
-                UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
+				-- Terrible hack. The wheel does not stay centered
+				-- when moving so an offset needs to be applied relative
+				-- to the direction of the music wheel being moved.
+				-- TODO: FIX THIS ISSUE
+				local SongBanner = Targets[i] + (param.Direction == 1 and -1 or 1)
+				if SongBanner > #Songs then SongBanner = #Songs end
+				if SongBanner < 1 then SongBanner = 1 end
+                UpdateBanner(self:GetChild("Banner"), Songs[SongBanner])
             elseif tween then
                 self:easeoutexpo(0.25)
             end
