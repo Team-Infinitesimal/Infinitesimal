@@ -7,11 +7,11 @@ local FrameX = -ItemTotalW
 
 local ChartIndex = { PlayerNumber_P1 = 1, PlayerNumber_P2 = 1 }
 local PrevChartIndex = { PlayerNumber_P1 = 1, PlayerNumber_P2 = 1 }
-local PlayerCanMove = { PlayerNumber_P1 = true, PlayerNumber_P2 = true }
 
 local ChartArray = nil
 local SongIsChosen = false
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
+local ConfirmStart = false
 
 function SortCharts(a, b)
     if a:GetStepsType() == b:GetStepsType() then
@@ -38,7 +38,7 @@ local function InputHandler(event)
     if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
     if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
     
-    if SongIsChosen and PlayerCanMove[pn] then
+    if SongIsChosen then
         -- Filter out everything but button presses
         if event.type == "InputEventType_Repeat" or event.type == "InputEventType_Release" then return end
         
@@ -47,17 +47,29 @@ local function InputHandler(event)
             if ChartIndex[pn] == 1 then return else
             ChartIndex[pn] = ChartIndex[pn] - 1 end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
+            MESSAGEMAN:Broadcast("StepsUnchosen", { Player = pn })
+            ConfirmStart = false
             
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
             if ChartIndex[pn] == #ChartArray then return else
             ChartIndex[pn] = ChartIndex[pn] + 1 end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
+            MESSAGEMAN:Broadcast("StepsUnchosen", { Player = pn })
+            ConfirmStart = false
             
         elseif button == "UpLeft" or button == "UpRight" or button == "Up" then
+            MESSAGEMAN:Broadcast("StepsUnchosen", { Player = pn })
             MESSAGEMAN:Broadcast("SongUnchosen")
+            ConfirmStart = false
             
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
-            SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
+            if ConfirmStart then
+                SongIsChosen = false
+                SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
+            else
+                MESSAGEMAN:Broadcast("StepsChosen", { Player = pn })
+                ConfirmStart = true
+            end
         end
     end
     return
@@ -80,15 +92,7 @@ local t = Def.ActorFrame {
     
     -- These are to control the visibility of the chart highlight.
     SongChosenMessageCommand=function(self) SongIsChosen = true self:playcommand("Refresh") end,
-    SongUnchosenMessageCommand=function(self) 
-        SongIsChosen = false 
-        PlayerCanMove[PLAYER_1] = true 
-        PlayerCanMove[PLAYER_2] = true 
-        self:playcommand("Refresh") 
-    end,
-    
-    StepsChosenMessageCommand=function(self, params) PlayerCanMove[params.Player] = false end,
-    StepsUnchosenMessageCommand=function(self, params) PlayerCanMove[params.Player] = true end,
+    SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
 
     RefreshCommand=function(self)
         ChartArray = nil
@@ -231,10 +235,18 @@ for i=1,ItemAmount do
     }
 end
 
-t[#t+1] = Def.Sound {
-    File=THEME:GetPathS("Common", "value"),
-    IsAction=true,
-    UpdateChartDisplayMessageCommand=function(self) self:play() end
+t[#t+1] = Def.ActorFrame {
+    Def.Sound {
+        File=THEME:GetPathS("Common", "value"),
+        IsAction=true,
+        UpdateChartDisplayMessageCommand=function(self) self:play() end
+    },
+
+    Def.Sound {
+        File=THEME:GetPathS("Common", "Start"),
+        IsAction=true,
+        StepsChosenMessageCommand=function(self) self:play() end
+    }
 }
 
 return t

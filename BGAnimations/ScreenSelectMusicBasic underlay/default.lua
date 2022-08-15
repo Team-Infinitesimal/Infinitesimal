@@ -48,7 +48,7 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
         end,
         
         Def.ActorFrame {
-            InitCommand=function(self) self:y(90) end,
+            InitCommand=function(self) self:y(85):zoom(1) end,
 
             StepsChosenMessageCommand=function(self, params)
                 if params.Player == pn then
