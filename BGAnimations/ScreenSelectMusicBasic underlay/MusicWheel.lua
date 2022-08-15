@@ -67,7 +67,6 @@ local t = Def.ActorFrame {
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
         
         self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 - 150)
-        :playcommand("Refresh")
     end,
     
     -- Prevent the song list from moving when transitioning
@@ -92,13 +91,11 @@ local t = Def.ActorFrame {
     -- These are to control the functionality of the music wheel
     SongChosenMessageCommand=function(self)
         self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 + 150)
-        SongIsChosen = true 
-        self:playcommand("Refresh") 
+        SongIsChosen = true
     end,
     SongUnchosenMessageCommand=function(self) 
         self:stoptweening():easeoutexpo(0.5):y(SCREEN_HEIGHT / 2 - 150)
-        SongIsChosen = false 
-        self:playcommand("Refresh") 
+        SongIsChosen = false
     end,
 
     -- Play song preview (thanks Luizsan)
@@ -178,12 +175,11 @@ for i = 1, WheelSize do
             -- animate
             self:xy( xpos + displace, SCREEN_CENTER_Y )
             self:rotationy( (SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
-            self:GetChild("RealIndex"):playcommand("Refresh")
-            self:GetChild("Selection"):playcommand("Refresh")
+            self:GetChild(""):GetChild("Index"):playcommand("Refresh")
         end,
         
-        Def.Sprite{
-            Name = "Banner",
+        Def.Sprite {
+            Name="Banner",
         },
         
         Def.Sprite {
@@ -200,6 +196,7 @@ for i = 1, WheelSize do
             },
 
             Def.BitmapText {
+                Name="Index",
                 Font="Montserrat semibold 40px",
                 InitCommand=function(self)
                     self:addy(-50):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
