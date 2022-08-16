@@ -23,7 +23,7 @@ t[#t+1] = Def.Quad {
     end
 }
 
-t[#t+1] = LoadActor("MusicWheel")
+t[#t+1] = LoadActor("MusicWheel")..{ Name="MusicWheel" }
 
 for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
     local spacing = (IsUsingWideScreen() and 80 or 15)
@@ -36,17 +36,17 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
         Name="TutorialMessage"..pn,
         LoadModule("UI.MessageBox.lua")(posx, SCREEN_CENTER_Y - 125, width, 0, 15, title, body)
     }
-    
+
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
             :easeoutexpo(1):y(SCREEN_CENTER_Y)
         end,
-        
+
         OffCommand=function(self)
             self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
-        
+
         Def.ActorFrame {
             InitCommand=function(self) self:y(85):zoom(1) end,
 
@@ -59,7 +59,7 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
             StepsUnchosenMessageCommand=function(self)
                 self:stoptweening():easeoutexpo(0.5):x(0)
             end,
-            
+
             SongChosenMessageCommand=function(self)
                 self:stoptweening():easeoutexpo(0.5):y(160):zoom(2)
             end,
@@ -133,10 +133,10 @@ t[#t+1] = Def.ActorFrame {
         end
     end,
 
-    FullModeTransitionCommand=function()
+    FullModeTransitionCommand=function(self)
         setenv("IsBasicMode", false)
         LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
-        SCREENMAN:GetTopScreen():GetMusicWheel():Move(0)
+        self:GetParent():GetChild("MusicWheel"):easeinexpo(0.25):addy(300)
         SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusic")
         SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
     end,
