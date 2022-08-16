@@ -10,6 +10,8 @@ local NotefieldY = (ReceptorPosNormal + ReceptorPosReverse) / 2
 local PlayerPos = GAMESTATE:GetNumPlayersEnabled() == 1 and "OnePlayerTwoSides" or "TwoPlayersTwoSides"
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
 
+local STCache = {}
+
 local function GetCurrentChartIndex(pn, ChartArray)
     local PlayerSteps = GAMESTATE:GetCurrentSteps(pn)
     -- Not sure how the previous checks fails at times, so here it is once again
@@ -29,7 +31,8 @@ local t = Def.ActorFrame {}
 for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
     -- To avoid crashes with player 2
     local pnNoteField = PlayerNumber:Reverse()[pn]
-    
+    STCache[pn] = nil
+
     t[#t+1] = Def.ActorFrame {
         Name="Player" .. ToEnumShortString(pn),
         FOV=45,
@@ -37,7 +40,7 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
             self:x(THEME:GetMetric('ScreenGameplay', 'Player' .. ToEnumShortString(pn) .. PlayerPos .. 'X') - SCREEN_CENTER_X)
             :zoom(SCREEN_HEIGHT / 480):visible(false)
         end,
-        
+
         SongChosenMessageCommand=function(self) self:visible(true) end,
         SongUnchosenMessageCommand=function(self) self:visible(false) end,
 
@@ -52,33 +55,42 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
             OnCommand=function(self)
                 self:y(NotefieldY):GetPlayerOptions("ModsLevel_Current"):StealthPastReceptors(true, true)
                 self:AutoPlay(true)
-                
+
                 LoadModule("Player.SetSpeed.lua")(pn)
                 local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
                 self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
             end,
-            
-            CurrentStepsP1ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
-            CurrentStepsP2ChangedMessageCommand=function(self) self:playcommand("Refresh") end,
+
+            CurrentStepsP1ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
+            CurrentStepsP2ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
             OptionsListStartMessageCommand=function(self) self:playcommand("Refresh") end,
-            
+
             RefreshCommand=function(self)
                 self:AutoPlay(false)
                 local ChartArray = nil
-                
+
                 local Song = GAMESTATE:GetCurrentSong()
                 if Song then ChartArray = Song:GetAllSteps() else return end
-                
+
+                local Steps = GAMESTATE:GetCurrentSteps(pn)
+                local StepsType = Steps:GetStepsType()
+                --SCREENMAN:SystemMessage(StepsType)
+
                 LoadModule("Player.SetSpeed.lua")(pn)
                 local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
                 self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
-                
+
+                if not STCache[pn] or STCache[pn] ~= StepsType then
+                    self:ChangeReload(Steps)
+                    STCache[pn] = StepsType
+                end
+
                 local ChartIndex = GetCurrentChartIndex(pnNoteField, ChartArray)
                 if not ChartIndex then return end
-                
+
                 local NoteData = Song:GetNoteData(ChartIndex)
                 if not NoteData then return end
-                
+
                 self:SetNoteDataFromLua({})
                 --SCREENMAN:SystemMessage("Loading ChartIndex!")
                 self:SetNoteDataFromLua(NoteData)
