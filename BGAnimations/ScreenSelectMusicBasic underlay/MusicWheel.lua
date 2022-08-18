@@ -1,4 +1,4 @@
-local WheelSize = 5
+local WheelSize = 11
 local WheelCenter = math.ceil( WheelSize * 0.5 )
 local WheelItem = { Width = 212, Height = 120 }
 local WheelSpacing = 250
@@ -14,7 +14,6 @@ for Song in ivalues(SONGMAN:GetPreferredSortSongs()) do
 end
 
 local CurrentIndex = math.random(#Songs)
-local PrevIndex = CurrentIndex
 local SongIsChosen = false
 
 local function InputHandler(event)
@@ -31,18 +30,20 @@ local function InputHandler(event)
 
         local button = event.button
         if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
-            PrevIndex = CurrentIndex
             CurrentIndex = CurrentIndex - 1
             if CurrentIndex < 1 then CurrentIndex = #Songs end
-            GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
+            
+            UpdateItemTargets(CurrentIndex)
             MESSAGEMAN:Broadcast("Scroll", { Direction = -1 })
+            GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
 
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
-            PrevIndex = CurrentIndex
             CurrentIndex = CurrentIndex + 1
             if CurrentIndex > #Songs then CurrentIndex = 1 end
-            GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
+            
+            UpdateItemTargets(CurrentIndex)
             MESSAGEMAN:Broadcast("Scroll", { Direction = 1 })
+            GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
 
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
             MESSAGEMAN:Broadcast("MusicWheelStart")
@@ -53,6 +54,21 @@ local function InputHandler(event)
     end
 
 	MESSAGEMAN:Broadcast("UpdateMusic")
+end
+
+-- Update Songs item targets
+function UpdateItemTargets(val)
+    for i = 1, WheelSize do
+        Targets[i] = val + i - WheelCenter
+        -- wrap to fit to Songs list size
+        while Targets[i] > #Songs do Targets[i] = Targets[i] - #Songs end
+        while Targets[i] < 1 do Targets[i] = Targets[i] + #Songs end
+    end
+end
+
+-- Manages banner on sprite
+function UpdateBanner(self, Song)
+    self:LoadFromCachedBanner(Song:GetBannerPath()):scaletoclipped(WheelItem.Width / 2, WheelItem.Height / 2):zoom(2)
 end
 
 local t = Def.ActorFrame {
@@ -66,11 +82,7 @@ local t = Def.ActorFrame {
         GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
 
-        self:stoptweening():easeoutexpo(1):y(SCREEN_HEIGHT / 2 - 150)
-
-        -- Play song preview
-        SOUND:StopMusic()
-        self:sleep(0.25):queuecommand("PlayMusic")
+        self:easeoutexpo(1):y(SCREEN_HEIGHT / 2 - 150)
     end,
 
     -- Prevent the song list from moving when transitioning
@@ -81,7 +93,6 @@ local t = Def.ActorFrame {
     -- Update song list
     CurrentSongChangedMessageCommand=function(self)
         self:stoptweening()
-        UpdateItemTargets(CurrentIndex)
 
         -- Play song preview
         SOUND:StopMusic()
@@ -113,7 +124,7 @@ local t = Def.ActorFrame {
     Def.Sound {
         File=THEME:GetPathS("MusicWheel", "change"),
         IsAction=true,
-        CurrentSongChangedMessageCommand=function(self) if CurrentIndex ~= PrevIndex then self:play() end end
+        ScrollMessageCommand=function(self) self:play() end
     },
 
     Def.Sound {
@@ -122,21 +133,6 @@ local t = Def.ActorFrame {
         MusicWheelStartMessageCommand=function(self) self:play() end
     },
 }
-
--- update Songs item Targets
-function UpdateItemTargets(val)
-    for i = 1, WheelSize do
-        Targets[i] = val + i - WheelCenter
-        -- wrap to fit to Songs list size
-        while Targets[i] > #Songs do Targets[i] = Targets[i] - #Songs end
-        while Targets[i] < 1 do Targets[i] = Targets[i] + #Songs end
-    end
-end
-
--- manages banner on sprite
-function UpdateBanner(self, Song)
-    self:LoadFromSongBanner(Song):scaletoclipped(WheelItem.Width, WheelItem.Height)
-end
 
 -- item wheel
 for i = 1, WheelSize do
@@ -162,26 +158,19 @@ for i = 1, WheelSize do
 
             -- only tween if a Direction was specified
             local tween = param and param.Direction and math.abs(param.Direction) > 0
-
-            -- if it's an edge item, load a new banner
-            -- edge items should never tween
-            if i == 1 or i == WheelSize then
-				-- Terrible hack. The wheel does not stay centered
-				-- when moving so an offset needs to be applied relative
-				-- to the direction of the music wheel being moved.
-				-- TODO: FIX THIS ISSUE
-				local SongBanner = Targets[i] + (param.Direction == 1 and -1 or 1)
-				if SongBanner > #Songs then SongBanner = #Songs end
-				if SongBanner < 1 then SongBanner = 1 end
-                UpdateBanner(self:GetChild("Banner"), Songs[SongBanner])
-            elseif tween then
-                self:easeoutexpo(0.25)
-            end
-
+            
             -- adjust and wrap actor index
             i = i - param.Direction
             while i > WheelSize do i = i - WheelSize end
             while i < 1 do i = i + WheelSize end
+
+            -- if it's an edge item, load a new banner
+            -- edge items should never tween
+            if i == 1 or i == WheelSize then
+				UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
+            elseif tween then
+                self:easeoutexpo(0.25)
+            end
 
             -- animate
             self:xy(xpos + displace, SCREEN_CENTER_Y)
@@ -190,7 +179,7 @@ for i = 1, WheelSize do
             self:GetChild(""):GetChild("Index"):playcommand("Refresh")
         end,
 
-        Def.Sprite {
+        Def.Banner {
             Name="Banner",
         },
 
