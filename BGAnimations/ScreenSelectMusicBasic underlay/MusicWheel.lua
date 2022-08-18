@@ -14,6 +14,7 @@ for Song in ivalues(SONGMAN:GetPreferredSortSongs()) do
 end
 
 local CurrentIndex = math.random(#Songs)
+if LastSongIndex ~= 0 then CurrentIndex = LastSongIndex end
 local SongIsChosen = false
 
 local function InputHandler(event)
@@ -60,7 +61,7 @@ end
 function UpdateItemTargets(val)
     for i = 1, WheelSize do
         Targets[i] = val + i - WheelCenter
-        -- wrap to fit to Songs list size
+        -- Wrap to fit to Songs list size
         while Targets[i] > #Songs do Targets[i] = Targets[i] - #Songs end
         while Targets[i] < 1 do Targets[i] = Targets[i] + #Songs end
     end
@@ -90,13 +91,10 @@ local t = Def.ActorFrame {
         SongIsChosen = true
     end,
 
-    -- Update song list
+    -- Play song preview
     CurrentSongChangedMessageCommand=function(self)
-        self:stoptweening()
-
-        -- Play song preview
         SOUND:StopMusic()
-        self:sleep(0.25):queuecommand("PlayMusic")
+        self:stoptweening():sleep(0.25):queuecommand("PlayMusic")
     end,
 
     -- Race condition workaround (yuck)
@@ -134,45 +132,46 @@ local t = Def.ActorFrame {
     },
 }
 
--- item wheel
+-- The Wheel: originally made by Luizsan
 for i = 1, WheelSize do
 
     t[#t+1] = Def.ActorFrame{
         OnCommand=function(self)
-            -- load banner
+            -- Load banner
             UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
 
-            -- set initial position
-            -- Direction = 0 means it won't tween
+            -- Set initial position, Direction = 0 means it won't tween
             self:playcommand("Scroll", {Direction = 0})
         end,
 
         ScrollMessageCommand=function(self,param)
-            self:finishtweening()
+            -- Save this so that we can resume the last selection after gameplay
+            LastSongIndex = CurrentIndex
+            
+            self:stoptweening()
 
-            -- calculate position
+            -- Calculate position
             local xpos = SCREEN_CENTER_X + (i - WheelCenter) * WheelSpacing
 
-            -- calculate displacement based on input
+            -- Calculate displacement based on input
             local displace = -param.Direction * WheelSpacing
 
-            -- only tween if a Direction was specified
+            -- Only tween if a direction was specified
             local tween = param and param.Direction and math.abs(param.Direction) > 0
             
-            -- adjust and wrap actor index
+            -- Adjust and wrap actor index
             i = i - param.Direction
             while i > WheelSize do i = i - WheelSize end
             while i < 1 do i = i + WheelSize end
 
-            -- if it's an edge item, load a new banner
-            -- edge items should never tween
+            -- If it's an edge item, load a new banner. Edge items should never tween
             if i == 1 or i == WheelSize then
 				UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
             elseif tween then
                 self:easeoutexpo(0.25)
             end
 
-            -- animate
+            -- Animate!
             self:xy(xpos + displace, SCREEN_CENTER_Y)
             self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
             self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)

@@ -52,19 +52,19 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
 
             StepsChosenMessageCommand=function(self, params)
                 if params.Player == pn then
-                    self:stoptweening():easeoutexpo(0.5)
+                    self:finishtweening():easeoutexpo(0.5)
                     :x(pn == PLAYER_2 and 360 or -360)
                 end
             end,
             StepsUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):x(0)
+                self:finishtweening():easeoutexpo(0.5):x(0)
             end,
 
             SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(160):zoom(2)
+                self:finishtweening():easeoutexpo(0.5):y(160):zoom(2)
             end,
             SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):xy(0, 85):zoom(1)
+                self:finishtweening():easeoutexpo(0.5):xy(0, 85):zoom(1)
             end,
 
             Def.Quad {
@@ -94,7 +94,7 @@ t[#t+1] = Def.ActorFrame {
             :easeoutexpo(1):y(SCREEN_CENTER_Y)
         end,
         OffCommand=function(self)
-            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
+            self:finishtweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
 
         LoadActor("SongPreview") .. {
@@ -105,10 +105,10 @@ t[#t+1] = Def.ActorFrame {
             InitCommand=function(self) self:y(85) end,
 
             SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(160):zoom(2)
+                self:finishtweening():easeoutexpo(0.5):y(160):zoom(2)
             end,
             SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(85):zoom(1)
+                self:finishtweening():easeoutexpo(0.5):y(85):zoom(1)
             end,
 
             Def.Sprite {

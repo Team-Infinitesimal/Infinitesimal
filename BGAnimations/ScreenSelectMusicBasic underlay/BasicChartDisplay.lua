@@ -65,6 +65,10 @@ local function InputHandler(event)
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
             if ConfirmStart then
                 SongIsChosen = false
+                
+                -- Set these or else we crash.
+                GAMESTATE:SetCurrentPlayMode("PlayMode_Regular")
+                GAMESTATE:SetCurrentStyle(GAMESTATE:GetNumSidesJoined() > 1 and "versus" or "single")
                 SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
             else
                 MESSAGEMAN:Broadcast("StepsChosen", { Player = pn })
@@ -95,6 +99,7 @@ local t = Def.ActorFrame {
     SongUnchosenMessageCommand=function(self) SongIsChosen = false self:playcommand("Refresh") end,
 
     RefreshCommand=function(self)
+        self:finishtweening()
         ChartArray = nil
         local CurrentSong = GAMESTATE:GetCurrentSong()
         if CurrentSong then
