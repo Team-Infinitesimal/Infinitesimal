@@ -69,7 +69,7 @@ end
 
 -- Manages banner on sprite
 function UpdateBanner(self, Song)
-    self:LoadFromCachedBanner(Song:GetBannerPath()):scaletoclipped(WheelItem.Width / 2, WheelItem.Height / 2):zoom(2)
+    self:LoadFromSongBanner(Song):scaletoclipped(WheelItem.Width, WheelItem.Height)
 end
 
 local t = Def.ActorFrame {
