@@ -243,7 +243,7 @@ local t = Def.ActorFrame {
                 end
             end
         end
-        if params.Name == "Up" or params.Name == "MenuUp" or params.Name == "DownLeft" then
+        if params.Name == "Up" or params.Name == "MenuUp" or params.Name == "MenuLeft" or params.Name == "DownLeft" then
             if GAMESTATE:IsHumanPlayer(params.PlayerNumber) then
                 local ind = SCREENMAN:GetTopScreen():GetProfileIndex(params.PlayerNumber)
                 if ind >= 1 then
@@ -254,7 +254,7 @@ local t = Def.ActorFrame {
                 end
             end
         end
-        if params.Name == "Down" or params.Name == "MenuDown" or params.Name == "DownRight" then
+        if params.Name == "Down" or params.Name == "MenuDown" or params.Name == "MenuRight" or params.Name == "DownRight" then
             if GAMESTATE:IsHumanPlayer(params.PlayerNumber) then
                 local ind = SCREENMAN:GetTopScreen():GetProfileIndex(params.PlayerNumber)
                 if ind >= 0 then
