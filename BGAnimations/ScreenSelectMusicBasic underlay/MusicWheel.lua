@@ -1,4 +1,4 @@
-local WheelSize = 11
+local WheelSize = 13
 local WheelCenter = math.ceil( WheelSize * 0.5 )
 local WheelItem = { Width = 212, Height = 120 }
 local WheelSpacing = 250
@@ -90,13 +90,7 @@ local t = Def.ActorFrame {
     OffCommand=function(self)
         SongIsChosen = true
     end,
-
-    -- Play song preview
-    CurrentSongChangedMessageCommand=function(self)
-        SOUND:StopMusic()
-        self:stoptweening():sleep(0.25):queuecommand("PlayMusic")
-    end,
-
+    
     -- Race condition workaround (yuck)
     MusicWheelStartMessageCommand=function(self) self:sleep(0.01):queuecommand("Confirm") end,
     ConfirmCommand=function(self) MESSAGEMAN:Broadcast("SongChosen") end,
@@ -110,14 +104,21 @@ local t = Def.ActorFrame {
         self:stoptweening():easeoutexpo(0.5):y(SCREEN_HEIGHT / 2 - 150)
         SongIsChosen = false
     end,
-
+    
     -- Play song preview (thanks Luizsan)
-    PlayMusicCommand=function(self)
-        local Song = GAMESTATE:GetCurrentSong()
-        if Song then
-            SOUND:PlayMusicPart(Song:GetMusicPath(), Song:GetSampleStart(), Song:GetSampleLength(), 0, 1, false, false, false, Song:GetTimingData())
+    Def.Actor {
+        CurrentSongChangedMessageCommand=function(self)
+            SOUND:StopMusic()
+            self:stoptweening():sleep(0.25):queuecommand("PlayMusic")
+        end,
+        
+        PlayMusicCommand=function(self)
+            local Song = GAMESTATE:GetCurrentSong()
+            if Song then
+                SOUND:PlayMusicPart(Song:GetMusicPath(), Song:GetSampleStart(), Song:GetSampleLength(), 0, 1, false, false, false, Song:GetTimingData())
+            end
         end
-    end,
+    },
 
     Def.Sound {
         File=THEME:GetPathS("MusicWheel", "change"),
@@ -168,7 +169,7 @@ for i = 1, WheelSize do
             if i == 1 or i == WheelSize then
 				UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
             elseif tween then
-                self:easeoutexpo(0.25)
+                self:easeoutexpo(0.4)
             end
 
             -- Animate!
