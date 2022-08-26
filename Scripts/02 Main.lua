@@ -1,3 +1,5 @@
+LastSongIndex = 0
+
 function OptionNameString(str)
     return THEME:GetString('OptionNames',str)
 end
@@ -5,6 +7,7 @@ end
 -- Unfortunately, some settings persist with the machine profile even after a credit,
 -- so we will reset all custom mods we have to avoid any weird situations
 function ResetLuaMods(pn)
+    LastSongIndex = 0
     local ProfileDir = "Save/MachineProfile/OutFoxPrefsForPlayerp" .. string.sub(pn,-1) .. "/OutFoxPrefs.ini"
     LoadModule("Config.Save.lua")("AutoVelocity", tostring(200), ProfileDir)
     LoadModule("Config.Save.lua")("AutoVelocityType", tostring(false), ProfileDir)
@@ -33,7 +36,7 @@ end
 
 -- Lua Timing currently does not change these parameters, so the best we can do is
 -- look at the current mode on boot up and change to the proper values
-local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 
 function ComboContinue()
     local Continue = {

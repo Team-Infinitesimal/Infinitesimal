@@ -2,7 +2,7 @@ local t = Def.ActorFrame {
     OnCommand=function(self)
         -- Change default sort to Basic Mode songs only
         SONGMAN:SetPreferredSongs("PreferredSongs")
-        SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
+        --SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
         -- Change timing window to Easy
         LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Easy"),"Save/OutFoxPrefs.ini")
     end
@@ -23,6 +23,8 @@ t[#t+1] = Def.Quad {
     end
 }
 
+t[#t+1] = LoadActor("MusicWheel")..{ Name="MusicWheel" }
+
 for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
     local spacing = (IsUsingWideScreen() and 80 or 15)
     local width = (IsUsingWideScreen() and 200 or 175)
@@ -34,35 +36,35 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
         Name="TutorialMessage"..pn,
         LoadModule("UI.MessageBox.lua")(posx, SCREEN_CENTER_Y - 125, width, 0, 15, title, body)
     }
-    
+
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
             self:xy(SCREEN_CENTER_X, -SCREEN_CENTER_Y)
             :easeoutexpo(1):y(SCREEN_CENTER_Y)
         end,
-        
+
         OffCommand=function(self)
             self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
-        
+
         Def.ActorFrame {
-            InitCommand=function(self) self:y(90) end,
+            InitCommand=function(self) self:y(85):zoom(1) end,
 
             StepsChosenMessageCommand=function(self, params)
                 if params.Player == pn then
-                    self:stoptweening():easeoutexpo(0.5)
+                    self:finishtweening():easeoutexpo(0.5)
                     :x(pn == PLAYER_2 and 360 or -360)
                 end
             end,
             StepsUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):x(0)
+                self:finishtweening():easeoutexpo(0.5):x(0)
             end,
-            
+
             SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(160):zoom(2)
+                self:finishtweening():easeoutexpo(0.5):y(160):zoom(2)
             end,
             SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):xy(0, 85):zoom(1)
+                self:finishtweening():easeoutexpo(0.5):xy(0, 85):zoom(1)
             end,
 
             Def.Quad {
@@ -92,7 +94,7 @@ t[#t+1] = Def.ActorFrame {
             :easeoutexpo(1):y(SCREEN_CENTER_Y)
         end,
         OffCommand=function(self)
-            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
+            self:finishtweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
 
         LoadActor("SongPreview") .. {
@@ -103,10 +105,10 @@ t[#t+1] = Def.ActorFrame {
             InitCommand=function(self) self:y(85) end,
 
             SongChosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(160):zoom(2)
+                self:finishtweening():easeoutexpo(0.5):y(160):zoom(2)
             end,
             SongUnchosenMessageCommand=function(self)
-                self:stoptweening():easeoutexpo(0.5):y(85):zoom(1)
+                self:finishtweening():easeoutexpo(0.5):y(85):zoom(1)
             end,
 
             Def.Sprite {
@@ -131,10 +133,10 @@ t[#t+1] = Def.ActorFrame {
         end
     end,
 
-    FullModeTransitionCommand=function()
+    FullModeTransitionCommand=function(self)
         setenv("IsBasicMode", false)
         LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
-        SCREENMAN:GetTopScreen():GetMusicWheel():Move(0)
+        self:GetParent():GetChild("MusicWheel"):easeinexpo(0.25):addy(300)
         SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusic")
         SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
     end,
