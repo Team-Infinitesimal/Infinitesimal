@@ -2,7 +2,9 @@ return Def.ActorFrame {
 
     LoadActor("AnimatedLoop")..{
         Name="Loop",
-        OnCommand=function(self) self:queuecommand("Animate") end,
+        OnCommand=function(self)
+            self:queuecommand("Animate")
+        end,
         AnimateCommand=function(self)
             self:GetChild("PlainLoop"):cropright(1)
             :sleep(0.5)
@@ -25,7 +27,9 @@ return Def.ActorFrame {
 
     Def.Quad {
         Name="Loop_Shine",
-        OnCommand=function(self) self:queuecommand("Animate") end,
+        OnCommand=function(self)
+            self:queuecommand("Animate")
+        end,
         AnimateCommand=function(self)
             self:zoomto(80, 400)
             :diffuse(1,1,1,0):blend("BlendMode_WeightedMultiply")
@@ -48,7 +52,9 @@ return Def.ActorFrame {
     Def.Sprite {
         Texture="Text",
         Name="Text",
-        OnCommand=function(self) self:queuecommand("Animate") end,
+        OnCommand=function(self)
+            self:queuecommand("Animate")
+        end,
         AnimateCommand=function(self)
             self:diffusealpha(0)
             :zoom(1.2)
@@ -71,7 +77,9 @@ return Def.ActorFrame {
 
     Def.Quad {
         Name="Text_Shine",
-        OnCommand=function(self) self:queuecommand("Animate") end,
+        OnCommand=function(self)
+            self:queuecommand("Animate")
+        end,
         AnimateCommand=function(self)
             self:zoomto(80, 400)
             :diffuse(1,1,1,0.75)
