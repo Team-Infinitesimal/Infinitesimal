@@ -55,8 +55,17 @@ CustomBranch = {
     AfterProfileSave = function()
         if GAMESTATE:IsEventMode() then
             return SelectMusicOrCourse()
-        elseif STATSMAN:GetCurStageStats():AllFailed() or
-            GAMESTATE:GetSmallestNumStagesLeftForAnyHumanPlayer() == 0 then
+        elseif STATSMAN:GetCurStageStats():AllFailed() then
+            return GameOverOrContinue()
+        end
+        
+        -- If a player has ran out of stages, unjoin them
+        if GAMESTATE:GetNumStagesLeft(PLAYER_1) <= 0 then GAMESTATE:UnjoinPlayer(PLAYER_1) end
+        if GAMESTATE:GetNumStagesLeft(PLAYER_2) <= 0 then GAMESTATE:UnjoinPlayer(PLAYER_2) end
+        
+        -- This is done so that if a player has joined mid
+        -- session can still play the rest of their stages.
+        if GAMESTATE:GetNumSidesJoined() <= 0 then
             return GameOverOrContinue()
         else
             return SelectMusicOrCourse()

@@ -10,6 +10,7 @@ local PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsArray("Mods
 -- A list of mods we do not want to display through the icons
 local PlayerModsBlacklist = {
     "Overhead",
+    "FailImmediate",
     "FailImmediateContinue",
     "FailAtEnd",
     "FailOff"
