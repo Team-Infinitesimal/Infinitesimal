@@ -112,7 +112,7 @@ t[#t+1] = Def.ActorFrame {
             :easeoutexpo(1):y(SCREEN_CENTER_Y)
         end,
         OffCommand=function(self)
-            self:finishtweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
+            self:stoptweening():easeoutexpo(1):y(-SCREEN_CENTER_Y)
         end,
 
         LoadActor("SongPreview") .. {
