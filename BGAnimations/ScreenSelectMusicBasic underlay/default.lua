@@ -1,8 +1,26 @@
+setenv("IsBasicMode", true)
+
+-- Not load anything if Preferred Sort is not available, this silly check is done
+-- because the game will fallback to all songs present in the game install
+if #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs() then
+    return Def.ActorFrame {
+        Def.Quad {
+            InitCommand=function(self) 
+                self:FullScreen():diffuse(Color.Black):diffusealpha(0)
+                :decelerate(1):diffusealpha(0.5)
+            end
+        },
+        
+        Def.BitmapText {
+            Font="Common normal",
+            Text=THEME:GetString("BasicMode", "NoSongs"),
+            InitCommand=function(self) self:Center() end
+        }
+    }
+else
+
 local t = Def.ActorFrame {
     OnCommand=function(self)
-        -- Change default sort to Basic Mode songs only
-        SONGMAN:SetPreferredSongs("PreferredSongs")
-        --SCREENMAN:GetTopScreen():GetMusicWheel():ChangeSort("SortOrder_Preferred")
         -- Change timing window to Easy
         LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Easy"),"Save/OutFoxPrefs.ini")
     end
@@ -56,8 +74,8 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
                     :x(pn == PLAYER_2 and 360 or -360)
                 end
             end,
-            StepsUnchosenMessageCommand=function(self)
-                self:finishtweening():easeoutexpo(0.5):x(0)
+            UpdateChartDisplay=function(self, params) if params.Player == pn then
+                self:finishtweening():easeoutexpo(0.5):x(0) end
             end,
 
             SongChosenMessageCommand=function(self)
@@ -149,3 +167,5 @@ t[#t+1] = Def.ActorFrame {
 }
 
 return t
+
+end

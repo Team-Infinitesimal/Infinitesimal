@@ -45,6 +45,9 @@ return Def.ActorFrame {
         InitCommand=function(self) self:xy(72, SCREEN_BOTTOM - 72):zoom(0.5):blend('add'):diffusealpha(0) end,
         PreviousSongMessageCommand=function(self)
             self:stoptweening():diffusealpha(1):zoom(0.5):linear(0.25):diffusealpha(0):zoom(0.6)
+        end,
+        ScrollMessageCommand=function(self, params) if params.Direction == -1 then
+            self:stoptweening():diffusealpha(1):zoom(0.5):linear(0.25):diffusealpha(0):zoom(0.6) end
         end
     },
     
@@ -60,6 +63,9 @@ return Def.ActorFrame {
         InitCommand=function(self) self:xy(SCREEN_RIGHT - 72, SCREEN_BOTTOM - 72):zoom(0.5):blend('add'):diffusealpha(0) end,
         NextSongMessageCommand=function(self)
             self:stoptweening():diffusealpha(1):zoom(0.5):linear(0.25):diffusealpha(0):zoom(0.6)
+        end,
+        ScrollMessageCommand=function(self, params) if params.Direction == 1 then
+            self:stoptweening():diffusealpha(1):zoom(0.5):linear(0.25):diffusealpha(0):zoom(0.6) end
         end
     }
 }

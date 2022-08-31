@@ -47,14 +47,12 @@ local function InputHandler(event)
             if ChartIndex[pn] == 1 then return else
             ChartIndex[pn] = ChartIndex[pn] - 1 end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
-            MESSAGEMAN:Broadcast("StepsUnchosen", { Player = pn })
             ConfirmStart = false
             
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
             if ChartIndex[pn] == #ChartArray then return else
             ChartIndex[pn] = ChartIndex[pn] + 1 end
             MESSAGEMAN:Broadcast("UpdateChartDisplay", { Player = pn })
-            MESSAGEMAN:Broadcast("StepsUnchosen", { Player = pn })
             ConfirmStart = false
             
         elseif button == "UpLeft" or button == "UpRight" or button == "Up" then

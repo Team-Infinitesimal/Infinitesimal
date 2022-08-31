@@ -7,6 +7,12 @@ local WheelRotation = 0.1
 local Songs = {}
 local Targets = {}
 
+-- Not load anything if Preferred Sort is not available, this silly check is done
+-- because the game will fallback to all songs present in the game install
+if #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs() then
+    return Def.Actor {}
+else
+
 for Song in ivalues(SONGMAN:GetPreferredSortSongs()) do
 	if SongUtil.GetPlayableSteps(Song) then
 		Songs[#Songs+1] = Song
@@ -20,31 +26,41 @@ local SongIsChosen = false
 local function InputHandler(event)
 	local pn = event.PlayerNumber
     if not pn then return end
+    
+    -- Don't want to move when releasing the button
+    if event.type == "InputEventType_Release" then return end
+
+    local button = event.button
+    
+    -- If an unjoined player attempts to join and has enough credits, join them
+    if button == "Start" or button == "MenuStart" or button == "Center" and 
+        not GAMESTATE:IsSideJoined(pn) and GAMESTATE:GetCoins() >= GAMESTATE:GetCoinsNeededToJoin() then
+        GAMESTATE:JoinPlayer(pn)
+        -- The command above does not deduct credits so we'll do it ourselves
+        GAMESTATE:InsertCoin(-(GAMESTATE:GetCoinsNeededToJoin()))
+        MESSAGEMAN:Broadcast("PlayerJoined", { Player = pn })
+    end
 
     -- To avoid control from a player that has not joined, filter the inputs out
     if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
     if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
 
     if not SongIsChosen then
-        -- Don't want to move when releasing the button
-        if event.type == "InputEventType_Release" then return end
-
-        local button = event.button
         if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
             CurrentIndex = CurrentIndex - 1
             if CurrentIndex < 1 then CurrentIndex = #Songs end
             
+            GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
             UpdateItemTargets(CurrentIndex)
             MESSAGEMAN:Broadcast("Scroll", { Direction = -1 })
-            GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
 
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
             CurrentIndex = CurrentIndex + 1
             if CurrentIndex > #Songs then CurrentIndex = 1 end
             
+            GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
             UpdateItemTargets(CurrentIndex)
             MESSAGEMAN:Broadcast("Scroll", { Direction = 1 })
-            GAMESTATE:SetCurrentSong(Songs[CurrentIndex])
 
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
             MESSAGEMAN:Broadcast("MusicWheelStart")
@@ -86,9 +102,10 @@ local t = Def.ActorFrame {
         self:easeoutexpo(1):y(SCREEN_HEIGHT / 2 - 150)
     end,
 
-    -- Prevent the song list from moving when transitioning
     OffCommand=function(self)
+        -- Prevent the song list from moving when transitioning
         SongIsChosen = true
+        self:stoptweening():easeoutexpo(1):y(SCREEN_BOTTOM+150)
     end,
     
     -- Race condition workaround (yuck)
@@ -209,3 +226,5 @@ for i = 1, WheelSize do
 end
 
 return t
+
+end

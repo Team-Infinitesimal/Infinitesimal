@@ -41,7 +41,6 @@ CustomBranch = {
         if PROFILEMAN:GetNumLocalProfiles() > 0 then
             return "ScreenSelectProfile"
         else
-            setenv("IsBasicMode", true)
             return "ScreenSelectMusicBasic"
         end
     end,

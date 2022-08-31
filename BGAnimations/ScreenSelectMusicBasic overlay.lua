@@ -11,7 +11,9 @@ local t = Def.ActorFrame {
     end,
 }
 
-if GAMESTATE:GetNumSidesJoined() < 2 then
+
+if GAMESTATE:GetNumSidesJoined() < 2 and GAMESTATE:GetCoins() >= GAMESTATE:GetCoinsNeededToJoin() and 
+    not #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs() then
     t[#t+1] = Def.ActorFrame {
         LoadActor(THEME:GetPathG("", "PressCenterStep")) .. {
             InitCommand=function(self)

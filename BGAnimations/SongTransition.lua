@@ -41,11 +41,13 @@ local t = Def.ActorFrame {
 
         RefreshCommand=function(self)
             if SCREENMAN:GetTopScreen():GetNextScreenName() ~= "ScreenSelectProfile" then
-                local Path = GAMESTATE:GetCurrentSong():GetBackgroundPath()
-                if Path and FILEMAN:DoesFileExist(Path) then
-                    self:Load(Path):scale_or_crop_background()
-                else
-                    self:Load(THEME:GetPathG("Common", "fallback background")):scale_or_crop_background()
+                if GAMESTATE:GetCurrentSong() then
+                    local Path = GAMESTATE:GetCurrentSong():GetBackgroundPath()
+                    if Path and FILEMAN:DoesFileExist(Path) then
+                        self:Load(Path):scale_or_crop_background()
+                    else
+                        self:Load(THEME:GetPathG("Common", "fallback background")):scale_or_crop_background()
+                    end
                 end
             else
                 self:Load(nil)
