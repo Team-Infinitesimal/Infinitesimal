@@ -92,6 +92,14 @@ t[#t+1] = Def.ActorFrame {
             GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
             GAMESTATE:UpdateDiscordScreenInfo(details, states, 1)
         end
+    end,
+    
+    OffCommand=function(self) self:playcommand("EnableInput") end,
+    CancelCommand=function(self) self:playcommand("EnableInput") end,
+    
+    EnableInputCommand=function(self)
+        SCREENMAN:set_input_redirected(PLAYER_1, false)
+        SCREENMAN:set_input_redirected(PLAYER_2, false)
     end
 }
 
