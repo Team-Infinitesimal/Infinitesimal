@@ -90,8 +90,8 @@ end
 
 local t = Def.ActorFrame {
     InitCommand=function(self)
-        self:y(SCREEN_HEIGHT / 2 + 150):fov(90):SetDrawByZPosition(true)
-        :vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM-150)
+        self:y(SCREEN_HEIGHT / 2 + 155):fov(90):SetDrawByZPosition(true)
+        :vanishpoint(SCREEN_CENTER_X, SCREEN_BOTTOM - 150)
         UpdateItemTargets(CurrentIndex)
     end,
 
@@ -102,10 +102,12 @@ local t = Def.ActorFrame {
         self:easeoutexpo(1):y(SCREEN_HEIGHT / 2 - 150)
     end,
 
-    OffCommand=function(self)
-        -- Prevent the song list from moving when transitioning
-        SongIsChosen = true
-        self:stoptweening():easeoutexpo(1):y(SCREEN_BOTTOM+150)
+    CodeCommand=function(self, params)
+        if params.Name == "FullMode" then
+            -- Prevent the song list from moving when transitioning
+            SongIsChosen = true
+            self:finishtweening():sleep(1):easeoutexpo(1):y(SCREEN_HEIGHT / 2 + 155)
+        end
     end,
     
     -- Race condition workaround (yuck)

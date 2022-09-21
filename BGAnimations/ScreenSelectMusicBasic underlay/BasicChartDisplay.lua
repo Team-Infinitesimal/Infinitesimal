@@ -21,15 +21,6 @@ function SortCharts(a, b)
     end
 end
 
-local function ColourSteps(meter, type)
-    if type == "Double" then return {color("#21db30"), "DOUBLE"} end
-    if meter <= 2 then return {color("#209be3"), "EASY"} end
-    if meter <= 4 then return {color("#fff700"), "NORMAL"} end
-    if meter <= 7 then return {color("#ff3636"), "HARD"} end
-    if meter <= 12 then return {color("#d317e8"), "VERY HARD"} end
-    return {Color.White, "idk lol"} -- failsafe to prevent errors, should never be displayed anyway
-end
-
 local function InputHandler(event)
     local pn = event.PlayerNumber
     if not pn then return end
@@ -84,8 +75,10 @@ local t = Def.ActorFrame {
     end,
     
     -- Prevent the chart list from moving when transitioning
-    OffCommand=function(self)
-        SongIsChosen = false
+    CodeCommand=function(self, params)
+        if params.Name == "FullMode" then
+            SongIsChosen = false
+        end
     end,
     
     -- Update chart list
@@ -148,12 +141,11 @@ local t = Def.ActorFrame {
                     local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
                     if ChartMeter == 99 then ChartMeter = "??" end
                     local ChartDescription = Chart:GetDescription()
-                    local StepData = ColourSteps(ChartMeter, ChartType)
 
-                    self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(StepData[1])
+                    self:GetChild("")[i]:GetChild("Icon"):visible(true):diffuse(ChartTypeToColor(Chart))
                     self:GetChild("")[i]:GetChild("IconTrim"):visible(true)
                     self:GetChild("")[i]:GetChild("Level"):visible(true):settext(ChartMeter)
-                    self:GetChild("")[i]:GetChild("Difficulty"):visible(true):settext(StepData[2])
+                    self:GetChild("")[i]:GetChild("Difficulty"):visible(true):settext(BasicChartLabel(Chart))
                     self:GetChild("")[i]:GetChild("HighlightP1"):visible(
                         (ChartIndex[PLAYER_1] == i) and SongIsChosen and GAMESTATE:IsHumanPlayer(PLAYER_1))
                     self:GetChild("")[i]:GetChild("HighlightP2"):visible(

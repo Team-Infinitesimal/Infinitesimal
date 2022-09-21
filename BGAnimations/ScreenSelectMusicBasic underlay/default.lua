@@ -3,7 +3,23 @@ setenv("IsBasicMode", true)
 -- Not load anything if Preferred Sort is not available, this silly check is done
 -- because the game will fallback to all songs present in the game install
 if #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs() then
+    local function InputHandler(event)
+        local pn = event.PlayerNumber
+        if not pn then return end
+        
+        if event.type == "InputEventType_Release" then return end
+
+        local button = event.button
+        if button == "Back" then
+            SCREENMAN:GetTopScreen():Cancel()
+        end
+    end
+
     return Def.ActorFrame {
+        OnCommand=function(self) 
+            SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
+        end,
+        
         Def.Quad {
             InitCommand=function(self) 
                 self:FullScreen():diffuse(Color.Black):diffusealpha(0)
@@ -74,7 +90,7 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
                     :x(pn == PLAYER_2 and 360 or -360)
                 end
             end,
-            UpdateChartDisplay=function(self, params) if params.Player == pn then
+            UpdateChartDisplayMessageCommand=function(self, params) if params.Player == pn then
                 self:finishtweening():easeoutexpo(0.5):x(0) end
             end,
 

@@ -69,33 +69,64 @@ function ChartTypeToColor(Chart)
     local ChartMeter = Chart:GetMeter()
     local ChartDescription = Chart:GetDescription()
     local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
-
-    if ChartType == "Single" then
-        if string.find(ChartDescription, "SP") then
-            return Color.HoloDarkPurple
-        else
-            return color("#ff871f")
-        end
-    elseif ChartType == "Halfdouble" then
-        return Color.HoloDarkRed
-    elseif ChartType == "Double" then
-        ChartDescription:gsub("[%p%c%s]", "")
-        if string.find(string.upper(ChartDescription), "DP") or
-        string.find(string.upper(ChartDescription), "COOP") then
-            if ChartMeter == 99 then
-                return Color.Yellow
-            else
-                return Color.HoloDarkBlue
-            end
-        else
+    
+    if getenv("IsBasicMode") then
+        if ChartType == "Double" then
             return color("#21db30")
+        elseif ChartMeter <= 2 then
+            return color("#209be3")
+        elseif ChartMeter <= 4 then
+            return color("#fff700")
+        elseif ChartMeter <= 7 then
+            return color("#ff3636")
+        else
+            return color("#d317e8")
         end
-    elseif ChartType == "Couple" then
-        return Color.HoloDarkBlue
-    elseif ChartType == "Routine" then
-        return Color.Yellow
     else
-        return color("#9199D4")
+        if ChartType == "Single" then
+            if string.find(ChartDescription, "SP") then
+                return Color.HoloDarkPurple
+            else
+                return color("#ff871f")
+            end
+        elseif ChartType == "Halfdouble" then
+            return Color.HoloDarkRed
+        elseif ChartType == "Double" then
+            ChartDescription:gsub("[%p%c%s]", "")
+            if string.find(string.upper(ChartDescription), "DP") or
+            string.find(string.upper(ChartDescription), "COOP") then
+                if ChartMeter == 99 then
+                    return Color.Yellow
+                else
+                    return Color.HoloDarkBlue
+                end
+            else
+                return color("#21db30")
+            end
+        elseif ChartType == "Couple" then
+            return Color.HoloDarkBlue
+        elseif ChartType == "Routine" then
+            return Color.Yellow
+        else
+            return color("#9199D4")
+        end
+    end
+end
+
+function BasicChartLabel(Chart)
+    local ChartMeter = Chart:GetMeter()
+    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
+
+    if ChartType == "Double" then
+        return THEME:GetString("BasicMode", "Double")
+    elseif ChartMeter <= 2 then
+        return THEME:GetString("BasicMode", "Easy")
+    elseif ChartMeter <= 4 then
+        return THEME:GetString("BasicMode", "Normal")
+    elseif ChartMeter <= 7 then
+        return THEME:GetString("BasicMode", "Hard")
+    else
+        return THEME:GetString("BasicMode", "Very Hard")
     end
 end
 
