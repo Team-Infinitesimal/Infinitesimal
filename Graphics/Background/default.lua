@@ -57,7 +57,7 @@ t[#t+1] = Def.Sprite {
     Name="Circle1",
     Texture="Circle",
     InitCommand=function(self)
-        self:Center()
+        self:Center():zoom(0)
         :blend("BlendMode_Add")
         :queuecommand("Grow")
     end,
@@ -75,7 +75,7 @@ t[#t+1] = Def.Sprite {
     Texture="Circle",
     InitCommand=function(self)
         self:visible(false)
-        :Center()
+        :Center():zoom(0)
         :blend("BlendMode_Add")
         :sleep(1.7144)
         :queuecommand("Grow")

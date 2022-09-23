@@ -9,11 +9,11 @@ local Size = 1
 local Time = 0
 local OldTime = 0
 
--- Since our theme renders at 720p, correct the pixel size for
--- other resolutions (640x480, 800x600 etc)
+-- Do pixel corrections for higher resolutions, or else
+-- our starfield will look very small and nearly invisible
 local DisplayHeight = PREFSMAN:GetPreference("DisplayHeight")
-if DisplayHeight < 720 then
-    Size = 720 / DisplayHeight
+if DisplayHeight > 720 then
+    Size = DisplayHeight / 720
 end
 
 local function UpdateStars(self)
