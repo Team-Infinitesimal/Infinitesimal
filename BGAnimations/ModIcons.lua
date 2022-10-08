@@ -36,30 +36,30 @@ local t = Def.ActorFrame {
             self:GetChild("IconFrame")[i]:GetChild("Text"):visible(false):settext("")
         end
         local IconCount = 1
-        
+
         -- Update the local mods
         PlayerMods = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
         PlayerModsArray = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsArray("ModsLevel_Preferred")
-        
+
         -- 1x is not included in the engine list by default, so we need to do... this. Ew.
-        if (PlayerMods:XMod() == 1 and 
-            PlayerMods:MMod() == nil and 
-            PlayerMods:CMod() == nil and 
+        if (PlayerMods:XMod() == 1 and
+            PlayerMods:MMod() == nil and
+            PlayerMods:CMod() == nil and
             PlayerMods:AMod() == nil) then
             table.insert(PlayerModsArray, 1, "1x")
         end
-        
+
         -- Remove unneeded strings from the blacklist, normal speed if Auto Velocity is being used and Noteskin (displayed as an icon instead)
         for i, BlacklistedMod in ipairs(PlayerModsBlacklist) do
             if string.find(ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")), ToLower(BlacklistedMod)) ~= nil then
                 removeFirst(PlayerModsArray, BlacklistedMod)
             end
         end
-        
+
         -- Even though we added 1x above, we'll need it to consistently remove the engine speed so that we can apply our own auto velocity
         local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or false
         local AVType = LoadModule("Config.Load.lua")("AutoVelocityType", CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or false
-        
+
         if AV then
             table.remove(PlayerModsArray, 1)
             if not AVType then
@@ -68,28 +68,28 @@ local t = Def.ActorFrame {
                 table.insert(PlayerModsArray, 1, (AVType == "Auto" and "AV " or "C") .. AV)
             end
         end
-        
-        local CurNoteSkin = PlayerMods:NoteSkin()
+
+        local CurNoteSkin = ToLower(PlayerMods:NoteSkin())
         local OptionsNoteskin = ToLower(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred"))
         -- Hyphens will break string searching, we need to remove them and any anything else that could break
         if string.match(string.gsub(OptionsNoteskin, "%p", ""), string.gsub(CurNoteSkin, "%p", "")) ~= nil then
             removeFirst(PlayerModsArray, CurNoteSkin)
         end
-        
+
         -- Timing mode
         local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
         -- We don't want to display NJ!
         if TimingMode and TimingMode ~= "Pump Normal" then
             table.insert(PlayerModsArray, TimingMode)
         end
-        
+
         -- Translate all strings so far but speed mods
         for i = 2, #PlayerModsArray do
             local ModText = THEME:GetString("ModIcons", PlayerModsArray[i])
             -- Only override strings if translations are available
             if ModText ~= "" then PlayerModsArray[i] = ModText end
         end
-        
+
         -- BGA darkness
         local BGAFilter = LoadModule("Config.Load.lua")("ScreenFilter",CheckIfUserOrMachineProfile(pnNum).."/OutFoxPrefs.ini") or 0
         -- Increase the value so that we can use it as percentage
@@ -97,7 +97,7 @@ local t = Def.ActorFrame {
         if BGAFilter ~= 0 then
             table.insert(PlayerModsArray, 2, THEME:GetString("ModIcons", "Filter") .. " " .. (BGAFilter == 100 and "Off" or BGAFilter .. "%"))
         end
-        
+
         -- Music rate
         local RushAmount = GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate()
         if RushAmount ~= nil then
@@ -106,7 +106,7 @@ local t = Def.ActorFrame {
                 table.insert(PlayerModsArray, THEME:GetString("ModIcons", "Rush") .. "\n" .. RushAmount)
             end
         end
-        
+
         -- Populate all of the available icons
         for i = 1, (#PlayerModsArray > IconAmount and IconAmount or #PlayerModsArray) do
             self:GetChild("IconFrame")[i]:GetChild("Icon"):visible(true)
@@ -114,7 +114,7 @@ local t = Def.ActorFrame {
             IconCount = i + 1
         end
     end,
-    
+
     -- Noteskin display
     Def.Sprite {
         Texture=THEME:GetPathG("", "UI/ModIcon"),
@@ -145,7 +145,7 @@ for i = 1, IconAmount do
         Def.Sprite {
             Name="Icon",
             Texture=THEME:GetPathG("", "UI/ModIcon"),
-            InitCommand=function(self) 
+            InitCommand=function(self)
                 self:y((i > 1 and IconH or 0) + IconH * (i - 1))
                 :visible(false)
             end

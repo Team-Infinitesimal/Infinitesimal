@@ -20,15 +20,15 @@ local GradePriority = {
 local function InputHandler(event)
     local pn = event.PlayerNumber
     if not pn then return end
-    
+
     -- To avoid control from a player that has not joined, filter the inputs out
     if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
     if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
-    
+
     if event.type == "InputEventType_Repeat" or event.type == "InputEventType_Release" then return end
-    
+
     local button = event.button
-    if button == "Center" or button == "Start" then
+    if button == "Center" then
         if CenterPressCount == (CenterPress3xEnabled and 2 or 0) then
             SCREENMAN:set_input_redirected(PLAYER_1, false)
             SCREENMAN:set_input_redirected(PLAYER_2, false)
@@ -36,6 +36,8 @@ local function InputHandler(event)
         else
             CenterPressCount = CenterPressCount + 1
         end
+    elseif button == "Start" then
+        SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
     elseif button == "Back" then
         SCREENMAN:set_input_redirected(PLAYER_1, false)
         SCREENMAN:set_input_redirected(PLAYER_2, false)
@@ -51,14 +53,14 @@ local t = Def.ActorFrame {
         IsAction=true,
         OffCommand=function(self) self:play() end
     },
-    
+
     LoadActor("EvalLines"),
 
     -- TODO: Dynamically adjust the Y position relative to the amount of lines on screen?
     LoadActor("EvalSongInfo") .. {
         InitCommand=function(self) self:xy(SCREEN_CENTER_X, 140) end,
     },
-    
+
     LoadActor("../HudPanels")
 }
 
@@ -72,12 +74,12 @@ t[#t+1] = Def.ActorFrame {
         if PROFILEMAN:IsPersistentProfile(PLAYER_2) then
             GAMESTATE:StoreRankingName(PLAYER_2, PROFILEMAN:GetProfile(PLAYER_2):GetDisplayName())
         end
-        
+
         -- Used for our custom input
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
         SCREENMAN:set_input_redirected(PLAYER_1, true)
         SCREENMAN:set_input_redirected(PLAYER_2, true)
-        
+
         -- Discord RPC
         local pn = GAMESTATE:GetMasterPlayerNumber()
         local SongOrCourse = GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentCourse() or GAMESTATE:GetCurrentSong()
@@ -93,10 +95,10 @@ t[#t+1] = Def.ActorFrame {
             GAMESTATE:UpdateDiscordScreenInfo(details, states, 1)
         end
     end,
-    
+
     OffCommand=function(self) self:playcommand("EnableInput") end,
     CancelCommand=function(self) self:playcommand("EnableInput") end,
-    
+
     EnableInputCommand=function(self)
         SCREENMAN:set_input_redirected(PLAYER_1, false)
         SCREENMAN:set_input_redirected(PLAYER_2, false)
@@ -126,7 +128,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
-                
+
                 self:Load(THEME:GetPathG("", "LetterGrades/" .. Grades[pn]))
                 :diffusealpha(0):sleep(2):easeoutexpo(0.25)
                 :zoom(GradeZoom):diffusealpha(1)
@@ -145,8 +147,8 @@ t[#t+1] = Def.ActorFrame {
     OnCommand=function(self)
         self:sleep(2):queuecommand("Announcer")
     end,
-    
-    AnnouncerCommand=function(self) 
+
+    AnnouncerCommand=function(self)
         local Grade = "FailF"
         if GradePriority[Grades[PLAYER_1]] < GradePriority[Grades[PLAYER_2]] then
             Grade = Grades[PLAYER_1]
@@ -154,7 +156,7 @@ t[#t+1] = Def.ActorFrame {
             Grade = Grades[PLAYER_2]
         end
         -- SCREENMAN:SystemMessage(Grade)
-        
+
         SOUND:PlayAnnouncer(Grade)
     end
 }
