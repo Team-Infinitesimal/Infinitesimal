@@ -54,16 +54,25 @@ local function UpdateStars(self)
                             ["PosX"] = math.random(SCREEN_WIDTH * 1.25) - SCREEN_WIDTH * 0.625, 
                             ["PosY"] = math.random(SCREEN_HEIGHT * 1.25) - SCREEN_HEIGHT * 0.625, 
                             ["CurZ"] = 100 + math.random(PosZMax - 100), 
-                            ["Type"] = math.random(5), 
+                            ["Type"] = math.random(6), 
                             ["Color"] = color(math.random() .. "," .. math.random() .. "," .. math.random() .. ",1")
                         }
                     }
+                    
+                    if Star[i][1]["Type"] == 1 then
+                        self:GetChild("")[i]:zoom(Size * 2)
+                                            :rotationz(45)
+                    else
+                        self:GetChild("")[i]:zoom(Size)
+                                            :rotationz(0)
+                    end
                 end
                 
                 -- Update the position and color of the star
                 if Star[i][1]["CurZ"] > -10 then
                     self:GetChild("")[i]:xy(NewX, NewY)
                     :diffuse(color(math.random() .. "," .. math.random() .. "," .. math.random() .. ",1"))
+                    
                     -- Experimental size increase on approximation
                     --:zoom(((900 - Star[i][1]["CurZ"]) / 400) * Size)
                 end
@@ -75,13 +84,13 @@ end
 local t = Def.ActorFrame {
     InitCommand=function(self)
         self:effectperiod(math.huge)
-        :SetUpdateFunction(UpdateStars)
+            :SetUpdateFunction(UpdateStars)
     end,
     
     Def.Quad {
         InitCommand=function(self)
             self:diffuse(Color.Black)
-            :FullScreen()
+                :FullScreen()
         end
     }
 }
@@ -93,7 +102,7 @@ for i=2, StarCount do
             ["PosX"] = math.random(SCREEN_WIDTH * 1.25) - SCREEN_WIDTH * 0.625, 
             ["PosY"] = math.random(SCREEN_HEIGHT * 1.25) - SCREEN_HEIGHT * 0.625, 
             ["CurZ"] = 100 + math.random(PosZMax - 100), 
-            ["Type"] = math.random(5), 
+            ["Type"] = math.random(6), 
             ["Color"] = color(math.random() .. "," .. math.random() .. "," .. math.random() .. ",1")
         }
     }
@@ -104,6 +113,11 @@ for i=2, StarCount do
                 :y(CenterY + Star[i][1]["PosY"])
                 :diffuse(Star[i][1]["Color"])
                 :zoom(Size)
+                
+            if Star[i][1]["Type"] == 1 then
+                self:zoom(Size * 2)
+                    :rotationz(45)
+            end
         end,
     }
 end

@@ -200,5 +200,25 @@ return {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
-    }
+    },
+    TighterWindows =
+	{
+		Choices = {"Normal", "PIUIO"},
+        -- PIUIO can poll from 100 to 25hz but let's settle at the game's refresh rate (60hz).
+        -- Average sampling error = (1 / 60) / 2 = 0.008333
+		Values = {0, -0.008333},
+		LoadFunction = function(self,list)
+			local savedValue = round(PREFSMAN:GetPreference("TimingWindowAdd"), 6)
+            SM(savedValue)
+			for i,v2 in ipairs(self.Values) do
+				if savedValue == v2 then list[i] = true return end
+			end
+			list[1] = true
+		end,
+		SaveFunction = function(self,list)
+			for i,v2 in ipairs(self.Values) do
+				if list[i] then PREFSMAN:SetPreference("TimingWindowAdd",v2) return end
+			end
+		end
+	}
 }
