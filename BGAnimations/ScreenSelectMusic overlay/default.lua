@@ -69,15 +69,15 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             local side = (pn == PLAYER_1 and SCREEN_LEFT or SCREEN_RIGHT)
             local alignment = (pn == PLAYER_1 and 0 or 1)
 
-            if pn == PLAYER_1 then self:faderight(50) else self:fadeleft(50) end
+            if pn == PLAYER_1 then self:faderight(50) else self:fadeleft(75) end
 
-            self:diffuse(1,1,1,1):halign(alignment):xy(side, SCREEN_CENTER_Y-70):zoomto(50, 360)
+            self:diffuse(1,1,1,1):halign(alignment):xy(side, SCREEN_CENTER_Y-70):zoomto(0, 360)
         end,
         CodeMessageCommand=function(self, params)
             if params.Name == "OpenOpList" and params.PlayerNumber == pn then
-                self:diffusealpha(100)
+                self:diffusealpha(100):zoomto(0, 360)
                 :linear(0.25)
-                :diffusealpha(0)
+                :diffusealpha(0):zoomto(60, 360)
             end
         end
     }
