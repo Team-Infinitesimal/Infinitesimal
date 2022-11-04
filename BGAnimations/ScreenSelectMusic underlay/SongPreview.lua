@@ -14,12 +14,73 @@ local t = Def.ActorFrame {
         Texture=((_G["Secret"] == true) and THEME:GetPathG("", "MusicWheel/SecretPreviewFrame") or THEME:GetPathG("", "MusicWheel/PreviewFrame"))
     },
 
-    Def.Sprite {
-        Texture=THEME:GetPathG("", "Noise"),
-        InitCommand=function(self)
-            self:zoomto(FrameW, FrameH)
-            :texcoordvelocity(24,16)
-        end
+    Def.ActorFrame {
+        Name="Noise",
+
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "Noise"),
+            InitCommand=function(self)
+                self:zoomto(FrameW, FrameH)
+                :texcoordvelocity(24,16)
+            end
+        },
+
+        Def.BitmapText {
+            Name="NextPrevText",
+            Font="VCR OSD Mono 40px",
+            Text="",
+            InitCommand=function(self)
+                self:zoom(2):y(-40)
+                :shadowlength(4)
+                --:shadowcolor(0,0,0)
+            end,
+            NextSongMessageCommand=function(self)
+                self:stoptweening()
+                :settext("NEXT")
+                :zoom(2.1)
+                :easeoutquad(0.2)
+                :zoom(2)
+            end,
+            PreviousSongMessageCommand=function(self)
+                self:stoptweening()
+                :settext("PREV")
+                :zoom(2.1)
+                :easeoutquad(0.2)
+                :zoom(2)
+            end,
+        },
+
+        Def.BitmapText {
+            Name="Arrows",
+            Font="VCR OSD Mono 40px",
+            Text=" ",
+            InitCommand=function(self)
+                arr_width = self:GetWidth()
+                self:zoom(2):y(40)
+                :shadowlength(4)
+                --:shadowcolor(0,0,0)
+            end,
+            NextSongMessageCommand=function(self)
+                self:stoptweening():queuecommand("LoopForward")
+            end,
+            PreviousSongMessageCommand=function(self)
+                self:stoptweening():queuecommand("LoopBackward")
+             end,
+            LoopForwardCommand=function(self)
+                self:settext(">")
+                :x(arr_width * -1.5):sleep(0.1)
+                :x(0):sleep(0.1)
+                :x(arr_width * 1.5):sleep(0.1)
+                :queuecommand("LoopForward")
+            end,
+            LoopBackwardCommand=function(self)
+                self:settext("<")
+                :x(arr_width * 1.5):sleep(0.1)
+                :x(0):sleep(0.1)
+                :x(arr_width * -1.5):sleep(0.1)
+                :queuecommand("LoopBackward")
+            end,
+        }
     },
 
     Def.Sprite {
@@ -107,7 +168,7 @@ t[#t+1] = Def.ActorFrame {
             self:GetChild("Title"):settext(TitleText)
             self:GetChild("Artist"):settext(AuthorText)
             self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
-            
+
             if GAMESTATE:IsEventMode() then
                 self:GetChild("Length"):visible(true):settext(SecondsToMMSS(Song:MusicLengthSeconds()))
                 self:GetChild("HeartsIcon"):visible(false)
@@ -163,7 +224,7 @@ t[#t+1] = Def.ActorFrame {
             :y(-FrameH / 2 + 5)
         end,
     },
-    
+
     Def.BitmapText {
         Font="Montserrat semibold 40px",
         Name="Hearts",
