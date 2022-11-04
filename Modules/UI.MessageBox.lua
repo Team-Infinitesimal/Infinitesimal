@@ -66,7 +66,7 @@ return function(PosX, PosY, BoxWidth, DelayTime, DisplayTime, Title, Body)
             Name="TitleText",
             Font="Montserrat semibold 40px",
             InitCommand=function(self)
-                self:zoom(0.5):skewx(-0.1):halign(0):valign(0):shadowlength(1)
+                self:zoom(0.5):skewx(-0.1):halign(0):valign(0):shadowlength(1):diffusealpha(0)
                 :maxwidth(BoxWidth / 0.5 - 5)
                 :xy(PosX + 5, PosY + 5)
                 :settext(Title)
@@ -74,6 +74,7 @@ return function(PosX, PosY, BoxWidth, DelayTime, DisplayTime, Title, Body)
             end,
             OnCommand=function(self)
                 self:sleep(DelayTime)
+                :diffusealpha(1)
                 :easeoutexpo(0.5)
                 :y(PosY - 18)
                 :sleep(DisplayTime):queuecommand("Off")
