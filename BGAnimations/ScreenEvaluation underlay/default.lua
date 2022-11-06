@@ -135,6 +135,20 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             end
 		},
 
+        Def.Sprite {
+            InitCommand=function(self)
+                local GradeX = IsUsingWideScreen() and 300 or 260
+                self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y + 6)
+
+                local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+                Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
+
+                self:Load(THEME:GetPathG("", "LetterGrades/" .. Grades[pn]))
+                :diffusealpha(0):sleep(2.15):diffusealpha(0.8):zoom(GradeZoom):linear(0.75)
+                :zoom(GradeZoom * 1.5):diffusealpha(0)
+            end
+        },
+
         Def.Sound {
             File=THEME:GetPathS("", "EvalLetterHit"),
             InitCommand=function(self) self:sleep(2):queuecommand("Play") end,
