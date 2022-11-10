@@ -8,6 +8,7 @@ end
 -- so we will reset all custom mods we have to avoid any weird situations
 function ResetLuaMods(pn)
     LastSongIndex = 0
+    local CarryJudgment = LoadModule("Config.Load.lua")("CarryJudgment", "Save/OutFoxPrefs.ini")
     local ProfileDir = "Save/MachineProfile/OutFoxPrefsForPlayerp" .. string.sub(pn,-1) .. "/OutFoxPrefs.ini"
     LoadModule("Config.Save.lua")("AutoVelocity", tostring(200), ProfileDir)
     LoadModule("Config.Save.lua")("AutoVelocityType", tostring(false), ProfileDir)
@@ -19,7 +20,7 @@ function ResetLuaMods(pn)
     LoadModule("Config.Save.lua")("JudgmentItems", tostring(false), ProfileDir)
     LoadModule("Config.Save.lua")("ScoreDisplay", tostring(false), ProfileDir)
     LoadModule("Config.Save.lua")("SongProgress", tostring(false), ProfileDir)
-    if IsArcade() then
+    if IsArcade() or (CarryJudgment == false) then
         LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
     end
 end
@@ -69,7 +70,7 @@ function ChartTypeToColor(Chart)
     local ChartMeter = Chart:GetMeter()
     local ChartDescription = Chart:GetDescription()
     local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
-    
+
     if getenv("IsBasicMode") then
         if ChartType == "Double" then
             return color("#21db30")

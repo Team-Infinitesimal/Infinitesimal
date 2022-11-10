@@ -244,7 +244,7 @@ local function InputHandler(event)
                 SCREENMAN:GetTopScreen():Finish()
             end
         end
-    
+
     elseif button == "Up" or button == "MenuUp" or button == "MenuLeft" or button == "DownLeft" then
         if GAMESTATE:IsHumanPlayer(pn) then
             local ind = SCREENMAN:GetTopScreen():GetProfileIndex(pn)
@@ -264,7 +264,7 @@ local function InputHandler(event)
                 end
             end
         end
-    
+
     elseif button == "Back" then
         -- Let"s simplify things to avoid crashes whenever being utilized out of order
         SCREENMAN:GetTopScreen():Cancel()
@@ -276,7 +276,7 @@ local t = Def.ActorFrame {
         SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
         self:queuecommand("UpdateInternal2")
     end,
-    
+
     StorageDevicesChangedMessageCommand=function(self)
         self:queuecommand("UpdateInternal2")
     end,
@@ -288,7 +288,7 @@ local t = Def.ActorFrame {
     PlayerUnjoinedMessageCommand=function(self)
         self:queuecommand("UpdateInternal2")
     end,
-    
+
     DirectionButtonMessageCommand=function(self)
         self:queuecommand("UpdateInternal2")
     end,
@@ -301,7 +301,7 @@ local t = Def.ActorFrame {
     children = {
         Def.ActorFrame {
             Name="P1Frame",
-            InitCommand=function(self) self:x(SCREEN_CENTER_X-200):y(SCREEN_CENTER_Y):zoom(0):easeoutexpo(1):zoom(1) end,
+            OnCommand=function(self) self:x(SCREEN_CENTER_X-200):y(SCREEN_CENTER_Y):zoom(0):easeoutexpo(1):zoom(1) end,
             OffCommand=function(self) self:stoptweening():easeinback(0.5):zoom(0) end,
             PlayerJoinedMessageCommand=function(self, params)
                 if params.Player == PLAYER_1 then
@@ -313,7 +313,7 @@ local t = Def.ActorFrame {
 
         Def.ActorFrame {
             Name="P2Frame",
-            InitCommand=function(self) self:x(SCREEN_CENTER_X+200):y(SCREEN_CENTER_Y):zoom(0):easeoutexpo(1):zoom(1) end,
+            OnCommand=function(self) self:x(SCREEN_CENTER_X+200):y(SCREEN_CENTER_Y):zoom(0):easeoutexpo(1):zoom(1) end,
             OffCommand=function(self) self:stoptweening():easeinback(0.5):zoom(0) end,
             PlayerJoinedMessageCommand=function(self, params)
                 if params.Player == PLAYER_2 then

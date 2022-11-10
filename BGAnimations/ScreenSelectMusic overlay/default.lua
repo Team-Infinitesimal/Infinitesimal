@@ -12,11 +12,20 @@ local t = Def.ActorFrame {
 }
 
 if GAMESTATE:GetNumSidesJoined() < 2 then
+    local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.35 or -0.35)
+    local PosY = (IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35)
+
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
-            local PosX = SCREEN_CENTER_X + SCREEN_WIDTH * (GAMESTATE:IsSideJoined(PLAYER_1) and 0.35 or -0.35)
-            self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), (IsUsingWideScreen() and (SCREEN_HEIGHT * 0.4) or SCREEN_HEIGHT * 0.35))
+            self:xy((IsUsingWideScreen() and PosX or (PosX * 1.045)), PosY)
             :playcommand('Refresh')
+        end,
+
+        SongChosenMessageCommand=function(self)
+            self:stoptweening():easeoutquad(0.25):y(PosY - 40)
+        end,
+        SongUnchosenMessageCommand=function(self)
+            self:stoptweening():easeoutquad(0.25):y(PosY)
         end,
 
         CoinInsertedMessageCommand=function(self) self:playcommand('Refresh') end,

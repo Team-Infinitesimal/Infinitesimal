@@ -220,5 +220,11 @@ return {
 				if list[i] then PREFSMAN:SetPreference("TimingWindowAdd",v2) return end
 			end
 		end
-	}
+	},
+    CarryJudgment =
+    {
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
 }
