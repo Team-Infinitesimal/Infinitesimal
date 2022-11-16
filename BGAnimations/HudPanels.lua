@@ -144,10 +144,14 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Def.BitmapText {
                     Font="Montserrat semibold 20px",
                     -- This ingenious level system was made up at 4am
-                    Text=THEME:GetString("ProfileStats", "Level") .. " " .. math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1,
                     InitCommand=function(self)
                         self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and 281 or -281), SCREEN_BOTTOM - 26):zoom(0.9)
                         :maxwidth(96 / self:GetZoom()):skewx(-0.2):shadowlength(1)
+                        lvl = math.floor(math.sqrt(PROFILEMAN:GetProfile(pn):GetTotalDancePoints() / 500)) + 1
+                        -- You can check if a number is "nan" by comparing it to itself
+                        -- because "nan" is not equal to anything, not even itself
+                        if (lvl < 0) or (lvl ~= lvl) then lvl = 0 end
+                        self:settext(THEME:GetString("ProfileStats", "Level") .. " " .. lvl)
                     end
                 },
 
