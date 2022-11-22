@@ -33,7 +33,7 @@ local function InputHandler(event)
     local button = event.button
     
     -- If an unjoined player attempts to join and has enough credits, join them
-    if button == "Start" or button == "MenuStart" or button == "Center" and 
+    if (button == "Center" or (not IsGame("pump") and button == "Start")) and 
         not GAMESTATE:IsSideJoined(pn) and GAMESTATE:GetCoins() >= GAMESTATE:GetCoinsNeededToJoin() then
         GAMESTATE:JoinPlayer(pn)
         -- The command above does not deduct credits so we'll do it ourselves
