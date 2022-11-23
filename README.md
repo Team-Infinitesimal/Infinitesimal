@@ -64,7 +64,6 @@ If you're looking for assets such as more noteskins or folder icons from StepF2/
 The theme currently has a few limitations that are beyond our reach. Here is a list of known limitations and issues:
 * Some chart effects will be missing or broken from incomplete parsing
 * Chart previews are very experimental - some styles might not load/show properly and your game might crash on edge cases
-* Switching timing modes does not update the list of judgement graphics, reloading scripts (Ctrl+F2) or restarting the game will regenerate the list
 * Infinitesimal has a few issues when running on Project OutFox Alpha V that are being investigated. Stick with standalone Alpha 4 LTS for the time being when playing Infinitesimal
 
 Hopefully all of these should be gone soon with future Project OutFox developments and improvements!
