@@ -8,7 +8,7 @@
 This theme is inspired by Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilizing original assets when possible, bringing high performance + cross-platform support to the table with Project OutFox and widening the idea and accessibility of custom Pump It Up content.
 
 ## Requirements
-* [Project OutFox Alpha 0.4.15.1 or newer](https://projectoutfox.com/downloads)
+* [Project OutFox Alpha 0.4.18.1 or newer](https://projectoutfox.com/downloads)
 
 Older StepMania versions such as `5.0.12`, `5.1b2` and `5.1-new` are not supported due to the lack of maintenance to `pump/piu` and the engine in general. Support the developers from Team OutFox who are currently doing the heavy lifting!
 
@@ -62,9 +62,10 @@ If you're looking for assets such as more noteskins or folder icons from StepF2/
 
 ## Current Limitations and Issues
 The theme currently has a few limitations that are beyond our reach. Here is a list of known limitations and issues:
-* Some chart effects will be missing or broken from incomplete parsing;
-* Chart previews are very experimental - some styles might not load/show properly and your game might crash on edge cases;
-* Switching timing modes does not update the list of judgement graphics, reloading scripts (Ctrl+F2) or restarting the game will regenerate the list.
+* Some chart effects will be missing or broken from incomplete parsing
+* Chart previews are very experimental - some styles might not load/show properly and your game might crash on edge cases
+* Switching timing modes does not update the list of judgement graphics, reloading scripts (Ctrl+F2) or restarting the game will regenerate the list
+* Infinitesimal has a few issues when running on Project OutFox Alpha V that are being investigated. Stick with standalone Alpha 4 LTS for the time being when playing Infinitesimal
 
 Hopefully all of these should be gone soon with future Project OutFox developments and improvements!
 
