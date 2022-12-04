@@ -56,6 +56,7 @@ The following features can be configured via the Infinitesimal Options submenu o
 Currently, Infinitesimal supports the following languages:
 * English
 * Brazilian Portuguese
+* Polish
 
 ## Additional Resources
 If you're looking for assets such as more noteskins or folder icons from StepF2/P1, you can grab them [here](https://drive.google.com/drive/folders/1pO9rbaPUwTTDFuEo_4tX8S1BEwmfukeF?usp=sharing). Keep in mind these are independent from the theme and are only here for accessibility purposes to newcomers.
