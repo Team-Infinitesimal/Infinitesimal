@@ -99,8 +99,11 @@ local t = Def.ActorFrame {
 				self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
 				self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
 				
-				self:GetChild("ProMeter"):finishtweening():x(MeterHotPro and 0 or -20):linear(0.1):cropright(1 - (ProLifebarCrop * (LifeAmount - 1)))
-				self:GetChild("ProPulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * (ProLifebarCrop * (LifeAmount - 1)))) - 20)
+				local ProLifeAmount = ProLifebarCrop * (LifeAmount - 1)
+				if ProLifeAmount < 0 then ProLifeAmount = 0 end
+				
+				self:GetChild("ProMeter"):finishtweening():x(MeterHotPro and 0 or -20):linear(0.1):cropright(1 - ProLifeAmount)
+				self:GetChild("ProPulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * ProLifeAmount)) - 20)
 			else
 				-- Normal lifebar shenanigans
 				if LifeAmount >= 1 and not MeterHot then
