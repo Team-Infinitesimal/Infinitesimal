@@ -6,6 +6,7 @@ local BarW = math.ceil(GAMESTATE:GetCurrentStyle():GetWidth(pn) * 1.5)
 local BarH = 30
 
 local MeterHot = false
+local MeterHotPro = false
 local MeterDanger = false
 local MeterFail = false
 
@@ -21,9 +22,33 @@ end
 local IsReverse = GAMESTATE:GetPlayerState(pn):GetCurrentPlayerOptions():Reverse() > 0 and ShouldReverse
 local ScoreDisplay = LoadModule("Config.Load.lua")("ScoreDisplay", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini")
 local SongProgress = LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini")
+local ProLifebar = LoadModule("Config.Load.lua")("ProLifebar", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini") and string.find(TimingMode, "Pump")
+local ProLifebarMax = 1
+local ProLifebarCrop = 1
 
 local t = Def.ActorFrame {
-    InitCommand=function(self) self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100) end,
+    InitCommand=function(self) 
+		self:SetUpdateFunction(MeterUpdate):addy(IsReverse and 100 or -100)
+		
+		if ProLifebar then
+			local StepData = GAMESTATE:GetCurrentSteps(pn)
+			local StepLevel = StepData:GetMeter()
+			-- Temporarily raise three decimals for the overflow formula
+			ProLifebarMax = 1000
+			-- Limit co-op and other level >30 charts
+			if StepLevel > 30 then
+				ProLifebarMax = ProLifebarMax + 2700
+			else
+				ProLifebarMax = ProLifebarMax + StepLevel * StepLevel * 3
+			end
+			-- Bring the value back to our smaller, usable number
+			ProLifebarMax = ProLifebarMax / 1000
+			-- The Pro lifebar crop should only start to change when life reaches overflow,
+			-- so for our calculations we will subtract the normal life limit of 1
+			ProLifebarCrop = 1 / (ProLifebarMax - 1)
+		end
+	end,
+	
     OnCommand=function(self) self:easeoutexpo(1):addy(IsReverse and -100 or 100):playcommand("Refresh", {Player = pn, Life = 0.5}) end,
     
     -- This message command is only used if the Gameplay.Life module is active. Due to it being able to
@@ -54,13 +79,41 @@ local t = Def.ActorFrame {
                 MeterDanger = false
             end
             
-            if LifeAmount >= 1 and not MeterHot then
-                self:GetChild("RainbowMeter"):stoptweening():linear(0.5):diffusealpha(1)
-                MeterHot = true
-            elseif LifeAmount < 1 and MeterHot then
-                self:GetChild("RainbowMeter"):diffusealpha(0)
-                MeterHot = false
-            end
+			-- Let's branch out this code so that things aren't too messy/hard to understand
+			if ProLifebar then
+				-- Only show the rainbow meter if the overflow health is full
+				if LifeAmount >= ProLifebarMax and not MeterHotPro then
+					self:GetChild("RainbowMeter"):stoptweening():linear(0.5):diffusealpha(1)
+					MeterHotPro = true
+				elseif LifeAmount < ProLifebarMax and MeterHotPro then
+					self:GetChild("RainbowMeter"):diffusealpha(0)
+					MeterHotPro = false
+				end
+				
+				if LifeAmount >= 1 and not MeterHot then
+					MeterHot = true
+				elseif LifeAmount < 1 and MeterHot then
+					MeterHot = false
+				end
+				
+				self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
+				self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
+				
+				self:GetChild("ProMeter"):finishtweening():x(MeterHotPro and 0 or -20):linear(0.1):cropright(1 - (ProLifebarCrop * (LifeAmount - 1)))
+				self:GetChild("ProPulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * (ProLifebarCrop * (LifeAmount - 1)))) - 20)
+			else
+				-- Normal lifebar shenanigans
+				if LifeAmount >= 1 and not MeterHot then
+					self:GetChild("RainbowMeter"):stoptweening():linear(0.5):diffusealpha(1)
+					MeterHot = true
+				elseif LifeAmount < 1 and MeterHot then
+					self:GetChild("RainbowMeter"):diffusealpha(0)
+					MeterHot = false
+				end
+				
+				self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
+				self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
+			end
             
             local PlayerOptions = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
             if LifeAmount <= 0 and not MeterFail then
@@ -68,9 +121,6 @@ local t = Def.ActorFrame {
             elseif LifeAmount > 0 and MeterFail and (PlayerOptions:FailSetting() == "FailType_Off") then
                 MeterFail = false
             end
-            
-            self:GetChild("Meter"):finishtweening():x(MeterHot and 0 or -20):linear(0.1):cropright(1 - LifeAmount)
-            self:GetChild("Pulse"):finishtweening():linear(0.1):x(-(((BarW - 12) / 2) - ((BarW - 12) * LifeAmount)) - 20)
         end
     end,
 
@@ -137,6 +187,27 @@ local t = Def.ActorFrame {
             :MaskDest():ztestmode("ZTestMode_WriteOnFail")
         end
     },
+	
+	Def.Quad {
+        Name="ProMeter",
+        InitCommand=function(self)
+            self:zoomto(BarW - 12, BarH - 12):x(-20):cropright(1)
+            :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
+            :diffusebottomedge(Color.White)
+            :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+        end
+    },
+
+    Def.Quad {
+        Name="ProPulse",
+        InitCommand=function(self)
+            self:zoomto(20, BarH - 12):halign(0):x(-20 - BarW / 2)
+            :diffuse(pn == PLAYER_1 and color("#f7931e") or color("#ab78f5"))
+            :diffusebottomedge(Color.White)
+            self:bounce():effectmagnitude(-20,0,0):effectclock("bgm"):effecttiming(1,0,0,0)
+            :MaskDest():ztestmode("ZTestMode_WriteOnFail")
+        end
+    },
 
     Def.Sprite {
         Name="RainbowMeter",
@@ -175,7 +246,7 @@ local t = Def.ActorFrame {
     }
 }
 
-if LoadModule("Config.Load.lua")("SongProgress", CheckIfUserOrMachineProfile(string.sub(pn, -1) - 1).."/OutFoxPrefs.ini") then
+if SongProgress then
     t[#t+1] = Def.ActorFrame {
         Def.SongMeterDisplay {
             InitCommand=function(self)

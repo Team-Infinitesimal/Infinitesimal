@@ -37,7 +37,6 @@ return function(pn)
         InitCommand=function(self)
             local StepData = GAMESTATE:GetCurrentSteps(pn)
             local StepLevel = StepData:GetMeter()
-            local StepType = StepData:GetStepsType()
             
             -- Limit co-op and other level >30 charts
             if StepLevel > 30 then
@@ -82,7 +81,7 @@ return function(pn)
                 if FactorMultiplier > FactorMax then FactorMultiplier = FactorMax end
                 
                 local LifeOutput = LifeValue / 1000
-                if LifeOutput > 1 then LifeOutput = 1 end
+                --if LifeOutput > 1 then LifeOutput = 1 end
                 --SCREENMAN:SystemMessage(LifeValue / 1000 .. " / " .. FactorMultiplier)
                 
                 MESSAGEMAN:Broadcast("UpdateLife", {Player = pn, Life = LifeOutput})

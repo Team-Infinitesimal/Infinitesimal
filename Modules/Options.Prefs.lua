@@ -117,6 +117,13 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
+	ProLifebar =
+    {
+		UserPref = true,
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
     CenterChartList =
     {
         Default = true,
