@@ -2,7 +2,7 @@ local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPref
 
 local t = Def.ActorFrame {}
 
-if LoadModule("Config.Load.lua")("StarField","Save/OutFoxPrefs.ini") or not GAMESTATE:GetCurrentSong():HasBackground() then
+if LoadModule("Config.Load.lua")("StarField","Save/OutFoxPrefs.ini") then
     t[#t+1] = Def.ActorFrame {
         LoadActor("StarField")
     }
