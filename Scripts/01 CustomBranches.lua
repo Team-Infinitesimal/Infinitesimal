@@ -49,7 +49,9 @@ CustomBranch = {
         end
     end,
     AfterSelectProfile = function()
-        if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) or GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() then
+        UseBasicMode = LoadModule("Config.Load.lua")("BasicMode","Save/OutFoxPrefs.ini") or false
+        
+        if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) or GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() or not UseBasicMode then
             setenv("IsBasicMode", false)
         else
             setenv("IsBasicMode", true)
