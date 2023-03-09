@@ -124,6 +124,12 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
+    BasicMode =
+    {
+        Default = true,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
     CenterChartList =
     {
         Default = true,
