@@ -1,3 +1,5 @@
+local UseBasicMode
+
 -- Fallback fix
 Branch.TitleMenu = function()
     -- home mode is the most assumed use of sm-ssc.
@@ -16,9 +18,11 @@ Branch.TitleMenu = function()
 end
 
 function SelectMusicOrCourse()
+    UseBasicMode = LoadModule("Config.Load.lua")("BasicMode","Save/OutFoxPrefs.ini") or false
+    
     if GAMESTATE:IsCourseMode() then
         return "ScreenSelectCourse"
-    elseif getenv("IsBasicMode") then
+    elseif getenv("IsBasicMode") and UseBasicMode then
         return "ScreenSelectMusicBasic"
     else
         return "ScreenSelectMusic"
@@ -41,11 +45,13 @@ CustomBranch = {
         if PROFILEMAN:GetNumLocalProfiles() > 0 then
             return "ScreenSelectProfile"
         else
-            return "ScreenSelectMusicBasic"
+            return SelectMusicOrCourse()
         end
     end,
     AfterSelectProfile = function()
-        if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) or GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() then
+        UseBasicMode = LoadModule("Config.Load.lua")("BasicMode","Save/OutFoxPrefs.ini") or false
+        
+        if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) or GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() or not UseBasicMode then
             setenv("IsBasicMode", false)
         else
             setenv("IsBasicMode", true)
