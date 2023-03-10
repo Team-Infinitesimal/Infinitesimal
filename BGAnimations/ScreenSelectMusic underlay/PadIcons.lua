@@ -25,9 +25,9 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
         RefreshCommand=function(self)
             local GameType = GAMESTATE:GetCurrentGame():GetName():gsub("^%l", string.upper)
             local StepsType = ToEnumShortString(ToEnumShortString(GAMESTATE:GetCurrentSteps(pn):GetStepsType()))
-            if GameType == "pump" or GameType == "dance" then
+            if GameType == "Pump" or GameType == "Dance" or GameType == "Techno" then
                 local IconPath = "UI/PadIcons/"..GameType.."/"..StepsType
-                if StepsType == "Single" or StepsType == "Solo" or StepsType == "Threepanel" then
+                if string.sub(StepsType,1,6) == "Single" or StepsType == "Solo" or StepsType == "Threepanel" then
                     IconPath = string.format(IconPath.."P%s", (pn == PLAYER_1 and 1 or 2))
                 end
                 self:Load(THEME:GetPathG("", IconPath))
