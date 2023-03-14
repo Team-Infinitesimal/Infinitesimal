@@ -23,13 +23,14 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
         CurrentChartChangedMessageCommand=function(self) if SongIsChosen then self:playcommand("Refresh") end end,
         
         RefreshCommand=function(self)
+            local GameType = GAMESTATE:GetCurrentGame():GetName():gsub("^%l", string.upper)
             local StepsType = ToEnumShortString(ToEnumShortString(GAMESTATE:GetCurrentSteps(pn):GetStepsType()))
-            if StepsType == "Single" then
-                self:Load(THEME:GetPathG("", string.format("UI/PadIcons/p%ssingle", (pn == PLAYER_1 and 1 or 2))))
-            elseif StepsType == "Halfdouble" then
-                self:Load(THEME:GetPathG("", "UI/PadIcons/halfdouble"))
-            elseif StepsType == "Double" then
-                self:Load(THEME:GetPathG("", "UI/PadIcons/double"))
+            if GameType == "Pump" or GameType == "Dance" or GameType == "Techno" then
+                local IconPath = "UI/PadIcons/"..GameType.."/"..StepsType
+                if string.sub(StepsType,1,6) == "Single" or StepsType == "Solo" or StepsType == "Threepanel" then
+                    IconPath = string.format(IconPath.."P%s", (pn == PLAYER_1 and 1 or 2))
+                end
+                self:Load(THEME:GetPathG("", IconPath))
             end
         end
     }
