@@ -1,7 +1,7 @@
 -- Majority of code borrowed from Mr. ThatKid and Sudospective
 
-local NotefieldRenderBefore = 300 --THEME:GetMetric("Player","DrawDistanceBeforeTargetsPixels")
-local NotefieldRenderAfter = 0 --THEME:GetMetric("Player","DrawDistanceAfterTargetsPixels")
+local NotefieldRenderBefore = THEME:GetMetric("Player","DrawDistanceBeforeTargetsPixels") -- 300
+local NotefieldRenderAfter = THEME:GetMetric("Player","DrawDistanceAfterTargetsPixels") -- 0
 local ReceptorPosNormal = THEME:GetMetric("Player","ReceptorArrowsYStandard")
 local ReceptorPosReverse = THEME:GetMetric("Player","ReceptorArrowsYReverse")
 local ReceptorOffset = ReceptorPosReverse - ReceptorPosNormal
@@ -9,6 +9,7 @@ local NotefieldY = (ReceptorPosNormal + ReceptorPosReverse) / 2
 
 local PlayerPos = GAMESTATE:GetNumPlayersEnabled() == 1 and "OnePlayerTwoSides" or "TwoPlayersTwoSides"
 local PreviewDelay = THEME:GetMetric("ScreenSelectMusic", "SampleMusicDelay")
+local AFTWidth = GAMESTATE:GetNumPlayersEnabled() == 1 and 640 or 320
 
 local STCache = {}
 
@@ -37,64 +38,89 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
         Name="Player" .. ToEnumShortString(pn),
         FOV=45,
         InitCommand=function(self)
-            self:x(THEME:GetMetric('ScreenGameplay', 'Player' .. ToEnumShortString(pn) .. PlayerPos .. 'X') - SCREEN_CENTER_X)
-            :zoom(SCREEN_HEIGHT / 480):visible(false)
+            self:x((THEME:GetMetric('ScreenGameplay', 'Player' .. ToEnumShortString(pn) .. PlayerPos .. 'X') - SCREEN_CENTER_X) / 1.5):visible(false)
         end,
 
         SongChosenMessageCommand=function(self) self:visible(true) end,
         SongUnchosenMessageCommand=function(self) self:visible(false) end,
-
-        Def.NoteField {
-            Name = "NotefieldPreview",
-            Player = pnNoteField,
-            NoteSkin = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptions('ModsLevel_Preferred'):NoteSkin(),
-            DrawDistanceAfterTargetsPixels = NotefieldRenderAfter,
-            DrawDistanceBeforeTargetsPixels = NotefieldRenderBefore,
-            YReverseOffsetPixels = ReceptorOffset,
-            FieldID=1,
-            OnCommand=function(self)
-                self:y(NotefieldY):GetPlayerOptions("ModsLevel_Current"):StealthPastReceptors(true, true)
-                self:AutoPlay(true)
-
-                LoadModule("Player.SetSpeed.lua")(pn)
-                local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
-                self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+        
+        Def.ActorFrameTexture {
+            InitCommand=function(self)
+                self:SetTextureName("AFT" .. ToEnumShortString(pn))
+                self:SetWidth(AFTWidth):SetHeight(480)
+                self:EnableAlphaBuffer(true)
+                self:Create()
             end,
+            
+            --[[ Debug
+            Def.Quad {
+                InitCommand=function(self)
+                    self:FullScreen():diffuse(Color.Blue):diffusealpha(0.9)
+                end,
+            }, ]]
 
-            CurrentStepsP1ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
-            CurrentStepsP2ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
-            OptionsListStartMessageCommand=function(self) self:playcommand("Refresh") end,
+            Def.NoteField {
+                Name = "NotefieldPreview",
+                Player = pnNoteField,
+                NoteSkin = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptions('ModsLevel_Preferred'):NoteSkin(),
+                DrawDistanceAfterTargetsPixels = NotefieldRenderAfter,
+                DrawDistanceBeforeTargetsPixels = NotefieldRenderBefore,
+                YReverseOffsetPixels = ReceptorOffset,
+                FieldID=1,
+                OnCommand=function(self)
+                    self:xy(AFTWidth / 2, 240):addy(NotefieldY)
+                    :GetPlayerOptions("ModsLevel_Current")
+                    :StealthPastReceptors(true, true)
+                    
+                    self:AutoPlay(true)
 
-            RefreshCommand=function(self)
-                self:AutoPlay(false)
-                local ChartArray = nil
+                    LoadModule("Player.SetSpeed.lua")(pn)
+                    local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
+                    self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+                end,
 
-                local Song = GAMESTATE:GetCurrentSong()
-                if Song then ChartArray = Song:GetAllSteps() else return end
+                CurrentStepsP1ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
+                CurrentStepsP2ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
+                OptionsListStartMessageCommand=function(self) self:playcommand("Refresh") end,
 
-                local Steps = GAMESTATE:GetCurrentSteps(pn)
-                local StepsType = Steps:GetStepsType()
-                --SCREENMAN:SystemMessage(StepsType)
+                RefreshCommand=function(self)
+                    self:AutoPlay(false)
+                    local ChartArray = nil
 
-                LoadModule("Player.SetSpeed.lua")(pn)
-                local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
-                self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+                    local Song = GAMESTATE:GetCurrentSong()
+                    if Song then ChartArray = Song:GetAllSteps() else return end
 
-                if not STCache[pn] or STCache[pn] ~= StepsType then
-                    self:ChangeReload(Steps)
-                    STCache[pn] = StepsType
+                    local Steps = GAMESTATE:GetCurrentSteps(pn)
+                    local StepsType = Steps:GetStepsType()
+                    --SCREENMAN:SystemMessage(StepsType)
+
+                    LoadModule("Player.SetSpeed.lua")(pn)
+                    local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
+                    self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+
+                    if not STCache[pn] or STCache[pn] ~= StepsType then
+                        self:ChangeReload(Steps)
+                        STCache[pn] = StepsType
+                    end
+
+                    local ChartIndex = GetCurrentChartIndex(pnNoteField, ChartArray)
+                    if not ChartIndex then return end
+
+                    local NoteData = Song:GetNoteData(ChartIndex)
+                    if not NoteData then return end
+
+                    self:SetNoteDataFromLua({})
+                    --SCREENMAN:SystemMessage("Loading ChartIndex!")
+                    self:SetNoteDataFromLua(NoteData)
+                    self:AutoPlay(true)
                 end
-
-                local ChartIndex = GetCurrentChartIndex(pnNoteField, ChartArray)
-                if not ChartIndex then return end
-
-                local NoteData = Song:GetNoteData(ChartIndex)
-                if not NoteData then return end
-
-                self:SetNoteDataFromLua({})
-                --SCREENMAN:SystemMessage("Loading ChartIndex!")
-                self:SetNoteDataFromLua(NoteData)
-                self:AutoPlay(true)
+            }
+        },
+        
+        Def.Sprite {
+            Texture="AFT" .. ToEnumShortString(pn),
+            InitCommand=function(self)
+                self:zoomto(AFTWidth, 480)
             end
         }
     }

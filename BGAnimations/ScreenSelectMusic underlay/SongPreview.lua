@@ -126,20 +126,21 @@ local t = Def.ActorFrame {
 if LoadModule("Config.Load.lua")("ChartPreview", "Save/OutFoxPrefs.ini") then
     t[#t+1] = Def.ActorFrame {
         InitCommand=function(self)
-            self:y(75):zoom(0.75)
+            self:y(0):zoom(0.75)
         end,
         OnCommand=function(self)
             if GAMESTATE:GetCurrentSong() then
                 self:AddChildFromPath(THEME:GetPathB("", "NotefieldPreview"))
             end
         end,
+        --[[
         Def.Quad {
             InitCommand=function(self)
-                self:y(-100):zoomto(854, 480):diffuse(Color.Black):diffusealpha(0.5):visible(false)
+                self:zoomto(854, 480):diffuse(Color.Black):diffusealpha(0.5):visible(false)
             end,
             SongChosenMessageCommand=function(self) self:visible(true) end,
             SongUnchosenMessageCommand=function(self) self:visible(false) end,
-        }
+        } ]]
     }
 end
 
