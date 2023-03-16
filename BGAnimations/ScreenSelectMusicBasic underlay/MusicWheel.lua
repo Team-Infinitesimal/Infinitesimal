@@ -14,7 +14,7 @@ if #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs() then
 else
 
 for Song in ivalues(SONGMAN:GetPreferredSortSongs()) do
-	if SongUtil.GetPlayableSteps(Song) then
+	if #SongUtil.GetPlayableSteps(Song) > 0 then
 		Songs[#Songs+1] = Song
 	end
 end

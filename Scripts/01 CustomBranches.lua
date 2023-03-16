@@ -19,6 +19,12 @@ end
 
 function SelectMusicOrCourse()
     UseBasicMode = LoadModule("Config.Load.lua")("BasicMode","Save/OutFoxPrefs.ini") or false
+	
+	if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) or GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() or not UseBasicMode then
+		setenv("IsBasicMode", false)
+	else
+		setenv("IsBasicMode", true)
+	end
     
     if GAMESTATE:IsCourseMode() then
         return "ScreenSelectCourse"
@@ -51,11 +57,6 @@ CustomBranch = {
     AfterSelectProfile = function()
         UseBasicMode = LoadModule("Config.Load.lua")("BasicMode","Save/OutFoxPrefs.ini") or false
         
-        if PROFILEMAN:IsPersistentProfile(PLAYER_1) or PROFILEMAN:IsPersistentProfile(PLAYER_2) or GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() or not UseBasicMode then
-            setenv("IsBasicMode", false)
-        else
-            setenv("IsBasicMode", true)
-        end
         return ToLoadOrNotToLoad()
     end,
     AfterProfileSave = function()
