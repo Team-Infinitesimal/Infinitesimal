@@ -1,317 +1,285 @@
---[[
-Copyright © 2020 Rhythm Lunatic
+local WheelSize = 13
+local WheelCenter = math.ceil( WheelSize * 0.5 )
+local WheelItem = { Width = 212, Height = 120 }
+local WheelSpacing = 250
+local WheelRotation = 0.1
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+local ScreenSelectMusic
+local IsHome = GAMESTATE:GetCoinMode() == "CoinMode_Home"
+local IsEvent = GAMESTATE:IsEventMode()
+local TickCount = 0 -- Used for InputEventType_Repeat
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+local IsOptionsList = { PLAYER_1 = false, PLAYER_2 = false }
+local IsBusy = false
+local Groups = {}
+local GroupSongNums = {}
+local Targets = {}
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-]]
-local FrameX, FrameY = ...
+local function BlockScreenInput(State)
+    SCREENMAN:set_input_redirected(PLAYER_1, State)
+    SCREENMAN:set_input_redirected(PLAYER_2, State)
+end
 
-local WheelTouchW = SCREEN_WIDTH / 2
-local WheelTouchH = 90
-local WheelActive = false
-
--- Get screen handle so we can adjust the timer.
-local ScreenSelectMusic --Need a handle on the current screen for reasons...
---- since this is a group wheel, we need an array of the groups currently loaded in StepMania. So add an array. This will be used as the 'info set' for the wheel.
-local song_groups = {}
+-- If no groups (lol how) don't load anything
+if SONGMAN:GetNumSongGroups() == 0 then
+    return Def.Actor {}
+else
 
 -- Iterate through the song groups and check if they have AT LEAST one song with valid charts.
--- If so, add them to the group.
-for v in ivalues( SONGMAN:GetSongGroupNames() ) do
-    for s in ivalues( SONGMAN:GetSongsInGroup(v) ) do
-        local st = SongUtil.GetPlayableSteps(s)
-        -- lua.ReportScriptError(#st)
-        if #st > 0 then
-            song_groups[#song_groups+1] = v
+-- If so, add them to the group list.
+for Group in ivalues(SONGMAN:GetSongGroupNames()) do
+    for Song in ivalues(SONGMAN:GetSongsInGroup(Group)) do
+        if #SongUtil.GetPlayableSteps(Song) > 0 then
+            Groups[#Groups+1] = Group
             break
         end
     end
 end
 
--- Next up, we create our wheel.
-
--- This spawns an item scroller class.
-local scroller = setmetatable({disable_wrapping= false}, item_scroller_mt)
-local numWheelItems = 15 --Number of rotating items to have in the wheel. This does not have anything to do with the size of the info set.
-
--- And here is our massive wheel frame.
-local item_mt= {
-  __index= {
-    -- create_actors must return an actor.  The name field is a convenience.
-        create_actors= function(self, params)
-        self.name= params.name
-                --This is the equivalent to Graphics/MusicWheelItem SectionExpanded NormalPart (or MusicWheelItem Song NormalPart if you're making a song wheel)
-        return Def.ActorFrame {
-            InitCommand=function(subself)
-                -- Setting self.container to point to the actor gives a convenient
-                -- handle for manipulating the actor.
-                self.container = subself
-                self.container:fov(90):vanishpoint(SCREEN_CENTER_X, SCREEN_CENTER_Y):SetDrawByZPosition(true)
-            end,
-            Def.Sprite {
-                Texture=THEME:GetPathG("", "MusicWheel/GradientBanner"),
-                InitCommand=function(self) self:scaletoclipped(270, 150) end
-            },
-            --And probably more important, the banner for the group icons to be displayed.
-            Def.Sprite {
-                Name="Banner",
-                InitCommand=function(self) self:z(1) end
-            },
-            --A text actor for the group names to be displayed.
-            Def.BitmapText {
-                Name="Text",
-                Font="Common normal",
-                InitCommand=function(self)
-                    self:valign(1):addy(70):z(2)
-                    :maxheight(40):vertspacing(-8)
-                    :wrapwidthpixels(256 / self:GetZoom())
-                end
-            },
-            Def.Sprite {
-                Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
-                InitCommand=function(self)
-                    self:zoom(1.25):z(3)
-                end
-            }
-        }
-    end,
-        -- This is the equivalent to your ItemTransformFunction, but unlike ItemTransformFunction which updates per frame this one uses tweens.
-        -- This particular example function acts like a cover flow wheel.
-    -- item_index is the index in the list, ranging from 1 to num_items.
-    -- is_focus is only useful if the disable_wrapping flag in the scroller is
-    -- set to false.
-    transform=function(self, ItemIndex, NumItems, IsFocus)
-        local OffsetFromCenter = ItemIndex - math.floor(NumItems / 2)
-        local Spacing = math.abs(math.sin(OffsetFromCenter / math.pi))
-
-        self.container:zbuffer(true) -- Fix overlapping
-
-        self.container:stoptweening():decelerate(.25)
-        -- This is required to prevent items flickering when looping around the wheel
-        self.container:visible(math.abs(OffsetFromCenter) <= 4 and true or false)
-
-        self.container:x(OffsetFromCenter * (300 - Spacing * 100))
-        self.container:rotationy(clamp(OffsetFromCenter * 36, -85, 85))
-        self.container:z(-math.abs(OffsetFromCenter))
-
-        self.container:zoom(clamp(1.1 - (math.abs(OffsetFromCenter) / 3), 0.8, 1.1))
-    end,
-    -- info is one entry in the info set that is passed to the scroller.
-        -- So in this example, something from "song_groups" is being passed in as the 'info' argument.
-        -- Remember SetMessageCommand when used in Song NormalPart? This is that.
-    set= function(self, info)
-        self.container:GetChild("Text"):settext(string.gsub(info,"^%d%d? ?%- ?", ""))
-
-        local banner = SONGMAN:GetSongGroupBannerPath(info)
-        if banner ~= "" then
-            self.container:GetChild("Banner"):Load(banner):scaletofit(-135, -75, 135, 75)
-        else
-            self.container:GetChild("Banner"):Load(THEME:GetPathG("Common fallback", "banner")):scaletofit(-135, -75, 135, 75)
-        end
-    end
-}}
-
---This function runs when you press start and changes the current song group. Since this is a group wheel.
---We'll define it here because I said so.
-local function CloseWheel()
-        --Get the current selected group. get_info_at_focus_pos() gets the current highlighted item in the set, if you couldn't already tell. In this case it's the name of the current group being highlighted.
-    local currentGroup = scroller:get_info_at_focus_pos()
-        --One of the benefits of a custom wheel is being able to transform a single item in the wheel instead of all of them. This gets the current highlighted item in the wheel.
-    local curItem = scroller:get_actor_item_at_focus_pos()
-        --This transform function zooms in the item.
-    curItem.container:GetChild("Banner"):decelerate(0.25):diffusealpha(0)
-    WheelActive = false
-        --Since this is for a group wheel, this sets the new group.
-    ScreenSelectMusic:GetChild('MusicWheel'):SetOpenSection(currentGroup)
-        --The built in wheel needs to be told the group has been changed, for whatever reason. This function does it.
-    SCREENMAN:GetTopScreen():PostScreenMessage( 'SM_SongChanged', 0 )
-    SCREENMAN:set_input_redirected(PLAYER_1, false)
-    SCREENMAN:set_input_redirected(PLAYER_2, false)
-    MESSAGEMAN:Broadcast("StartSelectingSong")
+for Group in ivalues(Groups) do
+    GroupSongNums[Group] = #SONGMAN:GetSongsInGroup(Group)
 end
 
-local function OpenWheel()
-    MESSAGEMAN:Broadcast("StartSelectingGroup")
-    WheelActive = true
-    --No need to check if both players are present.
-    SCREENMAN:set_input_redirected(PLAYER_1, true)
-    SCREENMAN:set_input_redirected(PLAYER_2, true)
-    --Remember how when you close the wheel the item gets zoomed in? This zooms it back out.
-    local curItem = scroller:get_actor_item_at_focus_pos()
-    curItem.container:GetChild("Banner"):stoptweening():diffusealpha(1)
+local CurrentIndex = 1
 
-    --Optional. Mute the music currently playing.
-    --SOUND:DimMusic(0,65536);
+local IsSelectingGroup = false
 
-    local musicwheel = SCREENMAN:GetTopScreen():GetChild('MusicWheel')
-    musicwheel:Move(0); --Work around a StepMania bug. If the input is redirected while scrolling through the built in music wheel, it will continue to scroll.
-end
-
---And now, our input handler for the wheel we wrote, so we can actually move the wheel.
-local isSelectingDifficulty = false --You'll need this for later if you're using a TwoPartSelect.
-
-local count = 0 -- Used for InputEventType_Repeat
-local function inputs(event)
-  local pn = event.PlayerNumber
-    local button = event.button
-    local isHome = GAMESTATE:GetCoinMode() == "CoinMode_Home"
-    local isEvent = GAMESTATE:IsEventMode()
-
-    -- If the PlayerNumber isn't set, the button isn't mapped.  Ignore it.
-    --Also we only want it to activate when they're NOT selecting the difficulty.
+local function InputHandler(event)
+	local pn = event.PlayerNumber
     if not pn then return end
-    -- If it's a release, ignore it.
-    if event.type == "InputEventType_Release" then count = 0 MESSAGEMAN:Broadcast("ExitTickDown") return end
+    
+    -- Don't want to move when releasing the button
+    if event.type == "InputEventType_Release" then 
+        TickCount = 0 
+        MESSAGEMAN:Broadcast("ExitTickDown")
+        return
+    end
+    
+    local button = event.button
+    
+    -- To avoid control from a player that has not joined, filter the inputs out
+    if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
+    if pn == PLAYER_2 and not GAMESTATE:IsPlayerEnabled(PLAYER_2) then return end
+    
+    if IsSelectingGroup then
+        if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
+            CurrentIndex = CurrentIndex - 1
+            if CurrentIndex < 1 then CurrentIndex = #Groups end
+            
+            UpdateItemTargets(CurrentIndex)
+            MESSAGEMAN:Broadcast("Scroll", { Direction = -1 })
 
-    if isHome or isEvent then
-        if event.type == "InputEventType_Repeat" then
-            if button == "UpLeft" or button == "UpRight" then
-                count = count + 1
-                MESSAGEMAN:Broadcast("ExitTickUp")
-                if count == 15 then
-                    SCREENMAN:set_input_redirected(PLAYER_1, false)
-                    SCREENMAN:set_input_redirected(PLAYER_2, false)
-                    SCREENMAN:GetTopScreen():Cancel()
+        elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
+            CurrentIndex = CurrentIndex + 1
+            if CurrentIndex > #Groups then CurrentIndex = 1 end
+            
+            UpdateItemTargets(CurrentIndex)
+            MESSAGEMAN:Broadcast("Scroll", { Direction = 1 })
+
+        elseif button == "Start" or button == "MenuStart" or button == "Center" then
+            ScreenSelectMusic:GetChild('MusicWheel'):SetOpenSection(Groups[CurrentIndex])
+            MESSAGEMAN:Broadcast("CloseGroupWheel")
+            
+        elseif button == "UpRight" or button == "UpLeft" or button == "Up" then
+            if IsHome or IsEvent then MESSAGEMAN:Broadcast("ExitPressed") end
+        end
+
+        if IsHome or IsEvent then
+            if event.type == "InputEventType_Repeat" then
+                if button == "UpLeft" or button == "UpRight" or button == "Up" then
+                    TickCount = TickCount + 1
+                    MESSAGEMAN:Broadcast("ExitTickUp")
+                    if TickCount == 15 then
+                        BlockScreenInput(false)
+                        SCREENMAN:GetTopScreen():Cancel()
+                    end
                 end
             end
         end
     end
 
-    if SCREENMAN:get_input_redirected(pn) then
-        if button == "Center" or button == "Start" then
-            CloseWheel()
-        elseif button == "DownLeft" or button == "MenuLeft"or button == "Left" then
-            scroller:scroll_by_amount(-1)
-            MESSAGEMAN:Broadcast("PreviousGroup") --If you have arrows or graphics on the screen and you only want them to respond when left or right is pressed.
-        elseif button == "DownRight" or button == "MenuRight" or button == "Right" then
-            scroller:scroll_by_amount(1)
-            MESSAGEMAN:Broadcast("NextGroup")
-        elseif button == "UpRight" or button == "UpLeft" then
-            if isHome or isEvent then
-                MESSAGEMAN:Broadcast("ExitPressed")
-            else
-                return
-            end
-        elseif button == "Back" then
-      SCREENMAN:set_input_redirected(PLAYER_1, false)
-      SCREENMAN:set_input_redirected(PLAYER_2, false)
-            SCREENMAN:GetTopScreen():Cancel() --Because we've redirected input, we need to handle the back button ourselves instead of SM handling it. You can do whatever you want here though, like closing the wheel without picking a group.
-        else
-            --Inputs not working? Uncomment this to check what they are.
-            --SCREENMAN:SystemMessage(button);
-        end
+	MESSAGEMAN:Broadcast("UpdateMusic")
+end
+
+-- Update Songs item targets
+function UpdateItemTargets(val)
+    for i = 1, WheelSize do
+        Targets[i] = val + i - WheelCenter
+        -- Wrap to fit to Songs list size
+        while Targets[i] > #Groups do Targets[i] = Targets[i] - #Groups end
+        while Targets[i] < 1 do Targets[i] = Targets[i] + #Groups end
     end
 end
 
-local t = Def.ActorFrame{
-    --Make the wheel hidden by default.
+-- Manages banner on sprite
+function UpdateBanner(self, Group)
+    local Banner = SONGMAN:GetSongGroupBannerPath(Group)
+    if Banner == "" then Banner = THEME:GetPathG("Common fallback", "banner") end
+    self:Load(Banner):scaletofit(-WheelItem.Width / 2, -WheelItem.Height / 2, WheelItem.Width / 2, WheelItem.Height / 2)
+end
+
+local t = Def.ActorFrame {
     InitCommand=function(self)
-        self:diffusealpha(0)
+        self:fov(90):SetDrawByZPosition(true)
+        :vanishpoint(SCREEN_CENTER_X, SCREEN_CENTER_Y):diffusealpha(0)
+        UpdateItemTargets(CurrentIndex)
     end,
 
     OnCommand=function(self)
+        BlockScreenInput(false)
         ScreenSelectMusic = SCREENMAN:GetTopScreen()
-            --Remember when we created the array song_groups? Here we finally use it.
-        scroller:set_info_set(song_groups, 1)
-
-            --Scroll the wheel to the correct song group.
-        local curGroup = GAMESTATE:GetCurrentSong():GetGroupName()
-        for key,value in pairs(song_groups) do
-            if curGroup == value then
-                scroller:scroll_by_amount(key-1)
+        
+        -- Make sure to start the group wheel where the current song is located (if available)
+        if GAMESTATE:GetCurrentSong() then
+            for Index, Group in ipairs(Groups) do
+                if GAMESTATE:GetCurrentSong():GetGroupName() == Group then
+                    -- SCREENMAN:SystemMessage(Index .. " - " .. Group)
+                    CurrentIndex = Index
+                    UpdateItemTargets(CurrentIndex)
+                    break
+                end
             end
         end
-        --Add the input callback so our custom inputs() function works.
-        SCREENMAN:GetTopScreen():AddInputCallback(inputs)
-
-        --I got sick of input locking when I reloaded the screen, since the wheel isn't open when you reload the screen.
-        SCREENMAN:set_input_redirected(PLAYER_1, false)
-        SCREENMAN:set_input_redirected(PLAYER_2, false)
-        isPickingDifficulty = false
+        SCREENMAN:GetTopScreen():AddInputCallback(InputHandler)
     end,
+    
+    OffCommand=function(self) BlockScreenInput(false) end,
+    
+    SongChosenMessageCommand=function(self) IsBusy = true end,
+    SongUnchosenMessageCommand=function(self) self:queuecommand("NotBusy") end,
+    NotBusyCommand=function(self) IsBusy = false end,
+    
+    OptionsListOpenedMessageCommand=function(self, params) IsOptionsList[params.Player] = true end,
+    OptionsListClosedMessageCommand=function(self, params) IsOptionsList[params.Player] = false end,
 
-    OffCommand=function(self)
-        SCREENMAN:set_input_redirected(PLAYER_1, false)
-        SCREENMAN:set_input_redirected(PLAYER_2, false)
-        isPickingDifficulty = false
-    end,
-
-    --TwoPartSelect handlers.
-    SongChosenMessageCommand=function(self)
-        isPickingDifficulty = true
-    end,
-
-    TwoPartConfirmCanceledMessageCommand=function(self)self:queuecommand("PickingSong")end,
-    SongUnchosenMessageCommand=function(self)self:queuecommand("PickingSong")end,
-
-    PickingSongCommand=function(self)
-        isPickingDifficulty = false
-    end,
-
-    --And now, handle opening the wheel.
-    CodeMessageCommand=function(self,param)
-        local codeName = param.Name -- code name, matches the one in metrics
-        if codeName == "GroupSelectPad1" or codeName == "GroupSelectPad2" or codeName == "GroupSelectButton1" or codeName == "GroupSelectButton2" then
-            if isPickingDifficulty then return end --Don't want to open the group select if they're picking the difficulty.
-            -- Open the wheel, silly
-            OpenWheel()
+    CodeMessageCommand=function(self, params)
+        if params.Name == "GroupSelectPad1" or params.Name == "GroupSelectPad2" or 
+        params.Name == "GroupSelectButton1" or params.Name == "GroupSelectButton2" then
+            if not IsBusy and not IsOptionsList[PLAYER_1] and not IsOptionsList[PLAYER_2] then
+                -- Prevent the song list from moving when transitioning
+                BlockScreenInput(true)
+                IsSelectingGroup = true
+                MESSAGEMAN:Broadcast("OpenGroupWheel")
+                self:finishtweening():easeoutexpo(1):diffusealpha(1)
+            end
         end
-  end,
-
-    OpenGroupWheelMessageCommand=function(self)
-        OpenWheel()
+    end,
+    
+    BusyCommand=function(self) IsBusy = true end,
+    NotBusyCommand=function(self) IsBusy = false end,
+    
+    CloseGroupWheelMessageCommand=function(self)
+        self:stoptweening():easeoutexpo(0.25):diffusealpha(0)
+        
+        BlockScreenInput(false)
+        IsSelectingGroup = false
+        
+        -- The built in wheel needs to be told the group has been changed
+        SCREENMAN:GetTopScreen():PostScreenMessage("SM_SongChanged", 0 )
+        MESSAGEMAN:Broadcast("StartSelectingSong")
     end,
 
-    StartSelectingGroupMessageCommand=function(self)
-        self:stoptweening():easeoutquint(0.5):diffusealpha(1)
-    end,
-
-    StartSelectingSongMessageCommand=function(self)
-        self:stoptweening():easeoutquint(0.25):diffusealpha(0)
-    end
-}
-
-t[#t+1] = Def.Quad {
-    InitCommand=function(self)
-        self:Center()
-        :zoomto(SCREEN_WIDTH,SCREEN_HEIGHT*2)
-        :diffuse(0,0,0,0)
-    end,
-
-    StartSelectingGroupMessageCommand=function(self)
-        self:stoptweening()
-        :decelerate(0.25)
-        :diffusealpha(0.75)
-    end,
-
-    StartSelectingSongMessageCommand=function(self)
-        self:stoptweening()
-        :decelerate(0.25)
-        :diffusealpha(0)
-    end
-}
-
-t[#t+1] = Def.ActorFrame {
-    Def.Sound {
-        File=THEME:GetPathS("Common", "Start"),
-        IsAction=true,
-        StartSelectingSongMessageCommand=function(self) self:play() end
-    },
     Def.Sound {
         File=THEME:GetPathS("MusicWheel", "change"),
         IsAction=true,
-        PreviousGroupMessageCommand=function(self) self:play() end,
-        NextGroupMessageCommand=function(self) self:play() end
+        ScrollMessageCommand=function(self) self:play() end
+    },
+
+    Def.Sound {
+        File=THEME:GetPathS("Common", "Start"),
+        IsAction=true,
+        CloseGroupWheelMessageCommand=function(self) self:play() end
     },
 }
 
-t[#t+1] = scroller:create_actors("foo", numWheelItems, item_mt, FrameX, FrameY)
+-- The Wheel: originally made by Luizsan
+for i = 1, WheelSize do
+    t[#t+1] = Def.ActorFrame{
+        OnCommand=function(self)
+            -- Load banner
+            UpdateBanner(self:GetChild("Banner"), Groups[Targets[i]])
+
+            -- Set initial position, Direction = 0 means it won't tween
+            self:playcommand("Scroll", {Direction = 0})
+        end,
+
+        ScrollMessageCommand=function(self, params)
+            self:stoptweening()
+
+            -- Calculate position
+            local xpos = SCREEN_CENTER_X + (i - WheelCenter) * WheelSpacing
+
+            -- Calculate displacement based on input
+            local displace = -params.Direction * WheelSpacing
+
+            -- Only tween if a direction was specified
+            local tween = params and params.Direction and math.abs(params.Direction) > 0
+            
+            -- Adjust and wrap actor index
+            i = i - params.Direction
+            while i > WheelSize do i = i - WheelSize end
+            while i < 1 do i = i + WheelSize end
+
+            -- If it's an edge item, load a new banner. Edge items should never tween
+            if i == 1 or i == WheelSize then
+				UpdateBanner(self:GetChild("Banner"), Groups[Targets[i]])
+            elseif tween then
+                self:easeoutexpo(0.4)
+            end
+
+            -- Animate!
+            self:xy(xpos + displace, SCREEN_CENTER_Y)
+            self:rotationy((SCREEN_CENTER_X - xpos - displace) * -WheelRotation)
+            self:z(-math.abs(SCREEN_CENTER_X - xpos - displace) * 0.25)
+            self:GetChild(""):GetChild("Index"):playcommand("Refresh")
+            self:GetChild("GroupInfo"):playcommand("Refresh")
+        end,
+        
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "MusicWheel/GradientBanner"),
+            InitCommand=function(self) self:scaletoclipped(WheelItem.Width, WheelItem.Height) end
+        },
+
+        Def.Banner {
+            Name="Banner",
+        },
+
+        Def.Sprite {
+            Texture=THEME:GetPathG("", "MusicWheel/GroupFrame"),
+        },
+
+        Def.ActorFrame {
+            Def.Quad {
+                InitCommand=function(self)
+                    self:zoomto(60, 18):addy(-50)
+                    :diffuse(0,0,0,0.6)
+                    :fadeleft(0.3):faderight(0.3)
+                end
+            },
+
+            Def.BitmapText {
+                Name="Index",
+                Font="Montserrat semibold 40px",
+                InitCommand=function(self)
+                    self:addy(-50):zoom(0.4):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+                end,
+                RefreshCommand=function(self, params) self:settext(Targets[i]) end
+            }
+        },
+        
+        Def.BitmapText {
+            Name="GroupInfo",
+            Font="Montserrat semibold 40px",
+            InitCommand=function(self)
+                self:addy(64):zoom(0.5):skewx(-0.1):diffusetopedge(0.95,0.95,0.95,0.8):shadowlength(1.5)
+                :maxwidth(420):vertalign(0):wrapwidthpixels(420):vertspacing(-16)
+            end,
+            RefreshCommand=function(self, params) self:settext(Groups[Targets[i]] .. "\n" .. GroupSongNums[Groups[Targets[i]]] .. " Songs") end
+        }
+    }
+end
 
 t[#t+1] = Def.ActorFrame {
-
     Def.BitmapText {
         Font="Montserrat semibold 20px",
         Name="ExitText",
@@ -342,8 +310,8 @@ t[#t+1] = Def.ActorFrame {
         end,
         ExitTickUpMessageCommand=function(self)
             self:stoptweening()
-            :linear(0.1)
-            :cropright(1 - (count + 1) / 15)
+            :linear(0.2)
+            :cropright(1 - (TickCount + 1) / 15)
         end,
         ExitTickDownMessageCommand=function(self)
             self:stoptweening()
@@ -374,5 +342,6 @@ t[#t+1] = Def.ActorFrame {
     }
 }
 
---Don't forget this at the end of your lua file.
 return t
+
+end
