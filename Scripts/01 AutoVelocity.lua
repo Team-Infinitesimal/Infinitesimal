@@ -7,6 +7,7 @@ function AutoVelocity()
         OneChoiceForAllPlayers = false,
         ExportOnChange = false,
         Choices = {"+100", "+10", "+1", "-1", "-10", "-100"},
+        -- We'll do our own load/save functions below
         LoadSelections = function(self, list, pn) end,
         SaveSelections = function(self, list, pn) end,
         NotifyOfSelection = function(self, pn, choice)
