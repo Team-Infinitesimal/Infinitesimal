@@ -442,10 +442,9 @@ TimingWindow[#TimingWindow+1] = function()
 end
 
 function GetWindowSeconds(TimingWindow, Scale, Add)
-    local fSecs = TimingWindow
-    fSecs = fSecs * (Scale or 1.0) -- Timing Window Scale
-    fSecs = fSecs + (Add or 0) --Timing Window Add
-    return fSecs
+    TimingWindow = TimingWindow * (Scale or 1.0) --Timing Window Scale
+    TimingWindow = TimingWindow + (Add or 0) --Timing Window Add
+    return TimingWindow --TimingWindow is a local variable here
 end
 
 ------------------------------------------------------------------------------
