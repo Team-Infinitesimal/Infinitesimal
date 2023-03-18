@@ -10,25 +10,17 @@ function ResetLuaMods(pn)
     LastSongIndex = 0
     local CarryJudgment = LoadModule("Config.Load.lua")("CarryJudgment", "Save/OutFoxPrefs.ini")
     local ProfileDir = "Save/MachineProfile/OutFoxPrefsForPlayerp" .. string.sub(pn,-1) .. "/OutFoxPrefs.ini"
-    
-    local settingsToReset = {
-        {name = "AutoVelocity", value = 200},
-        {name = "AutoVelocityType", value = false},
-        {name = "ScreenFilter", value = 0},
-        {name = "ScreenFilterColor", value = 2},
-        {name = "ScreenFilterSize", value = "Full"},
-        {name = "MeasureCounter", value = false},
-        {name = "MeasureCounterDivisions", value = 12},
-        {name = "JudgmentItems", value = false},
-        {name = "ScoreDisplay", value = false},
-        {name = "SongProgress", value = false},
-        {name = "ProLifebar", value = false}
-    }
-
-    for i, setting in ipairs(settingsToReset) do
-        LoadModule("Config.Save.lua")(setting.name, tostring(setting.value), ProfileDir)
-    end
-
+    LoadModule("Config.Save.lua")("AutoVelocity", tostring(200), ProfileDir)
+    LoadModule("Config.Save.lua")("AutoVelocityType", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("ScreenFilter", 0, ProfileDir)
+    LoadModule("Config.Save.lua")("ScreenFilterColor", 2, ProfileDir)
+    LoadModule("Config.Save.lua")("ScreenFilterSize", "Full", ProfileDir)
+    LoadModule("Config.Save.lua")("MeasureCounter", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("MeasureCounterDivisions", 12, ProfileDir)
+    LoadModule("Config.Save.lua")("JudgmentItems", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("ScoreDisplay", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("SongProgress", tostring(false), ProfileDir)
+    LoadModule("Config.Save.lua")("ProLifebar", tostring(false), ProfileDir)
     if IsArcade() or (CarryJudgment == false) then
         LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
     end
@@ -80,22 +72,6 @@ function ChartTypeToColor(Chart)
     local ChartDescription = Chart:GetDescription()
     local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
 
-    local ChartColors = {
-        Single = {
-            SP = Color.HoloDarkPurple,
-            default = color("#ff871f"),
-        },
-        Halfdouble = Color.HoloDarkRed,
-        Double = {
-            DP = Color.HoloDarkBlue,
-            COOP = Color.HoloDarkBlue,
-            default = color("#21db30"),
-        },
-        Couple = Color.HoloDarkBlue,
-        Routine = Color.Yellow,
-        default = color("#9199D4"),
-    }
-
     if getenv("IsBasicMode") then
         if ChartType == "Double" then
             return color("#21db30")
@@ -109,23 +85,32 @@ function ChartTypeToColor(Chart)
             return color("#d317e8")
         end
     else
-        if ChartColors[ChartType] then
-            -- Check if chart type has a nested table (for Single/Double charts)
-            if type(ChartColors[ChartType]) == "table" then
-                -- Check if chart description matches any key in the nested table
-                for key, value in pairs(ChartColors[ChartType]) do
-                    if key == "default" then
-                        -- Use default color if no other match is found
-                        return value
-                    elseif string.find(string.upper(ChartDescription), key) then
-                        return value
-                    end
+        if ChartType == "Single" then
+            if string.find(ChartDescription, "SP") then
+                return Color.HoloDarkPurple
+            else
+                return color("#ff871f")
+            end
+        elseif ChartType == "Halfdouble" then
+            return Color.HoloDarkRed
+        elseif ChartType == "Double" then
+            ChartDescription:gsub("[%p%c%s]", "")
+            if string.find(string.upper(ChartDescription), "DP") or
+            string.find(string.upper(ChartDescription), "COOP") then
+                if ChartMeter == 99 then
+                    return Color.Yellow
+                else
+                    return Color.HoloDarkBlue
                 end
             else
-                return ChartColors[ChartType]
+                return color("#21db30")
             end
+        elseif ChartType == "Couple" then
+            return Color.HoloDarkBlue
+        elseif ChartType == "Routine" then
+            return Color.Yellow
         else
-            return ChartColors.default
+            return color("#9199D4")
         end
     end
 end
@@ -178,7 +163,8 @@ function ChartStyleToIndex(Chart)
 end
 
 function IsAnniversary()
-    return MonthOfYear() == 4 and DayOfMonth() == 19
+    if MonthOfYear() == 4 and DayOfMonth() == 19 then return true end
+    return false
 end
 
 -- Thank you, Accelerator and DDR SN3 team!
@@ -186,37 +172,41 @@ end
 
 local function GetOrCreateChild(tab, field, kind)
     kind = kind or 'table'
-    local out = tab[field]
-    if not out then
-        out = ({
-            table = {},
-            number = 0,
-            boolean = false,
-            boolean_df = false,
-            boolean_dt = true,
-        })[kind]
-        if not out then
-            error("GetOrCreateChild: I don't know a default value for type " .. tostring(kind), 2)
+    local out
+    if not tab[field] then
+        if kind == 'table' then
+            out = {}
+        elseif kind == 'number' then
+            out = 0
+        elseif kind == 'boolean_df' or kind == 'boolean' then
+            out = false
+        elseif kind == 'boolean_dt' then
+            out = true
+        else
+            error("GetOrCreateChild: I don't know a default value for type "..kind)
         end
         tab[field] = out
-    end
+    else out = tab[field] end
     return out
 end
 
 local function SortCharts(a, b)
     if a:GetStepsType() == b:GetStepsType() then
-        return a:GetMeter() - b:GetMeter() < 0 -- GetMeter() > b:GetMeter(), bitwise
+        return a:GetMeter() < b:GetMeter()
     else
         return a:GetStepsType() > b:GetStepsType()
     end
 end
 
 local function ChartRange(chart, a, b)
-    return chart:GetMeter() >= a and chart:GetMeter() <= b
+    if chart:GetMeter() >= a and chart:GetMeter() <= b then
+        return true
+    end
+    return false
 end
 
 local outputPath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager PreferredSongs.txt"
-local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last forward slash unless there is a terminator". Get's the last directory in a path.
+local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last forward slash unless there is a terminator"
 local combineFormat = "%s/%s"
 
 function AssembleBasicMode()
