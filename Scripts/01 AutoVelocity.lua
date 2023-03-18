@@ -11,29 +11,17 @@ function AutoVelocity()
         LoadSelections = function(self, list, pn) end,
         SaveSelections = function(self, list, pn) end,
         NotifyOfSelection = function(self, pn, choice)
-            local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
-            
-            if not AV then
-                AV = 200
-            elseif choice == 1 then
-                AV = AV + 100
-            elseif choice == 2 then
-                AV = AV + 10
-            elseif choice == 3 then
-                AV = AV + 1
-            elseif choice == 4 then
-                AV = AV - 1
-            elseif choice == 5 then
-                AV = AV - 10
-            elseif choice == 6 then
-                AV = AV - 100
-            end
+            local profileIndex = tonumber(pn:sub(-1)) - 1
+            local AV = LoadModule("Config.Load.lua")("AutoVelocity", CheckIfUserOrMachineProfile(profileIndex).."/OutFoxPrefs.ini") or 200
+            -- Sets AV to 200 if there's no AV set
+
+            -- Modify AV based on choice
+            AV = AV + ({[1]=100, [2]=10, [3]=1, [4]=-1, [5]=-10, [6]=-100})[choice]
             
             -- Clamp values
-            if AV < 100 then AV = 100 end
-            if AV > 999 then AV = 999 end
-            
-            LoadModule("Config.Save.lua")("AutoVelocity", tostring(AV), CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+            AV = math.min(999, math.max(100, AV))
+
+            LoadModule("Config.Save.lua")("AutoVelocity", tostring(AV), CheckIfUserOrMachineProfile(profileIndex).."/OutFoxPrefs.ini")
             return true
         end
     }
