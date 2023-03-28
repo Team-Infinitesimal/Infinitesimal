@@ -221,7 +221,7 @@ for i = 1, WheelSize do
             while i < 1 do i = i + WheelSize end
 
             -- If it's an edge item, load a new banner. Edge items should never tween
-            if i == 1 or i == WheelSize then
+            if i == 2 or i == WheelSize - 1 then
 				UpdateBanner(self:GetChild("Banner"), Groups[Targets[i]])
             elseif tween then
                 self:easeoutexpo(0.4)
