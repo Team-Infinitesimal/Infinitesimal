@@ -157,6 +157,7 @@ local t = Def.ActorFrame {
         params.Name == "GroupSelectButton1" or params.Name == "GroupSelectButton2" then
             if not IsBusy and not IsOptionsList[PLAYER_1] and not IsOptionsList[PLAYER_2] then
                 -- Prevent the song list from moving when transitioning
+                SCREENMAN:GetTopScreen():GetChild('MusicWheel'):Move(0)
                 BlockScreenInput(true)
                 IsSelectingGroup = true
                 MESSAGEMAN:Broadcast("OpenGroupWheel")
