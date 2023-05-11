@@ -20,7 +20,7 @@ return Def.ActorFrame {
         end,
         ScreenChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
         RefreshCommand=function(self)
-            local BasicMode = getenv("IsBasicMode") == true
+            local BasicMode = getenv("IsBasicMode")
             local NoSongs = #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs()
             
             self:linear(1):diffuse(BasicMode and (NoSongs and color("#f36b4f") or color("#5086f3")) or color("#c350f3")):diffusealpha(0.5)
@@ -44,7 +44,7 @@ return Def.ActorFrame {
         end,
         ScreenChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
         RefreshCommand=function(self)
-            local BasicMode = getenv("IsBasicMode") == true
+            local BasicMode = getenv("IsBasicMode")
             local NoSongs = #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs()
             
             self:linear(1):diffuse(BasicMode and (NoSongs and color("#f34f76") or color("#50c8f3")) or color("#c350f3")):diffusealpha(0.5)

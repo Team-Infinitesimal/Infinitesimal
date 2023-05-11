@@ -11,7 +11,7 @@ t[#t+1] = Def.Quad {
     end,
     ScreenChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
     RefreshCommand=function(self)
-        local BasicMode = getenv("IsBasicMode") == true
+        local BasicMode = getenv("IsBasicMode")
         local NoSongs = #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs()
         
         self:linear(1):diffuse(BasicMode and (NoSongs and color("#340e13") or color("#0f2634")) or color("#150F34"))
@@ -28,7 +28,7 @@ t[#t+1] = Def.Sprite {
     end,
     ScreenChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
     RefreshCommand=function(self)
-        local BasicMode = getenv("IsBasicMode") == true
+        local BasicMode = getenv("IsBasicMode")
         local NoSongs = #SONGMAN:GetPreferredSortSongs() == SONGMAN:GetNumSongs()
         
         self:linear(1):diffuse(BasicMode and (NoSongs and color("#bb3b28") or color("#285ebb")) or color("#6028bb"))

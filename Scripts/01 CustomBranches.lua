@@ -47,11 +47,8 @@ CustomBranch = {
     StartGame = function()
         if SONGMAN:GetNumSongs() == 0 and SONGMAN:GetNumAdditionalSongs() == 0 then
             return "ScreenHowToInstallSongs"
-        end
-        if PROFILEMAN:GetNumLocalProfiles() > 0 then
-            return "ScreenSelectProfile"
         else
-            return SelectMusicOrCourse()
+            return "ScreenSelectProfile"
         end
     end,
     AfterSelectProfile = function()
