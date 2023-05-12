@@ -1,4 +1,5 @@
 local CurPrefTiming = LoadModule("Options.ReturnCurrentTiming.lua")().Name
+local Scoring = LoadModule("Config.Load.lua")("ScoringSystem", "Save/OutFoxPrefs.ini") or "Old"
 local Name, Length = LoadModule("Options.SmartTapNoteScore.lua")()
 table.sort(Name)
 Name[#Name+1] = "Miss"
@@ -33,10 +34,11 @@ local function GetJLineValue(line, pl)
         end
 
         if PROFILEMAN:GetProfile(pl) and PrevHighScore and PSS_Score > PrevHighScore then
-            local ScoreUp = string.format("[+%s]", PSS_Score - PrevHighScore)
-            return string.format("%d %s", PSS_Score, ScoreUp)
+            local ScoreUp = string.format("[+%s]", (Scoring == "New" and FormatScore((PSS_Score - PrevHighScore)) or (PSS_Score - PrevHighScore)))
+            return string.format("%d %s", (Scoring == "New" and FormatScore(PSS_Score) or PSS_Score), ScoreUp)
         end
-        return PSS_Score
+        
+        return (Scoring == "New" and FormatScore(PSS_Score) or PSS_Score)
     else
         return PSS:GetTapNoteScores("TapNoteScore_" .. line)
     end

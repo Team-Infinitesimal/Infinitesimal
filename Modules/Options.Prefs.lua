@@ -208,6 +208,12 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
     },
+    ScoringSystem =
+    {
+        Default = "Old",
+        Choices = { OptionNameString('Old'), OptionNameString('New') },
+        Values = { "Old", "New" }
+    },
     LifePositionBelow =
     {
         Default = false,
@@ -219,5 +225,5 @@ return {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
-    },
+    }
 }

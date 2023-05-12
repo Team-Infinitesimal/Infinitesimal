@@ -1,4 +1,5 @@
 local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+local Scoring = LoadModule("Config.Load.lua")("ScoringSystem", "Save/OutFoxPrefs.ini") or "Old"
 
 local t = Def.ActorFrame {}
 
@@ -17,7 +18,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     GAMESTATE:Env()["ChartData" .. pn] = {peak, npst, NMeasure, mcount}
     
     t[#t+1] = Def.ActorFrame {
-        LoadModule("PIU/Gameplay.Score.lua")(pn),
+        LoadModule("PIU/Gameplay." .. Scoring .. "Score.lua")(pn),
         LoadActor("NameBadge", pn)
     }
     

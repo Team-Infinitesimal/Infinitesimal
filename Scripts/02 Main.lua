@@ -205,6 +205,11 @@ local function ChartRange(chart, a, b)
     return false
 end
 
+function FormatScore(n) -- Credit to http://richard.warburton.it
+	local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
+	return left..(num:reverse():gsub('(%d%d%d)','%1.'):reverse())..right
+end
+
 local outputPath = THEME:GetCurrentThemeDirectory() .. "Other/SongManager PreferredSongs.txt"
 local isolatePattern = "/([^/]+)/?$" -- In English, "everything after the last forward slash unless there is a terminator"
 local combineFormat = "%s/%s"

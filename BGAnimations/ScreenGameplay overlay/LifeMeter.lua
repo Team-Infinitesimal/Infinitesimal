@@ -1,5 +1,6 @@
 local pn = ...
 local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+local Scoring = LoadModule("Config.Load.lua")("ScoringSystem", "Save/OutFoxPrefs.ini") or "Old"
 local ShouldReverse = LoadModule("Config.Load.lua")("LifePositionBelow","Save/OutFoxPrefs.ini")
 
 local BarW = math.ceil(GAMESTATE:GetCurrentStyle():GetWidth(pn) * 1.5)
@@ -246,7 +247,7 @@ local t = Def.ActorFrame {
         end,
         UpdateScoreMessageCommand=function(self, params)
             if pn == params.Player and ScoreDisplay == "Score" then
-                self:settext(params.Score or 0)
+                self:settext((Scoring == "New" and FormatScore(params.Score) or params.Score))
             end
         end
     }

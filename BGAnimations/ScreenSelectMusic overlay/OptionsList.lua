@@ -80,7 +80,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         AdjustCommand=function(self, params)
             if params.Player == pn then
                 -- Edge case since we don't need to scroll in Speed Mods
-                if params.Selection + 1 > 9 and OptionsListMenu ~= "AutoVelocity" then
+                if params.Selection + 1 > 5 and OptionsListMenu == "Noteskins" then
                     OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180 - (26 * (params.Selection - 5)))
                 else
                     OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180)
