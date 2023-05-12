@@ -1,5 +1,6 @@
 --[[
         New K-Pump scoring system by SheepyChris, created on May 12, 2023
+        Huge thanks to Mr. Weq for figuring it out: https://twitter.com/mr_weq/status/1656860777826091008
         For this module to work properly, you will need to zero out all metrics in [ScoreKeeperNormal].
 ]]
 
