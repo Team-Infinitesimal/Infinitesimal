@@ -82,6 +82,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 -- Edge case since we don't need to scroll in Speed Mods
                 if params.Selection + 1 > 5 and OptionsListMenu == "Noteskins" then
                     OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180 - (26 * (params.Selection - 5)))
+                elseif params.Selection + 1 > 9 then
+                    OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180 - (26 * (params.Selection - 9)))
                 else
                     OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180)
                 end
