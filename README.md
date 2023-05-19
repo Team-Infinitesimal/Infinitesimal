@@ -44,13 +44,13 @@ The following features can be configured via the Infinitesimal Options submenu o
 * Wrap Chart List Scrolling: when scrolling past the beginning or end of the chart list, wrap the current selection to the opposite end.
 
 ## Screenshots
-![title](https://user-images.githubusercontent.com/12992355/169429472-57019244-4eea-4a37-ba9a-fa2c030f27b5.png)
-![profiles](https://user-images.githubusercontent.com/12992355/169429484-610a360b-d40e-4034-a2db-efdd5c1ef1a0.png)
-![basicmode](https://user-images.githubusercontent.com/12992355/169429494-9ae882f1-dc13-41e3-aa86-1762e84031f8.png)
-![fullmode](https://user-images.githubusercontent.com/12992355/169429499-c3ebf0d7-a25c-4edc-bd0d-519e2dc1cc4d.png)
-![fullmode2](https://user-images.githubusercontent.com/12992355/169429505-6e4d3226-2454-46ed-9db8-c35039873f75.png)
-![gameplay](https://user-images.githubusercontent.com/12992355/169429514-003c23fd-c01e-4762-aef6-75a5764c5131.png)
-![score](https://user-images.githubusercontent.com/12992355/169429518-7daabf3f-b38b-40e6-9ac9-efa512d932b8.png)
+![Title](https://github.com/dj505/Infinitesimal/assets/12992355/ef053e35-70b2-466c-8244-162ae017b61a)
+![Profile](https://github.com/dj505/Infinitesimal/assets/12992355/25847cb5-3e9a-4b58-9177-71dec52e176f)
+![BasicMode](https://github.com/dj505/Infinitesimal/assets/12992355/12dbe987-f561-4f14-9770-124b512ca761)
+![SelectMusic](https://github.com/dj505/Infinitesimal/assets/12992355/67ed99c7-1ef0-4528-8bc2-18cc01daf765)
+![Command](https://github.com/dj505/Infinitesimal/assets/12992355/e241a569-811d-42f4-800f-ddb031978698)
+![Doubles](https://github.com/dj505/Infinitesimal/assets/12992355/9a28709c-28cf-4a53-9529-b01d58ac1904)
+![Eval](https://github.com/dj505/Infinitesimal/assets/12992355/c109ece0-b9e0-41db-bfba-668a9a70c2b0)
 
 ## Languages:
 Currently, Infinitesimal supports the following languages:
