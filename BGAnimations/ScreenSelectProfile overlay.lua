@@ -239,8 +239,10 @@ local function InputHandler(event)
             SCREENMAN:GetTopScreen():SetProfileIndex(pn, -1)
         else
             if SCREENMAN:GetTopScreen():GetProfileIndex(pn) == 0 then
+                setenv("IsBasicMode", true)
                 SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
             else
+                setenv("IsBasicMode", false)
                 SCREENMAN:GetTopScreen():Finish()
             end
         end

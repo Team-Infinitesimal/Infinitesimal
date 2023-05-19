@@ -1,3 +1,5 @@
+setenv("IsBasicMode", false)
+
 local t = Def.ActorFrame {
     OnCommand=function(self)
         -- Always change sort back to groups, since Basic mode can leave it stuck in Preferred
