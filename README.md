@@ -50,7 +50,8 @@ The following features can be configured via the Infinitesimal Options submenu o
 ![SelectMusic](https://github.com/dj505/Infinitesimal/assets/12992355/67ed99c7-1ef0-4528-8bc2-18cc01daf765)
 ![Command](https://github.com/dj505/Infinitesimal/assets/12992355/e241a569-811d-42f4-800f-ddb031978698)
 ![Doubles](https://github.com/dj505/Infinitesimal/assets/12992355/9a28709c-28cf-4a53-9529-b01d58ac1904)
-![Eval](https://github.com/dj505/Infinitesimal/assets/7433694/71550a13-18db-440f-bb73-a324faea53d6)
+![Eval](https://github.com/dj505/Infinitesimal/assets/7433694/69703018-961c-4546-9259-0ebd23229318)
+
 
 ## Languages:
 Currently, Infinitesimal supports the following languages:
