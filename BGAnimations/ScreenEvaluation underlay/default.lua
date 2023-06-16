@@ -129,7 +129,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
-                self:Load(THEME:GetPathG("", "LetterGrades/" .. Grades[pn]))
+                self:Load(THEME:GetPathG("", "LetterGrades/New/" .. Grades[pn]))
                 :diffusealpha(0):sleep(2):easeoutexpo(0.25)
                 :zoom(GradeZoom):diffusealpha(1)
             end
@@ -143,7 +143,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
-                self:Load(THEME:GetPathG("", "LetterGrades/" .. Grades[pn]))
+                self:Load(THEME:GetPathG("", "LetterGrades/New/" .. Grades[pn]))
                 :diffusealpha(0):sleep(2.15):diffusealpha(0.8):zoom(GradeZoom):linear(0.75)
                 :zoom(GradeZoom * 1.5):diffusealpha(0)
             end
