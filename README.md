@@ -50,7 +50,7 @@ The following features can be configured via the Infinitesimal Options submenu o
 ![SelectMusic](https://github.com/dj505/Infinitesimal/assets/12992355/67ed99c7-1ef0-4528-8bc2-18cc01daf765)
 ![Command](https://github.com/dj505/Infinitesimal/assets/12992355/e241a569-811d-42f4-800f-ddb031978698)
 ![Doubles](https://github.com/dj505/Infinitesimal/assets/12992355/9a28709c-28cf-4a53-9529-b01d58ac1904)
-![Eval](https://github.com/dj505/Infinitesimal/assets/12992355/c109ece0-b9e0-41db-bfba-668a9a70c2b0)
+![Eval](https://github.com/dj505/Infinitesimal/assets/7433694/71550a13-18db-440f-bb73-a324faea53d6)
 
 ## Languages:
 Currently, Infinitesimal supports the following languages:
@@ -83,3 +83,4 @@ This theme wouldn't be here if it weren't for the help of the following people:
 * RGAB Community
 
 And at last, you for trying out our theme!
+
