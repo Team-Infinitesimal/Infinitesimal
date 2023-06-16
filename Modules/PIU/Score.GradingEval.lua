@@ -70,10 +70,10 @@ return function(PlayerScore)
                         GradeLetter = "2S"
                     end
                 else
-                    GradeLetter = "1S"
+                    GradeLetter = "S"
                 end
             else
-                GradeLetter = "1S"
+                GradeLetter = "S"
             end
         else
             if PlayerAccuracy >= 0.95 then
