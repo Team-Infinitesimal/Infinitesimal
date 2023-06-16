@@ -1,3 +1,5 @@
+local Scoring = LoadModule("Config.Load.lua")("ScoringSystem", "Save/OutFoxPrefs.ini") or "Old"
+local ClassicGrades = LoadModule("Config.Load.lua")("ClassicGrades", "Save/OutFoxPrefs.ini") and Scoring == "Old"
 local SongIsChosen = false
 
 local t = Def.ActorFrame {}
@@ -34,7 +36,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                         local ProfileScore = ProfileScores[1]:GetScore()
                         local ProfileDP = round(ProfileScores[1]:GetPercentDP() * 100, 2) .. "%"
 
-                        self:GetChild("PersonalGrade"):Load(THEME:GetPathG("", "LetterGrades/" ..
+                        self:GetChild("PersonalGrade"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
                             LoadModule("PIU/Score.Grading.lua")(ProfileScores[1])))
                         self:GetChild("PersonalScore"):settext(ProfileDP .. "\n" .. ProfileScore)
                     else
@@ -53,7 +55,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     local MachineDP = round(MachineHighScores[1]:GetPercentDP() * 100, 2) .. "%"
                     local MachineName = MachineHighScores[1]:GetName()
 
-                    self:GetChild("MachineGrade"):Load(THEME:GetPathG("", "LetterGrades/" ..
+                    self:GetChild("MachineGrade"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
                             LoadModule("PIU/Score.Grading.lua")(MachineHighScores[1])))
                     self:GetChild("MachineScore"):settext(MachineName .. "\n" .. MachineDP .. "\n" .. MachineScore)
                 else

@@ -1,21 +1,19 @@
 local CenterPressCount = 0
 local CenterPress3xEnabled = LoadModule("Config.Load.lua")("EvalCenter3xExit", "Save/OutFoxPrefs.ini")
+local Scoring = LoadModule("Config.Load.lua")("ScoringSystem", "Save/OutFoxPrefs.ini") or "Old"
+local ClassicGrades = LoadModule("Config.Load.lua")("ClassicGrades", "Save/OutFoxPrefs.ini") and Scoring == "Old"
 local AdvScoresShown = false
 local BasicMode = getenv("IsBasicMode")
 
 local GradeZoom = IsUsingWideScreen() and 0.6 or 0.5
+local PlateZoom = IsUsingWideScreen() and 1 or 0.8
 
 local Grades = { PlayerNumber_P1 = "FailF", PlayerNumber_P2 = "FailF" }
 local GradePriority = {
-    Pass3S = 1, Fail3S = 2,
-    Pass2S = 3, Fail2S = 4,
-    Pass1S = 5, Fail1S = 6,
-    PassA = 7, FailA = 8,
-    PassB = 9, FailB = 10,
-    PassC = 11, FailC = 12,
-    PassD = 13, FailD = 14,
-    PassF = 15, FailF = 16
+    Pass3S = 1, Fail3S = 2, Pass2S = 3, Fail2S = 4, Pass1S = 5, Fail1S = 6, PassA = 7, FailA = 8,
+    PassB = 9, FailB = 10, PassC = 11, FailC = 12, PassD = 13, FailD = 14, PassF = 15, FailF = 16
 }
+local Plates = { PlayerNumber_P1 = "RoughGame", PlayerNumber_P2 = "RoughGame" }
 
 local function InputHandler(event)
     local pn = event.PlayerNumber
@@ -129,7 +127,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
-                self:Load(THEME:GetPathG("", "LetterGrades/New/" .. Grades[pn]))
+                self:Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") .. Grades[pn]))
                 :diffusealpha(0):sleep(2):easeoutexpo(0.25)
                 :zoom(GradeZoom):diffusealpha(1)
             end
@@ -143,7 +141,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
                 Grades[pn] = LoadModule("PIU/Score.GradingEval.lua")(PlayerScore)
 
-                self:Load(THEME:GetPathG("", "LetterGrades/New/" .. Grades[pn]))
+                self:Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") .. Grades[pn]))
                 :diffusealpha(0):sleep(2.15):diffusealpha(0.8):zoom(GradeZoom):linear(0.75)
                 :zoom(GradeZoom * 1.5):diffusealpha(0)
             end
@@ -155,6 +153,38 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             PlayCommand=function(self) self:play() end,
         }
     }
+    
+    if Scoring == "New" then
+        t[#t+1] = Def.ActorFrame {
+            Def.Sprite {
+                InitCommand=function(self)
+                    local GradeX = IsUsingWideScreen() and 300 or 260
+                    self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y - 100)
+
+                    local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+                    Plates[pn] = LoadModule("PIU/Score.PlatesEval.lua")(PlayerScore)
+
+                    self:Load(THEME:GetPathG("", "LetterGrades/New/" .. Plates[pn]))
+                    :diffusealpha(0):sleep(2):easeoutexpo(0.25)
+                    :zoom(PlateZoom):diffusealpha(1)
+                end
+            },
+            
+            Def.Sprite {
+                InitCommand=function(self)
+                    local GradeX = IsUsingWideScreen() and 300 or 260
+                    self:xy(SCREEN_CENTER_X + (pn == PLAYER_2 and GradeX or -GradeX), SCREEN_CENTER_Y - 100)
+
+                    local PlayerScore = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+                    Plates[pn] = LoadModule("PIU/Score.PlatesEval.lua")(PlayerScore)
+
+                    self:Load(THEME:GetPathG("", "LetterGrades/New/" .. Plates[pn]))
+                    :diffusealpha(0):sleep(2.15):diffusealpha(0.8):zoom(PlateZoom):linear(0.75)
+                    :zoom(PlateZoom * 1.5):diffusealpha(0)
+                end
+            }
+        }
+    end
 end
 
 t[#t+1] = Def.ActorFrame {
@@ -164,12 +194,18 @@ t[#t+1] = Def.ActorFrame {
 
     AnnouncerCommand=function(self)
         local Grade = "FailF"
-        if GradePriority[Grades[PLAYER_1]] < GradePriority[Grades[PLAYER_2]] then
-            Grade = Grades[PLAYER_1]
+        
+        if ClassicGrades then
+            if GradePriority[Grades[PLAYER_1]] < GradePriority[Grades[PLAYER_2]] then
+                Grade = Grades[PLAYER_1]
+            else
+                Grade = Grades[PLAYER_2]
+            end
         else
-            Grade = Grades[PLAYER_2]
+            local ScoreP1 = STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_1):GetScore() or "0"
+            local ScoreP2 = STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_2):GetScore() or "0"
+            Grade = (ScoreP1 > ScoreP2 and Grades[PLAYER_1] or Grades[PLAYER_2])
         end
-        -- SCREENMAN:SystemMessage(Grade)
 
         SOUND:PlayAnnouncer(Grade)
     end

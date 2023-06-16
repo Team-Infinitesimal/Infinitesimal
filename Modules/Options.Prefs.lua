@@ -214,6 +214,12 @@ return {
         Choices = { OptionNameString('Old'), OptionNameString('New') },
         Values = { "Old", "New" }
     },
+    ClassicGrades =
+    {
+        Default = false,
+        Choices = { OptionNameString('Off'), OptionNameString('On') },
+        Values = {false, true}
+    },
     LifePositionBelow =
     {
         Default = false,
