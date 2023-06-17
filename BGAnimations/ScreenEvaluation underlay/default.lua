@@ -6,7 +6,7 @@ local AdvScoresShown = false
 local BasicMode = getenv("IsBasicMode")
 
 local GradeZoom = IsUsingWideScreen() and 0.6 or 0.5
-local PlateZoom = IsUsingWideScreen() and 1 or 0.8
+local PlateZoom = IsUsingWideScreen() and 0.7 or 0.5
 
 local Grades = { PlayerNumber_P1 = "FailF", PlayerNumber_P2 = "FailF" }
 local GradePriority = {
@@ -153,7 +153,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             PlayCommand=function(self) self:play() end,
         }
     }
-    
+
     if Scoring == "New" then
         t[#t+1] = Def.ActorFrame {
             Def.Sprite {
@@ -169,7 +169,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     :zoom(PlateZoom):diffusealpha(1)
                 end
             },
-            
+
             Def.Sprite {
                 InitCommand=function(self)
                     local GradeX = IsUsingWideScreen() and 300 or 260
@@ -194,7 +194,7 @@ t[#t+1] = Def.ActorFrame {
 
     AnnouncerCommand=function(self)
         local Grade = "FailF"
-        
+
         if ClassicGrades then
             if GradePriority[Grades[PLAYER_1]] < GradePriority[Grades[PLAYER_2]] then
                 Grade = Grades[PLAYER_1]

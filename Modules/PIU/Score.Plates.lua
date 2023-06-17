@@ -1,11 +1,14 @@
 return function(PlayerScore)
+    local TimingMode = LoadModule("Config.Load.lua")("SmartTimings", "Save/OutFoxPrefs.ini")
+    local PumpTiming = string.find(TimingMode, "Pump")
+
     local PlateText = "Rough"
-    
+
     local TNSPerfect = "TapNoteScore_W" .. (PumpTiming and "1" or "2")
     local TNSGreat = "TapNoteScore_W" .. (PumpTiming and "2" or "3")
     local TNSGood = "TapNoteScore_W" .. (PumpTiming and "3" or "4")
     local TNSBad = "TapNoteScore_W" .. (PumpTiming and "4" or "5")
-    
+
     local Checkpoints = PlayerScore:GetTapNoteScore("TapNoteScore_CheckpointHit")
     local Superbs 	= PumpTiming and 0 or PlayerScore:GetTapNoteScore("TapNoteScore_W1")
     local Perfects 	= PlayerScore:GetTapNoteScore(TNSPerfect) + Checkpoints
@@ -14,7 +17,7 @@ return function(PlayerScore)
     local Bads	 	= PlayerScore:GetTapNoteScore(TNSBad)
     local Misses 	= PlayerScore:GetTapNoteScore("TapNoteScore_Miss") +
                       PlayerScore:GetTapNoteScore("TapNoteScore_CheckpointMiss")
-    
+
     -- The good ol' if staircase
     if Misses == 0 then
         if Bads == 0 then
@@ -39,6 +42,6 @@ return function(PlayerScore)
     else
         PlateText = "Rough"
     end
-    
+
     return PlateText .. "Game"
 end
