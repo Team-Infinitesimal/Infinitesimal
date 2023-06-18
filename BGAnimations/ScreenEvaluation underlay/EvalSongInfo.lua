@@ -17,7 +17,7 @@ return Def.ActorFrame {
             local BPMDisplay = (BPMLow == BPMHigh and BPMHigh or BPMLow .. "-" .. BPMHigh)
 
             if Song:IsDisplayBpmRandom() or BPMDisplay == 0 then BPMDisplay = "???" end
-            
+
             self:GetChild("Title"):settext(TitleText)
             self:GetChild("Artist"):settext(AuthorText)
             self:GetChild("Length"):settext(SecondsToMMSS(Song:MusicLengthSeconds()))
@@ -29,12 +29,10 @@ return Def.ActorFrame {
             self:GetChild("BPM"):settext("")
         end
     end,
-    
+
     Def.Sprite {
-        Texture=THEME:GetPathG("", "Evaluation/EvalSongInfo"),
-        InitCommand=function(self) self:zoom(1.25) end
-    },
-    
+        Texture=THEME:GetPathG("", "Evaluation/EvalSongInfo"),    },
+
     Def.BitmapText {
         Font="Montserrat semibold 40px",
         Name="Title",
@@ -45,7 +43,7 @@ return Def.ActorFrame {
             :y(-30)
         end
     },
-    
+
     Def.BitmapText {
         Font="Montserrat normal 20px",
         Name="Artist",
@@ -66,7 +64,7 @@ return Def.ActorFrame {
             :diffuse(Color.Black)
             :xy(FrameW / 2 - 36, 16)
         end
-    }, 
+    },
 
     Def.BitmapText {
         Font="Montserrat normal 20px",

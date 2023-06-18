@@ -5,8 +5,8 @@ local ClassicGrades = LoadModule("Config.Load.lua")("ClassicGrades", "Save/OutFo
 local AdvScoresShown = false
 local BasicMode = getenv("IsBasicMode")
 
-local GradeZoom = IsUsingWideScreen() and 0.6 or 0.45
-local PlateZoom = IsUsingWideScreen() and 0.7 or 0.65
+local GradeZoom = IsUsingWideScreen() and 0.5 or 0.45
+local PlateZoom = IsUsingWideScreen() and 0.8 or 0.65
 
 local Grades = { PlayerNumber_P1 = "FailF", PlayerNumber_P2 = "FailF" }
 local GradePriority = {
