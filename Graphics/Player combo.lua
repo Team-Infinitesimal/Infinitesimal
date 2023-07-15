@@ -45,7 +45,7 @@ local t = Def.ActorFrame {
 
         c.ComboLabel:visible(true)
         c.Number:visible(true)
-        c.Number:settext( string.format("%i", iCombo) )
+        c.Number:settext(string.rep("0",3-string.len(iCombo))..iCombo)
 
         c.Number:stoptweening():diffuse(params.Misses and Color.Red or Color.White)
         :diffusealpha(0.85):zoom(1.25*Zoom):decelerate(0.15):diffusealpha(1.0):zoom(Zoom)
