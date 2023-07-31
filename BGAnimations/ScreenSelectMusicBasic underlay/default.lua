@@ -171,7 +171,7 @@ t[#t+1] = Def.ActorFrame {
         setenv("IsBasicMode", false)
         LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
         self:GetParent():GetChild("MusicWheel"):easeinexpo(0.25):addy(300)
-        SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusic")
+        SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusicFull")
         SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
     end,
 

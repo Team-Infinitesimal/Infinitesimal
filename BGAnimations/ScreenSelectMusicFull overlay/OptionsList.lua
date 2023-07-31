@@ -1,11 +1,26 @@
 local t = Def.ActorFrame {
+    Def.OptionsList {
+        Player=PLAYER_1,
+        CodeMessageCommand=function(self, params)
+            if params.Name == "OpenOpList" and params.PlayerNumber == PLAYER_1 then
+                self:Open()
+            end
+        end
+    },
+    
+    Def.OptionsList {
+        Player=PLAYER_2,
+        CodeMessageCommand=function(self, params)
+            if params.Name == "OpenOpList" and params.PlayerNumber == PLAYER_2 then
+                self:Open()
+            end
+        end
+    },
+    
     Def.Sound {
         File=THEME:GetPathS("", "OpenCommandWindow"),
         CodeMessageCommand=function(self, params)
-            if params.Name == "OpenOpList" then
-                SCREENMAN:GetTopScreen():OpenOptionsList(params.PlayerNumber)
-                self:play()
-            end
+            if params.Name == "OpenOpList" then self:play() end
         end
     },
 

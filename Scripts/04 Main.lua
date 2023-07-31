@@ -219,6 +219,8 @@ function AssembleBasicMode()
         Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
         return
     end
+    
+    Trace("Creating Basic Mode song list...")
     local set = {}
 
     -- Populate the groups
