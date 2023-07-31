@@ -255,11 +255,11 @@ function RunGroupSorting()
                 Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
                 Songs = TitleGroups[v],
             }
+            
+            Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
+            SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
+            #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
         end
-        
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
 	end
     
     -- If nothing is available, remove the main entry completely
@@ -300,11 +300,11 @@ function RunGroupSorting()
                 Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
                 Songs = ArtistGroups[v],
             }
+            
+            Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
+            SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
+            #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
         end
-        
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
 	end
     
     -- If nothing is available, remove the main entry completely
