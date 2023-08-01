@@ -78,7 +78,6 @@ function RunGroupSorting()
     #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
     
     -- ======================================== Shortcuts ========================================
-    
     local Shortcuts = {}
     for j, Song in ipairs(AllSongs) do
         if Song:GetLastSecond() < 75 or string.find(string.upper(Song:GetSongDir()), "[SHORT CUT]", nil, true) then
@@ -86,23 +85,19 @@ function RunGroupSorting()
         end
     end
     
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
-        Name = "Shortcut",
-        Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
-        Songs = Shortcuts,
-    }
-        
-    Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-    #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
-    
-    -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs == 0 then 
-        table.remove(SortGroups[#SortGroups].SubGroups) 
+    if #Shortcuts ~= nil then
+        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+            Name = "Shortcut",
+            Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
+            Songs = Shortcuts,
+        }
+            
+        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
+        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
+        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
     end
     
     -- ======================================== Remixes ========================================
-    
     local Remixes = {}
     for j, Song in ipairs(AllSongs) do
         if string.find(string.upper(Song:GetSongDir()), "[REMIX]", nil, true) then
@@ -110,23 +105,19 @@ function RunGroupSorting()
         end
     end
     
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
-        Name = "Remix",
-        Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
-        Songs = Remixes,
-    }
-        
-    Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-    #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
-    
-    -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs == 0 then 
-        table.remove(SortGroups[#SortGroups].SubGroups) 
+    if #Remixes ~= nil then
+        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+            Name = "Remix",
+            Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
+            Songs = Remixes,
+        }
+            
+        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
+        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
+        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
     end
     
     -- ======================================== Full Songs ========================================
-    
     local FullSongs = {}
     for j, Song in ipairs(AllSongs) do
         if string.find(string.upper(Song:GetSongDir()), "[FULL SONG]", nil, true) then
@@ -136,23 +127,19 @@ function RunGroupSorting()
         end
     end
     
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
-        Name = "Full Song",
-        Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
-        Songs = FullSongs,
-    }
-        
-    Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-    #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
-    
-    -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs == 0 then 
-        table.remove(SortGroups[#SortGroups].SubGroups) 
+    if #FullSongs ~= nil then
+        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+            Name = "Full Song",
+            Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
+            Songs = FullSongs,
+        }
+            
+        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
+        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
+        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
     end
     
     -- ======================================== Co-op charts ========================================
-    
     local CoopSongs = {}
     for j, Song in ipairs(AllSongs) do
         for i, Chart in ipairs(SongUtil.GetPlayableSteps(Song)) do
@@ -170,19 +157,16 @@ function RunGroupSorting()
 		end
     end
     
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
-        Name = "Co-op",
-        Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
-        Songs = CoopSongs,
-    }
-        
-    Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-    #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
-    
-    -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs == 0 then 
-        table.remove(SortGroups[#SortGroups].SubGroups) 
+    if #CoopSongs ~= nil then
+        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+            Name = "Co-op",
+            Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
+            Songs = CoopSongs,
+        }
+            
+        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
+        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
+        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
     end
 
     -- ======================================== Song groups ========================================
