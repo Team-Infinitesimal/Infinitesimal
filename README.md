@@ -56,6 +56,7 @@ The following features can be configured via the Infinitesimal Options submenu o
 ## Languages:
 Currently, Infinitesimal supports the following languages:
 * English
+* Spanish
 * Brazilian Portuguese
 * Polish
 
@@ -79,6 +80,7 @@ This theme wouldn't be here if it weren't for the help of the following people:
 * Accelerator/Rhythm Lunatic and Engine_Machiner (theme assistance)
 * Bedrock Solid (music, suggestions and playtesting)
 * SHRMP0, 4199, Enally and djgrs (suggestions and playtesting)
+* octocd5, frondal/ar2k (Spanish localization) 
 * CrackItUp group (original home of the theme's development)
 * Team Infinity (setting a landmark in PIU's interface and graphics design)
 * RGAB Community
