@@ -35,6 +35,7 @@ for Group in ivalues(SONGMAN:GetSongGroupNames()) do
         end
     end
 end
+table.sort(Groups)
 
 for Group in ivalues(Groups) do
     GroupSongNums[Group] = #SONGMAN:GetSongsInGroup(Group)
