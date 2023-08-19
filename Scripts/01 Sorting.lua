@@ -188,6 +188,7 @@ function RunGroupSorting()
 			end
 		end
 	end
+    table.sort(SongGroups)
     
 	for i, v in ipairs(SongGroups) do
 		SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
