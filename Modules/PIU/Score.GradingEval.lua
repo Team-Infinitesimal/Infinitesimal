@@ -23,11 +23,11 @@ return function(PlayerScore)
             ["3A"]      = {["Lower"] = 950000, ["Upper"] = 960000},
             ["2PA"]     = {["Lower"] = 925000, ["Upper"] = 950000},
             ["2A"]      = {["Lower"] = 900000, ["Upper"] = 925000},
-            ["PA"]      = {["Lower"] = 800000, ["Upper"] = 900000},
-            ["A"]       = {["Lower"] = 750000, ["Upper"] = 800000},
-            ["B"]       = {["Lower"] = 700000, ["Upper"] = 750000},
-            ["C"]       = {["Lower"] = 600000, ["Upper"] = 700000},
-            ["D"]       = {["Lower"] = 500000, ["Upper"] = 600000}
+            ["PA"]      = {["Lower"] = 825000, ["Upper"] = 900000},
+            ["A"]       = {["Lower"] = 750000, ["Upper"] = 825000},
+            ["B"]       = {["Lower"] = 650000, ["Upper"] = 750000},
+            ["C"]       = {["Lower"] = 550000, ["Upper"] = 650000},
+            ["D"]       = {["Lower"] = 450000, ["Upper"] = 550000}
         }
 
         if FailGrade ~= "Grade_Failed" then
