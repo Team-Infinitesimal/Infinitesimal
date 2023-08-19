@@ -1,24 +1,4 @@
 local t = Def.ActorFrame {
-    Def.OptionsList {
-        Player=PLAYER_1,
-        InitCommand=function(self) self:xy(200, SCREEN_CENTER_Y-180):draworder(100) end,
-        CodeMessageCommand=function(self, params)
-            if params.Name == "OpenOpList" and params.PlayerNumber == PLAYER_1 then
-                self:Open()
-            end
-        end
-    },
-
-    Def.OptionsList {
-        Player=PLAYER_2,
-        InitCommand=function(self) self:xy(SCREEN_RIGHT-200, SCREEN_CENTER_Y-180):draworder(100) end,
-        CodeMessageCommand=function(self, params)
-            if params.Name == "OpenOpList" and params.PlayerNumber == PLAYER_2 then
-                self:Open()
-            end
-        end
-    },
-
     Def.Sound {
         File=THEME:GetPathS("", "OpenCommandWindow"),
         CodeMessageCommand=function(self, params)
@@ -61,7 +41,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         end,
 
         OnCommand=function(self)
-            OptionsListActor = SCREENMAN:GetTopScreen():GetChild("OptionsList" .. pname(pn))
+            OptionsListActor = self:GetChild("OptionsList" .. pname(pn))
         end,
 
         -- Move the list around when opened/closed
@@ -98,11 +78,11 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             if params.Player == pn then
                 -- Edge case since we don't need to scroll in Speed Mods
                 if params.Selection + 1 > 5 and OptionsListMenu == "Noteskins" then
-                    OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180 - (26 * (params.Selection - 5)))
+                    OptionsListActor:stoptweening():linear(0.1):y(-110 - (26 * (params.Selection - 5)))
                 elseif params.Selection + 1 > 9 then
-                    OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180 - (26 * (params.Selection - 9)))
+                    OptionsListActor:stoptweening():linear(0.1):y(-110 - (26 * (params.Selection - 9)))
                 else
-                    OptionsListActor:stoptweening():linear(0.1):y(SCREEN_CENTER_Y - 180)
+                    OptionsListActor:stoptweening():linear(0.1):y(-110)
                 end
             end
         end,
@@ -119,6 +99,16 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
         Def.Quad {
             InitCommand=function(self) self:setsize(206, 268):xy(0, 296):MaskSource() end,
+        },
+        
+        Def.OptionsList {
+            Name="OptionsList" .. pname(pn),
+            Player=pn,
+            CodeMessageCommand=function(self, params)
+                if params.Name == "OpenOpList" and params.PlayerNumber == PLAYER_1 then
+                    self:Open()
+                end
+            end
         }
     }
 end
