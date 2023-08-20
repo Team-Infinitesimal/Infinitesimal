@@ -23,8 +23,8 @@ local IsBusy = false
 local IsFocusedMain = false
 
 -- Create the variables necessary for both wheels
-local CurMainIndex = 1
-local CurSubIndex = 1
+local CurMainIndex = LastGroupMainIndex > 0 and LastGroupMainIndex or 1
+local CurSubIndex = LastGroupSubIndex > 0 and LastGroupSubIndex or 1
 local MainTargets = {}
 local SubTargets = {}
 
@@ -131,9 +131,18 @@ local function InputHandler(event)
                 UpdateSubItemTargets(CurSubIndex)
                 MESSAGEMAN:Broadcast("RefreshHighlight") 
             else
-                GroupIndex = CurMainIndex
-                SubGroupIndex = CurSubIndex
-                MESSAGEMAN:Broadcast("CloseGroupWheel")
+                if CurMainIndex == LastGroupMainIndex and CurSubIndex == LastGroupSubIndex then
+                    MESSAGEMAN:Broadcast("CloseGroupWheel", { Silent = true })
+                else
+                    GroupIndex = CurMainIndex
+                    SubGroupIndex = CurSubIndex
+                    
+                    -- Save this for later
+                    LastGroupMainIndex = CurMainIndex
+                    LastGroupSubIndex = CurSubIndex
+                    
+                    MESSAGEMAN:Broadcast("CloseGroupWheel", { Silent = false })
+                end
             end
             
         elseif button == "UpRight" or button == "UpLeft" or button == "Up" then
@@ -200,15 +209,17 @@ local t = Def.ActorFrame {
     OpenGroupCommand=function(self) IsSelectingGroup = true end,
     CloseGroupCommand=function(self) IsSelectingGroup = false end,
     
-    CloseGroupWheelMessageCommand=function(self)
+    CloseGroupWheelMessageCommand=function(self, params)
         self:stoptweening():easeoutexpo(0.25):diffusealpha(0)
         
         BlockScreenInput(false)
         IsSelectingGroup = false
         
-        -- The built in wheel needs to be told the group has been changed
-        ScreenSelectMusic:PostScreenMessage("SM_SongChanged", 0 )
-        MESSAGEMAN:Broadcast("StartSelectingSong")
+        if params.Silent == false then
+            -- The built in wheel needs to be told the group has been changed
+            ScreenSelectMusic:PostScreenMessage("SM_SongChanged", 0 )
+            MESSAGEMAN:Broadcast("StartSelectingSong")
+        end
     end,
 
     Def.Sound {

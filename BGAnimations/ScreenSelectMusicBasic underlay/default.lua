@@ -168,6 +168,7 @@ t[#t+1] = Def.ActorFrame {
     end,
 
     FullModeTransitionCommand=function(self)
+        LastSongIndex = 0
         setenv("IsBasicMode", false)
         LoadModule("Config.Save.lua")("SmartTimings",tostring("Pump Normal"),"Save/OutFoxPrefs.ini")
         self:GetParent():GetChild("MusicWheel"):easeinexpo(0.25):addy(300)

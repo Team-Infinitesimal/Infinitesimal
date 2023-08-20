@@ -12,11 +12,14 @@ if next(GroupsList) == nil then
     return Def.Actor {}
 else
 
-local SongIndex = 1
+local SongIndex = LastSongIndex > 0 and LastSongIndex or 1
+local GroupMainIndex = LastGroupMainIndex > 0 and LastGroupMainIndex or 1
+local GroupSubIndex = LastGroupSubIndex > 0 and LastGroupSubIndex or 1
+
 local IsBusy = false
 
 -- Default is to start at All for now
-Songs = GroupsList[1].SubGroups[1].Songs
+Songs = GroupsList[GroupMainIndex].SubGroups[GroupSubIndex].Songs
 
 -- Update Songs item targets
 local function UpdateItemTargets(val)
@@ -68,6 +71,9 @@ local function InputHandler(event)
             MESSAGEMAN:Broadcast("Scroll", { Direction = 1 })
             
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
+            -- Save this for later
+            LastSongIndex = SongIndex
+            
             MESSAGEMAN:Broadcast("MusicWheelStart")
 
         elseif button == "Back" then
@@ -112,12 +118,14 @@ local t = Def.ActorFrame {
     end,
     
     OpenGroupWheelMessageCommand=function(self) IsBusy = true end,
-    CloseGroupWheelMessageCommand=function(self) 
-        -- Grab the new list of songs from the selected group
-        Songs = GroupsList[GroupIndex].SubGroups[SubGroupIndex].Songs
-        -- Reset back to the first song of the list
-        SongIndex = 1
-        GAMESTATE:SetCurrentSong(Songs[SongIndex])
+    CloseGroupWheelMessageCommand=function(self, params)
+        if params.Silent == false then
+            -- Grab the new list of songs from the selected group
+            Songs = GroupsList[GroupIndex].SubGroups[SubGroupIndex].Songs
+            -- Reset back to the first song of the list
+            SongIndex = 1
+            GAMESTATE:SetCurrentSong(Songs[SongIndex])
+        end
         -- Update wheel yada yada
         UpdateItemTargets(SongIndex)
         MESSAGEMAN:Broadcast("ForceUpdate")
@@ -178,9 +186,6 @@ for i = 1, WheelSize do
 		end,
 
         ScrollMessageCommand=function(self,param)
-            -- Save this so that we can resume the last selection after gameplay
-            LastSongIndex = SongIndex
-            
             self:stoptweening()
 
             -- Calculate position

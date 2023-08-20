@@ -3,6 +3,11 @@ local t = Def.ActorFrame {
         -- Reset machine profile mods
         ResetLuaMods(PLAYER_1)
         ResetLuaMods(PLAYER_2)
+        
+        -- Reset song and group wheel indexes
+        LastGroupMainIndex = 0
+        LastGroupSubIndex = 0
+        LastSongIndex = 0
 
         GAMESTATE:UpdateDiscordGameMode(GAMESTATE:GetCurrentGame():GetName())
         GAMESTATE:UpdateDiscordScreenInfo("Title Menu", "", 1)
