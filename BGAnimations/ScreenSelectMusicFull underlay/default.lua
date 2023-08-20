@@ -62,6 +62,11 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     :x(SCREEN_CENTER_X + (pn == PLAYER_2 and 380 or -380))
                 end
             end,
+            CurrentChartChangedMessageCommand=function(self, params)
+                if params.Player == pn then
+                    self:stoptweening():easeoutexpo(0.5):x(SCREEN_CENTER_X)
+                end
+            end,
             StepsUnchosenMessageCommand=function(self)
                 self:stoptweening():easeoutexpo(0.5):x(SCREEN_CENTER_X)
             end,

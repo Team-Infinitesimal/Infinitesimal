@@ -8,7 +8,7 @@ local Songs = {}
 local Targets = {}
 
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
-if next(SortGroups) == nil then
+if next(GroupsList) == nil then
     return Def.Actor {}
 else
 
@@ -16,7 +16,7 @@ local SongIndex = 1
 local IsBusy = false
 
 -- Default is to start at All for now
-Songs = SortGroups[1].SubGroups[1].Songs
+Songs = GroupsList[1].SubGroups[1].Songs
 
 -- Update Songs item targets
 local function UpdateItemTargets(val)
@@ -114,7 +114,7 @@ local t = Def.ActorFrame {
     OpenGroupWheelMessageCommand=function(self) IsBusy = true end,
     CloseGroupWheelMessageCommand=function(self) 
         -- Grab the new list of songs from the selected group
-        Songs = SortGroups[GroupIndex].SubGroups[SubGroupIndex].Songs
+        Songs = GroupsList[GroupIndex].SubGroups[SubGroupIndex].Songs
         -- Reset back to the first song of the list
         SongIndex = 1
         GAMESTATE:SetCurrentSong(Songs[SongIndex])
@@ -171,7 +171,7 @@ for i = 1, WheelSize do
 			-- Load banner
             UpdateBanner(self:GetChild("Banner"), Songs[Targets[i]])
             
-            --SCREENMAN:SystemMessage(SortGroups[GroupIndex].Name)
+            --SCREENMAN:SystemMessage(GroupsList[GroupIndex].Name)
 
             -- Set initial position, Direction = 0 means it won't tween
             self:playcommand("Scroll", {Direction = 0})

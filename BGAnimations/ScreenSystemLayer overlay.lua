@@ -5,6 +5,8 @@ local t = Def.ActorFrame {
         else
             Trace("No Basic Mode song list needed!")
         end
+        
+        AssembleGroupSorting()
     end,
     
     Def.BitmapText {

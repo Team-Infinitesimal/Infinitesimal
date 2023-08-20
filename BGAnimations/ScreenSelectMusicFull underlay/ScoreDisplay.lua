@@ -68,13 +68,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 -- Texture=THEME:GetPathG("", "UI/ScoreDisplay"),
                 InitCommand=function(self)
                     self:Load(THEME:GetPathG("", "UI/ScoreDisplay" .. ToEnumShortString(pn)))
-                    self:xy(0, 0):zoom(0.75)
+                    :xy(0, 0):zoom(0.75)
                 end,
             },
             
             Def.Sprite {
                 Name="PersonalGrade",
-                Texture=THEME:GetPathG("", "LetterGrades/FailF"),
                 InitCommand=function(self)
                     self:xy(-40 + CorrectionX, -35):zoom(0.2)
                 end,
@@ -91,7 +90,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             
             Def.Sprite {
                 Name="MachineGrade",
-                Texture=THEME:GetPathG("", "LetterGrades/FailF"),
                 InitCommand=function(self)
                     self:xy(-40 + CorrectionX, 60):zoom(0.2)
                 end,

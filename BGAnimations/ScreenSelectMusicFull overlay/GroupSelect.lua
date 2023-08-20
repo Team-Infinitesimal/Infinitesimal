@@ -47,8 +47,8 @@ local function UpdateMainItemTargets(val)
     for i = 1, MainWheelSize do
         MainTargets[i] = val + i - MainWheelCenter
         -- Wrap to fit to Songs list size
-        while MainTargets[i] > #SortGroups do MainTargets[i] = MainTargets[i] - #SortGroups end
-        while MainTargets[i] < 1 do MainTargets[i] = MainTargets[i] + #SortGroups end
+        while MainTargets[i] > #GroupsList do MainTargets[i] = MainTargets[i] - #GroupsList end
+        while MainTargets[i] < 1 do MainTargets[i] = MainTargets[i] + #GroupsList end
     end
 end
 
@@ -56,8 +56,8 @@ local function UpdateSubItemTargets(val)
     for i = 1, SubWheelSize do
         SubTargets[i] = val + i - SubWheelCenter
         -- Wrap to fit to Songs list size
-        while SubTargets[i] > #SortGroups[CurMainIndex].SubGroups do SubTargets[i] = SubTargets[i] - #SortGroups[CurMainIndex].SubGroups end
-        while SubTargets[i] < 1 do SubTargets[i] = SubTargets[i] + #SortGroups[CurMainIndex].SubGroups end
+        while SubTargets[i] > #GroupsList[CurMainIndex].SubGroups do SubTargets[i] = SubTargets[i] - #GroupsList[CurMainIndex].SubGroups end
+        while SubTargets[i] < 1 do SubTargets[i] = SubTargets[i] + #GroupsList[CurMainIndex].SubGroups end
     end
 end
 
@@ -88,7 +88,7 @@ local function InputHandler(event)
         if button == "Left" or button == "MenuLeft" or button == "DownLeft" then
             if IsFocusedMain then
                 CurMainIndex = CurMainIndex - 1
-                if CurMainIndex < 1 then CurMainIndex = #SortGroups end
+                if CurMainIndex < 1 then CurMainIndex = #GroupsList end
                 UpdateMainItemTargets(CurMainIndex)
                 
                 CurSubIndex = 1
@@ -98,7 +98,7 @@ local function InputHandler(event)
                 MESSAGEMAN:Broadcast("RefreshSub")
             else
                 CurSubIndex = CurSubIndex - 1
-                if CurSubIndex < 1 then CurSubIndex = #SortGroups[CurMainIndex].SubGroups end
+                if CurSubIndex < 1 then CurSubIndex = #GroupsList[CurMainIndex].SubGroups end
                 
                 UpdateSubItemTargets(CurSubIndex)
                 
@@ -108,7 +108,7 @@ local function InputHandler(event)
         elseif button == "Right" or button == "MenuRight" or button == "DownRight" then
             if IsFocusedMain then
                 CurMainIndex = CurMainIndex + 1
-                if CurMainIndex > #SortGroups then CurMainIndex = 1 end
+                if CurMainIndex > #GroupsList then CurMainIndex = 1 end
                 UpdateMainItemTargets(CurMainIndex)
                 
                 CurSubIndex = 1
@@ -118,7 +118,7 @@ local function InputHandler(event)
                 MESSAGEMAN:Broadcast("RefreshSub")
             else
                 CurSubIndex = CurSubIndex + 1
-                if CurSubIndex > #SortGroups[CurMainIndex].SubGroups then CurSubIndex = 1 end
+                if CurSubIndex > #GroupsList[CurMainIndex].SubGroups then CurSubIndex = 1 end
                 
                 UpdateSubItemTargets(CurSubIndex)
                 
@@ -127,7 +127,7 @@ local function InputHandler(event)
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
             if IsFocusedMain then 
                 IsFocusedMain = false
-                if CurSubIndex > #SortGroups[CurMainIndex].SubGroups then CurSubIndex = 1 end
+                if CurSubIndex > #GroupsList[CurMainIndex].SubGroups then CurSubIndex = 1 end
                 UpdateSubItemTargets(CurSubIndex)
                 MESSAGEMAN:Broadcast("RefreshHighlight") 
             else
@@ -231,7 +231,7 @@ for i = 1, MainWheelSize do
     t[#t+1] = Def.ActorFrame{
         OnCommand=function(self)
             -- Update sort text
-            self:GetChild("Text"):settext(SortGroups[MainTargets[i]].Name)
+            self:GetChild("Text"):settext(GroupsList[MainTargets[i]].Name)
             
             -- Set initial position, Direction = 0 means it won't tween
             self:playcommand("ScrollMain", {Direction = 0})
@@ -256,7 +256,7 @@ for i = 1, MainWheelSize do
 
             -- If it's an edge item, update text. Edge items should never tween
             if i == 2 or i == MainWheelSize - 1 then
-				self:GetChild("Text"):settext(SortGroups[MainTargets[i]].Name)
+				self:GetChild("Text"):settext(GroupsList[MainTargets[i]].Name)
             elseif tween then
                 self:easeoutexpo(0.4)
             end
@@ -303,7 +303,7 @@ for i = 1, SubWheelSize do
         OnCommand=function(self)
             if CurMainIndex == OrigGroupIndex then
                 self:GetChild("Banner"):visible(true)
-                UpdateBanner(self:GetChild("Banner"), SortGroups[CurMainIndex].SubGroups[SubTargets[i]].Banner)
+                UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
             else
                 self:GetChild("Banner"):visible(false)
             end
@@ -347,7 +347,7 @@ for i = 1, SubWheelSize do
 				-- Force update banners because of how the sub wheel is now refreshed
                 if CurMainIndex == OrigGroupIndex then
                     self:GetChild("Banner"):visible(true)
-                    UpdateBanner(self:GetChild("Banner"), SortGroups[CurMainIndex].SubGroups[SubTargets[i]].Banner)
+                    UpdateBanner(self:GetChild("Banner"), GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Banner)
                 else
                     self:GetChild("Banner"):visible(false)
                 end
@@ -414,7 +414,7 @@ for i = 1, SubWheelSize do
                 :maxwidth(420):vertalign(0):wrapwidthpixels(420):vertspacing(-16)
             end,
             RefreshCommand=function(self, params) 
-                self:settext(SortGroups[CurMainIndex].SubGroups[SubTargets[i]].Name) 
+                self:settext(GroupsList[CurMainIndex].SubGroups[SubTargets[i]].Name) 
                 :y(CurMainIndex == OrigGroupIndex and 64 or -8)
             end
         }

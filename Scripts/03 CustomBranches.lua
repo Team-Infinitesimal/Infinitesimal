@@ -20,8 +20,8 @@ end
 function SelectMusicOrCourse()
     UseBasicMode = LoadModule("Config.Load.lua")("BasicMode","Save/OutFoxPrefs.ini") or false
     
-    -- This is vital for both the music and group wheel
-    RunGroupSorting()
+    -- Required to avoid unplayable songs and more
+    UpdateGroupSorting()
     
     if GAMESTATE:IsCourseMode() then
         return "ScreenSelectCourse"

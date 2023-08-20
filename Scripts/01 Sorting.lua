@@ -1,5 +1,10 @@
 -- Our main table which will contain all sorted groups.
-SortGroups = {}
+MasterGroupsList = {}
+GroupsList = {}
+
+local NoUCS = LoadModule("Config.Load.lua")("ShowUCSCharts", "Save/OutFoxPrefs.ini")
+local NoQuest = LoadModule("Config.Load.lua")("ShowQuestCharts", "Save/OutFoxPrefs.ini")
+local NoHidden = LoadModule("Config.Load.lua")("ShowHiddenCharts", "Save/OutFoxPrefs.ini")
 
 local function GetValue(t, value)
     for k, v in pairs(t) do
@@ -47,8 +52,30 @@ function PlayableSongs(SongList)
 	return SongTable
 end
 
-function RunGroupSorting()
-    Trace("Creating group sorts....")
+-- http://lua-users.org/wiki/CopyTable
+function deepcopy(orig, copies)
+    copies = copies or {}
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        if copies[orig] then
+            copy = copies[orig]
+        else
+            copy = {}
+            copies[orig] = copy
+            for orig_key, orig_value in next, orig, nil do
+                copy[deepcopy(orig_key, copies)] = deepcopy(orig_value, copies)
+            end
+            setmetatable(copy, deepcopy(getmetatable(orig), copies))
+        end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
+function AssembleGroupSorting()
+    Trace("Creating group sorts...")
     
 	if not (SONGMAN and GAMESTATE) then
         Warn("SONGMAN or GAMESTATE were not ready! Aborting!")
@@ -56,12 +83,12 @@ function RunGroupSorting()
     end
 	
 	-- Empty current table
-	SortGroups = {}
+	MasterGroupsList = {}
     
     -- ======================================== All songs ========================================
-    local AllSongs = PlayableSongs(SONGMAN:GetAllSongs())
+    local AllSongs = SONGMAN:GetAllSongs()
     
-    SortGroups[#SortGroups + 1] = {
+    MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Special",
         Banner = THEME:GetPathG("", "Common fallback banner"),
         SubGroups = {
@@ -73,9 +100,9 @@ function RunGroupSorting()
         }
     }
     
-    Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-    SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-    #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+    Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+    MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+    #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
     
     -- ======================================== Shortcuts ========================================
     local Shortcuts = {}
@@ -86,15 +113,15 @@ function RunGroupSorting()
     end
     
     if #Shortcuts ~= nil then
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
             Name = "Shortcut",
             Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
             Songs = Shortcuts,
         }
             
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+        Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+        #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
     end
     
     -- ======================================== Remixes ========================================
@@ -106,15 +133,15 @@ function RunGroupSorting()
     end
     
     if #Remixes ~= nil then
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
             Name = "Remix",
             Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
             Songs = Remixes,
         }
             
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+        Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+        #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
     end
     
     -- ======================================== Full Songs ========================================
@@ -128,50 +155,59 @@ function RunGroupSorting()
     end
     
     if #FullSongs ~= nil then
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
             Name = "Full Song",
             Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
             Songs = FullSongs,
         }
             
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+        Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+        #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
     end
     
     -- ======================================== Co-op charts ========================================
     local CoopSongs = {}
     for j, Song in ipairs(AllSongs) do
-        for i, Chart in ipairs(SongUtil.GetPlayableSteps(Song)) do
-            local ChartMeter = Chart:GetMeter()
-            local ChartDescription = Chart:GetDescription()
+        for i, Chart in ipairs(Song:GetAllSteps()) do
+            -- Filter out unwanted charts
+            local ShouldRemove = false
+
+            if NoUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
+            elseif NoQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
+            elseif NoHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
-            ChartDescription:gsub("[%p%c%s]", "")
-            if string.find(string.upper(ChartDescription), "DP") or
-            string.find(string.upper(ChartDescription), "COOP") then
-                if ChartMeter == 99 then
-                   table.insert(CoopSongs, Song)
-                   break
+            if not ShouldRemove then
+                local ChartMeter = Chart:GetMeter()
+                local ChartDescription = Chart:GetDescription()
+                
+                ChartDescription:gsub("[%p%c%s]", "")
+                if string.find(string.upper(ChartDescription), "DP") or
+                string.find(string.upper(ChartDescription), "COOP") then
+                    if ChartMeter == 99 then
+                       table.insert(CoopSongs, Song)
+                       break
+                    end
                 end
             end
 		end
     end
     
     if #CoopSongs ~= nil then
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
             Name = "Co-op",
             Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
             Songs = CoopSongs,
         }
             
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+        Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+        #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
     end
 
     -- ======================================== Song groups ========================================
 	local SongGroups = {}
-    SortGroups[#SortGroups + 1] = {
+    MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Group",
         Banner = THEME:GetPathG("", "Common fallback banner"),
         SubGroups = {}
@@ -181,7 +217,7 @@ function RunGroupSorting()
 	-- If so, add them to the group.
 	for GroupName in ivalues(SONGMAN:GetSongGroupNames()) do
 		for Song in ivalues(SONGMAN:GetSongsInGroup(GroupName)) do
-			local Steps = SongUtil.GetPlayableSteps(Song)
+			local Steps = Song:GetAllSteps()
 			if #Steps > 0 then
 				SongGroups[#SongGroups + 1] = GroupName
 				break
@@ -191,25 +227,25 @@ function RunGroupSorting()
     table.sort(SongGroups)
     
 	for i, v in ipairs(SongGroups) do
-		SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+		MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
 			Name = SongGroups[i],
 			Banner = SONGMAN:GetSongGroupBannerPath(SongGroups[i]),
-			Songs = PlayableSongs(SONGMAN:GetSongsInGroup(SongGroups[i]))
+			Songs = SONGMAN:GetSongsInGroup(SongGroups[i])
 		}
         
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+        Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+        #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
 	end
     
     -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups == 0 then table.remove(SortGroups) end
+    if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
     
     -- ======================================== Song titles ========================================
     local Alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"}
     local TitleGroups = {}
     local SongInserted = false
-    SortGroups[#SortGroups + 1] = {
+    MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Title",
         Banner = THEME:GetPathG("", "Common fallback banner"),
         SubGroups = {}
@@ -235,25 +271,25 @@ function RunGroupSorting()
     for i, v in pairs(Alphabet) do
         if TitleGroups[v] ~= nil then
             table.sort(TitleGroups[v], SortSongsByTitle)
-            SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+            MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
                 Name = v,
                 Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
                 Songs = TitleGroups[v],
             }
             
-            Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-            SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-            #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+            Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+            MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+            #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
         end
 	end
     
     -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups == 0 then table.remove(SortGroups) end
+    if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
     
     -- ======================================== Song artists ========================================
     local ArtistGroups = {}
     local SongInserted = false
-    SortGroups[#SortGroups + 1] = {
+    MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Artist",
         Banner = THEME:GetPathG("", "Common fallback banner"),
         SubGroups = {}
@@ -280,32 +316,39 @@ function RunGroupSorting()
     for i, v in pairs(Alphabet) do
         if ArtistGroups[v] ~= nil then
             table.sort(ArtistGroups[v], SortSongsByTitle)
-            SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+            MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
                 Name = v,
                 Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
                 Songs = ArtistGroups[v],
             }
             
-            Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-            SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-            #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+            Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+            MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+            #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
         end
 	end
     
     -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups == 0 then table.remove(SortGroups) end
+    if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
     
     -- ======================================== Single levels ========================================
     local LevelGroups = {}
-    SortGroups[#SortGroups + 1] = {
+    MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Single",
         Banner = THEME:GetPathG("", "Common fallback banner"),
         SubGroups = {}
     }
     
     for j, Song in ipairs(AllSongs) do
-        for i, Chart in ipairs(SongUtil.GetPlayableSteps(Song)) do
-            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Single" then
+        for i, Chart in ipairs(Song:GetAllSteps()) do
+            -- Filter out unwanted charts
+            local ShouldRemove = false
+
+            if NoUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
+            elseif NoQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
+            elseif NoHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
+            
+            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Single" and not ShouldRemove then
                 local ChartLevel = Chart:GetMeter()
                 if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
                 if not HasValue(LevelGroups[ChartLevel], Song) then
@@ -316,31 +359,38 @@ function RunGroupSorting()
     end
     
     for i, v in PairsByKeys(LevelGroups) do
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
             Name = "Single " .. i,
             Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
             Songs = v,
         }
         
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+        Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+        #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
 	end
     
     -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups == 0 then table.remove(SortGroups) end
+    if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
     
     -- ======================================== Halfdouble levels ========================================
     LevelGroups = {}
-    SortGroups[#SortGroups + 1] = {
+    MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Half-Double",
         Banner = THEME:GetPathG("", "Common fallback banner"),
         SubGroups = {}
     }
     
     for j, Song in ipairs(AllSongs) do
-        for i, Chart in ipairs(SongUtil.GetPlayableSteps(Song)) do
-            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Halfdouble" then
+        for i, Chart in ipairs(Song:GetAllSteps()) do
+            -- Filter out unwanted charts
+            local ShouldRemove = false
+
+            if NoUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
+            elseif NoQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
+            elseif NoHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
+            
+            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Halfdouble" and not ShouldRemove then
                 local ChartLevel = Chart:GetMeter()
                 if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
                 if not HasValue(LevelGroups[ChartLevel], Song) then
@@ -351,31 +401,38 @@ function RunGroupSorting()
     end
     
     for i, v in PairsByKeys(LevelGroups) do
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
             Name = "Half-Double " .. i,
             Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
             Songs = v,
         }
         
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+        Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+        #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
 	end
     
     -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups == 0 then table.remove(SortGroups) end
+    if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
     
     -- ======================================== Double levels ========================================
     LevelGroups = {}
-    SortGroups[#SortGroups + 1] = {
+    MasterGroupsList[#MasterGroupsList + 1] = {
         Name = "Double",
         Banner = THEME:GetPathG("", "Common fallback banner"),
         SubGroups = {}
     }
     
     for j, Song in ipairs(AllSongs) do
-        for i, Chart in ipairs(SongUtil.GetPlayableSteps(Song)) do
-            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Double" then
+        for i, Chart in ipairs(Song:GetAllSteps()) do
+            -- Filter out unwanted charts
+            local ShouldRemove = false
+
+            if NoUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
+            elseif NoQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
+            elseif NoHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
+            
+            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Double" and not ShouldRemove then
                 local ChartLevel = Chart:GetMeter()
                 if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
                 if not HasValue(LevelGroups[ChartLevel], Song) then
@@ -386,19 +443,41 @@ function RunGroupSorting()
     end
     
     for i, v in PairsByKeys(LevelGroups) do
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups + 1] = {
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
             Name = "Double " .. i,
             Banner = THEME:GetPathG("", "Common fallback banner"), -- something appending v at the end
             Songs = v,
         }
         
-        Trace("Group added: " .. SortGroups[#SortGroups].Name .. "/" .. 
-        SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Name  .. " - " .. 
-        #SortGroups[#SortGroups].SubGroups[#SortGroups[#SortGroups].SubGroups].Songs .. " songs")
+        Trace("Group added: " .. MasterGroupsList[#MasterGroupsList].Name .. "/" .. 
+        MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Name  .. " - " .. 
+        #MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups].Songs .. " songs")
 	end
     
     -- If nothing is available, remove the main entry completely
-    if #SortGroups[#SortGroups].SubGroups == 0 then table.remove(SortGroups) end
+    if #MasterGroupsList[#MasterGroupsList].SubGroups == 0 then table.remove(MasterGroupsList) end
 	
-	Trace("Group sorting done!")
+	Trace("Group sorting created!")
+end
+
+function UpdateGroupSorting()
+    Trace("Creating group list copy from master...")
+    GroupsList = deepcopy(MasterGroupsList)
+    
+    Trace("Removing unplayable songs from list...")
+    for MainGroup in pairs(GroupsList) do
+        for SubGroup in pairs(GroupsList[MainGroup].SubGroups) do
+            GroupsList[MainGroup].SubGroups[SubGroup].Songs = PlayableSongs(GroupsList[MainGroup].SubGroups[SubGroup].Songs)
+            
+            if #GroupsList[MainGroup].SubGroups[SubGroup].Songs == 0 then
+                table.remove(GroupsList[MainGroup].SubGroups, SubGroup)
+            end
+        end
+        
+        if #GroupsList[MainGroup].SubGroups == 0 then
+            table.remove(GroupsList, MainGroup)
+        end
+    end
+    
+    Trace("Group sorting updated!")
 end
