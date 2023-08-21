@@ -13,6 +13,8 @@ local PlayerModsBlacklist = {
     "FailImmediate",
     "FailImmediateContinue",
     "FailAtEnd",
+    "80Percent",
+    "MissCombo",
     "FailOff"
 }
 
