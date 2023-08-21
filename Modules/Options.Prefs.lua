@@ -231,5 +231,29 @@ return {
         Default = false,
         Choices = { OptionNameString('Off'), OptionNameString('On') },
         Values = {false, true}
-    }
+    },
+    -- System Related Options
+	VideoRenderer =
+	{
+		Choices = {"GLAD", "OpenGL"},
+		Values = {"glad", "opengl"},
+		LoadFunction = function(self,list)
+			local savedRender = PREFSMAN:GetPreference("VideoRenderers")
+			for i,v2 in ipairs(self.Values) do
+				if savedRender == v2 then list[i] = true return end
+			end
+			list[1] = true
+		end,
+		SaveFunction = function(self,list)
+			for i,v2 in ipairs(self.Values) do
+				if list[i] then PREFSMAN:SetPreference("VideoRenderers",v2) return end
+			end
+		end
+	},
+    NoteFieldLength =
+	{
+		Default = SCREEN_HEIGHT,
+		Choices = {"Normal", "Long"},
+		Values = {SCREEN_HEIGHT, 9000},
+	}
 }
