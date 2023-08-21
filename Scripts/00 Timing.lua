@@ -441,10 +441,12 @@ TimingWindow[#TimingWindow+1] = function()
     }
 end
 
-function GetWindowSeconds(TimingWindow, Scale, Add)
-    TimingWindow = TimingWindow * (Scale or 1.0) --Timing Window Scale
-    TimingWindow = TimingWindow + (Add or 0) --Timing Window Add
-    return TimingWindow --TimingWindow is a local variable here
+function GetWindowSeconds(TimingWindow, Scale, Add, JudgeScale)
+	local fSecs = TimingWindow
+	fSecs = fSecs * Scale -- Timing Window Scale
+	fSecs = fSecs + Add --Timing Window Add
+	fSecs = fSecs * (JudgeScale or 1) -- Extra scaling via JudgeScale
+	return fSecs
 end
 
 ------------------------------------------------------------------------------

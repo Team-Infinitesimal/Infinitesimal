@@ -37,14 +37,14 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                         local ProfileDP = round(ProfileScores[1]:GetPercentDP() * 100, 2) .. "%"
 
                         self:GetChild("PersonalGrade"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
-                            LoadModule("PIU/Score.Grading.lua")(ProfileScores[1])))
+                            LoadModule("PIU/Score.Grading.lua")(ProfileScores[1]))):visible(true)
                         self:GetChild("PersonalScore"):settext(ProfileDP .. "\n" .. ProfileScore)
                     else
-                        self:GetChild("PersonalGrade"):Load(nil)
+                        self:GetChild("PersonalGrade"):visible(false)
                         self:GetChild("PersonalScore"):settext("")
                     end
                 else
-                    self:GetChild("PersonalGrade"):Load(nil)
+                    self:GetChild("PersonalGrade"):visible(false)
                     self:GetChild("PersonalScore"):settext("")
                 end
 
@@ -56,10 +56,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                     local MachineName = MachineHighScores[1]:GetName()
 
                     self:GetChild("MachineGrade"):Load(THEME:GetPathG("", "LetterGrades/" .. (ClassicGrades and "" or "New/") ..
-                            LoadModule("PIU/Score.Grading.lua")(MachineHighScores[1])))
+                            LoadModule("PIU/Score.Grading.lua")(MachineHighScores[1]))):visible(true)
                     self:GetChild("MachineScore"):settext(MachineName .. "\n" .. MachineDP .. "\n" .. MachineScore)
                 else
-                    self:GetChild("MachineGrade"):Load(nil)
+                    self:GetChild("MachineGrade"):visible(false)
                     self:GetChild("MachineScore"):settext("")
                 end
             end,

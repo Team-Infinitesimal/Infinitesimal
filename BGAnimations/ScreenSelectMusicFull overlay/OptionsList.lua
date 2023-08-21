@@ -105,7 +105,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Name="OptionsList" .. pname(pn),
             Player=pn,
             CodeMessageCommand=function(self, params)
-                if params.Name == "OpenOpList" and params.PlayerNumber == PLAYER_1 then
+                if params.Name == "OpenOpList" and params.PlayerNumber == pn then
                     self:Open()
                 end
             end
