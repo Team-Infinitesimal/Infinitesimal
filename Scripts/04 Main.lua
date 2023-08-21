@@ -169,6 +169,22 @@ function IsAnniversary()
     return false
 end
 
+-- Thank you Luizsan
+function GameName()
+	local game = string.upper(GAMESTATE:GetCurrentGame():GetName())
+	local temp1 = string.sub(string.lower(game), 2)
+	local text = string.gsub(string.upper(game),string.upper(temp1),temp1)
+	return text
+end
+
+function ShortType(steps)
+    if steps then
+        return string.gsub( ToEnumShortString(steps:GetStepsType()), GameName().."_","")
+    else
+        return nil
+    end
+end
+
 -- Thank you, Accelerator and DDR SN3 team!
 -- These functions are a port of Delta NEX Rebirth and https://github.com/Inorizushi/DDR-X3/blob/master/Scripts/Starter.lua, please credit them if you want to put it in your theme
 
