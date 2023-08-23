@@ -7,6 +7,8 @@ local WheelRotation = 0.1
 local Songs = {}
 local Targets = {}
 
+local ChartPreview = LoadModule("Config.Load.lua")("ChartPreview","Save/OutFoxPrefs.ini")
+
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
 if next(GroupsList) == nil then
     return Def.Actor {}
@@ -145,7 +147,13 @@ local t = Def.ActorFrame {
         PlayMusicCommand=function(self)
             local Song = GAMESTATE:GetCurrentSong()
             if Song then
-                SOUND:PlayMusicPart(Song:GetMusicPath(), Song:GetSampleStart(), Song:GetSampleLength(), 0, 1, false, false, false, Song:GetTimingData())
+                if ChartPreview then
+                    SOUND:PlayMusicPart(Song:GetMusicPath(), Song:GetSampleStart(), 
+                    (Song:GetLastSecond() - Song:GetSampleStart()), 0, 1, false, false, false, Song:GetTimingData())
+                else
+                    SOUND:PlayMusicPart(Song:GetMusicPath(), Song:GetSampleStart(), 
+                    Song:GetSampleLength(), 0, 1, false, false, false, Song:GetTimingData())
+                end
             end
         end
     },
