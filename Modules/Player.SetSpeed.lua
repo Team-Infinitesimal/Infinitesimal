@@ -4,7 +4,13 @@ return function(pn)
     if not AVType then
         GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):XMod(AV / 100)
     elseif AVType == "Auto" then
-        GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):AVMod(AV)
+        local BPM = GAMESTATE:GetCurrentSong():GetDisplayBpms()[2]
+        if GAMESTATE:GetCurrentSong():IsDisplayBpmRandom() or BPM == 0 then
+            GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):MMod(AV)
+        else
+            AV = AV / math.ceil(BPM)
+            GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):XMod(AV)
+        end
     else
         GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):CMod(AV)
     end
