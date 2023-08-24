@@ -155,6 +155,9 @@ local t = Def.ActorFrame {
             ChartArray = SongUtil.GetPlayableSteps(CurrentSong)
             
             -- Filter out unwanted charts recursively
+            local CurGroupName = GroupsList[LastGroupMainIndex] ~= nil and 
+            GroupsList[LastGroupMainIndex].SubGroups[LastGroupSubIndex].Name or ""
+            
             local ShowFilters = {"ShowUCSCharts", "ShowQuestCharts", "ShowHiddenCharts" }
             local ChartFilters = {"UCS", "QUEST", "HIDDEN" }
             local PrevChartArray
@@ -174,11 +177,22 @@ local t = Def.ActorFrame {
                 end
             end
 
-            -- Couple and Routine crashes the game :(
+            -- Normal chart checks
             for i = #ChartArray, 1, -1 do
+                -- Couple and Routine crashes the game :(
                 if string.find(ToUpper(ChartArray[i]:GetStepsType()), "ROUTINE") or
                     string.find(ToUpper(ChartArray[i]:GetStepsType()), "COUPLE") then
                     table.remove(ChartArray, i)
+                end
+                
+                -- Co-op group should only display co-op charts
+                if CurGroupName ~= nil and CurGroupName == "Co-op" then
+                    if ChartArray[i]:GetStepsType() == 'StepsType_Pump_Double' and
+                    (string.find(ToUpper(ChartArray[i]:GetDescription()), "DP") or 
+                    string.find(ToUpper(ChartArray[i]:GetDescription()), "COOP")) and 
+                    ChartArray[i]:GetMeter() == 99 then else
+                        table.remove(ChartArray, i)
+                    end
                 end
             end
 

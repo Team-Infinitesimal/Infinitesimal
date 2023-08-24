@@ -5,12 +5,13 @@ return Def.ActorFrame {
     end,
     
     StartTransitioningCommand=function(self)
+        SOUND:StopMusic()
+        
         if SCREENMAN:GetTopScreen():GetNextScreenName() == "ScreenStageInformation" then
             self:GetChild("Background"):visible(true)
             self:GetChild("SFX"):play()
-            
             self:GetChild("Flash"):visible(true):FullScreen()
-            :diffuse(Color.White):easeoutexpo(1):diffusealpha(0)
+            :diffuse(Color.White):easeoutexpo(1):diffusealpha(0):sleep(2)
         else
             self:sleep(1)
         end

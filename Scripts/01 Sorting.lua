@@ -2,9 +2,9 @@
 MasterGroupsList = {}
 GroupsList = {}
 
-local NoUCS = LoadModule("Config.Load.lua")("ShowUCSCharts", "Save/OutFoxPrefs.ini")
-local NoQuest = LoadModule("Config.Load.lua")("ShowQuestCharts", "Save/OutFoxPrefs.ini")
-local NoHidden = LoadModule("Config.Load.lua")("ShowHiddenCharts", "Save/OutFoxPrefs.ini")
+local ShowUCS = LoadModule("Config.Load.lua")("ShowUCSCharts", "Save/OutFoxPrefs.ini")
+local ShowQuest = LoadModule("Config.Load.lua")("ShowQuestCharts", "Save/OutFoxPrefs.ini")
+local ShowHidden = LoadModule("Config.Load.lua")("ShowHiddenCharts", "Save/OutFoxPrefs.ini")
 
 local function GetValue(t, value)
     for k, v in pairs(t) do
@@ -169,13 +169,13 @@ function AssembleGroupSorting()
     -- ======================================== Co-op charts ========================================
     local CoopSongs = {}
     for j, Song in ipairs(AllSongs) do
-        for i, Chart in ipairs(Song:GetAllSteps()) do
+        for i, Chart in ipairs(Song:GetStepsByStepsType('StepsType_Pump_Double')) do
             -- Filter out unwanted charts
             local ShouldRemove = false
 
-            if NoUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
-            elseif NoQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
-            elseif NoHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
+            if not ShowUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
+            elseif not ShowQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
+            elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
             if not ShouldRemove then
                 local ChartMeter = Chart:GetMeter()
@@ -344,9 +344,9 @@ function AssembleGroupSorting()
             -- Filter out unwanted charts
             local ShouldRemove = false
 
-            if NoUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
-            elseif NoQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
-            elseif NoHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
+            if not ShowUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
+            elseif not ShowQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
+            elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
             if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Single" and not ShouldRemove then
                 local ChartLevel = Chart:GetMeter()
@@ -386,9 +386,9 @@ function AssembleGroupSorting()
             -- Filter out unwanted charts
             local ShouldRemove = false
 
-            if NoUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
-            elseif NoQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
-            elseif NoHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
+            if not ShowUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
+            elseif not ShowQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
+            elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
             if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Halfdouble" and not ShouldRemove then
                 local ChartLevel = Chart:GetMeter()
@@ -428,9 +428,9 @@ function AssembleGroupSorting()
             -- Filter out unwanted charts
             local ShouldRemove = false
 
-            if NoUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
-            elseif NoQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
-            elseif NoHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
+            if not ShowUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
+            elseif not ShowQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
+            elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
             if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Double" and not ShouldRemove then
                 local ChartLevel = Chart:GetMeter()
@@ -479,5 +479,6 @@ function UpdateGroupSorting()
         end
     end
     
+    MESSAGEMAN:Broadcast("UpdateChartDisplay")
     Trace("Group sorting updated!")
 end
