@@ -206,9 +206,13 @@ t[#t+1] = Def.ActorFrame {
             local ScoreP2 = STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_2):GetScore() or "0"
             Grade = (ScoreP1 > ScoreP2 and Grades[PLAYER_1] or Grades[PLAYER_2])
         end
-
-        SOUND:PlayAnnouncer(Grade)
-    end
+        
+        if ANNOUNCER:GetCurrentAnnouncer() ~= nil then
+            SOUND:PlayAnnouncer(Grade)
+        else
+            SOUND:PlayOnce(THEME:GetPathS("", "Announcer/" .. Grade))
+        end
+    end,
 }
 
 return t
