@@ -9,6 +9,17 @@ local SubWheelSpacing = 250
 local WheelItem = { Width = 212, Height = 120 }
 local WheelRotation = 0.1
 
+-- Not load anything if no group sorts are available (catastrophic event or no songs)
+if next(GroupsList) == nil then
+    AssembleGroupSorting()
+    UpdateGroupSorting()
+    
+    if next(GroupsList) == nil then
+        Warn("Groups list is currently inaccessible, halting music wheel!")
+        return Def.Actor {}
+    end
+end
+
 -- So that we can grab the Cur screen and use it outside an actor
 local ScreenSelectMusic
 

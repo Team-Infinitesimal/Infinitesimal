@@ -11,8 +11,14 @@ local ChartPreview = LoadModule("Config.Load.lua")("ChartPreview","Save/OutFoxPr
 
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
 if next(GroupsList) == nil then
-    return Def.Actor {}
-else
+    AssembleGroupSorting()
+    UpdateGroupSorting()
+    
+    if next(GroupsList) == nil then
+        Warn("Groups list is currently inaccessible, halting music wheel!")
+        return Def.Actor {}
+    end
+end
 
 LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
 LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
@@ -259,5 +265,3 @@ for i = 1, WheelSize do
 end
 
 return t
-
-end
