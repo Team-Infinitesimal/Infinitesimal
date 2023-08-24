@@ -22,6 +22,10 @@ local IsSelectingGroup = false
 local IsBusy = false
 local IsFocusedMain = false
 
+LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
+LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
+LastSongIndex = tonumber(LoadModule("Config.Load.lua")("SongIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
+
 -- Create the variables necessary for both wheels
 local CurMainIndex = LastGroupMainIndex > 0 and LastGroupMainIndex or 1
 local CurSubIndex = LastGroupSubIndex > 0 and LastGroupSubIndex or 1
@@ -140,6 +144,9 @@ local function InputHandler(event)
                     -- Save this for later
                     LastGroupMainIndex = CurMainIndex
                     LastGroupSubIndex = CurSubIndex
+                    
+                    LoadModule("Config.Save.lua")("GroupMainIndex", LastGroupMainIndex, CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
+                    LoadModule("Config.Save.lua")("GroupSubIndex", LastGroupSubIndex, CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
                     
                     MESSAGEMAN:Broadcast("CloseGroupWheel", { Silent = false })
                 end

@@ -14,6 +14,10 @@ if next(GroupsList) == nil then
     return Def.Actor {}
 else
 
+LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
+LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
+LastSongIndex = tonumber(LoadModule("Config.Load.lua")("SongIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
+
 local SongIndex = LastSongIndex > 0 and LastSongIndex or 1
 local GroupMainIndex = LastGroupMainIndex > 0 and LastGroupMainIndex or 1
 local GroupSubIndex = LastGroupSubIndex > 0 and LastGroupSubIndex or 1
@@ -75,6 +79,7 @@ local function InputHandler(event)
         elseif button == "Start" or button == "MenuStart" or button == "Center" then
             -- Save this for later
             LastSongIndex = SongIndex
+            LoadModule("Config.Save.lua")("SongIndex", LastSongIndex, CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini")
             
             MESSAGEMAN:Broadcast("MusicWheelStart")
 

@@ -479,6 +479,10 @@ function UpdateGroupSorting()
         end
     end
     
+    LastGroupMainIndex = LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini") or 0
+    LastGroupSubIndex = LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini") or 0
+    --LastSongIndex = LoadModule("Config.Load.lua")("SongIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini") or 0
+    
     MESSAGEMAN:Broadcast("UpdateChartDisplay")
     Trace("Group sorting updated!")
 end
