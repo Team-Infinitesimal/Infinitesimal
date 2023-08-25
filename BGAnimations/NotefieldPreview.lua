@@ -62,7 +62,8 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
             Def.NoteField {
                 Name = "NotefieldPreview",
                 Player = pnNoteField,
-                NoteSkin = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptions('ModsLevel_Preferred'):NoteSkin(),
+                --hardcoding skin for now because player choice only updates on screen refresh and most other noteskins look glitchy on previews.
+                NoteSkin = 'delta',
                 DrawDistanceAfterTargetsPixels = NotefieldRenderAfter,
                 DrawDistanceBeforeTargetsPixels = NotefieldRenderBefore,
                 YReverseOffsetPixels = ReceptorOffset,
@@ -71,12 +72,14 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                     self:xy(AFTWidth / 2, 240):addy(NotefieldY)
                     :GetPlayerOptions("ModsLevel_Current")
                     :StealthPastReceptors(true, true)
-                    
-                    self:AutoPlay(true)
 
-                    LoadModule("Player.SetSpeed.lua")(pn)
-                    local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
-                    self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+                    self:AutoPlay(true)
+                    self:ModsFromString("C500, Overhead" ) -- this makes it just a simple chart preview instead of a mod preview, but at least it works.
+                    --LoadModule("Player.SetSpeed.lua")(pn)
+                    --local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
+                    --self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+
+
                 end,
 
                 CurrentStepsP1ChangedMessageCommand=function(self) self:queuecommand("Refresh") end,
@@ -93,10 +96,10 @@ for i, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
                     local Steps = GAMESTATE:GetCurrentSteps(pn)
                     local StepsType = Steps:GetStepsType()
                     --SCREENMAN:SystemMessage(StepsType)
-
-                    LoadModule("Player.SetSpeed.lua")(pn)
-                    local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
-                    self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
+                    self:ModsFromString("C500, Overhead" ) -- this makes it just a simple chart preview instead of a mod preview, but at least it works.
+                    --LoadModule("Player.SetSpeed.lua")(pn)
+                    --local PlayerModsArray = GAMESTATE:GetPlayerState(pnNoteField):GetPlayerOptionsString("ModsLevel_Preferred")
+                    --self:GetPlayerOptions("ModsLevel_Current"):FromString(PlayerModsArray)
 
                     if not STCache[pn] or STCache[pn] ~= StepsType then
                         self:ChangeReload(Steps)
