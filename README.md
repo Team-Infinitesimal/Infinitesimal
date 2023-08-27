@@ -76,11 +76,11 @@ Hopefully all of these should be gone soon with future Project OutFox developmen
 This theme wouldn't be here if it weren't for the help of the following people:
 * JoseVarelaP (loads of code optimization and refactoring, suggestions and development assistance)
 * Luizsan (creator of PIU Delta / member of Team Infinity and SSC, many notes and examples taken from his work)
-* Squirrel and Jousway (development assistance, pump bug squashing)
+* Jousway and Squirrel (development assistance, pump bug squashing)
 * Accelerator/Rhythm Lunatic and Engine_Machiner (theme assistance)
 * Bedrock Solid (music, suggestions and playtesting)
-* Jehezukiel & Lintoast (music, sound effects and announcer)
-* SHRMP0, 4199, Enally and djgrs (suggestions and playtesting)
+* Jehezukiel and Lintoast (music, sound effects and announcer)
+* 4199, andreycout, djgrs, Enally, SHRMP0 and Sushi (suggestions and playtesting)
 * CrackItUp group (original home of the theme's development)
 * Team Infinity (setting a landmark in PIU's interface and graphics design)
 * RGAB Community

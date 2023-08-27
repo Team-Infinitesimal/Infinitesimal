@@ -7,21 +7,33 @@ Special thanks to Rhythm Lunatic, Tertu, Gio, JoseVarelaP, and others for advice
 ~= Main Programming =~
 - dj505
 - SheepyChris
+
+~= Development / Theme Assistance =~
+- Accelerator/RhythmLunatic
+- Engine_Machiner
 - JoseVarelaP
+- Jousway
+- Squirrel
 
 ~= Testing / Feedback =~
-- SheepyChris
 - 4199
+- andreycout
+- Bedrock Solid
+- djgrs
+- Enally
+- JoseVarelaP
 - SHRMP0
 - Sushi
 
 ~= Optimization / Fixes =~
 - JoseVarelaP
+- Jousway
+- Squirrel
 
 ~= Graphics / Artwork =~
 - dj505
 
 ~= Audio =~
+- Bedrock Solid
 - dj505
-- Bedrock
 - Jehezukiel & Lintoast
