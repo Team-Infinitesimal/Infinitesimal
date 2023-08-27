@@ -8,7 +8,7 @@
 This theme is inspired by Pump It Up Infinity, an uncommon StepMania-based spin-off developed by Team Infinity and licensed by Andamiro. The current goals are to replicate the look and feel of Infinity while sprinkling in new additions and quality of life improvements, utilizing original assets when possible, bringing high performance + cross-platform support to the table with Project OutFox and widening the idea and accessibility of custom Pump It Up content.
 
 ## Requirements
-* [Project OutFox Alpha 0.4.18.1 or newer](https://projectoutfox.com/downloads)
+* [Project OutFox Alpha 0.5.0-pre042 or newer](https://projectoutfox.com/downloads)
 
 Older StepMania versions such as `5.0.12`, `5.1b2` and `5.1-new` are not supported due to the lack of maintenance to `pump/piu` and the engine in general. Support the developers from Team OutFox who are currently doing the heavy lifting!
 
@@ -20,6 +20,7 @@ Since this theme is currently on a rolling release, we highly recommend download
 ## Theme Features
 * Accurate timing windows scoring and lifebar mechanics to K-Pump
 * Additional timing windows available (StepMania, ITG, Infinity, Pro, Jump)
+* Announcer in the evaluation screen, including support for your own custom announcers
 * Basic Mode can be accessed by starting a game with no profiles present, or by using the "Guest" profile
 * Customizable appearance options and modifiers such as arrow size and rush
 * Exit to title screen in home/event mode (hold down any red arrow while selecting a folder)
@@ -67,7 +68,7 @@ The theme currently has a few limitations that are beyond our reach. Here is a l
 * Some chart effects will be missing or broken from incomplete parsing
 * Chart previews are very experimental - some styles might not load/show properly and your game might crash on edge cases
 * Switching timing modes does not update the list of judgement graphics, simply reloading the current screen or changing screens will regenerate the list
-* Infinitesimal has a few issues when running on Project OutFox Alpha V that are being investigated. Stick with standalone Alpha 4 LTS for the time being when playing Infinitesimal
+* Infinitesimal makes use of OutFox Alpha V exclusive features. It is NOT recommended to use it with Alpha 4 LTS
 
 Hopefully all of these should be gone soon with future Project OutFox developments and improvements!
 
@@ -78,6 +79,7 @@ This theme wouldn't be here if it weren't for the help of the following people:
 * Squirrel and Jousway (development assistance, pump bug squashing)
 * Accelerator/Rhythm Lunatic and Engine_Machiner (theme assistance)
 * Bedrock Solid (music, suggestions and playtesting)
+* Jehezukiel & Lintoast (music, sound effects and announcer)
 * SHRMP0, 4199, Enally and djgrs (suggestions and playtesting)
 * CrackItUp group (original home of the theme's development)
 * Team Infinity (setting a landmark in PIU's interface and graphics design)
