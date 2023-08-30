@@ -1,4 +1,6 @@
 # Infinitesimal - an Infinity-inspired OutFox theme
+## **This branch is a work-in-progress and requires the latest test builds of OutFox Alpha V to function as intended.**
+### Make sure to drop by the Project OutFox Discord server and grab the appropriate tester roles to gain access to the latest builds, and remember to properly report bugs and issues while you're at it!
 
 ![logo](https://raw.githubusercontent.com/dj505/Infinitesimal/main/Graphics/Logo/Logo%20(doubleres).png)
 
