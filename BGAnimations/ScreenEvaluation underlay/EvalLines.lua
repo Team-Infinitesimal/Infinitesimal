@@ -183,24 +183,38 @@ for i = 1, RowAmount do
         },
 
         Def.BitmapText {
-            Font="Montserrat semibold 40px",
-            Text=GetJLineValue(Name[i], PLAYER_1),
+            Font="Montserrat numbers 40px",
+            Text=string.rep("0",3-string.len(GetJLineValue(Name[i], PLAYER_1)))..GetJLineValue(Name[i], PLAYER_1),
             InitCommand=function(self)
                 self:x(-RowX):shadowlength(1):zoom(0.8)
                 :halign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_1))
-                if Name[i] == "Score" then
+				if Name[i] ~= "Score" and Name[i] ~= "Accuracy" then
+					if GetJLineValue(Name[i], PLAYER_1) > 0 then
+						self:AddAttribute(0, { Length = 3-string.len(GetJLineValue(Name[i], PLAYER_1)) ; Diffuse = color("#FFFFFF88"); })
+					else
+						self:AddAttribute(0, { Length = 3 ; Diffuse = color("#FFFFFF88"); })
+					end
+                end
+				if Name[i] == "Score" then
                     ColourHighScoreCount(self)
                 end
             end
         },
 
         Def.BitmapText {
-            Font="Montserrat semibold 40px",
-            Text=GetJLineValue(Name[i], PLAYER_2),
+            Font="Montserrat numbers 40px",
+            Text=string.rep("0",3-string.len(GetJLineValue(Name[i], PLAYER_2)))..GetJLineValue(Name[i], PLAYER_2),
             InitCommand=function(self)
                 self:x(RowX):shadowlength(1):zoom(0.8)
                 :halign(1):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_2))
-                if Name[i] == "Score" then
+                if Name[i] ~= "Score" and Name[i] ~= "Accuracy" then
+					if GetJLineValue(Name[i], PLAYER_2) > 0 then
+						self:AddAttribute(0, { Length = 3-string.len(GetJLineValue(Name[i], PLAYER_2)) ; Diffuse = color("#FFFFFF88"); })
+					else
+						self:AddAttribute(0, { Length = 3 ; Diffuse = color("#FFFFFF88"); })
+					end
+                end
+				if Name[i] == "Score" then
                     ColourHighScoreCount(self)
                 end
             end
