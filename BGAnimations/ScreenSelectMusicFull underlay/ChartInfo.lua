@@ -59,7 +59,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 if ChartDescriptionText ~= "" then
                     ChartInfoText = ChartInfoText .. "\n" .. ChartDescriptionText
                 end
-                ChartInfoText = string.upper(ChartInfoText)
+                ChartInfoText = ToUpper(ChartInfoText)
 
                 self:GetChild("ChartInfo"):settext(ChartInfoText)
                 self:GetChild("Steps"):settext(THEME:GetString("PaneDisplay", "Steps") .. "\n" .. ChartRadar:GetValue('RadarCategory_TapsAndHolds'))

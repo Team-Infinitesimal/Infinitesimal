@@ -97,8 +97,8 @@ function ChartTypeToColor(Chart)
             return Color.HoloDarkRed
         elseif ChartType == "Double" then
             ChartDescription:gsub("[%p%c%s]", "")
-            if string.find(string.upper(ChartDescription), "DP") or
-            string.find(string.upper(ChartDescription), "COOP") then
+            if string.find(ToUpper(ChartDescription), "DP") or
+            string.find(ToUpper(ChartDescription), "COOP") then
                 if ChartMeter == 99 then
                     return Color.Yellow
                 else
@@ -145,8 +145,8 @@ function ChartStyleToIndex(Chart)
         return 1
     elseif ChartType == "Double" then
         ChartDescription:gsub("[%p%c%s]", "")
-        if string.find(string.upper(ChartDescription), "DP") or
-        string.find(string.upper(ChartDescription), "COOP") then
+        if string.find(ToUpper(ChartDescription), "DP") or
+        string.find(ToUpper(ChartDescription), "COOP") then
             if ChartMeter == 99 then
                 return 3
             else
@@ -171,9 +171,9 @@ end
 
 -- Thank you Luizsan
 function GameName()
-	local game = string.upper(GAMESTATE:GetCurrentGame():GetName())
+	local game = ToUpper(GAMESTATE:GetCurrentGame():GetName())
 	local temp1 = string.sub(string.lower(game), 2)
-	local text = string.gsub(string.upper(game),string.upper(temp1),temp1)
+	local text = string.gsub(ToUpper(game),ToUpper(temp1),temp1)
 	return text
 end
 
