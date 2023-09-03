@@ -108,7 +108,7 @@ function AssembleGroupSorting()
     -- ======================================== Shortcuts ========================================
     local Shortcuts = {}
     for j, Song in ipairs(AllSongs) do
-        if Song:GetLastSecond() < 75 or string.find(string.upper(Song:GetSongDir()), "[SHORT CUT]", nil, true) then
+        if Song:GetLastSecond() < 75 or string.find(ToUpper(Song:GetSongDir()), "[SHORT CUT]", nil, true) then
            table.insert(Shortcuts, Song)
         end
     end
@@ -128,7 +128,7 @@ function AssembleGroupSorting()
     -- ======================================== Remixes ========================================
     local Remixes = {}
     for j, Song in ipairs(AllSongs) do
-        if string.find(string.upper(Song:GetSongDir()), "[REMIX]", nil, true) then
+        if string.find(ToUpper(Song:GetSongDir()), "[REMIX]", nil, true) then
            table.insert(Remixes, Song)
         end
     end
@@ -148,9 +148,9 @@ function AssembleGroupSorting()
     -- ======================================== Full Songs ========================================
     local FullSongs = {}
     for j, Song in ipairs(AllSongs) do
-        if string.find(string.upper(Song:GetSongDir()), "[FULL SONG]", nil, true) then
+        if string.find(ToUpper(Song:GetSongDir()), "[FULL SONG]", nil, true) then
             table.insert(FullSongs, Song)
-        elseif Song:GetLastSecond() > 150 and not string.find(string.upper(Song:GetSongDir()), "[REMIX]", nil, true) then
+        elseif Song:GetLastSecond() > 150 and not string.find(ToUpper(Song:GetSongDir()), "[REMIX]", nil, true) then
             table.insert(FullSongs, Song)
         end
     end
@@ -183,8 +183,8 @@ function AssembleGroupSorting()
                 local ChartDescription = Chart:GetDescription()
                 
                 ChartDescription:gsub("[%p%c%s]", "")
-                if string.find(string.upper(ChartDescription), "DP") or
-                string.find(string.upper(ChartDescription), "COOP") then
+                if string.find(ToUpper(ChartDescription), "DP") or
+                string.find(ToUpper(ChartDescription), "COOP") then
                     if ChartMeter == 99 then
                        table.insert(CoopSongs, Song)
                        break
@@ -255,7 +255,7 @@ function AssembleGroupSorting()
     for j, Song in ipairs(AllSongs) do
         SongInserted = false
         for i, Letter in ipairs(Alphabet) do
-            if string.upper(Song:GetDisplayMainTitle():sub(1, 1)) == Letter then
+            if ToUpper(Song:GetDisplayMainTitle():sub(1, 1)) == Letter then
                 if TitleGroups[Letter] == nil then TitleGroups[Letter] = {} end
                 table.insert(TitleGroups[Letter], Song)
                 SongInserted = true
@@ -300,7 +300,7 @@ function AssembleGroupSorting()
         SongInserted = false
         
         for i, Letter in ipairs(Alphabet) do
-            if string.upper(Song:GetDisplayArtist():sub(1, 1)) == Letter then
+            if ToUpper(Song:GetDisplayArtist():sub(1, 1)) == Letter then
                 if ArtistGroups[Letter] == nil then ArtistGroups[Letter] = {} end
                 table.insert(ArtistGroups[Letter], Song)
                 SongInserted = true
