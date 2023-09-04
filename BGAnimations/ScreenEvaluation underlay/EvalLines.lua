@@ -189,7 +189,7 @@ for i = 1, RowAmount do
                 self:x(-RowX):shadowlength(1):zoom(0.8)
                 :halign(0):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_1))
 				if Name[i] ~= "Score" and Name[i] ~= "Accuracy" then
-					self:AddAttribute(0, { Length = 3-string.len(GetJLineValue(Name[i], PLAYER_1)) ; Diffuse = color("#FFFFFF88"); })
+					self:AddAttribute(0, { Length = math.max(3-string.len(GetJLineValue(Name[i], PLAYER_1)), 0) ; Diffuse = color("#FFFFFF88"); })
                 end
 				if Name[i] == "Score" then
                     ColourHighScoreCount(self)
@@ -204,7 +204,7 @@ for i = 1, RowAmount do
                 self:x(RowX):shadowlength(1):zoom(0.8)
                 :halign(1):maxwidth(360):visible(GAMESTATE:IsSideJoined(PLAYER_2))
                 if Name[i] ~= "Score" and Name[i] ~= "Accuracy" then
-						self:AddAttribute(0, { Length = 3-string.len(GetJLineValue(Name[i], PLAYER_2)) ; Diffuse = color("#FFFFFF88"); })
+						self:AddAttribute(0, { Length = math.max(3-string.len(GetJLineValue(Name[i], PLAYER_2)), 0) ; Diffuse = color("#FFFFFF88"); })
                 end
 				if Name[i] == "Score" then
                     ColourHighScoreCount(self)
