@@ -344,21 +344,24 @@ function AssembleGroupSorting()
         for i, Chart in ipairs(Song:GetAllSteps()) do
             -- Filter out unwanted charts
             local ShouldRemove = false
+            local CurrentGameMode = GAMESTATE:GetCurrentGame():GetName()
 
             if not ShowUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
             elseif not ShowQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
             elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
-            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Single" and not ShouldRemove then
-                local ChartLevel = Chart:GetMeter()
-                if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
-                if not HasValue(LevelGroups[ChartLevel], Song) then
-                    table.insert(LevelGroups[ChartLevel], Song) 
+            if string.find( Chart:GetStepsType():lower(), CurrentGameMode ) then
+                if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Single" and not ShouldRemove then
+                    local ChartLevel = Chart:GetMeter()
+                    if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
+                    if not HasValue(LevelGroups[ChartLevel], Song) then
+                        table.insert(LevelGroups[ChartLevel], Song) 
+                    end
                 end
             end
-		end
+        end
     end
-    
+        
     for i, v in PairsByKeys(LevelGroups) do
         MasterGroupsList[#MasterGroupsList].SubGroups[#MasterGroupsList[#MasterGroupsList].SubGroups + 1] = {
             Name = "Single " .. i,
@@ -386,19 +389,22 @@ function AssembleGroupSorting()
         for i, Chart in ipairs(Song:GetAllSteps()) do
             -- Filter out unwanted charts
             local ShouldRemove = false
+            local CurrentGameMode = GAMESTATE:GetCurrentGame():GetName()
 
             if not ShowUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
             elseif not ShowQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
             elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
-            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Halfdouble" and not ShouldRemove then
-                local ChartLevel = Chart:GetMeter()
-                if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
-                if not HasValue(LevelGroups[ChartLevel], Song) then
-                    table.insert(LevelGroups[ChartLevel], Song) 
+            if string.find( Chart:GetStepsType():lower(), CurrentGameMode ) then
+                if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Halfdouble" and not ShouldRemove then
+                    local ChartLevel = Chart:GetMeter()
+                    if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
+                    if not HasValue(LevelGroups[ChartLevel], Song) then
+                        table.insert(LevelGroups[ChartLevel], Song) 
+                    end
                 end
             end
-		end
+        end
     end
     
     for i, v in PairsByKeys(LevelGroups) do
@@ -428,19 +434,22 @@ function AssembleGroupSorting()
         for i, Chart in ipairs(Song:GetAllSteps()) do
             -- Filter out unwanted charts
             local ShouldRemove = false
+            local CurrentGameMode = GAMESTATE:GetCurrentGame():GetName()
 
             if not ShowUCS and string.find(ToUpper(Chart:GetDescription()), "UCS") then ShouldRemove = true
             elseif not ShowQuest and string.find(ToUpper(Chart:GetDescription()), "QUEST") then ShouldRemove = true
             elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
-            if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Double" and not ShouldRemove then
-                local ChartLevel = Chart:GetMeter()
-                if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
-                if not HasValue(LevelGroups[ChartLevel], Song) then
-                    table.insert(LevelGroups[ChartLevel], Song) 
+            if string.find( Chart:GetStepsType():lower(), CurrentGameMode ) then
+                if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Double" and not ShouldRemove then
+                    local ChartLevel = Chart:GetMeter()
+                    if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
+                    if not HasValue(LevelGroups[ChartLevel], Song) then
+                        table.insert(LevelGroups[ChartLevel], Song) 
+                    end
                 end
             end
-		end
+        end
     end
     
     for i, v in PairsByKeys(LevelGroups) do

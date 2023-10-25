@@ -94,7 +94,7 @@ function ChartTypeToColor(Chart)
                 return color("#ff871f")
             end
         elseif ChartType == "Halfdouble" then
-            return Color.HoloDarkRed
+            return color("#d91854")
         elseif ChartType == "Double" then
             ChartDescription:gsub("[%p%c%s]", "")
             if string.find(ToUpper(ChartDescription), "DP") or
@@ -134,33 +134,37 @@ function BasicChartLabel(Chart)
     end
 end
 
-function ChartStyleToIndex(Chart)
+function FullModeChartLabel(Chart)
     local ChartMeter = Chart:GetMeter()
     local ChartDescription = Chart:GetDescription()
     local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
 
     if ChartType == "Single" then
-        return 0
+        if string.find(ChartDescription, "SP") then
+            return "SINGLE P."
+        else
+            return "SINGLE"
+        end
     elseif ChartType == "Halfdouble" then
-        return 1
+        return "H. DOUBLE"
     elseif ChartType == "Double" then
         ChartDescription:gsub("[%p%c%s]", "")
         if string.find(ToUpper(ChartDescription), "DP") or
         string.find(ToUpper(ChartDescription), "COOP") then
             if ChartMeter == 99 then
-                return 3
+                return "CO-OP"
             else
-                return 2
+                return "DOUBLE P."
             end
         else
-            return 2
+            return "DOUBLE"
         end
     elseif ChartType == "Couple" then
-        return 3
+        return "DOUBLE P."
     elseif ChartType == "Routine" then
-        return 2
+        return "CO-OP"
     else
-        return 0
+        return ""
     end
 end
 

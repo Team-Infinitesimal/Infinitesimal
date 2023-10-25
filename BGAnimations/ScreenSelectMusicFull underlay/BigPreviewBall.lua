@@ -20,6 +20,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         if ChartMeter == 99 then ChartMeter = "??" end
         self:GetChild("BigPreviewBallContainer_"..pn):GetChild("BigPreviewBall"):diffuse(ChartTypeToColor(Chart))
         self:GetChild("BigPreviewBallContainer_"..pn):GetChild("MeterText"):settext(ChartMeter)
+        self:GetChild("BigPreviewBallContainer_"..pn):GetChild("Difficulty"):settext(FullModeChartLabel(Chart))
       end
     end,
 
@@ -60,10 +61,18 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
       },
 
       Def.BitmapText {
+        Font="Montserrat extrabold 20px",
+        Name="Difficulty",
+        InitCommand=function(self)
+          self:y(-13):visible(true):zoom(0.4):maxwidth(80):shadowlength(2):skewx(-0.1)
+        end
+      },
+
+      Def.BitmapText {
         Font="Montserrat numbers 40px",
         Name="MeterText",
         InitCommand=function(self)
-          self:zoom(0.6)
+          self:y(3):zoom(0.6)
         end
       }
     }
