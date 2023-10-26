@@ -106,17 +106,20 @@ return Def.ActorFrame {
         Prot:visible(bProtiming)
         OFB:GetChild("Background"):visible(bOffsetBar)
         
-        if not (params.TapNoteScore == "TapNoteScore_CheckpointHit" or params.TapNoteScore == "TapNoteScore_CheckpointMiss") then
+        if not (params.TapNoteScore == "TapNoteScore_CheckpointHit" or params.TapNoteScore == "TapNoteScore_CheckpointMiss" or params.TapNoteScore == "TapNoteScore_Miss" ) then
+            
             -- Manage MS timing
             Prot:finishtweening():diffusealpha(1)
-            :settext(math.floor(math.abs(params.TapNoteOffset * 1000)*(params.Early and -1 or 1) ) .. " ms")
+            :settext( math.floor(math.abs(params.TapNoteOffset * 1000)) .. " ms")
             :sleep(0.5):decelerate(0.3):diffusealpha(0)
 
             -- Manage Offset Bar
             if bOffsetBar then
+                OFB:GetChild("Background"):finishtweening():diffuse(Color.White)
                 OFB:GetChild(""):finishtweening():diffuse(Color.White)
-                :decelerate(0.1):x(math.floor(math.abs(params.TapNoteOffset * 600)) * (params.Early and -1 or 1))
+                :decelerate(0.1):x(math.floor(math.abs(params.TapNoteOffset * 600)) )
                 :sleep(0.4):decelerate(0.3):diffusealpha(0)
+                OFB:GetChild("Background"):sleep(0.4):decelerate(0.3):diffusealpha(0)
             end
         end
     end
