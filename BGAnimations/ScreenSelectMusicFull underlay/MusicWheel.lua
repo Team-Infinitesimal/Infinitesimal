@@ -20,9 +20,26 @@ if next(GroupsList) == nil then
     end
 end
 
-LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
-LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
-LastSongIndex = tonumber(LoadModule("Config.Load.lua")("SongIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
+LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 1
+LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 1
+LastSongIndex = tonumber(LoadModule("Config.Load.lua")("SongIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 1
+--reset LastGroup/Sub/Song if they were deleted since last session to avoid "attempt to index nil" crashes
+if GroupsList[LastGroupMainIndex] == nil then
+    LastGroupMainIndex = 1
+    LastGroupSubIndex = 1
+    LastSongIndex = 1
+    Warn("ScreenSelectMusicFull underlay / MusicWheel.lua: LastGroupMainIndex no longer present, reset performed")
+end
+if GroupsList[LastGroupMainIndex].SubGroups[LastGroupSubIndex] == nil then
+    LastGroupSubIndex = 1
+    LastSongIndex = 1
+    Warn("ScreenSelectMusicFull underlay / MusicWheel.lua: LastGroupSubIndex no longer present, reset performed")
+end
+if GroupsList[LastGroupMainIndex].SubGroups[LastGroupSubIndex].Songs == nil then 
+    LastSongIndex = 1
+    Warn("ScreenSelectMusicFull underlay / MusicWheel.lua: LastSongIndex no longer present, reset performed")
+end
+
 
 local SongIndex = LastSongIndex > 0 and LastSongIndex or 1
 local GroupMainIndex = LastGroupMainIndex > 0 and LastGroupMainIndex or 1

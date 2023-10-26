@@ -90,8 +90,13 @@ for pn in ivalues(GAMESTATE:GetEnabledPlayers()) do
                     :x(pn == PLAYER_2 and 360 or -360)
                 end
             end,
-            UpdateChartDisplayMessageCommand=function(self, params) if params.Player == pn then
-                self:finishtweening():easeoutexpo(0.5):x(0) end
+
+            UpdateChartDisplayMessageCommand=function(self, params) 
+                if params ~= nil then
+                    if params.Player == pn then
+                        self:finishtweening():easeoutexpo(0.5):x(0) 
+                    end
+                end
             end,
 
             SongChosenMessageCommand=function(self)

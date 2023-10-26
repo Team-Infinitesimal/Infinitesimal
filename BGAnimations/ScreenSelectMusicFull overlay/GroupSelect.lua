@@ -33,9 +33,25 @@ local IsSelectingGroup = false
 local IsBusy = false
 local IsFocusedMain = false
 
-LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
-LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
-LastSongIndex = tonumber(LoadModule("Config.Load.lua")("SongIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 0
+LastGroupMainIndex = tonumber(LoadModule("Config.Load.lua")("GroupMainIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 1
+LastGroupSubIndex = tonumber(LoadModule("Config.Load.lua")("GroupSubIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 1
+LastSongIndex = tonumber(LoadModule("Config.Load.lua")("SongIndex", CheckIfUserOrMachineProfile(string.sub(GAMESTATE:GetMasterPlayerNumber(),-1)-1).."/OutFoxPrefs.ini")) or 1
+--reset LastGroup/Sub/Song if they were deleted since last session to avoid "attempt to index nil" crashes
+if GroupsList[LastGroupMainIndex] == nil then
+    LastGroupMainIndex = 1
+    LastGroupSubIndex = 1
+    LastSongIndex = 1
+    Warn("ScreenSelectMusicFull overlay / GroupSelect.lua: LastGroupMainIndex no longer present, reset performed")
+end
+if GroupsList[LastGroupMainIndex].SubGroups[LastGroupSubIndex] == nil then
+    LastGroupSubIndex = 1
+    LastSongIndex = 1
+    Warn("ScreenSelectMusicFull overlay / GroupSelect.lua: LastGroupSubIndex no longer present, reset performed")
+end
+if GroupsList[LastGroupMainIndex].SubGroups[LastGroupSubIndex].Songs == nil then 
+    LastSongIndex = 1
+    Warn("ScreenSelectMusicFull overlay / GroupSelect.lua: LastSongIndex no longer, reset performed")
+end
 
 -- Create the variables necessary for both wheels
 local CurMainIndex = LastGroupMainIndex > 0 and LastGroupMainIndex or 1
