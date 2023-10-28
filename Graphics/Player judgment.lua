@@ -110,14 +110,14 @@ return Def.ActorFrame {
             
             -- Manage MS timing
             Prot:finishtweening():diffusealpha(1)
-            :settext( math.floor(math.abs(params.TapNoteOffset * 1000)) .. " ms")
+            :settext( math.floor(params.TapNoteOffset * 1000) .. " ms")
             :sleep(0.5):decelerate(0.3):diffusealpha(0)
 
             -- Manage Offset Bar
             if bOffsetBar then
                 OFB:GetChild("Background"):finishtweening():diffuse(Color.White)
                 OFB:GetChild(""):finishtweening():diffuse(Color.White)
-                :decelerate(0.1):x(math.floor(math.abs(params.TapNoteOffset * 600)) )
+                :decelerate(0.1):x(math.floor(params.TapNoteOffset * 600)) 
                 :sleep(0.4):decelerate(0.3):diffusealpha(0)
                 OFB:GetChild("Background"):sleep(0.4):decelerate(0.3):diffusealpha(0)
             end
