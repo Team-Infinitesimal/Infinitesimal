@@ -25,7 +25,7 @@ return Def.ActorFrame {
             
             self:GetChild("Ball"):diffuse(ChartTypeToColor(Chart))
             self:GetChild("Meter"):settext(ChartMeter)
-            self:GetChild("Difficulty"):visible(BasicMode):settext(BasicChartLabel(Chart))
+            self:GetChild("Difficulty"):settext(BasicMode and BasicChartLabel(Chart) or FullModeChartLabel(Chart))
             
             local ChartLabelIndex = 0
             for Index, String in pairs(ChartLabels) do
@@ -62,7 +62,7 @@ return Def.ActorFrame {
         Name="Meter",
         Font="Montserrat numbers 40px",
         InitCommand=function(self)
-            self:zoom(0.88) 
+            self:y(1):zoom(0.88)
         end
     },
     
@@ -70,7 +70,7 @@ return Def.ActorFrame {
         Font="Montserrat extrabold 20px",
         Name="Difficulty",
         InitCommand=function(self)
-            self:y(-23):visible(false):zoom(0.75):maxwidth(80):shadowlength(2):skewx(-0.1)
+            self:y(-21):visible(true):zoom(0.7):maxwidth(80):shadowlength(2):skewx(-0.1)
         end
     },
     
@@ -78,7 +78,7 @@ return Def.ActorFrame {
         Name="Label",
         Texture=THEME:GetPathG("", "DifficultyDisplay/Labels"),
         InitCommand=function(self)
-            self:y(24):visible(false):animate(false)
+            self:y(23):visible(false):animate(false)
         end
     }
 }

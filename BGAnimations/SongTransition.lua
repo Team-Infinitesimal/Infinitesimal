@@ -120,7 +120,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Name="Meter",
                 Font="Montserrat numbers 40px",
                 InitCommand=function(self)
-                    self:xy(79.25 * PlayerDirection, 3.25):zoom(0.88)
+                    self:xy(79.25 * PlayerDirection, 1.25):zoom(0.88)
                 end
             },
 
@@ -136,7 +136,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 Font="Montserrat extrabold 20px",
                 Name="Difficulty",
                 InitCommand=function(self)
-                    self:xy(79.25 * PlayerDirection, -20.25):visible(true):zoom(0.7):maxwidth(72):shadowlength(2):skewx(-0.1)
+                    self:xy(79.25 * PlayerDirection, -21.25):visible(true):zoom(0.7):maxwidth(76):shadowlength(2):skewx(-0.1)
                 end
             },
 
