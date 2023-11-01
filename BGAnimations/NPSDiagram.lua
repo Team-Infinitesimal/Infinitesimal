@@ -28,6 +28,7 @@ local amv = Def.ActorFrame{
             if GAMESTATE:GetCurrentSong() and GAMESTATE:IsHumanPlayer(pn) and GAMESTATE:GetCurrentSteps(pn) then
                 -- Grab every instance of the NPS data.
                 local step = GAMESTATE:GetCurrentSteps(pn)
+                local steplength = step:GetChartLength()
                 local stepcolor = ChartTypeToColor(step)
                 local graphcolor = ColorDarkTone(stepcolor)
                 peak, npst, NMeasure, mcount = LoadModule("Chart.GetNPS.lua")(step)
@@ -39,10 +40,10 @@ local amv = Def.ActorFrame{
                         local x
                         if Gameplay then
                             x = scale( t, GAMESTATE:GetCurrentSong():GetFirstSecond(), 
-                            GAMESTATE:GetCurrentSong():GetLastSecond(), -(GraphW/2), (GraphW/2))
+                            steplength, -(GraphW/2), (GraphW/2))
                         else
                             x = scale( t, math.min(step:GetTimingData():GetElapsedTimeFromBeat(0), 0), 
-                            GAMESTATE:GetCurrentSong():GetLastSecond(), -(GraphW/2)+5, (GraphW/2)-5)
+                            steplength, -(GraphW/2)+5, (GraphW/2)-5)
                         end
                         -- Clamp the graph to ensure it will stay within boundaries.
                         if x < -(GraphW/2) then x = -(GraphW/2) end

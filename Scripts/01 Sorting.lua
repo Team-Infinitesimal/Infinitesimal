@@ -148,10 +148,15 @@ function AssembleGroupSorting()
     -- ======================================== Full Songs ========================================
     local FullSongs = {}
     for j, Song in ipairs(AllSongs) do
-        if string.find(string.upper(Song:GetSongDir()), "[FULL SONG]", nil, true) then
-            table.insert(FullSongs, Song)
-        elseif Song:GetLastSecond() > 150 and not string.find(string.upper(Song:GetSongDir()), "[REMIX]", nil, true) then
-            table.insert(FullSongs, Song)
+        local StepList = Song:GetAllSteps()
+        if #StepList ~= 0 then
+            local FirstStep = StepList[1]
+            local Duration = FirstStep:GetChartLength()
+            if string.find(string.upper(Song:GetSongDir()), "[FULL SONG]", nil, true) then
+                table.insert(FullSongs, Song)
+            elseif Duration > 150 and not string.find(string.upper(Song:GetSongDir()), "[REMIX]", nil, true) then
+                table.insert(FullSongs, Song)
+            end
         end
     end
     

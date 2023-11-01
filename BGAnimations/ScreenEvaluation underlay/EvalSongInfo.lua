@@ -15,12 +15,15 @@ return Def.ActorFrame {
             local BPMLow = math.ceil(BPMRaw[1])
             local BPMHigh = math.ceil(BPMRaw[2])
             local BPMDisplay = (BPMLow == BPMHigh and BPMHigh or BPMLow .. "-" .. BPMHigh)
+            local StepList = Song:GetAllSteps()
+            local FirstStep = StepList[1]
+            local Duration = FirstStep:GetChartLength()
 
             if Song:IsDisplayBpmRandom() or BPMDisplay == 0 then BPMDisplay = "???" end
 
             self:GetChild("Title"):settext(TitleText)
             self:GetChild("Artist"):settext(AuthorText)
-            self:GetChild("Length"):settext(SecondsToMMSS(Song:MusicLengthSeconds()))
+            self:GetChild("Length"):settext(SecondsToMMSS(Duration))
             self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
         else
             self:GetChild("Title"):settext("")

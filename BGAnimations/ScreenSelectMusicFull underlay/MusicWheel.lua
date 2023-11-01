@@ -176,8 +176,11 @@ local t = Def.ActorFrame {
             local Song = GAMESTATE:GetCurrentSong()
             if Song then
                 if ChartPreview then
+                    local StepList = Song:GetAllSteps()
+                    local FirstStep = StepList[1]
+                    local Duration = FirstStep:GetChartLength()
                     SOUND:PlayMusicPart(Song:GetMusicPath(), Song:GetSampleStart(), 
-                    (Song:GetLastSecond() - Song:GetSampleStart()), 0, 1, false, false, false, Song:GetTimingData())
+                    (Duration - Song:GetSampleStart()), 0, 1, false, false, false, Song:GetTimingData())
                 else
                     SOUND:PlayMusicPart(Song:GetMusicPath(), Song:GetSampleStart(), 
                     Song:GetSampleLength(), 0, 1, false, false, false, Song:GetTimingData())

@@ -152,6 +152,9 @@ t[#t+1] = Def.ActorFrame {
     RefreshCommand=function(self)
         if GAMESTATE:GetCurrentSong() then
             local Song = GAMESTATE:GetCurrentSong()
+            local StepList = Song:GetAllSteps()
+            local FirstStep = StepList[1]
+            local Duration = FirstStep:GetChartLength()
 
             local TitleText = Song:GetDisplayFullTitle()
             if TitleText == "" then TitleText = "Unknown" end
@@ -171,7 +174,7 @@ t[#t+1] = Def.ActorFrame {
             self:GetChild("BPM"):settext(BPMDisplay .. " BPM")
 
             if GAMESTATE:IsEventMode() then
-                self:GetChild("Length"):visible(true):settext(SecondsToMMSS(Song:MusicLengthSeconds()))
+                self:GetChild("Length"):visible(true):settext(SecondsToMMSS(Duration))
                 self:GetChild("HeartsIcon"):visible(false)
                 self:GetChild("Hearts"):visible(false)
             else
