@@ -20,7 +20,7 @@ Since this theme is currently on a rolling release, we highly recommend download
 **If you are upgrading from a previous version by `Download ZIP`, fully delete the old folder first. Do not merge the new folder into the old.**
 
 ## Theme Features
-* Accurate timing windows scoring and lifebar mechanics to K-Pump
+* Accurate asymmetrical timing windows scoring and lifebar mechanics to K-Pump
 * Additional timing windows available (StepMania, ITG, Infinity, Pro, Jump)
 * Announcer in the evaluation screen, including support for your own custom announcers
 * Basic Mode can be accessed by starting a game with no profiles present, or by using the "Guest" profile
@@ -82,7 +82,7 @@ This theme wouldn't be here if it weren't for the help of the following people:
 * Accelerator/Rhythm Lunatic and Engine_Machiner (theme assistance)
 * Bedrock Solid (music, suggestions and playtesting)
 * Jehezukiel and Lintoast (music, sound effects and announcer)
-* 4199, andreycout, djgrs, Enally, SHRMP0 and Sushi (suggestions and playtesting)
+* 4199, daryen, djgrs, Enally, SHRMP0 and Sushi (suggestions and playtesting)
 * CrackItUp group (original home of the theme's development)
 * Team Infinity (setting a landmark in PIU's interface and graphics design)
 * RGAB Community
