@@ -356,7 +356,7 @@ function AssembleGroupSorting()
             elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
             if string.find( Chart:GetStepsType():lower(), CurrentGameMode ) then
-                if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Single" and not ShouldRemove then
+                if ToLower(ToEnumShortString(Chart:GetStepsType())) == "single" and not ShouldRemove then
                     local ChartLevel = Chart:GetMeter()
                     if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
                     if not HasValue(LevelGroups[ChartLevel], Song) then
@@ -401,7 +401,7 @@ function AssembleGroupSorting()
             elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
             if string.find( Chart:GetStepsType():lower(), CurrentGameMode ) then
-                if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Halfdouble" and not ShouldRemove then
+                if ToLower(ToEnumShortString(Chart:GetStepsType())) == "halfdouble" and not ShouldRemove then
                     local ChartLevel = Chart:GetMeter()
                     if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
                     if not HasValue(LevelGroups[ChartLevel], Song) then
@@ -446,7 +446,7 @@ function AssembleGroupSorting()
             elseif not ShowHidden and string.find(ToUpper(Chart:GetDescription()), "HIDDEN") then ShouldRemove = true end
             
             if string.find( Chart:GetStepsType():lower(), CurrentGameMode ) then
-                if ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) == "Double" and not ShouldRemove then
+                if ToLower(ToEnumShortString(Chart:GetStepsType())) == "double" and not ShouldRemove then
                     local ChartLevel = Chart:GetMeter()
                     if LevelGroups[ChartLevel] == nil then LevelGroups[ChartLevel] = {} end
                     if not HasValue(LevelGroups[ChartLevel], Song) then

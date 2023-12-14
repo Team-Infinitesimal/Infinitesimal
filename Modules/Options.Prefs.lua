@@ -46,13 +46,6 @@ return {
         Choices = { OptionNameString('Off'), OptionNameString('StreamOnly'), OptionNameString('All') },
         Values = {false, 'StreamOnly', 'All' }
     },
-    MeasureCounterDivisions =
-    {
-        UserPref = true,
-        Default = 12,
-        Choices = { THEME:GetString('OptionNames', 'Div_4ths'), THEME:GetString('OptionNames', 'Div_8ths'), THEME:GetString('OptionNames', 'Div_12ths'), THEME:GetString('OptionNames', 'Div_16ths'), THEME:GetString('OptionNames', 'Div_24ths'), THEME:GetString('OptionNames', 'Div_32nds') },
-        Values = {4, 8, 12, 16, 24, 32}
-    },
     JudgmentItems =
     {
         UserPref = true,

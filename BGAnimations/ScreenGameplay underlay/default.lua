@@ -5,25 +5,24 @@ local t = Def.ActorFrame {}
 
 if LoadModule("Config.Load.lua")("StarField","Save/OutFoxPrefs.ini") then
     t[#t+1] = Def.ActorFrame {
-        LoadActor("StarField")
+        LoadActor("StarField.lua")
     }
 end
 
 t[#t+1] = Def.ActorFrame {
-    LoadActor("ScreenFilter")
+    LoadActor("ScreenFilter.lua")
 }
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
-    local peak, npst, NMeasure, mcount = LoadModule("Chart.GetNPS.lua")(GAMESTATE:GetCurrentSteps(pn))
-    GAMESTATE:Env()["ChartData" .. pn] = {peak, npst, NMeasure, mcount}
+    local NPSData = LoadModule("Chart.Density.lua")(pn)
     
     t[#t+1] = Def.ActorFrame {
         LoadModule("PIU/Gameplay." .. Scoring .. "Score.lua")(pn),
-        LoadActor("NameBadge", pn)
+        LoadActor("NameBadge.lua", pn)
     }
     
     if LoadModule("Config.Load.lua")("MeasureCounter",CheckIfUserOrMachineProfile(string.sub(pn,-1)-1).."/OutFoxPrefs.ini") then
-        t[#t+1] = Def.ActorFrame { LoadActor("MeasureCount", pn) }
+        t[#t+1] = Def.ActorFrame { LoadActor("MeasureCount.lua", {Player = pn, NoteData = NPSData}) }
     end
     
     if string.find(TimingMode, "Pump") then

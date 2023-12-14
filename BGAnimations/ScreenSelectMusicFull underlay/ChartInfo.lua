@@ -50,7 +50,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
                 local ChartAuthorText = Chart:GetAuthorCredit()
                 if ChartAuthorText == "" then ChartAuthorText = "Unknown" end
 
-                local ChartTypeText = ToEnumShortString(ToEnumShortString(Chart:GetStepsType())) .. " " .. Chart:GetMeter()
+                local ChartTypeText = ToLower(ToEnumShortString(Chart:GetStepsType())) .. " " .. Chart:GetMeter()
 
                 local ChartDescriptionText = Chart:GetChartName()
                 -- if ChartDescriptionText == "" then ChartDescriptionText = ToUpper(Chart:GetDescription()) end

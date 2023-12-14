@@ -72,10 +72,10 @@ IsVideoBackground = LoadModule("Config.Load.lua")("UseVideoBackground", "Save/Ou
 function ChartTypeToColor(Chart)
     local ChartMeter = Chart:GetMeter()
     local ChartDescription = Chart:GetDescription()
-    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
+    local ChartType = ToLower(ToEnumShortString(Chart:GetStepsType()))
 
     if getenv("IsBasicMode") then
-        if ChartType == "Double" then
+        if ChartType == "double" then
             return color("#21db30")
         elseif ChartMeter <= 2 then
             return color("#209be3")
@@ -87,15 +87,15 @@ function ChartTypeToColor(Chart)
             return color("#d317e8")
         end
     else
-        if ChartType == "Single" then
+        if ChartType == "single" then
             if string.find(ChartDescription, "SP") then
                 return Color.HoloDarkPurple
             else
                 return color("#ff871f")
             end
-        elseif ChartType == "Halfdouble" then
+        elseif ChartType == "halfdouble" then
             return color("#d91854")
-        elseif ChartType == "Double" then
+        elseif ChartType == "double" then
             ChartDescription:gsub("[%p%c%s]", "")
             if string.find(ToUpper(ChartDescription), "DP") or
             string.find(ToUpper(ChartDescription), "COOP") then
@@ -107,9 +107,9 @@ function ChartTypeToColor(Chart)
             else
                 return color("#21db30")
             end
-        elseif ChartType == "Couple" then
+        elseif ChartType == "couple" then
             return Color.HoloDarkBlue
-        elseif ChartType == "Routine" then
+        elseif ChartType == "routine" then
             return Color.Yellow
         else
             return color("#9199D4")
@@ -119,9 +119,9 @@ end
 
 function BasicChartLabel(Chart)
     local ChartMeter = Chart:GetMeter()
-    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
+    local ChartType = ToLower(ToEnumShortString(Chart:GetStepsType()))
 
-    if ChartType == "Double" then
+    if ChartType == "double" then
         return THEME:GetString("BasicMode", "Double")
     elseif ChartMeter <= 2 then
         return THEME:GetString("BasicMode", "Easy")
@@ -137,17 +137,17 @@ end
 function FullModeChartLabel(Chart)
     local ChartMeter = Chart:GetMeter()
     local ChartDescription = Chart:GetDescription()
-    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
+    local ChartType = ToLower(ToEnumShortString(Chart:GetStepsType()))
 
-    if ChartType == "Single" then
+    if ChartType == "single" then
         if string.find(ChartDescription, "SP") then
             return "SINGLE P."
         else
             return "SINGLE"
         end
-    elseif ChartType == "Halfdouble" then
+    elseif ChartType == "halfdouble" then
         return "H. DOUBLE"
-    elseif ChartType == "Double" then
+    elseif ChartType == "double" then
         ChartDescription:gsub("[%p%c%s]", "")
         if string.find(ToUpper(ChartDescription), "DP") or
         string.find(ToUpper(ChartDescription), "COOP") then
@@ -159,9 +159,9 @@ function FullModeChartLabel(Chart)
         else
             return "DOUBLE"
         end
-    elseif ChartType == "Couple" then
+    elseif ChartType == "couple" then
         return "DOUBLE P."
-    elseif ChartType == "Routine" then
+    elseif ChartType == "routine" then
         return "CO-OP"
     else
         return ""

@@ -8,9 +8,6 @@ local colorrange = function(val,range,color1,color2)
     return lerp_color((val/range), color1, color2)
 end
 
-local peak, npst, NMeasure, mcount = 0, {}, {}, 0
-local verts = {}
-
 local amv = Def.ActorFrame{
     OnCommand=function(self) 
         if GAMESTATE:GetCurrentSong() then
@@ -23,15 +20,21 @@ local amv = Def.ActorFrame{
             :xy(GraphX, GraphY):MaskDest()
         end,
         ShowAMVCommand=function(self)
-            verts = {}
+            local verts = {}
             self:SetNumVertices(#verts):SetVertices(verts)
             if GAMESTATE:GetCurrentSong() and GAMESTATE:IsHumanPlayer(pn) and GAMESTATE:GetCurrentSteps(pn) then
                 -- Grab every instance of the NPS data.
+                local song = GAMESTATE:GetCurrentSong() 
                 local step = GAMESTATE:GetCurrentSteps(pn)
                 local steplength = step:GetChartLength()
                 local stepcolor = ChartTypeToColor(step)
                 local graphcolor = ColorDarkTone(stepcolor)
-                peak, npst, NMeasure, mcount = LoadModule("Chart.GetNPS.lua")(step)
+                
+                local npsdata = LoadModule("Chart.Density.lua")(pn)
+                local data = npsdata:ObtainSongInformation(step, song)
+                if not data and step then return end
+                local peak, npst = data.PeakNPS, data.Density
+                
                 if npst then
                     for k,v in pairs( npst ) do
                         -- Each NPS area is per MEASURE. not beat. So multiply the area by 4 beats.
