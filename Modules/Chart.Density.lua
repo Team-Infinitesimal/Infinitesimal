@@ -1,8 +1,8 @@
 -- Define the taps that are allowed to be detected.
 local AllowedTaps = {
 	["TapNoteType_Tap"] = true,
-	["TapNoteSubType_Hold"] = true,
-	["TapNoteSubType_Roll"] = true,
+	["TapNoteSubType_Hold"] = false,
+	["TapNoteSubType_Roll"] = false,
 }
 
 local t = {
@@ -126,7 +126,7 @@ local t = {
     end,
     GetStreamSequenceForIndex = function( this, index, measureSequenceThreshold )
         local nindex = index or 1
-        if not this.Data[nindex] then return end
+        if not this.Data[nindex] then SM("No index!") return end
 
         local streamMeasures = this.Data[nindex].StreamMeasures
         local streamSequences = {}

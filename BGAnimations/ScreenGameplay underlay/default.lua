@@ -15,6 +15,7 @@ t[#t+1] = Def.ActorFrame {
 
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
     local NPSData = LoadModule("Chart.Density.lua")(pn)
+    NPSData:GenerateData()
     
     t[#t+1] = Def.ActorFrame {
         LoadModule("PIU/Gameplay." .. Scoring .. "Score.lua")(pn),

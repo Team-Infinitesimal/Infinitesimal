@@ -26,7 +26,7 @@ local InitializeMeasureCounter = function()
 
 			local mpStats = stats:GetPlayerStageStats( GAMESTATE:GetMasterPlayerNumber() )
 
-			local streams = DataSet:GetStreamSequenceForIndex( mpStats:GetSongsPassed() + 1 ,2)
+			local streams = DataSet:GetStreamSequenceForIndex(mpStats:GetSongsPassed() + 1, 2)
 			if streams then
 				NoteData = streams
 			end
@@ -54,7 +54,6 @@ local GetTextForMeasure = function(self, current_measure, Measures, stream_index
 	local text = ""
 	if Measures[stream_index].isBreak then
 		if not HideRestCounts then
-            SCREENMAN:SystemMessage("break")
 			-- NOTE: We let the lowest value be 0. This means that e.g.,
 			-- for an 8 measure break, we will display the numbers 7 -> 0
 			local measures_left = current_stream_length - current_count
