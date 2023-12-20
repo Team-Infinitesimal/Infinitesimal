@@ -18,7 +18,7 @@ return Def.ActorFrame {
         if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(pn) then
             local Song = GAMESTATE:GetCurrentSong()
             local Chart = GAMESTATE:GetCurrentSteps(pn)
-            local ChartType = ToLower(ToEnumShortString(Chart:GetStepsType()))
+            local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
             local ChartMeter = Chart:GetMeter()
             
             if ChartMeter == 99 then ChartMeter = "??" end

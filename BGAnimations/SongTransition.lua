@@ -65,6 +65,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 
                     local Song = GAMESTATE:GetCurrentSong()
                     local Chart = GAMESTATE:GetCurrentSteps(pn)
+                    local ChartType = ToEnumShortString(ToEnumShortString(Chart:GetStepsType()))
                     local ChartMeter = Chart:GetMeter()
                     
                     if ChartMeter == 99 then ChartMeter = "??" end

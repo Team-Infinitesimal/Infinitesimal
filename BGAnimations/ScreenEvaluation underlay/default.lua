@@ -86,7 +86,7 @@ t[#t+1] = Def.ActorFrame {
             local title = PREFSMAN:GetPreference("ShowNativeLanguage") and GAMESTATE:GetCurrentSong():GetDisplayMainTitle() or GAMESTATE:GetCurrentSong():GetTranslitFullTitle()
             local details = not GAMESTATE:IsCourseMode() and title .. " - " .. SongOrCourse:GetDisplayArtist() or title
             details = string.len(details) < 128 and details or string.sub(details, 1, 124) .. "..."
-            local Difficulty = ToLower(ToEnumShortString((StepOrTrails:GetStepsType()))) .. " " .. StepOrTrails:GetMeter()
+            local Difficulty = ToEnumShortString(ToEnumShortString((StepOrTrails:GetStepsType()))) .. " " .. StepOrTrails:GetMeter()
             local Percentage = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn):GetPercentDancePoints()
             local states = Difficulty .. " (" .. string.format( "%.2f%%", Percentage*100) .. ")"
             GAMESTATE:UpdateDiscordProfile(GAMESTATE:GetPlayerDisplayName(pn))
