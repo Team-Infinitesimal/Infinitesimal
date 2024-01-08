@@ -89,3 +89,4 @@ This theme wouldn't be here if it weren't for the help of the following people:
 
 And at last, you for trying out our theme!
 
+This is a test. If you are reading this, no you're not
