@@ -1,9 +1,11 @@
+local IsMenuOpen = { PlayerNumber_P1 = false, PlayerNumber_P2 = false}
+local CurrentClosingPlayer -- Global hack for race condition when exiting with the Select button...
+local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
+
 local t = Def.ActorFrame {
     Def.Sound {
         File=THEME:GetPathS("", "OpenCommandWindow"),
-        CodeMessageCommand=function(self, params)
-            if params.Name == "OpenOpList" then self:play() end
-        end
+        OptionsListPlaySoundMessageCommand=function(self, params) self:play() end
     },
 
     Def.Sound {
@@ -48,13 +50,20 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
         OptionsListOpenedMessageCommand=function(self, params)
             if params.Player == pn then
                 self:stoptweening():easeoutexpo(0.5):x(pn == PLAYER_1 and 200 or SCREEN_RIGHT - 200)
+                IsMenuOpen[pn] = true
             end
         end,
 
         OptionsListClosedMessageCommand=function(self, params)
             if params.Player == pn then
+                CurrentClosingPlayer = pn
                 self:stoptweening():easeoutexpo(0.5):x(pn == PLAYER_1 and -200 or SCREEN_RIGHT + 200)
+                self:queuecommand("ClosedMenu")
             end
+        end,
+        
+        ClosedMenuCommand=function(self)
+            IsMenuOpen[CurrentClosingPlayer] = false
         end,
 
         -- Make us able to view what menu we're in later (and also adjust its position)
@@ -105,8 +114,10 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             Name="OptionsList" .. pname(pn),
             Player=pn,
             CodeMessageCommand=function(self, params)
-                if params.Name == "OpenOpList" and params.PlayerNumber == pn then
+                if ((params.Name == "OpenOpList" and not MenuButtonsOnly) or
+                    params.Name == "OpenOpListButton") and params.PlayerNumber == pn and not IsMenuOpen[pn] then
                     self:Open()
+                    MESSAGEMAN:Broadcast("OptionsListPlaySound")
                 end
             end
         }

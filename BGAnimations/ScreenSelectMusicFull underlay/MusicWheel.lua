@@ -67,7 +67,7 @@ local function InputHandler(event)
     -- Don't want to move when releasing the button
     if event.type == "InputEventType_Release" then return end
 
-    local button = event.button
+    local button = event.GameButton
     
     -- If an unjoined player attempts to join and has enough credits, join them
     if (button == "Center" or (not IsGame("pump") and button == "Start")) and 

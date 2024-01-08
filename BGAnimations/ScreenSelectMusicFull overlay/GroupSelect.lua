@@ -9,6 +9,8 @@ local SubWheelSpacing = 250
 local WheelItem = { Width = 212, Height = 120 }
 local WheelRotation = 0.1
 
+local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
+
 -- Not load anything if no group sorts are available (catastrophic event or no songs)
 if next(GroupsList) == nil then
     AssembleGroupSorting()
@@ -109,7 +111,7 @@ local function InputHandler(event)
         return
     end
     
-    local button = event.button
+    local button = event.GameButton
     
     -- To avoid control from a player that has not joined, filter the inputs out
     if pn == PLAYER_1 and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then return end
@@ -179,7 +181,7 @@ local function InputHandler(event)
                 end
             end
             
-        elseif button == "UpRight" or button == "UpLeft" or button == "Up" then
+        elseif button == "UpRight" or button == "UpLeft" or button == "Up" or button == "MenuUp" then
             if not IsFocusedMain then 
                 IsFocusedMain = true
                 MESSAGEMAN:Broadcast("RefreshHighlight")

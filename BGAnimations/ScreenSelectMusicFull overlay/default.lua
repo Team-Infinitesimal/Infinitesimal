@@ -1,3 +1,5 @@
+local MenuButtonsOnly = PREFSMAN:GetPreference("OnlyDedicatedMenuButtons")
+
 local t = Def.ActorFrame {
     OnCommand=function(self)
         local pn = GAMESTATE:GetMasterPlayerNumber()
@@ -97,7 +99,8 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
             self:diffuse(1,1,1,1):halign(alignment):xy(side, SCREEN_CENTER_Y-70):zoomto(0, 360)
         end,
         CodeMessageCommand=function(self, params)
-            if params.Name == "OpenOpList" and params.PlayerNumber == pn then
+            if ((params.Name == "OpenOpList" and not MenuButtonsOnly) or
+                params.Name == "OpenOpListButton") and params.PlayerNumber == pn then
                 self:diffusealpha(100):zoomto(0, 360)
                 :linear(0.25)
                 :diffusealpha(0):zoomto(60, 360)
